@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<ht<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>عائلة الشيخ مسلم بن نصيب المعشني — إصدار: عبدالرحمن المعشني</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;700;800&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Tajawal','Cairo','Noto Sans Arabic',system-ui,-apple-system,'Segoe UI',Tahoma,Arial,sans-serif; touch-action: manipulation; }
+    .font-display { font-family: 'Cairo','Tajawal','Noto Sans Arabic',system-ui,-apple-system,'Segoe UI',Tahoma,Arial,sans-serif; }
+    button, input { min-height: 44px; touch-action: manipulation; }
+    .no-highlight { -webkit-tap-highlight-color: transparent; user-select: none; }
+  </style>
+</head>
+<body class="min-h-screen bg-gradient-to-b from-emerald-50 to-white text-gray-900 no-highlight">
+  <header class="px-6 py-5 border-b bg-gradient-to-r from-emerald-700 to-emerald-600 text-white sticky top-0 z-10 shadow">
+    <div class="max-w-5xl mx-auto flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight font-display">عائلة الشيخ مسلم بن نصيب المعشني</h1>
+        <p class="text-sm md:text-base text-emerald-100/90">إصدار: عبدالرحمن المعشني</p>
+      </div>
+      <div class="text-right">
+        <div class="text-xs text-emerald-100/80">رمز الانضمام (للهوية):</div>
+        <div id="pin" class="text-2xl font-bold tracking-widest"></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-6 py-6">
+    <!-- اللوبي -->
+    <section id="lobby" class="space-y-6">
+      <div class="bg-white border rounded-2xl p-5 shadow-sm">
+        <h2 class="text-xl font-bold mb-2 font-display">اللوبي</h2>
+        <p class="text-sm text-gray-600">أضف أسماء اللاعبين (يمكنك ترك الأسماء الافتراضية أو تعديلها)، ثم اضغط بدء اللعبة.</p>
+        <div class="mt-4 flex gap-2">
+          <input id="newPlayerInput" placeholder="اسم لاعب جديد" class="flex-1 border rounded-xl px-3 py-2 focus:outline-none focus:ring focus:ring-emerald-300" />
+          <button id="addPlayerBtn" class="px-4 py-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700 shadow">إضافة</button>
+        </div>
+        <div id="playersGrid" class="mt-4 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2"></div>
+        <div class="mt-6">
+          <button id="startBtn" class="w-full md:w-auto px-6 py-3 rounded-2xl bg-emerald-600 text-white text-lg font-semibold hover:bg-emerald-700 shadow">بدء اللعبة</button>
+        </div>
+      </div>
+
+      <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-emerald-900">
+        <ul class="list-disc pr-5 space-y-1 text-sm">
+          <li>تم تثبيت إجابة <span class="font-semibold">سؤال 13</span>: <span class="font-semibold">٢٠٠٥</span> (نقطة كاملة).</li>
+          <li>هذه نسخة جهاز واحد (Hotseat). كل لاعب يضغط اسمه ثم يختار الإجابة.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- اللعب -->
+    <section id="playing" class="space-y-6 hidden">
+      <div class="bg-white border rounded-2xl p-5 shadow-sm">
+        <div class="flex items-center justify-between gap-4">
+          <div>
+            <div id="qCounter" class="text-sm text-gray-500"></div>
+            <h2 id="qText" class="text-xl md:text-2xl font-bold font-display"></h2>
+          </div>
+          <div class="text-right">
+            <div class="text-sm text-gray-500">الوقت المتبقي</div>
+            <div id="timeLeft" class="text-2xl font-bold">0 ث</div>
+            <div class="mt-2 w-56">
+              <div class="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
+                <div id="progress" class="h-full bg-emerald-600 transition-all" style="width:0%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="optionsGrid" class="mt-5 grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+      </div>
+
+      <div class="bg-white border rounded-2xl p-5 shadow-sm">
+        <div class="flex items-center justify-between mb-2">
+          <h3 class="font-semibold font-display">اللاعبون</h3>
+          <div class="text-sm text-gray-500">أجاب: <span id="answeredCount">0</span>/<span id="playersCount">0</span></div>
+        </div>
+        <div id="playersAnswerGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2"></div>
+        <div class="mt-4 flex items-center gap-3">
+          <button id="finishNowBtn" class="px-4 py-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700">إنهاء الوقت الآن</button>
+          <span class="text-sm text-gray-600">تنتهي تلقائيًا عند وصول المؤقّت للصفر.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- النتيجة لكل سؤال -->
+    <section id="result" class="space-y-6 hidden">
+      <div class="bg-white border rounded-2xl p-5 shadow-sm">
+        <div class="flex items-center justify-between">
+          <div>
+            <div id="endedLabel" class="text-sm text-gray-500"></div>
+            <h2 id="resultQText" class="text-xl md:text-2xl font-bold font-display"></h2>
+          </div>
+          <div id="explain" class="text-right text-sm text-gray-600"></div>
+        </div>
+        <div id="correctBanner" class="mt-3 hidden p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-900 font-semibold"></div>
+        <div id="distributionList" class="mt-4 space-y-2"></div>
+      </div>
+
+      <div class="bg-white border rounded-2xl p-5 shadow-sm">
+        <h3 class="text-lg font-bold mb-3 font-display">لوحة الصدارة (Top 5)</h3>
+        <ol id="leaderboardList" class="space-y-2"></ol>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button id="nextBtn" class="px-6 py-3 rounded-2xl bg-emerald-600 text-white text-lg font-semibold hover:bg-emerald-700 shadow">السؤال التالي</button>
+        <div class="text-sm text-gray-600">الإجابات المُسجّلة: <span id="totalAnswers">0</span> / <span id="playersCount2">0</span></div>
+      </div>
+    </section>
+
+    <!-- نهاية اللعبة -->
+    <section id="finished" class="space-y-6 hidden">
+      <div class="bg-white border rounded-2xl p-5 shadow-sm">
+        <h2 class="text-2xl font-extrabold mb-2 font-display">انتهت اللعبة 🎉</h2>
+        <p id="winnerLine" class="text-gray-700"></p>
+      </div>
+      <div class="bg-white border rounded-2xl p-5 shadow-sm">
+        <h3 class="text-lg font-bold mb-3 font-display">النتائج النهائية</h3>
+        <table class="w-full text-sm">
+          <thead>
+            <tr class="text-right text-gray-600">
+              <th class="py-2">#</th>
+              <th class="py-2">الاسم</th>
+              <th class="py-2">النقاط</th>
+              <th class="py-2">سلسلة صحيحة</th>
+            </tr>
+          </thead>
+          <tbody id="finalTable"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- نافذة اختيار الإجابة -->
+  <div id="answerModal" class="fixed inset-0 bg-black/30 hidden items-end md:items-center justify-center p-4 z-50">
+    <div class="w-full md:max-w-lg bg-white rounded-2xl shadow-xl overflow-hidden">
+      <div class="px-4 py-3 border-b flex items-center justify-between">
+        <div class="font-bold font-display">إجابة اللاعب: <span id="modalPlayerName"></span></div>
+        <button id="closeModalBtn" class="text-sm text-gray-500 hover:text-gray-700">إغلاق</button>
+      </div>
+      <div id="modalOptions" class="p-4 space-y-2"></div>
+    </div>
+  </div>
+
+  <script>
+  // -------------------- بيانات اللعبة --------------------
+  const OPTION_THEMES = [
+    { bg: 'bg-emerald-50', ring: 'ring-emerald-300', chip: 'bg-emerald-600', bar: 'bg-emerald-600', icon: '◆' },
+    { bg: 'bg-amber-50', ring: 'ring-amber-300', chip: 'bg-amber-600', bar: 'bg-amber-600', icon: '●' },
+    { bg: 'bg-sky-50', ring: 'ring-sky-300', chip: 'bg-sky-600', bar: 'bg-sky-600', icon: '■' },
+    { bg: 'bg-rose-50', ring: 'ring-rose-300', chip: 'bg-rose-600', bar: 'bg-rose-600', icon: '▲' },
+  ];
+
+  // ملاحظة مهمة: correct = مؤشر الخيار الصحيح بصفر كبداية (0 يعني أول خيار، 1 يعني الثاني...)
+  const QUESTIONS = [
+    { id: 1, text: 'من صاحب أجمل صوت في العائلة؟', options: ['أحمد','محمد','نور','حسن'], correct: 0, time: 30, points: 1000 },
+    { id: 2, text: 'من أكثر واحد يرد متأخر على الرسائل؟', options: ['فاطمة','حسن','محمد','نور'], correct: 0, time: 30, points: 1000 },
+    { id: 3, text: 'من أكثر شخص يسولف بصوت عالي في  العائلة؟', options: ['محمد','خالد','سالم','أحمد'], correct: 0, time: 30, points: 1000 },
+    { id: 4, text: 'من اكثر واحد يشرب قهوة؟', options: ['نور','فاطمة','حسن','محمد'], correct: 0, time: 30, points: 1000 },
+    { id: 5, text: 'متى ولد أكبر حفيد في العائلة؟', options: ['٠٩/٧/٢٠١٥','١٠/٧/٢٠١٥','١١/٧/٢٠١٥','١٢/٧/٢٠١٥'], correct: 3, time: 30, points: 1000 },
+    { id: 6, text: 'بماذا تُلقّب أصغر حفيده في العائلة(ساره)؟', options: ['سنيوريتا','آبور','صتيت','أمن وسلام'], correct: 0, time: 30, points: 1000 },
+    { id: 7, text: 'من الشخص الذي يسافر أكثر من غيره؟', options: ['حسن','أحمد','خالد','فاطمة'], correct: 0, time: 30, points: 1000 },
+    { id: 8, text: 'من أكثر شخص ينام بسرعه؟', options: ['ماما','بابا','نور','جميلة'], correct: 0, time: 30, points: 1000 },
+    { id: 9, text: 'من أكثر واحد يضيّع اغراضه؟', options: ['خالد','محمد','حسن','سالم'], correct: 0, time: 30, points: 1000 },
+    { id: 10, text: 'وين انولد بابا؟', options: ['اصيريتا','فنزخت','انفنيتي','زع'], correct: 1, time: 30, points: 1000 },
+    { id: 11, text: 'من اكثر واحد كان يتخبئ و هو صغير؟', options: ['نور','سالم','محمد','خالد'], correct: 0, time: 30, points: 1000 },
+    { id: 12, text: 'من أكثر شخص يهتم بالتصوير وتوثيق اللحظات؟', options: ['فاطمه','أنيسة','جميلة','عائشة'], correct: 0, time: 30, points: 1000 },
+    { id: 13, text: 'في أي سنة تخرّجت جميلة؟', options: ['٢٠٠٥','٢٠٠٦','٢٠٠٧','٢٠٠٩'], correct: 0, time: 30, points: 1000 },
+    { id: 14, text: 'من أكثر واحد كان يمثل انه مريض وهو صغير عشان بابا يشلّه؟', options: ['سالم','محمد','حسن','نور'], correct: 0, time: 30, points: 1000 },
+    { id: 15, text: 'من الشخص الذي يشارك صور الأكل كثيرًا في جروبات العائلة؟', options: ['انيسه','فاطمة','جميلة','نور'], correct: 0, time: 30, points: 1000 },
+    { id: 16, text: 'من كان أكثر واحد شقي في طفولته ع كلام ماما؟', options: ['جميلة','سالم','محمد','حسن'], correct: 0, time: 30, points: 1000 },
+    { id: 17, text: 'من أكثر شخص في العائلة يرد بسرعة على الرسائل و المكالمات؟', options: ['حسن','فاطمة','أحمد','ماما'], correct: 0, time: 30, points: 1000 },
+    { id: 18, text: 'من أكثر شخص ما يخلي شيء في خاطره؟', options: ['محمد','نور','عائشة','خالد'], correct: 0, time: 30, points: 1000 },
+    { id: 19, text: 'في اي شهر دخلنا بيتنا الجديدة؟', options: ['مارس','أبريل','مايو','يونيو'], correct: 1, time: 30, points: 1000 },
+    { id: 20, text: 'من أكثر واحد يعشق جو الدراسه؟', options: ['نور','جميلة','أحمد','سالم'], correct: 0, time: 30, points: 1000 },
+    { id: 21, text: 'من أكثر شخص يحب الزهور؟', options: ['أنيسة','فاطمة','جميلة','عائشة'], correct: 0, time: 30, points: 1000 },
+    { id: 22, text: 'مين اكثر شخص يعرف يسوي شاي؟', options: ['جميلة','عائشة','فاطمة','محمد'], correct: 0, time: 30, points: 1000 },
+    { id: 23, text: 'من أكثر واحد يخاف من الحشرات؟', options: ['عائشة','فاطمة','جميلة','نور'], correct: 0, time: 30, points: 1000 },
+    { id: 24, text: 'اول سيارة اشتراها بابا؟', options: ['صالون','كروزر','باص','بيك آب'], correct: 3, time: 30, points: 1000 },
+    { id: 25, text: 'كم كان عمر ماما لما جابت آخر طفل؟', options: ['٣٢','٣٣','٣٥','٣٦'], correct: 0, time: 30, points: 1000 },
+    { id: 26, text: 'من اكثر واحد يقوم بسرعه في الاجازات ؟', options: ['سالم','أحمد','محمد','خالد'], correct: 0, time: 30, points: 1000 },
+    { id: 27, text: 'متى دخل بابا قوات الفرق؟', options: ['نوفمبر ١٩٧٥','نوفمبر ١٩٧٨','نوفمبر ١٩٧٨','نوفمبر ١٩٧٩'], correct: 1, time: 30, points: 1000 },
+    { id: 28, text: 'أكثر أكلة ماما تحبها من زمان؟', options: ['معجين','عصيدة','زر','خبز'], correct: 0, time: 30, points: 1000 },
+    { id: 29, text: 'وين انولدت ماما؟', options: ['ايتفات','زع','قدم','ألسان'], correct: 1, time: 30, points: 1000 },
+    { id: 30, text: 'متى كانت لمة العائلة الكريمة السنه الماضيه؟', options: ['١٥ اغسطس','١٦ اغسطس','١٧ اغسطس','١٨ اغسطس'], correct: 0, time: 30, points: 1000 },
+  ];
+
+  const DEFAULT_PLAYERS = ['أحمد','فاطمة','محمد','نور','حسن','ماما','بابا','خالد','سالم','جميلة','أنيسة','عائشة'];
+
+  // -------------------- حالة اللعبة --------------------
+  let phase = 'lobby';
+  let pin = String(Math.floor(100000 + Math.random() * 900000));
+  let players = DEFAULT_PLAYERS.map(name => ({ name, score: 0, streak: 0, lastDelta: 0 }));
+  let qIndex = 0;
+  let questionStart = null;
+  let timeLeft = QUESTIONS[0].time;
+  let timerId = null;
+  let answered = {}; // { playerName: { option, t, correct, points } }
+
+  // -------------------- أدوات --------------------
+  function clamp(n, min, max) { return Math.max(min, Math.min(max, n)); }
+  function calcPoints(pointsPossible, timeLimitSec, responseTimeSec, isCorrect, mode = 'speed') {
+    if (!isCorrect) return 0;
+    if (pointsPossible <= 0) return 0; // استبيان
+    if (mode === 'accuracy') return pointsPossible;
+    const ratio = responseTimeSec / timeLimitSec;
+    const factor = 1 - (ratio / 2);
+    return Math.round(pointsPossible * clamp(factor, 0, 1));
+  }
+  function arabicIndex(i){ return String.fromCharCode(0x0661 + i); }
+
+  // -------------------- ربط العناصر --------------------
+  const elPin = document.getElementById('pin');
+  const elLobby = document.getElementById('lobby');
+  const elPlaying = document.getElementById('playing');
+  const elResult = document.getElementById('result');
+  const elFinished = document.getElementById('finished');
+
+  const newPlayerInput = document.getElementById('newPlayerInput');
+  const addPlayerBtn = document.getElementById('addPlayerBtn');
+  const playersGrid = document.getElementById('playersGrid');
+  const startBtn = document.getElementById('startBtn');
+
+  const qCounter = document.getElementById('qCounter');
+  const qText = document.getElementById('qText');
+  const timeLeftEl = document.getElementById('timeLeft');
+  const progressEl = document.getElementById('progress');
+  const optionsGrid = document.getElementById('optionsGrid');
+  const playersAnswerGrid = document.getElementById('playersAnswerGrid');
+  const answeredCountEl = document.getElementById('answeredCount');
+  const playersCountEl = document.getElementById('playersCount');
+  const finishNowBtn = document.getElementById('finishNowBtn');
+
+  const endedLabel = document.getElementById('endedLabel');
+  const resultQText = document.getElementById('resultQText');
+  const explain = document.getElementById('explain');
+  const correctBanner = document.getElementById('correctBanner');
+  const distributionList = document.getElementById('distributionList');
+  const leaderboardList = document.getElementById('leaderboardList');
+  const nextBtn = document.getElementById('nextBtn');
+  const totalAnswers = document.getElementById('totalAnswers');
+  const playersCount2 = document.getElementById('playersCount2');
+
+  const winnerLine = document.getElementById('winnerLine');
+  const finalTable = document.getElementById('finalTable');
+
+  const answerModal = document.getElementById('answerModal');
+  const closeModalBtn = document.getElementById('closeModalBtn');
+  const modalPlayerName = document.getElementById('modalPlayerName');
+  const modalOptions = document.getElementById('modalOptions');
+
+  // -------------------- واجهة اللوبي --------------------
+  function renderPlayersGrid(){
+    playersGrid.innerHTML = '';
+    players.forEach(p => {
+      const card = document.createElement('div');
+      card.className = 'flex items-center justify-between border rounded-xl px-3 py-2 bg-emerald-50';
+      card.innerHTML = `<span class="font-medium">${p.name}</span>`;
+      const btn = document.createElement('button');
+      btn.className = 'text-xs text-red-600 hover:underline';
+      btn.textContent = 'حذف';
+      btn.onclick = ()=>{ players = players.filter(x=>x.name!==p.name); renderPlayersGrid(); };
+      btn.ontouchend = btn.onclick;
+      card.appendChild(btn);
+      playersGrid.appendChild(card);
+    });
+  }
+
+  addPlayerBtn.onclick = ()=>{
+    const name = newPlayerInput.value.trim();
+    if(!name) return;
+    if(players.find(p=>p.name===name)) return;
+    players.push({ name, score: 0, streak: 0, lastDelta: 0 });
+    newPlayerInput.value='';
+    renderPlayersGrid();
+  };
+  addPlayerBtn.ontouchend = addPlayerBtn.onclick;
+
+  startBtn.onclick = startGame;
+  startBtn.ontouchend = startGame;
+
+  // -------------------- بدء اللعبة/السؤال --------------------
+  function setPhase(p){
+    phase = p;
+    elLobby.classList.toggle('hidden', p!=='lobby');
+    elPlaying.classList.toggle('hidden', p!=='playing');
+    elResult.classList.toggle('hidden', p!=='result');
+    elFinished.classList.toggle('hidden', p!=='finished');
+  }
+
+  function startGame(){
+    qIndex = 0;
+    players.forEach(p=>{ p.score=0; p.streak=0; p.lastDelta=0; });
+    startQuestion();
+  }
+
+  function startQuestion(){
+    setPhase('playing');
+    answered = {};
+    const q = QUESTIONS[qIndex];
+    timeLeft = q.time;
+    questionStart = Date.now();
+
+    // رأس السؤال
+    qCounter.textContent = `سؤال ${qIndex+1} من ${QUESTIONS.length}`;
+    qText.textContent = q.text;
+    playersCountEl.textContent = String(players.length);
+    updateTimerUI();
+
+    // الخيارات (عرض مرئي فقط)
+    optionsGrid.innerHTML = '';
+    q.options.forEach((opt, i)=>{
+      const theme = OPTION_THEMES[i % OPTION_THEMES.length];
+      const card = document.createElement('div');
+      card.className = `border rounded-2xl p-4 ${theme.bg} ring-1 ${theme.ring} shadow-sm`;
+      card.innerHTML = `<div class="flex items-center gap-3 text-lg font-semibold"><span class="inline-flex items-center justify-center w-8 h-8 rounded-xl text-white ${theme.chip}">${theme.icon}</span><span>${arabicIndex(i)}. ${opt}</span></div>`;
+      optionsGrid.appendChild(card);
+    });
+
+    // شبكة اللاعبين لاختيار الإجابة
+    renderPlayersAnswerGrid();
+
+    // مؤقّت
+    if(timerId) clearInterval(timerId);
+    timerId = setInterval(()=>{
+      if(timeLeft<=1){
+        timeLeft = 0; updateTimerUI();
+        clearInterval(timerId); timerId=null; finishQuestion();
+      } else { timeLeft--; updateTimerUI(); }
+    }, 1000);
+  }
+
+  function updateTimerUI(){
+    const q = QUESTIONS[qIndex];
+    timeLeftEl.textContent = `${timeLeft} ث`;
+    if(timeLeft<=5){ timeLeftEl.classList.add('text-red-600'); } else { timeLeftEl.classList.remove('text-red-600'); }
+    const pct = Math.round((timeLeft / q.time) * 100);
+    progressEl.style.width = pct + '%';
+  }
+
+  function renderPlayersAnswerGrid(){
+    playersAnswerGrid.innerHTML = '';
+    const count = Object.keys(answered).length;
+    answeredCountEl.textContent = String(count);
+    players.forEach(p=>{
+      const a = answered[p.name];
+      const btn = document.createElement('button');
+      btn.className = `px-3 py-2 rounded-xl border text-sm font-medium text-right transition ${a ? 'bg-emerald-50 border-emerald-300 text-emerald-800' : 'bg-gray-50 hover:bg-gray-100'}`;
+      btn.title = a ? 'سجّل إجابته' : 'اضغط لتسجيل الإجابة';
+      btn.innerHTML = `<div class=\"flex items-center justify-between\"><span class=\"truncate\">${p.name}</span>${a ? '<span class=\"text-xs\">✔︎</span>' : '<span class=\"text-xs text-gray-400\">اختر</span>'}</div>`;
+      btn.onclick = ()=>{ if(!a) openAnswerModal(p.name); };
+      btn.ontouchend = btn.onclick;
+      playersAnswerGrid.appendChild(btn);
+    });
+  }
+
+  finishNowBtn.onclick = ()=>{ if(timerId){ clearInterval(timerId); timerId=null; } timeLeft=0; updateTimerUI(); finishQuestion(); };
+  finishNowBtn.ontouchend = finishNowBtn.onclick;
+
+  // -------------------- نافذة الإجابة --------------------
+  let answeringPlayer = null;
+  function openAnswerModal(playerName){
+    answeringPlayer = playerName;
+    modalPlayerName.textContent = playerName;
+    modalOptions.innerHTML = '';
+    const q = QUESTIONS[qIndex];
+    q.options.forEach((opt,i)=>{
+      const btn = document.createElement('button');
+      btn.className = 'w-full text-right px-4 py-3 border rounded-xl bg-gray-50 hover:bg-gray-100';
+      btn.textContent = `${arabicIndex(i)}. ${opt}`;
+      btn.onclick = ()=> chooseOption(i);
+      btn.ontouchend = btn.onclick;
+      modalOptions.appendChild(btn);
+    });
+    answerModal.classList.remove('hidden');
+    answerModal.classList.add('flex');
+  }
+  function closeModal(){
+    answerModal.classList.add('hidden');
+    answerModal.classList.remove('flex');
+    answeringPlayer = null;
+  }
+  document.getElementById('closeModalBtn').onclick = closeModal;
+  document.getElementById('closeModalBtn').ontouchend = closeModal;
+  answerModal.addEventListener('click', (e)=>{ if(e.target===answerModal) closeModal(); });
+
+  function chooseOption(optionIndex){
+    const q = QUESTIONS[qIndex];
+    const now = Date.now();
+    const tSec = questionStart ? (now - questionStart)/1000 : q.time;
+    const isCorrect = q.correct !== null && optionIndex === q.correct;
+    const pts = calcPoints(q.points, q.time, tSec, isCorrect, 'speed');
+    answered[answeringPlayer] = { option: optionIndex, t: tSec, correct: isCorrect, points: pts };
+    closeModal();
+    renderPlayersAnswerGrid();
+  }
+
+  // -------------------- إنهاء السؤال وعرض النتيجة --------------------
+  function finishQuestion(){
+    // تحديث نقاط اللاعبين
+    players = players.map(p=>{
+      const a = answered[p.name];
+      if(!a) return { ...p, streak: 0, lastDelta: 0 };
+      const newScore = p.score + (a.points || 0);
+      const newStreak = a.correct ? p.streak + 1 : 0;
+      const delta = a.points || 0;
+      return { ...p, score: newScore, streak: newStreak, lastDelta: delta };
+    });
+
+    // بناء شاشة النتيجة
+    setPhase('result');
+    const q = QUESTIONS[qIndex];
+    endedLabel.textContent = `انتهى السؤال ${qIndex+1}`;
+    resultQText.textContent = q.text;
+    const isSurvey = q.points === 0 || q.correct === null;
+    explain.textContent = isSurvey ? 'استبيان — لا نقاط تُحتسب' : '';
+
+    // بانر الإجابة الصحيحة النصي
+    correctBanner.classList.add('hidden');
+    if(!isSurvey){
+      correctBanner.textContent = `الإجابة الصحيحة هي: ${q.options[q.correct]}`;
+      correctBanner.classList.remove('hidden');
+    }
+
+    // توزيع الإجابات
+    const counts = Array(q.options.length).fill(0);
+    Object.values(answered).forEach(a=>{ if(a && a.option!=null && counts[a.option]!=null) counts[a.option]++; });
+    const total = Object.keys(answered).length || 1;
+
+    distributionList.innerHTML = '';
+    q.options.forEach((opt,i)=>{
+      const theme = OPTION_THEMES[i % OPTION_THEMES.length];
+      const pct = Math.round((counts[i]/total)*100);
+      const correct = !isSurvey && q.correct === i;
+      const wrapper = document.createElement('div');
+      wrapper.className = `p-3 border rounded-xl ${correct ? 'ring-2 ring-emerald-400 bg-emerald-100' : 'ring-1 ring-gray-200'} ${theme.bg}`;
+      wrapper.innerHTML = `
+        <div class="flex items-center justify-between mb-1">
+          <div class="font-medium flex items-center gap-2">
+            <span class="inline-flex items-center justify-center w-7 h-7 rounded-lg text-white ${theme.chip}">${theme.icon}</span>
+            <span>${arabicIndex(i)}. ${opt}</span>
+            ${correct ? '<span class="text-xs px-2 py-0.5 rounded-full bg-emerald-200 text-emerald-900">الصحيحة</span>' : ''}
+          </div>
+          <div class="text-sm text-gray-600">${counts[i]} صوت / ${pct}%</div>
+        </div>
+        <div class="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+          <div class="h-full ${theme.bar}" style="width:${pct}%"></div>
+        </div>`;
+      distributionList.appendChild(wrapper);
+    });
+
+    // لوحة الصدارة
+    renderLeaderboard();
+
+    totalAnswers.textContent = String(Object.keys(answered).length);
+    playersCount2.textContent = String(players.length);
+  }
+
+  function renderLeaderboard(){
+    leaderboardList.innerHTML = '';
+    const sorted = [...players].sort((a,b)=> b.score - a.score).slice(0,5);
+    sorted.forEach((p,idx)=>{
+      const li = document.createElement('li');
+      li.className = 'flex items-center justify-between border rounded-xl px-3 py-2 bg-gray-50';
+      li.innerHTML = `
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center font-bold">${idx+1}</div>
+          <div>
+            <div class="font-semibold">${p.name}</div>
+            <div class="text-xs text-gray-500">سلسلة صحيحة: ${p.streak}</div>
+          </div>
+        </div>
+        <div class="text-right">
+          <div class="font-bold">${p.score} نقطة</div>
+          <div class="text-xs ${p.lastDelta>0 ? 'text-emerald-600' : 'text-gray-400'}">${p.lastDelta>0 ? '+'+p.lastDelta : '+0'}</div>
+        </div>`;
+      leaderboardList.appendChild(li);
+    });
+  }
+
+  nextBtn.onclick = ()=>{
+    if(qIndex + 1 < QUESTIONS.length){
+      qIndex++;
+      startQuestion();
+    } else {
+      finishGame();
+    }
+  };
+  nextBtn.ontouchend = nextBtn.onclick;
+
+  // -------------------- نهاية اللعبة --------------------
+  function finishGame(){
+    setPhase('finished');
+    const sorted = [...players].sort((a,b)=> b.score - a.score);
+    if(sorted[0]){
+      winnerLine.innerHTML = `المركز الأول: <span class="font-bold">${sorted[0].name}</span> بمجموع <span class="font-bold">${sorted[0].score}</span> نقطة.`;
+    } else {
+      winnerLine.textContent = 'لا يوجد لاعبين.';
+    }
+    finalTable.innerHTML = '';
+    sorted.forEach((p,idx)=>{
+      const tr = document.createElement('tr');
+      tr.className = 'border-t';
+      tr.innerHTML = `<td class="py-2">${idx+1}</td><td class="py-2 font-medium">${p.name}</td><td class="py-2">${p.score}</td><td class="py-2">${p.streak}</td>`;
+      finalTable.appendChild(tr);
+    });
+  }
+
+  // -------------------- تهيئة الصفحة --------------------
+  function init(){
+    elPin.textContent = pin;
+    renderPlayersGrid();
+    setPhase('lobby');
+  }
+  init();
+  </script>
+</body>
+</html>
