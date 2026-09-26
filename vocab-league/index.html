@@ -810,6 +810,7 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 
 /* ============ responsive ============ */
 @media (max-width: 1100px){
+  .tool kbd{ display:none } /* tablets: keep the teacher toolbar on one screen width */
   .setup-grid{ grid-template-columns:1fr }
   .intro-grid, .intro-grid.no-toss{ grid-template-columns:1fr 1fr }
   .ip-lineup{ grid-column:1 / -1; order:-1 }
@@ -971,7 +972,7 @@ const UNITS =
   {"w":"star","ar":"نجم","pos":"n","lvl":1,"s":"The sun is a ___ that gives light and heat to the Earth.","gd":["spoon","towel","bucket"],"m":["staer","staar","starre"]},
   {"w":"scientist","ar":"عالِم","pos":"n","lvl":1,"s":"The ___ wore white gloves and studied the plants under a microscope.","gd":["camel","kettle","window"],"m":["sientist","scientest","sceintist"]},
   {"w":"astronaut","ar":"رائد فضاء","pos":"n","lvl":1,"s":"The ___ floated inside the space station and waved to the camera.","gd":["camel","kettle","carpet"],"m":["astronot","astronoat","astranaut"]},
-  {"w":"discover","ar":"يكتشف","pos":"v","lvl":1,"s":"Scientists hope to ___ water on Mars in the next few years.","gd":["forget","borrow","wash"],"m":["discuver","descover","diskover"]},
+  {"w":"discover","ar":"يكتشف","pos":"v","lvl":1,"s":"Scientists hope to ___ signs of life on Mars one day.","gd":["forget","borrow","wash"],"m":["discuver","descover","diskover"]},
   {"w":"experiment","ar":"تجربة","pos":"n","lvl":1,"s":"In science class, we did an ___ to test how fast ice melts.","gd":["orange","umbrella","elephant"],"m":["experement","expirement","experimant"]},
   {"w":"telescope","ar":"تلسكوب","pos":"n","lvl":2,"s":"Through the ___, we could clearly see the craters on the Moon.","gd":["spoon","pillow","carpet"],"m":["telescop","teliscope","telescobe"]},
   {"w":"gravity","ar":"جاذبية","pos":"n","lvl":2,"s":"Because of ___, the ball always falls back down to the ground.","gd":["furniture","homework","traffic"],"m":["gravety","gravaty","gravitty"]},
@@ -1102,7 +1103,7 @@ const UNITS =
 {"id":"health","en":"Health & Fitness","ar":"الصحة واللياقة","icon":"🩺","words":[
   {"w":"healthy","ar":"صحّي","pos":"adj","lvl":1,"s":"Eating fresh fruit and vegetables every day keeps your body ___ and strong.","gd":["empty","famous","angry"],"m":["helthy","healty","healthey"]},
   {"w":"exercise","ar":"تمرين رياضي","pos":"n","lvl":1,"s":"Doctors say that thirty minutes of ___ every day is good for your heart.","gd":["noise","traffic","homework"],"m":["excercise","exersise","exercize"]},
-  {"w":"diet","ar":"نظام غذائي","pos":"n","lvl":2,"s":"My uncle started a healthy ___ with less rice and more salad.","gd":["journey","bridge","lesson"],"m":["deit","diat","dyet"]},
+  {"w":"diet","ar":"نظام غذائي","pos":"n","lvl":2,"s":"My uncle started a healthy ___ with less rice and more salad.","gd":["ladder","bridge","lesson"],"m":["deit","diat","dyet"]},
   {"w":"muscle","ar":"عضلة","pos":"n","lvl":2,"s":"He pulled a ___ in his leg while running on the beach in Salalah.","gd":["pencil","window","cloud"],"m":["muscel","mussle","musle"]},
   {"w":"injury","ar":"إصابة","pos":"n","lvl":2,"s":"The doctor said the ___ to his ankle would heal in two weeks.","gd":["letter","visit","road"],"m":["injery","injurey","injurry"]},
   {"w":"medicine","ar":"دواء","pos":"n","lvl":1,"s":"Take this ___ three times a day after meals until you feel better.","gd":["ticket","chair","bus"],"m":["medicin","medecine","medisine"]},
@@ -1126,7 +1127,7 @@ const UNITS =
   {"w":"pain","ar":"ألم","pos":"n","lvl":1,"s":"After the long football match, I felt a sharp ___ in my knee.","gd":["song","map","price"],"m":["paen","peyn","painn"]},
   {"w":"bone","ar":"عَظْم","pos":"n","lvl":1,"s":"Milk and cheese contain calcium, which makes every ___ in your body strong.","gd":["shirt","chair","cloud"],"m":["boan","bown","boen"]}
 ]},
-{"id":"sport","en":"Sports & Competition","ar":"الرياضة والمنافسة","icon":"⚽","words":[
+{"id":"sport","en":"Sports & Competition","ar":"الرياضة والمنافسة","icon":"🏅","words":[
   {"w":"team","ar":"فريق","pos":"n","lvl":1,"s":"Our school football ___ won the cup after beating a school from Sohar.","gd":["kitchen","library","garden"],"m":["taem","tiem","teamm"]},
   {"w":"goal","ar":"هدف","pos":"n","lvl":1,"s":"Ali hit the ball into the net and scored a great ___.","gd":["meal","letter","lesson"],"m":["gole","goall","goale"]},
   {"w":"referee","ar":"حَكَم","pos":"n","lvl":3,"s":"The ___ blew his whistle and showed the player a red card.","gd":["baker","pilot","farmer"],"m":["refree","referie","refery"]},
@@ -1134,7 +1135,7 @@ const UNITS =
   {"w":"trophy","ar":"كأس","pos":"n","lvl":2,"s":"The captain lifted the golden ___ and the fans cheered loudly.","gd":["carpet","pillow","window"],"m":["trofy","trophie","troffy"]},
   {"w":"medal","ar":"ميدالية","pos":"n","lvl":2,"s":"The Omani runner won a gold ___ at the Asian Games.","gd":["garden","pencil","window"],"m":["medel","meddal","medall"]},
   {"w":"compete","ar":"يتنافس","pos":"v","lvl":2,"s":"Twelve schools will ___ in the national football tournament next month.","gd":["sleep","cook","whisper"],"m":["compeet","compit","cumpete"]},
-  {"w":"opponent","ar":"خَصْم","pos":"n","lvl":3,"s":"Before the match, the captain shook hands with his ___ from the other team.","gd":["pencil","dinner","pillow"],"m":["oponent","opponant","oppenent"]},
+  {"w":"opponent","ar":"منافس","pos":"n","lvl":3,"s":"Before the match, the captain shook hands with his ___ from the other team.","gd":["pencil","dinner","pillow"],"m":["oponent","opponant","oppenent"]},
   {"w":"stadium","ar":"ملعب","pos":"n","lvl":2,"s":"Thousands of fans filled the ___ in Bawshar to watch the big match.","gd":["kitchen","pocket","bottle"],"m":["stadim","stadiem","staduim"]},
   {"w":"score","ar":"يُسجِّل","pos":"v","lvl":1,"s":"Our best striker hopes to ___ two goals in tomorrow's match.","gd":["bake","borrow","paint"],"m":["scor","scoore","skore"]},
   {"w":"victory","ar":"انتصار","pos":"n","lvl":2,"s":"The fans celebrated the team's ___ in the streets of Muscat.","gd":["breakfast","homework","luggage"],"m":["victary","victery","viktory"]},
@@ -1173,7 +1174,7 @@ const UNITS =
   {"w":"rude","ar":"وَقِح","pos":"adj","lvl":1,"s":"It is ___ to interrupt people when they are talking.","gd":["windy","round","ripe"],"m":["ruud","rewd","roode"]},
   {"w":"stubborn","ar":"عنيد","pos":"adj","lvl":3,"s":"He is so ___ that he never changes his mind, even when he is wrong.","gd":["dusty","windy","oily"],"m":["stuborn","stubbern","stubbon"]},
   {"w":"ambitious","ar":"طموح","pos":"adj","lvl":3,"s":"Saeed is ___ and dreams of becoming a famous engineer one day.","gd":["wooden","cloudy","spicy"],"m":["ambitous","ambishious","ambicious"]},
-  {"w":"reliable","ar":"يُعتمد عليه","pos":"adj","lvl":3,"s":"Ali is a ___ friend who always keeps his promises and arrives on time.","gd":["sandy","windy","leafy"],"m":["relyable","reliabel","relieable"]},
+  {"w":"reliable","ar":"موثوق به","pos":"adj","lvl":3,"s":"Ali is a ___ friend who always keeps his promises and arrives on time.","gd":["sandy","windy","leafy"],"m":["relyable","reliabel","relieable"]},
   {"w":"embarrassed","ar":"مُحرَج","pos":"adj","lvl":3,"s":"I felt ___ when I fell over in front of the whole school.","gd":["spicy","leafy","sandy"],"m":["embarassed","embarrased","embarased"]},
   {"w":"disappointed","ar":"خائب الأمل","pos":"adj","lvl":3,"s":"The players were ___ after losing the final in the last minute.","gd":["spicy","leafy","square"],"m":["dissapointed","disapointed","disappionted"]},
   {"w":"friendly","ar":"ودود","pos":"adj","lvl":1,"s":"The people of Oman are ___ and always welcome visitors with coffee and dates.","gd":["rainy","leafy","square"],"m":["freindly","frendly","friendley"]},
@@ -1485,22 +1486,22 @@ function probeStorage() {
 /* ---- deep validation of stored / restored data: anything that reaches the HTML must be inert ---- */
 const ID_RE = /^[A-Za-z0-9_-]{1,24}$/;
 const isInt = (x, a, b) => Number.isInteger(x) && x >= a && x <= b;
-const isStr = (x, max) => typeof x === 'string' && x.length <= (max || 400);
+const isStr = (x, max) => typeof x === 'string' && x.length <= (max || 2000);
 const isNum = (x) => typeof x === 'number' && isFinite(x);
 function validQ(q) {
   if (!q || typeof q !== 'object' || !TYPES[q.type]) return false;
-  if (q.c) return isStr(q.w, 200); // compacted question of a finished match (type + word only)
+  if (q.c) return isStr(q.w, 1000); // compacted question of a finished match (type + word only)
   if (q.type === 'match5') {
     const n = Array.isArray(q.items) ? q.items.length : 0, idx = (a) => Array.isArray(a) && a.length === n && a.every((v) => isInt(v, 0, n - 1));
-    return n >= 2 && n <= 5 && q.items.every((it) => it && isStr(it.w, 60) && isStr(it.ar, 200) && (it.s == null || isStr(it.s))) && idx(q.right) && idx(q.ans);
+    return n >= 2 && n <= 5 && q.items.every((it) => it && isStr(it.w, 80) && isStr(it.ar, 1000) && (it.s == null || isStr(it.s))) && idx(q.right) && idx(q.ans);
   }
-  if (!isStr(q.w, 60) || !isStr(q.ar, 200) || (q.s != null && !isStr(q.s))) return false;
+  if (!isStr(q.w, 80) || !isStr(q.ar, 1000) || (q.s != null && !isStr(q.s))) return false;
   if (q.type === 'spell_build') {
     return Array.isArray(q.tiles) && q.tiles.length >= 2 && q.tiles.length <= 30 && q.tiles.every((t, i) => t && t.id === i && /^[a-z]$/.test(t.ch))
       && Array.isArray(q.pattern) && q.pattern.every((c) => c === '' || c === ' ' || c === '-') && q.pattern.filter((c) => c === '').length === q.tiles.length
       && typeof q.target === 'string' && /^[a-z]+$/.test(q.target) && q.target.length === q.tiles.length;
   }
-  if (!Array.isArray(q.opts) || q.opts.length < 2 || q.opts.length > 6 || !q.opts.every((o) => isStr(o, 200)) || !isInt(q.ans, 0, q.opts.length - 1)) return false;
+  if (!Array.isArray(q.opts) || q.opts.length < 2 || q.opts.length > 6 || !q.opts.every((o) => isStr(o, 1000)) || !isInt(q.ans, 0, q.opts.length - 1)) return false;
   if (q.type === 'gap_letters') return Array.isArray(q.hid) && q.hid.length >= 1 && q.hid.every((i) => isInt(i, 1, q.w.length - 1));
   return true;
 }
@@ -1529,8 +1530,8 @@ function validT(t) {
   if (!Array.isArray(t.matches) || t.matches.length > 80 || !t.matches.every((m) => validMatch(m, ids)) || new Set(t.matches.map((m) => m.id)).size !== t.matches.length) return false;
   return !!(t.settings && typeof t.settings === 'object' && Array.isArray(t.settings.types) && t.settings.types.length && Array.isArray(t.settings.units) && t.settings.units.every((u) => isStr(u, 40)));
 }
-const cleanCustom = (arr) => (Array.isArray(arr) ? arr : []).filter((x) => x && typeof x.w === 'string' && typeof x.ar === 'string' && WORD_RE.test(x.w) && x.w.length <= 24 && x.ar.length <= 200)
-  .map((x) => ({ w: x.w, ar: x.ar, s: typeof x.s === 'string' && x.s.length <= 400 ? x.s : '' }));
+const cleanCustom = (arr) => (Array.isArray(arr) ? arr : []).filter((x) => x && typeof x.w === 'string' && typeof x.ar === 'string' && WORD_RE.test(x.w) && x.w.length <= 40 && x.ar.length <= 1000)
+  .map((x) => ({ w: x.w, ar: x.ar, s: typeof x.s === 'string' && x.s.length <= 2000 ? x.s : '' }));
 function repairT(t) {
   const ids = t.teams.map((x) => x.id), has = (id) => ids.includes(id), mids = t.matches.map((m) => m.id);
   t.used = Array.isArray(t.used) ? t.used.filter((x) => typeof x === 'string') : [];
@@ -1557,7 +1558,7 @@ function repairT(t) {
     if (!isInt(m.md, 0, 30)) m.md = 0;
     m.label = typeof m.label === 'string' ? m.label : '';
     if (!isInt(m.R, 0, 8) || (m.seq && m.R < 1)) m.R = m.seq ? Math.max(1, m.seq.length / 2) : 0;
-    if (typeof m.revealed !== 'boolean') m.revealed = !(m.mode === 'split' && m.status !== 'done' && m.status !== 'pens');
+    if (m.seq && typeof m.revealed !== 'boolean') m.revealed = !(m.mode === 'split' && m.status !== 'done' && m.status !== 'pens'); // older saves: finished = already revealed
     const fixQ = (q) => { if (q.cat !== TYPES[q.type].cat) q.cat = TYPES[q.type].cat; if (q.pos != null && !['', 'n', 'v', 'adj', 'adv'].includes(q.pos)) q.pos = ''; if (q.lvl != null && ![1, 2, 3].includes(q.lvl)) q.lvl = 2; };
     if (m.seq) m.seq.forEach((st) => fixQ(st.q));
     if (m.pre) m.pre.forEach((rd) => rd.qs.forEach(fixQ));
@@ -1832,6 +1833,7 @@ function genSpellChoice(e) {
 const DET_W = new Set('a an the my your his her its our their this that these those every each some any no another'.split(' '));
 const VERB_W = new Set("can could will would shall should must may might cannot can't won't don't doesn't didn't please let's".split(' '));
 const ADJ_W = new Set('very too so really quite more most less extremely'.split(' '));
+const SUBJ_W = new Set('i you we they he she people children men women'.split(' ')); // "People ___ down trees" → a verb
 const NOUNISH_V = new Set('plant camp score kick rent hunt waste harm respect cough jump launch measure download upload broadcast orbit graduate pack bargain delete cancel hire race match save spend'.split(' '));
 const VERBISH_N = new Set('exercise queue tour interview experiment forecast shelter flood storm snow guarantee budget profit refund discount cash price drum match race whistle plastic screen message channel promotion diet'.split(' '));
 const CANNOT_FIT = { n: ['v', 'adv'], v: ['adj', 'n'], adj: ['n', 'v'], adv: ['n', 'v'], to: ['adj', 'adv'] }; // after "to": verb or noun (to school) — only adjectives fit neither
@@ -1849,7 +1851,7 @@ function blankClass(e) {
   const prev = tok(a.trim().split(/\s+/).pop()), next = tok((b || '').trim().split(/\s+/)[0]);
   if (DET_W.has(prev)) return 'n';
   if (prev === 'to') return 'to';
-  if (VERB_W.has(prev)) return 'v';
+  if (VERB_W.has(prev) || SUBJ_W.has(prev)) return 'v';
   if (ADJ_W.has(prev)) return 'adj';
   if (e.pos) return e.pos;
   const g = guessPos(e.w);
@@ -2161,13 +2163,15 @@ function pensTally(m) {
   } else if (r.ta === r.tb && r.sa !== r.sb) r.winner = r.sa > r.sb ? m.a : m.b;
   return r;
 }
-/* split shoot-out: whose kicks are due. A section that is behind kicks; at equal counts the section that kicked last
-   carries on (same session); the very first kicks belong to the section that played the second session. */
+/* split shoot-out: whose kicks are due. The section kicking now finishes its batch (its pending kicks); then the other
+   section takes its mirrored kicks; when no kick is pending, the section that kicked last carries on (same session)
+   with the next batch; the very first kicks belong to the section that played the second session. */
 function pensTurn(m) {
   const p = m.pens; if (!p) return null;
-  const n = (t) => p.kicks.filter((k) => k.t === t && k.ok != null).length, A = n(m.a), B = n(m.b);
-  if (A !== B) return A < B ? m.a : m.b;
-  const last = p.last != null && p.kicks[p.last] ? p.kicks[p.last].t : null;
+  const pend = (t) => p.kicks.some((k) => k.t === t && k.ok == null);
+  const last = p.last != null && p.kicks[p.last] ? p.kicks[p.last].t : null, cur = p.cur || last;
+  if (cur && pend(cur)) return cur;
+  if (pend(m.a) || pend(m.b)) return pend(m.a) ? m.a : m.b;
   return last || p.first || other(m, m.present);
 }
 /* which section is looking at the screen now, and so whose kicks are hidden (split, undecided) */
@@ -2608,15 +2612,15 @@ function scoreboardHTML(m) {
 <div class="sb-sub"><div class="dots a" style="--tc:${A.color}">${dotsHTML(m, m.a)}</div><div class="turn" style="--tc:${turn ? teamById(turn).color : 'var(--silver)'}">${turn ? `الدور على: <b>${bd(teamName(turn))}</b>` : 'نهاية المباراة'}</div><div class="dots b" style="--tc:${B.color}">${dotsHTML(m, m.b)}</div></div>`;
 }
 function tool(act, ic, label, key, disabled) {
-  return `<button class="tool" data-act="${act}" aria-label="${label}" title="${label}${key ? ' (' + key + ')' : ''}" ${disabled ? 'disabled' : ''}>${icon(ic)}<span>${label}</span>${key ? `<kbd data-k="${key}">${key}</kbd>` : ''}</button>`;
+  return `<button class="tool" data-act="${act}" aria-label="${label}" title="${label}${key ? ' (' + key + ')' : ''}" ${disabled ? 'disabled' : ''}>${icon(ic)}<span>${label}</span>${key ? `<kbd dir="ltr" data-k="${key}">${key}</kbd>` : ''}</button>`;
 }
 function toolbarHTML() {
   return `<footer class="tools" id="tools" role="toolbar" aria-label="أدوات المعلم">
   ${SPEECH_OK ? tool('say', 'wave', 'نطق', 'P') : ''}${tool('picker', 'dice', 'لاعب عشوائي', 'R')}${tool('var', 'var', 'الفار', '', true)}${tool('reveal', 'eye', 'كشف الإجابة', '')}
   <span class="tools-sp"></span>
   ${tool('pause', 'pause', 'إيقاف', 'Esc')}${FS_OK ? tool('fullscreen', 'full', 'ملء الشاشة', 'F') : ''}
-  <button class="tool" data-act="mute" aria-pressed="${PREFS.muted}" aria-label="الصوت" title="الصوت (M)">${icon(PREFS.muted ? 'mute' : 'speaker')}<span>الصوت</span><kbd data-k="M">M</kbd></button>
-  <button class="tool warn" data-act="backup" id="tool-warn" aria-label="الحفظ غير متاح — النسخ الاحتياطي" title="الحفظ التلقائي غير متاح — احفظ رمز النسخة الاحتياطية" ${storageBad() ? '' : 'hidden'}>${icon('save')}<span>غير محفوظ</span></button>
+  <button class="tool" data-act="mute" aria-pressed="${PREFS.muted}" aria-label="الصوت" title="الصوت (M)">${icon(PREFS.muted ? 'mute' : 'speaker')}<span>الصوت</span><kbd dir="ltr" data-k="M">M</kbd></button>
+  <button class="tool warn" data-act="backup" id="tool-warn" aria-label="الحفظ غير متاح — النسخ الاحتياطي" title="الحفظ التلقائي غير متاح — احفظ رمز النسخة الاحتياطية" ${storageBad() ? '' : 'hidden'}>${icon('save')}<span>الحفظ غير متاح</span></button>
   ${tool('exit-match', 'exit', 'خروج', '')}
 </footer>`;
 }
@@ -2637,12 +2641,12 @@ function bodyHTML(q) {
       const slots = q.pattern.map((c) => (c ? `<span class="slot fixed" aria-hidden="true">${c === '-' ? '-' : ''}</span>` : (s++, `<button class="slot" data-act="slot" data-s="${s}" aria-label="الخانة ${s + 1}"></button>`))).join('');
       return `<div class="prompt sm"><span class="word ar">${esc(q.ar)}</span>${sayBtn(q.w)}</div>
 <div class="slots" id="slots" dir="ltr" lang="en">${slots}</div>
-<div class="tiles" id="tiles" dir="ltr" lang="en">${q.tiles.map((t) => `<button class="tile" data-act="tile" data-id="${t.id}" aria-label="الحرف ${t.ch}">${t.ch}</button>`).join('')}</div>
+<div class="tiles" id="tiles" dir="ltr" lang="en">${q.tiles.map((t) => `<button class="tile" data-act="tile" data-id="${esc(t.id)}" aria-label="الحرف ${esc(t.ch)}">${esc(t.ch)}</button>`).join('')}</div>
 <div class="sbc"><button class="btn btn-ghost" data-act="sb-back" aria-label="حذف آخر حرف">${icon('backspace')}<span>تراجع</span></button><button class="btn btn-ghost" data-act="sb-clear">${icon('x')}<span>مسح</span></button><button class="btn btn-primary" data-act="sb-check" id="sb-check" disabled>${icon('check')}<span>تحقق</span></button></div>
 <p class="kbd-hint">اضغط الحروف بالترتيب أو اكتبها بلوحة المفاتيح، واضغط خانة ممتلئة لإرجاع حرفها · للنطق: زر النطق أو <kbd dir="ltr">Shift+P</kbd></p>`;
     }
     case 'gap_sentence': { const [a, b] = q.s.split('___'); return `<p class="sentence" dir="ltr" lang="en">${esc(a)}<span class="blank" id="blank" aria-label="فراغ">&nbsp;</span>${esc(b)}</p>${optsHTML(q, true)}`; }
-    case 'gap_letters': return `<div class="letters" dir="ltr" lang="en" aria-label="الكلمة مع حروف ناقصة">${q.w.split('').map((c, i) => { const j = q.hid.indexOf(i); if (j >= 0) return `<span class="lb miss" data-h="${j}">?</span>`; if (c === ' ') return '<span class="lb gap"></span>'; if (c === '-') return '<span class="lb gap">-</span>'; return `<span class="lb">${c}</span>`; }).join('')}</div><p class="hint">المعنى: <b>${esc(q.ar)}</b></p>${optsHTML(q, true, 'letter-opts')}`;
+    case 'gap_letters': return `<div class="letters" dir="ltr" lang="en" aria-label="الكلمة مع حروف ناقصة">${q.w.split('').map((c, i) => { const j = q.hid.indexOf(i); if (j >= 0) return `<span class="lb miss" data-h="${j}">?</span>`; if (c === ' ') return '<span class="lb gap"></span>'; if (c === '-') return '<span class="lb gap">-</span>'; return `<span class="lb">${esc(c)}</span>`; }).join('')}</div><p class="hint">المعنى: <b>${esc(q.ar)}</b></p>${optsHTML(q, true, 'letter-opts')}`;
     case 'match5': return `<div class="m5" id="m5"><svg class="m5-svg" id="m5svg" aria-hidden="true"></svg>
 <div class="m5-col en" role="group" aria-label="الكلمات الإنجليزية">${q.items.map((it, i) => `<button class="m5-i" data-act="m5" data-side="L" data-i="${i}" aria-pressed="false"><span dir="ltr" lang="en">${esc(it.w)}</span></button>`).join('')}</div>
 <div class="m5-col ar" role="group" aria-label="الترجمات العربية">${q.right.map((li, j) => `<button class="m5-i" data-act="m5" data-side="R" data-i="${j}" aria-pressed="false">${esc(q.items[li].ar)}</button>`).join('')}</div></div>
@@ -2952,7 +2956,7 @@ function updateToolbar() {
   const pz = $('#tools [data-act="pause"]'); if (pz) pz.disabled = !(Q && !Q.answered);
   /* «رتّب الحروف» takes typed letters, so the teacher shortcuts become Shift+letter while it is live */
   const sb = !!(Q && Q.sb && !Q.answered);
-  $$('#tools kbd[data-k]').forEach((kb) => { kb.textContent = (sb ? '⇧' : '') + kb.dataset.k; });
+  $$('#tools kbd[data-k]').forEach((kb) => { const k = kb.dataset.k; kb.textContent = (sb && k.length === 1 ? '⇧' : '') + k; });
 }
 /* a new question (or one uncovered again) ignores input for a moment, so the second tap of a double tap on
    «التالي» / «استئناف» / «ابدأ» can never land on an answer */
@@ -2966,6 +2970,7 @@ function flow() {
   const m = curMatch(); if (!m || !m.seq) { go(T ? 'hub' : 'home'); return; }
   hideLayer('res'); unpauseView();
   if (m.status === 'done' || m.status === 'pens') { finishMatch(m); return; }
+  if (m.status === 'wait' || (halfStep(m) > 0 && m.step === halfStep(m) && !m.half)) S.resumePaused = false; // the card itself is the pause after a reload
   if (m.status === 'wait') { Q = null; refreshBoard(m); $('#qzone').innerHTML = ''; updateToolbar(); showLayer('split', splitEndHTML(m)); SFX.whistle(true); return; }
   const H = halfStep(m);
   if (H > 0 && m.step === H && !m.half) { Q = null; refreshBoard(m); $('#qzone').innerHTML = ''; updateToolbar(); showLayer('half', halftimeHTML(m)); SFX.whistle(true); return; }
@@ -3347,7 +3352,7 @@ function drawSky() {
 function cleanupView() {
   timerStop(); clearLater(); stopConfetti(); m5Unobserve();
   if (S.pickIv) { clearInterval(S.pickIv); S.pickIv = 0; }
-  clearLayers(); closeModal(true); Q = null;
+  clearLayers(); closeModal(true); Q = null; S.pensEnd = false;
   try { if (SPEECH_OK) window.speechSynthesis.cancel(); } catch (e) { /* ignore */ }
 }
 function go(view) {
@@ -3393,7 +3398,9 @@ function parseCustom(text) {
     else if (!WORD_RE.test(w)) row.err = 'الكلمة يجب أن تكون حروفًا إنجليزية فقط (يُسمح بالمسافة والشرطة)';
     else if (w.length > 24) row.err = 'الكلمة طويلة جدًا';
     else if (!ar) row.err = 'المعنى فارغ';
+    else if (ar.length > 80) row.err = 'المعنى طويل جدًا (80 حرفًا على الأكثر)';
     else if (seen.has(w)) row.err = 'الكلمة مكررة';
+    if (!row.err && s.length > 160) { row.note = 'الجملة طويلة جدًا — حُفظت الكلمة بدون جملة'; s = ''; }
     if (!row.err && s) {
       if (/_{3,}/.test(s)) { s = s.replace(/_{3,}/g, '___'); if (s.split('___').length !== 2) { row.note = 'الجملة تحتوي أكثر من فراغ — حُفظت الكلمة بدون جملة'; s = ''; } }
       else {
@@ -3472,7 +3479,7 @@ const ACT = {
     }
     if (s.ko === 'semis' && s.teams.length < 4) s.ko = 'final';
     const box = $('#setup-err');
-    if (err.length) { if (box) box.textContent = err.join(' '); toast(err[0], 'bad'); return; }
+    if (err.length) { if (box) box.textContent = err.join(' '); toast(err[0].length > 90 ? 'تعذّر إجراء القرعة — السبب مكتوب أسفل الصفحة' : err[0], 'bad'); return; }
     if (box) box.textContent = '';
     const doIt = () => {
       PREFS.setup = JSON.parse(JSON.stringify(s)); savePrefs();
@@ -3525,7 +3532,7 @@ const ACT = {
   tile: (el) => sbPlace(+el.dataset.id),
   slot: (el) => sbSlot(+el.dataset.s),
   'sb-back': () => sbBack(), 'sb-clear': () => sbClear(), 'sb-check': () => sbCheck(),
-  m5: (el) => m5Click(el.dataset.side, +el.dataset.i),
+  m5: (el, e) => { m5Click(el.dataset.side, +el.dataset.i); if (e && e.detail) el.blur(); }, // a tapped item must not keep the keyboard focus (Enter would toggle it)
   'm5-check': () => m5Check(),
   next: () => { hideLayer('res'); if (S.view === 'pens') pensFlow(); else flow(); },
   'second-half': () => { const m = curMatch(); if (!m) return; m.half = true; persist(m); hideLayer('half'); SFX.whistle(); flow(); },
@@ -3572,7 +3579,8 @@ const ACT = {
   'bk-copy': () => {
     const json = backupJSON(), out = $('#bk-out');
     const fallback = () => { if (out) { out.hidden = false; out.value = json; out.focus(); out.select(); } toast('تعذّر النسخ التلقائي — الرمز محدد، انسخه يدويًا (Ctrl+C)'); };
-    try { if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(json).then(() => toast('تم نسخ رمز النسخة', 'good'), fallback); else fallback(); } catch (e) { fallback(); }
+    const allowed = (() => { try { const pp = document.permissionsPolicy || document.featurePolicy; return !pp || !pp.allowsFeature || pp.allowsFeature('clipboard-write'); } catch (e) { return true; } })();
+    try { if (allowed && navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(json).then(() => toast('تم نسخ رمز النسخة', 'good'), fallback); else fallback(); } catch (e) { fallback(); }
   },
   'bk-download': () => { try { const blob = new Blob([backupJSON()], { type: 'application/json' }), a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `vocab-league-${new Date().toISOString().slice(0, 10)}.json`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); } catch (e) { toast('تعذّر التنزيل', 'bad'); } },
   'bk-restore': () => restoreFrom(($('#bk-in') || {}).value),
@@ -3646,7 +3654,7 @@ document.addEventListener('keydown', (e) => {
     if (Q.sb) {
       if (/^[a-z]$/.test(lk) && !e.shiftKey) { e.preventDefault(); sbType(lk); return; }
       if (k === 'Backspace') { e.preventDefault(); sbBack(); return; }
-      if (k === 'Enter' && (!onBtn || Q.sb.slots.every((x) => x !== null))) { e.preventDefault(); sbCheck(); return; }
+      if (enter && (!onBtn || Q.sb.slots.every((x) => x !== null))) { e.preventDefault(); sbCheck(); return; }
     }
     if (Q.m5 && enter && (!onBtn || Q.m5.L.every((j) => j >= 0))) { e.preventDefault(); m5Check(); return; }
     if (/^[1-9]$/.test(dk) && Q.q.opts && Q.q.type !== 'match5') { e.preventDefault(); chooseOpt(+dk - 1); return; }
