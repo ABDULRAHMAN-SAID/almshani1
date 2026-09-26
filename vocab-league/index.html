@@ -532,6 +532,7 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .pk.x::before, .pk.x::after{ content:''; position:absolute; left:50%; top:50%; width:12px; height:2.5px; background:var(--bad); border-radius:2px }
 .pk.x::before{ transform:translate(-50%,-50%) rotate(45deg) } .pk.x::after{ transform:translate(-50%,-50%) rotate(-45deg) }
 .pk.cur{ border-color:var(--tc); animation:pulse 1.2s infinite }
+.pk.h{ background:rgba(201,211,232,.45); border-color:rgba(201,211,232,.45) }
 .pens-ready{ align-items:center; text-align:center; max-width:760px; gap:14px }
 .pens-ready h2{ font-size:clamp(30px,3.4vw,48px) }
 .pens-ready p{ max-width:600px; color:var(--silver) }
@@ -1516,7 +1517,7 @@ function validMatch(m, ids) {
   if (m.pens != null) {
     const p = m.pens;
     if (typeof p !== 'object' || !Array.isArray(p.kicks) || p.kicks.length > 200 || !p.kicks.every((k) => k && (k.t === m.a || k.t === m.b) && okFlag(k.ok) && validQ(k.q))) return false;
-    if ((p.first != null && p.first !== m.a && p.first !== m.b) || (p.last != null && !isInt(p.last, 0, 199))) return false;
+    if ([p.first, p.cur].some((x) => x != null && x !== m.a && x !== m.b) || (p.last != null && !isInt(p.last, 0, 199)) || !p.kicks.every((k) => k.n == null || isInt(k.n, 1, 200))) return false;
   }
   return true;
 }
@@ -1997,9 +1998,10 @@ function makePicker(pool, used, exclude) {
     if (a.length < need && el.length >= need) { el.forEach((e) => used.delete(e.w)); a = el; }
     return a;
   }
-  function choosePair(type, list) {
+  /* strict: for gap_letters both words must hide the same number of letters (else null) */
+  function choosePair(type, list, strict) {
     let cand = list;
-    if (type === 'gap_letters') { const hc = new Map(list.map((e) => [e, hideCount(e.w)])); const ok = list.filter((e) => list.some((o) => o !== e && hc.get(o) === hc.get(e))); if (ok.length >= 2) cand = ok; }
+    if (type === 'gap_letters') { const hc = new Map(list.map((e) => [e, hideCount(e.w)])); const ok = list.filter((e) => list.some((o) => o !== e && hc.get(o) === hc.get(e))); if (ok.length >= 2) cand = ok; else if (strict) return null; }
     const x = pick(cand); let c = cand.filter((e) => e !== x);
     if (type === 'gap_letters') { const same = c.filter((e) => hideCount(e.w) === hideCount(x.w)); if (same.length) c = same; }
     if (LEN_SENSITIVE[type]) { const lx = letters(x.w).length, close = c.filter((e) => Math.abs(letters(e.w).length - lx) <= 1); if (close.length) c = close; }
@@ -2007,9 +2009,13 @@ function makePicker(pool, used, exclude) {
   }
   function pair(type, lvl) {
     if (elig(type).length < 2) return null;
-    for (const L of levelOrder(lvl)) {
-      const list = atLevel(type, L, 2); if (list.length < 2) continue;
-      const pr = choosePair(type, list); take(pr[0]); take(pr[1]); return pr;
+    // gap_letters: a neighbouring level with an equal pair beats the planned level with an unequal one
+    for (const strict of type === 'gap_letters' ? [true, false] : [false]) {
+      for (const L of levelOrder(lvl)) {
+        const list = atLevel(type, L, 2); if (list.length < 2) continue;
+        const pr = choosePair(type, list, strict); if (!pr) continue;
+        take(pr[0]); take(pr[1]); return pr;
+      }
     }
     const a = avail(type, 2); if (a.length < 2) return null;
     const x = pick(a), rest = a.filter((e) => e !== x).sort((p, q) => Math.abs(p.lvl - x.lvl) - Math.abs(q.lvl - x.lvl));
@@ -2148,9 +2154,24 @@ function pensTally(m) {
   for (const k of p.kicks) { if (k.ok === null || k.ok === undefined) continue; if (k.t === m.a) { r.ta++; if (k.ok) r.sa++; } else { r.tb++; if (k.ok) r.sb++; } }
   if (r.ta <= 5 && r.tb <= 5) {
     if (r.sa > r.sb + (5 - r.tb)) r.winner = m.a; else if (r.sb > r.sa + (5 - r.ta)) r.winner = m.b;
+  } else if (p.split) { // sections kick in their own sessions: sudden death = first mirrored kick where one scores and the other misses
+    const A = p.kicks.filter((k) => k.t === m.a && k.ok != null), B = p.kicks.filter((k) => k.t === m.b && k.ok != null);
+    for (let i = 5; i < Math.min(A.length, B.length); i++) if (A[i].ok !== B[i].ok) { r.winner = A[i].ok ? m.a : m.b; break; }
   } else if (r.ta === r.tb && r.sa !== r.sb) r.winner = r.sa > r.sb ? m.a : m.b;
   return r;
 }
+/* split shoot-out: whose kicks are due. A section that is behind kicks; at equal counts the section that kicked last
+   carries on (same session); the very first kicks belong to the section that played the second session. */
+function pensTurn(m) {
+  const p = m.pens; if (!p) return null;
+  const n = (t) => p.kicks.filter((k) => k.t === t && k.ok != null).length, A = n(m.a), B = n(m.b);
+  if (A !== B) return A < B ? m.a : m.b;
+  const last = p.last != null && p.kicks[p.last] ? p.kicks[p.last].t : null;
+  return last || p.first || other(m, m.present);
+}
+/* which section is looking at the screen now, and so whose kicks are hidden (split, undecided) */
+function pensViewer(m) { return Q && Q.ctx === 'pens' ? Q.team : S.pensEnd && m.pens.cur ? m.pens.cur : pensTurn(m); }
+function pensHidden(m) { const p = m.pens; if (!p || !p.split || pensTally(m).winner) return null; return other(m, pensViewer(m)); }
 function halfStep(m) { if (m.demo || m.mode !== 'live' || !m.seq) return -1; const h = 2 * Math.ceil(m.R / 2); return h < m.seq.length ? h : -1; }
 function minuteOf(m, k) {
   if (!m.seq) return 0; const N = m.seq.length;
@@ -2232,7 +2253,7 @@ function teamStats() {
 }
 
 /* ============================ 12. UI PRIMITIVES ============================ */
-const S = { view: 'home', tab: 'fixtures', matchId: null, setup: null, intro: null, bankQ: '', bankOpen: {}, cwText: '', cwPreview: null, demo: null, flip: null, prevRank: null, ftFresh: false, ftReveal: false, resumePaused: false, pensGo: false, pickIv: 0 };
+const S = { view: 'home', tab: 'fixtures', matchId: null, setup: null, intro: null, bankQ: '', bankOpen: {}, cwText: '', cwPreview: null, demo: null, flip: null, prevRank: null, ftFresh: false, resumePaused: false, pensGo: false, pensEnd: false, introErr: '', pickIv: 0 };
 const FS_OK = (() => { try { return !!(document.fullscreenEnabled || document.webkitFullscreenEnabled); } catch (e) { return false; } })();
 IC.wave = '<path d="M2 10v4M6 7v10M10 4v16M14 8v8M18 5v14M22 10v4"/>';
 IC.chev = '<path d="m6 9 6 6 6-6"/>';
@@ -2442,11 +2463,12 @@ function visibleScore(m) {
 }
 function fxCard(m) {
   const A = teamById(m.a), B = teamById(m.b), st = m.status, Y = m.present ? esc(teamName(other(m, m.present))) : '';
-  const pill = { upcoming: ['قادمة', 'p-up'], live: ['جارية', 'p-live'], wait: [`بانتظار شعبة ${Y}`, 'p-wait'], pens: ['ركلات الترجيح', 'p-pens'], done: ['انتهت', 'p-done'] }[st] || ['', ''];
-  const btn = { upcoming: ['ابدأ', 'btn-primary', 'play'], live: ['أكمل', 'btn-gold', 'play'], wait: [`ابدأ دور ${Y}`, 'btn-gold', 'play'], pens: ['ابدأ الركلات', 'btn-gold', 'target'], done: ['الملخص', 'btn-ghost', 'list'] }[st] || ['فتح', 'btn-ghost', 'play'];
+  const sp = st === 'pens' && m.pens && m.pens.split ? esc(teamName(pensTurn(m))) : '';
+  const pill = { upcoming: ['قادمة', 'p-up'], live: ['جارية', 'p-live'], wait: [`بانتظار شعبة ${Y}`, 'p-wait'], pens: [sp ? `ركلات الترجيح · دور ${sp}` : 'ركلات الترجيح', 'p-pens'], done: ['انتهت', 'p-done'] }[st] || ['', ''];
+  const btn = { upcoming: ['ابدأ', 'btn-primary', 'play'], live: ['أكمل', 'btn-gold', 'play'], wait: [`ابدأ دور ${Y}`, 'btn-gold', 'play'], pens: [sp ? `ركلات ${sp}` : 'ابدأ الركلات', 'btn-gold', 'target'], done: ['الملخص', 'btn-ghost', 'list'] }[st] || ['فتح', 'btn-ghost', 'play'];
   let mid = `<span class="fx-vs" dir="ltr" lang="en">VS</span>`;
   if (m.seq) { const v = visibleScore(m); mid = scorePair(v[0], v[1], 'fx-sc'); }
-  const pt = m.pens && (m.status === 'done' || m.pens.kicks.some((k) => k.ok !== null)) ? pensTally(m) : null;
+  const pt = m.pens && (m.status === 'done' || m.pens.kicks.some((k) => k.ok !== null)) && !(m.pens.split && m.status !== 'done') ? pensTally(m) : null;
   const pens = pt && (pt.ta || pt.tb) ? `<span class="fx-pens">ركلات الترجيح ${scorePair(pt.sa, pt.sb)}</span>` : '';
   const stage = m.stage === 'league' ? '' : `<span class="fx-stage">${esc(stageLabel(m))}</span>`;
   return `<article class="fx st-${st}">
@@ -2472,7 +2494,7 @@ function tabTable() {
 <div class="legend"><span><i class="lg-q"></i> منطقة التأهل ${q === 4 ? 'إلى نصف النهائي' : 'إلى النهائي'}</span><span>الفوز 3 · التعادل 1 · الخسارة 0</span><span>الترتيب: النقاط ← فارق الأهداف ← الأهداف المسجلة ← المواجهة المباشرة ← القرعة</span></div>`;
 }
 function brMatch(m) {
-  const [a, b] = score(m), pt = m.pens ? pensTally(m) : null, shown = m.seq && m.status !== 'upcoming';
+  const [a, b] = score(m), pt = m.pens && !(m.pens.split && m.status !== 'done') ? pensTally(m) : null, shown = m.seq && m.status !== 'upcoming';
   const v = shown ? visibleScore(m) : ['', ''];
   const row = (id, s, p) => { const t = teamById(id); return `<div class="br-t${m.winner === id ? ' win' : ''}" style="--tc:${t.color}">${crestSVG(t, 26)}<b>${bd(t.name)}</b><span class="br-s">${esc(s)}${p !== null && p !== undefined ? `<small>(${p})</small>` : ''}</span></div>`; };
   return `<div class="br-m">${row(m.a, v[0], pt && (pt.ta || pt.tb) ? pt.sa : null)}${row(m.b, v[1], pt && (pt.ta || pt.tb) ? pt.sb : null)}<button class="btn btn-sm ${m.status === 'done' ? 'btn-ghost' : 'btn-gold'}" data-act="open-match" data-id="${esc(m.id)}">${m.status === 'done' ? 'الملخص' : m.status === 'upcoming' ? 'ابدأ' : 'أكمل'}</button></div>`;
@@ -2656,7 +2678,7 @@ function resultOverlay(m, st, ctx) {
   const kick = ok ? 'GOAL' : pens ? 'SAVED' : 'MISSED';
   const minute = pens ? '' : `${Math.max(1, minuteOf(m, idx + 1))}'`;
   let sc;
-  if (pens) { const p = pensTally(m); sc = scorePair(p.sa, p.sb, 'res-sp'); } else { const v = visibleScore(m); sc = scorePair(v[0], v[1], 'res-sp'); }
+  if (pens) { const p = pensTally(m), hid = pensHidden(m); sc = scorePair(hid === m.a ? '?' : p.sa, hid === m.b ? '?' : p.sb, 'res-sp'); } else { const v = visibleScore(m); sc = scorePair(v[0], v[1], 'res-sp'); }
   const A = teamById(m.a), B = teamById(m.b);
   return `<div class="ovl-card res ${ok ? 'is-goal' : 'is-miss'}" role="dialog" aria-modal="true" aria-labelledby="res-t" style="--tc:${t.color}">
   <div class="res-top">${netAnim(ok)}<div class="res-head"><p class="kicker" dir="ltr" lang="en">${kick}${minute ? ' · ' + minute : ''}${pens ? ' · PENALTIES' : ''}</p><h2 class="res-t" id="res-t">${title}</h2>
@@ -2690,21 +2712,21 @@ VIEWS.match = () => {
   const m = curMatch(); if (!m || !m.seq) return VIEWS.home();
   return `<section class="v-match" id="vm" style="--ta:${teamById(m.a).color};--tb:${teamById(m.b).color}"><div class="pitch" aria-hidden="true"></div><div class="sb-wrap" id="sb-wrap">${scoreboardHTML(m)}</div><div class="qzone" id="qzone"></div>${toolbarHTML()}</section>`;
 };
-function kicksDots(m, t, cur) {
+function kicksDots(m, t, cur, hide) {
   const ks = m.pens ? m.pens.kicks.filter((k) => k.t === t) : [];
-  const n = Math.max(5, ks.length); let h = '';
-  for (let i = 0; i < n; i++) { const k = ks[i]; let c = 'pk'; if (k && k.ok === true) c += ' g'; else if (k && k.ok === false) c += ' x'; else if (k && k === cur) c += ' cur'; h += `<i class="${c}">${k && k.ok === true ? ballSVG('pb' + uid()) : ''}</i>`; }
+  const n = Math.max(5, hide ? 5 : ks.length); let h = '';
+  for (let i = 0; i < n; i++) { const k = ks[i]; let c = 'pk'; if (hide) { if (k && k.ok != null) c += ' h'; } else if (k && k.ok === true) c += ' g'; else if (k && k.ok === false) c += ' x'; else if (k && k === cur) c += ' cur'; h += `<i class="${c}">${!hide && k && k.ok === true ? ballSVG('pb' + uid()) : ''}</i>`; }
   return h;
 }
 function pensBoardHTML(m, curIdx) {
   const A = teamById(m.a), B = teamById(m.b), p = pensTally(m), [a, b] = score(m);
-  const cur = m.pens && curIdx != null ? m.pens.kicks[curIdx] : null, turn = cur ? cur.t : null;
+  const cur = m.pens && curIdx != null ? m.pens.kicks[curIdx] : null, turn = cur ? cur.t : null, hid = pensHidden(m);
   return `<header class="sb pens-sb" aria-label="ركلات الترجيح">
-  <div class="sb-side a${turn === m.a ? ' on' : ''}" style="--tc:${A.color}"><span class="sb-crest">${crestSVG(A, 42)}</span><span class="sb-name">${bd(A.name)}</span><span class="sb-score">${p.sa}</span></div>
+  <div class="sb-side a${turn === m.a ? ' on' : ''}" style="--tc:${A.color}"><span class="sb-crest">${crestSVG(A, 42)}</span><span class="sb-name">${bd(A.name)}</span><span class="sb-score">${hid === m.a ? '?' : p.sa}</span></div>
   <div class="sb-clock"><span class="sb-min pens-l">ركلات الترجيح</span><span class="sb-stage">الوقت الأصلي ${scorePair(a, b)}</span></div>
-  <div class="sb-side b${turn === m.b ? ' on' : ''}" style="--tc:${B.color}"><span class="sb-score">${p.sb}</span><span class="sb-name">${bd(B.name)}</span><span class="sb-crest">${crestSVG(B, 42)}</span></div>
+  <div class="sb-side b${turn === m.b ? ' on' : ''}" style="--tc:${B.color}"><span class="sb-score">${hid === m.b ? '?' : p.sb}</span><span class="sb-name">${bd(B.name)}</span><span class="sb-crest">${crestSVG(B, 42)}</span></div>
 </header>
-<div class="sb-sub pens-sub"><div class="pk-row a" style="--tc:${A.color}">${kicksDots(m, m.a, cur)}</div><div class="turn" style="--tc:${turn ? teamById(turn).color : 'var(--silver)'}">${turn ? `يسدد: <b>${bd(teamName(turn))}</b>` : 'PENALTIES'}</div><div class="pk-row b" style="--tc:${B.color}">${kicksDots(m, m.b, cur)}</div></div>`;
+<div class="sb-sub pens-sub"><div class="pk-row a" style="--tc:${A.color}">${kicksDots(m, m.a, cur, hid === m.a)}</div><div class="turn" style="--tc:${turn ? teamById(turn).color : 'var(--silver)'}">${turn ? `يسدد: <b>${bd(teamName(turn))}</b>` : 'PENALTIES'}</div><div class="pk-row b" style="--tc:${B.color}">${kicksDots(m, m.b, cur, hid === m.b)}</div></div>`;
 }
 VIEWS.pens = () => {
   const m = curMatch(); if (!m || m.demo) return VIEWS.hub();
@@ -3008,7 +3030,7 @@ function finishMatch(m) {
     if (m.stage === 'league' && m.status === 'done') S.flip = { prev: S.prevRank, ids: [m.a, m.b] };
     saveT();
   }
-  S.ftFresh = true; S.ftReveal = m.mode === 'split' && m.status !== 'upcoming';
+  S.ftFresh = true;
   SFX.whistle(true); go('ft');
 }
 function lastAnswered() {
@@ -3185,38 +3207,76 @@ document.addEventListener('pointerup', (e) => m5EndDrag(e, false));
 document.addEventListener('pointercancel', (e) => m5EndDrag(e, true));
 
 /* ---- penalties ---- */
-function pensInit(m) { if (!m.pens) { m.pens = { first: m.first || null, kicks: [], last: null, winner: null }; persist(m); } }
+function pensInit(m) {
+  if (m.pens) return;
+  // a match played «على حصتين» is also decided on two sessions: the section in the room now kicks first, no coin toss
+  m.pens = m.mode === 'split' ? { split: true, first: other(m, m.present), cur: null, kicks: [], last: null, winner: null } : { first: m.first || null, kicks: [], last: null, winner: null };
+  persist(m);
+}
 function pensReadyHTML(m) {
   const secs = T && T.settings.timer ? Math.max(5, Math.round(12 * T.settings.timer)) : 0;
+  if (m.pens.split) {
+    const Y = pensTurn(m), started = m.pens.kicks.some((k) => k.ok != null);
+    return `<article class="qp pens-ready"><p class="kicker" dir="ltr" lang="en">PENALTY SHOOTOUT · 2 SESSIONS</p><h2 class="disp">ركلات الترجيح على حصتين</h2>
+<p>كل ركلة = سؤال معنى سريع${secs ? ` (${secs} ثانية)` : ''}. تسدد كل شعبة 5 ركلات في حصتها بأسئلة متقابلة، والنتيجة مخفية حتى تُحسم. إذا بقي التعادل تسدد كل شعبة 5 ركلات حسم أخرى، ويفوز من يسجل في ركلة أخطأت فيها الأخرى أولًا.</p>
+${started ? `<p class="muted">${icon('clock')} ركلات الشعبة الأخرى محفوظة ومخفية.</p>` : ''}<p class="lead">تسدد الآن: <b>${bd(teamName(Y))}</b></p><button class="btn btn-gold btn-xl" data-act="pens-go" id="btn-pens-go">${icon('target')}<span>ابدأ ركلات ${bd(teamName(Y))}</span></button></article>`;
+  }
   return `<article class="qp pens-ready"><p class="kicker" dir="ltr" lang="en">PENALTY SHOOTOUT</p><h2 class="disp">ركلات الترجيح</h2>
 <p>كل ركلة = سؤال معنى سريع${secs ? ` (${secs} ثانية)` : ''}. 5 ركلات لكل شعبة بالتناوب، وتنتهي مبكرًا إذا لم يعد بإمكان إحداهما اللحاق، ثم ركلة مقابل ركلة عند استمرار التعادل.</p>
 ${m.pens.first ? `<p class="lead">يسدد أولًا: <b>${bd(teamName(m.pens.first))}</b></p><button class="btn btn-gold btn-xl" data-act="pens-go" id="btn-pens-go">${icon('target')}<span>ابدأ الركلات</span></button>`
     : `${coinHTML(m, null)}<p class="toss-res" id="toss-res" aria-live="polite">القرعة: من يسدد أولًا؟</p><button class="btn btn-primary" data-act="pens-toss" id="btn-toss">${icon('target')}<span>ارمِ العملة</span></button>`}</article>`;
 }
+function pensSplitEndHTML(m, X, Y) {
+  return `<div class="ovl-card se" role="dialog" aria-modal="true" aria-labelledby="pse-t"><p class="kicker" dir="ltr" lang="en">PENALTIES · END OF SESSION</p><h2 id="pse-t" class="disp">انتهت ركلات الشعبة ${bd(teamName(X))}</h2>
+  <p><b>النتيجة مخفية</b> حتى تسدد الشعبة ${bd(teamName(Y))} ركلاتها المتقابلة في حصتها.</p><p class="muted">تجدها في «مركز البطولة»: ركلات الترجيح — دور ${bd(teamName(Y))}.</p>
+  <div class="ovl-actions"><button class="btn btn-ghost" data-act="pens-go">${icon('target')}<span>ابدأ ركلات ${bd(teamName(Y))} الآن</span></button><button class="btn btn-gold btn-xl" data-act="exit-match" id="btn-next">${icon('home')}<span>حفظ والعودة إلى مركز البطولة</span></button></div></div>`;
+}
+/* one mirrored pair of kicks (same type, same level; never a word of this match or an earlier kick) */
+function pensPair(m, F, O, n) {
+  const type = (n - 1) % 2 === 0 ? 'mean_en_ar' : 'mean_ar_en';
+  const pool = tPool(), used = new Set(T.used), pools = [pool, allEntries()];
+  const seen = []; m.seq.forEach((st) => { if (st.q.type === 'match5') (st.q.items || []).forEach((it) => seen.push(it.w)); else seen.push(st.q.w); });
+  const kicked = m.pens.kicks.map((k) => k.q.w);
+  const pr = makePicker(pool, used, seen.concat(kicked)).pair(type, 2) || makePicker(pool, used, kicked).pair(type, 2) || makePicker(pool, used).pair(type, 2);
+  if (!pr) return false;
+  m.pens.kicks.push({ t: F, n, q: genQuestion(type, pr[0], pools), ok: null }, { t: O, n, q: genQuestion(type, pr[1], pools), ok: null });
+  T.used = Array.from(used); return true;
+}
 function pensFlow() {
   const m = curMatch(); if (!m) { go('hub'); return; }
-  pensInit(m); hideLayer('res'); unpauseView();
-  const pt = pensTally(m);
-  if (pt.winner) { m.pens.winner = pt.winner; refreshStatus(m); persist(m); finishMatch(m); return; }
-  const started = m.pens.kicks.some((k) => k.ok !== null);
-  if (!m.pens.first || (!started && !S.pensGo)) { Q = null; $('#sb-wrap').innerHTML = pensBoardHTML(m); $('#qzone').innerHTML = pensReadyHTML(m); updateToolbar(); return; }
-  let idx = m.pens.kicks.findIndex((k) => k.ok === null);
-  if (idx < 0) {
-    const n = m.pens.kicks.length, type = (n / 2) % 2 === 0 ? 'mean_en_ar' : 'mean_ar_en', F = m.pens.first, O = other(m, F);
-    const pool = tPool(), used = new Set(T.used), pools = [pool, allEntries()];
-    // never a word from this match or an earlier kick; only a tiny pool may bring earlier kicks back
-    const seen = []; m.seq.forEach((st) => { if (st.q.type === 'match5') (st.q.items || []).forEach((it) => seen.push(it.w)); else seen.push(st.q.w); });
-    const kicked = m.pens.kicks.map((k) => k.q.w);
-    const pr = makePicker(pool, used, seen.concat(kicked)).pair(type, 2) || makePicker(pool, used, kicked).pair(type, 2) || makePicker(pool, used).pair(type, 2);
-    if (!pr) { toast('تعذّر توليد سؤال الركلة', 'bad'); return; }
-    m.pens.kicks.push({ t: F, q: genQuestion(type, pr[0], pools), ok: null }, { t: O, q: genQuestion(type, pr[1], pools), ok: null });
-    T.used = Array.from(used); persist(m); idx = n;
+  pensInit(m); hideLayer('res'); unpauseView(); S.pensEnd = false;
+  const p = m.pens, pt = pensTally(m);
+  if (pt.winner) { p.winner = pt.winner; refreshStatus(m); persist(m); finishMatch(m); return; }
+  const started = p.kicks.some((k) => k.ok !== null);
+  const ready = () => { Q = null; $('#sb-wrap').innerHTML = pensBoardHTML(m); $('#qzone').innerHTML = pensReadyHTML(m); updateToolbar(); };
+  let idx;
+  if (p.split) {
+    const Y = pensTurn(m);
+    if (!S.pensGo) { ready(); return; }
+    if (p.cur && Y !== p.cur) { // the section in the room has taken all its kicks for now
+      Q = null; S.pensGo = false; S.pensEnd = true; $('#sb-wrap').innerHTML = pensBoardHTML(m); $('#qzone').innerHTML = ''; updateToolbar();
+      showLayer('psplit', pensSplitEndHTML(m, p.cur, Y)); SFX.whistle(true); return;
+    }
+    idx = p.kicks.findIndex((k) => k.ok === null && k.t === Y);
+    if (idx < 0) { // a new batch: the rest of the regulation 5, or 5 sudden-death kicks — each one mirrored for the other section
+      const done = p.kicks.filter((k) => k.t === Y && k.ok != null).length, want = done < 5 ? 5 - done : 5;
+      for (let i = 0; i < want; i++) if (!pensPair(m, Y, other(m, Y), done + i + 1)) { toast('تعذّر توليد سؤال الركلة', 'bad'); return; }
+      persist(m); idx = p.kicks.findIndex((k) => k.ok === null && k.t === Y);
+    }
+  } else {
+    if (!p.first || (!started && !S.pensGo)) { ready(); return; }
+    idx = p.kicks.findIndex((k) => k.ok === null);
+    if (idx < 0) {
+      const n = p.kicks.length, F = p.first;
+      if (!pensPair(m, F, other(m, F), n / 2 + 1)) { toast('تعذّر توليد سؤال الركلة', 'bad'); return; }
+      persist(m); idx = n;
+    }
   }
-  const kick = m.pens.kicks[idx];
+  const kick = p.kicks[idx];
   Q = { ctx: 'pens', m, idx, st: kick, q: kick.q, team: kick.t, answered: false, paused: false, sb: null, m5: null };
   $('#sb-wrap').innerHTML = pensBoardHTML(m, idx);
   const secs = T.settings.timer ? Math.max(5, Math.round(12 * T.settings.timer)) : 0;
-  $('#qzone').innerHTML = questionHTML(kick.q, { label: `الركلة ${Math.floor(idx / 2) + 1} · ${esc(teamName(kick.t))}`, secs });
+  $('#qzone').innerHTML = questionHTML(kick.q, { label: `الركلة ${esc(kick.n || Math.floor(idx / 2) + 1)} · ${esc(teamName(kick.t))}`, secs });
   timerStart(secs, onTimeout); updateToolbar(); armQ();
   announce(`ركلة ${teamName(kick.t)}`);
 }
@@ -3434,8 +3494,8 @@ const ACT = {
       S.intro = { mode: m.mode || T.settings.mode || 'live', present: m.present || m.a }; go('intro');
     } else if (m.status === 'live') { T.cur = m.id; saveT(); go('match'); }
     else if (m.status === 'wait') go('intro');
-    else if (m.status === 'pens') go(pensWaiting(m) ? 'intro' : 'pens');
-    else { S.ftFresh = true; go('ft'); }
+    else if (m.status === 'pens') go(needsReveal(m) ? 'ft' : 'pens');
+    else { S.ftFresh = false; go('ft'); }
   },
   /* intro */
   'intro-mode': (el) => { S.intro.mode = el.dataset.v; SFX.click(); go('intro'); },
@@ -3488,7 +3548,7 @@ const ACT = {
   /* full time / penalties */
   'ft-hub': () => { S.tab = S.flip ? 'table' : 'fixtures'; go('hub'); },
   'go-pens': () => go('pens'),
-  'pens-go': () => { S.pensGo = true; SFX.whistle(); pensFlow(); },
+  'pens-go': () => { hideLayer('psplit'); const m = curMatch(); if (m && m.pens && m.pens.split) { m.pens.cur = pensTurn(m); persist(m); } S.pensGo = true; SFX.whistle(); pensFlow(); },
   'pens-toss': () => {
     const m = curMatch(); if (!m || !m.pens || m.pens.first) return;
     const win = Math.random() < 0.5 ? m.a : m.b; m.pens.first = win; persist(m);
@@ -3624,7 +3684,7 @@ function init() {
   if (T && T.cur) {
     const m = T.matches.find((x) => x.id === T.cur);
     if (m && m.status === 'live' && m.seq) { S.matchId = m.id; S.resumePaused = true; go('match'); }
-    else if (m && (m.status === 'done' || m.status === 'pens')) { T.cur = null; saveT(); S.matchId = m.id; S.ftFresh = false; S.ftReveal = false; go('ft'); }
+    else if (m && (m.status === 'done' || m.status === 'pens')) { T.cur = null; saveT(); S.matchId = m.id; S.ftFresh = false; go('ft'); }
     else { T.cur = null; saveT(); go(m ? 'hub' : 'home'); }
   } else go('home');
   if (LOAD_WARN) toast(LOAD_WARN, 'bad');
