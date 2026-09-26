@@ -565,7 +565,6 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .tile:active:not([disabled]){ filter:brightness(.9) }
 .tile.used{ opacity:.14; box-shadow:none }
 .sbc{ display:flex; justify-content:center; gap:10px; flex-wrap:wrap }
-.res-ans .b{ font-weight:700; color:var(--good) }
 /* gap_sentence */
 .sentence{ font-size:clamp(22px,min(3vw,5.4vh),62px); line-height:1.5; font-weight:500; text-align:center; padding:clamp(4px,1.6vh,22px) 0 }
 .blank{ display:inline-block; min-width:4.6em; margin:0 .2em; border-bottom:4px solid var(--flood); color:var(--flood); text-align:center; line-height:1.15; animation:blink 1.4s ease-in-out infinite }
@@ -651,9 +650,11 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .plus-tag bdi{ font-family:var(--f-num); font-size:1.25em; line-height:1 }
 .rev-tag{ display:inline-flex; align-items:center; gap:4px; padding:2px 10px; border-radius:99px; background:rgba(124,196,255,.14); color:var(--flood); font-size:15px; font-weight:600 }
 .rev-tag .ic{ width:14px; height:14px }
-.res-ans{ margin-top:12px; font-size:clamp(18px,1.4vw,24px) }
 .learn{ margin-top:14px; display:flex; flex-direction:column; gap:6px; padding:12px 16px; border-radius:16px; background:rgba(6,13,36,.55); border:1px solid var(--line) }
 .learn-w{ display:flex; justify-content:center; align-items:center; gap:10px 14px; flex-wrap:wrap }
+.learn.miss{ border-color:rgba(47,208,122,.45); background:rgba(47,208,122,.07) }
+.learn-h{ display:flex; align-items:center; justify-content:center; gap:6px; color:var(--good); font-weight:700; font-size:clamp(15px,min(1.2vw,2.2vh),20px) }
+.learn-h .ic{ width:1.1em; height:1.1em }
 .lw{ font-size:clamp(26px,min(3vw,5.4vh),52px); font-weight:700; line-height:1.2 }
 .la{ font-size:clamp(20px,min(2.1vw,3.8vh),36px); color:var(--silver); font-weight:500 }
 .pos{ font-size:15px; padding:2px 10px; border-radius:99px; background:rgba(201,211,232,.12); color:var(--silver) }
@@ -665,13 +666,6 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .lp .la{ font-size:clamp(16px,min(1.4vw,2.5vh),24px); text-align:start; overflow-wrap:anywhere; min-width:0 }
 .res-av .av.xxl{ width:clamp(80px,min(8vw,13vh),118px); height:clamp(80px,min(8vw,13vh),118px); font-size:clamp(30px,min(3vw,5vh),44px) }
 .is-no .res-av .av{ filter:saturate(.5) brightness(.9) }
-.res-board{ display:flex; justify-content:center; flex-wrap:wrap; gap:8px; margin:14px auto 0 }
-.rs-c{ display:inline-flex; align-items:center; gap:8px; padding:3px 12px 3px 4px; border-radius:99px; background:rgba(6,13,36,.6); border:1px solid rgba(201,211,232,.16); max-width:100% }
-.rs-c .av{ width:30px; height:30px; font-size:11px }
-.rs-c.me{ border-color:var(--tc); box-shadow:0 0 0 1px var(--tc) }
-.rs-n{ font-weight:600; font-size:15px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:11em }
-.rs-p{ font-family:var(--f-num); font-weight:600; font-size:1.6rem; line-height:1; padding-top:3px; min-width:.8em; text-align:center }
-.is-ok .rs-c.me .rs-p{ color:var(--gold) }
 .ovl-card.pz, .ovl-card.toss-card{ width:min(640px,100%) }
 .ovl-card.pz p{ margin-bottom:6px }
 /* «تعادل! سؤال حاسم» and «حُسم التعادل» (sudden death on the match screen) */
@@ -1010,8 +1004,6 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
   .stand th:nth-child(3), .stand td.ca{ display:none }
   .stand td.who{ min-width:0 } .stand td, .stand th{ padding-inline:6px }
   .stand .tag{ font-size:.75rem; padding:1px 7px; white-space:normal; text-align:center }
-  .res-board{ display:grid; grid-template-columns:1fr 1fr; gap:6px }
-  .rs-c{ min-width:0 } .rs-n{ max-width:none; min-width:0; font-size:.85rem }
   .res-top{ gap:8px }
   .h-l{ min-width:0 }
   .podium{ gap:8px }
@@ -2431,10 +2423,13 @@ function closeModal(silent) {
 function confirmModal(text, okLabel, onOk, cls) {
   openModal({ title: 'تأكيد', body: `<p class="confirm-t">${text}</p>`, actions: [{ label: 'إلغاء' }, { label: okLabel || 'تأكيد', cls: cls || 'btn-danger', fn: onOk }] });
 }
+/* on the match screen the answer and tie cards start below the scoreboard, so the points stay in view */
+const ZONE_LAYERS = ['res', 'sd', 'sdwon'];
+function placeLayer(el) { const sb = S.view === 'match' && ZONE_LAYERS.includes(el.dataset.name) ? $('#sb-wrap') : null; el.style.top = sb ? Math.round(sb.getBoundingClientRect().bottom) + 'px' : ''; }
 function showLayer(name, html, cls) {
   hideLayer(name);
   const el = document.createElement('div'); el.className = 'ovl ovl-' + name + (cls ? ' ' + cls : ''); el.dataset.name = name; el.innerHTML = html;
-  $('#layer').appendChild(el); UI_AT = performance.now();
+  $('#layer').appendChild(el); placeLayer(el); UI_AT = performance.now();
   setTimeout(() => { el.dataset.ready = '1'; }, dur(OVL_ARM_MS)); // its buttons wake up after a moment (double-tap guard)
   const b = $('#btn-next', el); if (b) b.focus({ preventScroll: true });
   return el;
@@ -2814,7 +2809,8 @@ function dotsHTML(m, id) {
 /* the broadcast scoreboard: stage · «الآن دور: …» · question counter, then one chip per student. The student on turn is
    lit in the class colour with «▶ يجيب الآن», every other chip is dimmed — colour and opacity only, never size. */
 function scoreboardHTML(m) {
-  const n = m.players.length, cur = m.step < m.seq.length ? m.seq[m.step] : null, pts = ptsOf(m), sh = shortNames(m.players), multi = m.stage === 'grand';
+  const n = m.players.length, pts = ptsOf(m), sh = shortNames(m.players), multi = m.stage === 'grand';
+  const cur = Q && Q.m === m ? Q.st : m.step < m.seq.length ? m.seq[m.step] : null; // until «التالي», the student who just answered stays lit
   const inSd = cur ? !!cur.sd : !m.demo && m.status !== 'done' && regDone(m);
   const chips = m.players.map((id, i) => {
     const p = person(id), on = !!cur && cur.p === id, off = !!cur && !on;
@@ -2822,7 +2818,7 @@ function scoreboardHTML(m) {
   }).join('');
   const turn = cur ? `<span class="turn" style="--tc:${safeColor(person(cur.p).color)}"><span>الآن دور: <b dir="auto">${esc(sh[m.players.indexOf(cur.p)])}</b></span></span>`
     : `<span class="turn none"><span>${inSd ? 'تعادل — سؤال حاسم' : m.status === 'done' ? 'نهاية المباراة' : '—'}</span></span>`;
-  const q = inSd ? `<span class="sb-q sd">سؤال حاسم <b dir="ltr">${cur && cur.sd ? cur.sd : m.sdr.length + (sdNeed(m) ? 1 : 0)}</b></span>`
+  const q = inSd ? `<span class="sb-q sd">سؤال حاسم <b dir="ltr">${cur && cur.sd ? cur.sd : Math.max(1, m.sdr.length + (sdNeed(m) ? 1 : 0))}</b></span>`
     : `<span class="sb-q">السؤال <b dir="ltr">${(cur ? cur.r : m.R - 1) + 1}</b> من <b dir="ltr">${m.R}</b></span>`;
   return `<header class="sb" aria-label="لوحة النتيجة"><div class="sb-top"><span class="sb-stage">${esc(matchLabel(m))}</span>${turn}${q}</div><ol class="sb-chips" style="--n:${Math.min(n, 4)}">${chips}</ol></header>`;
 }
@@ -2889,30 +2885,23 @@ function questionHTML(q, info) {
 <header class="qp-h"><span class="qp-who">${avatar(info.st.p)}<span>${info.st.sd ? 'سؤال حاسم:' : 'سؤال:'}</span><b dir="auto" title="${esc(p.name)}">${esc(p.name)}</b></span><h2 class="qp-t" id="qp-t"><span class="cat-chip">${icon(C.icon)}${C.ar}</span><span>${TYPES[q.type].ar}</span></h2>${ringHTML(info.secs)}</header>
 <div class="qp-body" id="qp-body">${bodyHTML(q)}</div>${info.card || ''}</article>`;
 }
-function answerHTML(q) {
-  if (q.type === 'match5') return '';
-  if (q.type === 'mean_en_ar') return `<b>${esc(q.ar)}</b>`;
-  if (q.type === 'gap_letters') return `${en(q.w, 'b')} <span class="muted">(${en(q.opts[q.ans])})</span>`;
-  return en(q.w, 'b');
-}
 function plainAnswer(q) { return q.type === 'match5' ? '' : q.type === 'mean_en_ar' ? q.ar : q.w; }
-function learnCard(q) {
-  if (q.type === 'match5') return `<div class="learn m5l">${q.items.map((it) => `<div class="lp"><span class="lw" dir="ltr" lang="en">${esc(it.w)}</span>${sayBtn(it.w, 'sm')}<span class="la">${esc(it.ar)}</span></div>`).join('')}</div>`;
+/* the learning card: the word, its meaning and its sentence; after a miss it is headed «الإجابة الصحيحة» */
+function learnCard(q, miss) {
+  const head = miss ? `<p class="learn-h">${icon('check')}${q.type === 'match5' ? 'التوصيل الصحيح' : 'الإجابة الصحيحة'}${q.type === 'gap_letters' ? ` <span dir="ltr" lang="en">(${esc(q.opts[q.ans])})</span>` : ''}</p>` : '';
+  if (q.type === 'match5') return `<div class="learn m5l${miss ? ' miss' : ''}">${head}${q.items.map((it) => `<div class="lp"><span class="lw" dir="ltr" lang="en">${esc(it.w)}</span>${sayBtn(it.w, 'sm')}<span class="la">${esc(it.ar)}</span></div>`).join('')}</div>`;
   const parts = q.s ? q.s.split('___') : null;
-  return `<div class="learn"><div class="learn-w"><span class="lw" dir="ltr" lang="en">${esc(q.w)}</span>${sayBtn(q.w, 'sm')}<span class="la">${esc(q.ar)}</span>${q.pos ? `<span class="pos">${POS_AR[q.pos]}</span>` : ''}</div>${parts ? `<p class="learn-s" dir="ltr" lang="en">${esc(parts[0])}<mark>${esc(q.w)}</mark>${esc(parts[1])}</p>` : ''}</div>`;
+  return `<div class="learn${miss ? ' miss' : ''}">${head}<div class="learn-w"><span class="lw" dir="ltr" lang="en">${esc(q.w)}</span>${sayBtn(q.w, 'sm')}<span class="la">${esc(q.ar)}</span>${q.pos ? `<span class="pos">${POS_AR[q.pos]}</span>` : ''}</div>${parts ? `<p class="learn-s" dir="ltr" lang="en">${esc(parts[0])}<mark>${esc(q.w)}</mark>${esc(parts[1])}</p>` : ''}</div>`;
 }
 function resultOverlay(m, st) {
-  const ok = !!st.ok, p = person(st.p), q = st.q, idx = m.seq.indexOf(st), pts = ptsOf(m), sh = shortNames(m.players);
+  const ok = !!st.ok, p = person(st.p), q = st.q, idx = m.seq.indexOf(st);
   const title = ok ? 'إجابة صحيحة!' : st.to ? 'انتهى الوقت' : 'إجابة غير صحيحة';
-  const board = m.players.map((id, i) => `<span class="rs-c${id === st.p ? ' me' : ''}" style="--tc:${safeColor(person(id).color)}">${avatar(id)}<bdi dir="auto" class="rs-n" title="${esc(pName(id))}">${esc(sh[i])}</bdi><b class="rs-p">${pts[id]}</b></span>`).join('');
   const who = st.sd ? `<span class="res-sd">${icon('bolt')}سؤال حاسم ${num(st.sd)}</span><b class="res-name">${nm(st.p)}</b>`
     : `${ok ? `<span class="plus-tag"><bdi dir="ltr">+1</bdi> نقطة</span><span class="res-for">لـ</span>` : ''}<b class="res-name">${nm(st.p)}</b>`;
   return `<div class="ovl-card res ${ok ? 'is-ok' : 'is-no'}" role="dialog" aria-modal="true" aria-labelledby="res-t" style="--tc:${safeColor(p.color)}" data-i="${idx}">
   <div class="res-top"><div class="res-av" aria-hidden="true">${avatar(st.p, 'xxl')}</div><div class="res-head"><h2 class="res-t" id="res-t">${title}</h2>
   <div class="res-team">${who}${st.tr ? `<span class="rev-tag">${icon('review')} قرار المعلم</span>` : ''}</div></div></div>
-  ${st.sd ? '' : `<div class="res-board">${board}</div>`}
-  ${!ok && q.type !== 'match5' ? `<p class="res-ans">الإجابة الصحيحة: ${answerHTML(q)}</p>` : ''}
-  ${learnCard(q)}
+  ${learnCard(q, !ok)}
   <div class="ovl-actions"><button class="btn btn-ghost" data-act="review">${icon('review')}<span>مراجعة المعلم</span></button><button class="btn btn-gold btn-xl" data-act="q-next" id="btn-next">${icon('next')}<span>التالي</span><kbd>Enter</kbd></button></div>
 </div>`;
 }
@@ -3789,7 +3778,7 @@ window.addEventListener('storage', (e) => {
 });
 document.addEventListener('visibilitychange', () => { if (document.hidden && Q && !Q.answered && !Q.paused && !topLayer()) pauseGame(); });
 let RESIZE_T = 0;
-window.addEventListener('resize', () => { clearTimeout(RESIZE_T); RESIZE_T = setTimeout(() => { drawSky(); if (Q) fitQuestion(); if (Q && Q.m5) { m5Measure(); m5Draw(); } }, 150); });
+window.addEventListener('resize', () => { clearTimeout(RESIZE_T); RESIZE_T = setTimeout(() => { drawSky(); $$('#layer > .ovl').forEach(placeLayer); if (Q) fitQuestion(); if (Q && Q.m5) { m5Measure(); m5Draw(); } }, 150); });
 if (MQ_REDUCED && MQ_REDUCED.addEventListener) MQ_REDUCED.addEventListener('change', () => document.documentElement.classList.toggle('rm', reduced()));
 
 /* ============================ 16. INIT + TEST HOOK ============================ */
