@@ -81,7 +81,7 @@ bdi{ unicode-bidi:isolate }
 .btn:active{ transform:translateY(1px) scale(.99) }
 .btn[disabled]{ opacity:.42; cursor:not-allowed; transform:none; box-shadow:none }
 .btn .ic{ width:1.2em; height:1.2em }
-.btn small{ display:block; font-weight:400; font-size:.78em; opacity:.85; margin-top:2px }
+.btn small{ display:block; font-weight:400; font-size:max(15px,.8em); opacity:.85; margin-top:2px }
 .btn > span{ text-align:start }
 .btn kbd{ font-family:var(--f-num); font-size:.85em; padding:0 .4em; border-radius:6px; border:1px solid currentColor; opacity:.55; line-height:1.3 }
 .btn-primary{ background:linear-gradient(180deg,#9ad6ff,#4fa7f1); color:#04112e; border-color:transparent; box-shadow:0 8px 24px rgba(124,196,255,.25) }
@@ -208,7 +208,7 @@ bdi{ unicode-bidi:isolate }
 .ro-edit summary small{ color:var(--muted); font-weight:400 }
 .ro-edit summary .ic{ width:16px; height:16px } .ro-edit .chev{ margin-inline-start:auto; transition:transform .2s } .ro-edit[open] .chev{ transform:rotate(180deg) }
 .ro-edit textarea{ margin-top:6px }
-.ro-edit textarea, .fld textarea{ width:100%; border-radius:12px; border:1px solid var(--line); background:rgba(6,13,36,.65); padding:8px 12px; resize:vertical; font-size:.98rem; line-height:1.65; min-height:120px }
+.ro-edit textarea, .fld textarea{ width:100%; border-radius:12px; border:1px solid var(--line); background:rgba(6,13,36,.65); padding:8px 12px; resize:vertical; font-size:1rem; line-height:1.65; min-height:120px }
 .ro-edit textarea:focus{ border-color:var(--flood); outline:none; box-shadow:0 0 0 3px rgba(124,196,255,.2) }
 .ro-att{ display:flex; flex-direction:column; gap:6px }
 .att-list{ display:flex; flex-wrap:wrap; gap:6px }
@@ -565,9 +565,7 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .tile:active:not([disabled]){ filter:brightness(.9) }
 .tile.used{ opacity:.14; box-shadow:none }
 .sbc{ display:flex; justify-content:center; gap:10px; flex-wrap:wrap }
-.sb-foot{ text-align:center; color:var(--muted); font-size:clamp(15px,min(1.05vw,1.9vh),18px); line-height:1.5; height:1.5em; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
-.sb-foot.ans{ color:var(--white); font-size:clamp(16px,min(1.4vw,2.6vh),24px); height:auto }
-.sb-foot .b, .res-ans .b{ font-weight:700; color:var(--good) }
+.res-ans .b{ font-weight:700; color:var(--good) }
 /* gap_sentence */
 .sentence{ font-size:clamp(22px,min(3vw,5.4vh),62px); line-height:1.5; font-weight:500; text-align:center; padding:clamp(4px,1.6vh,22px) 0 }
 .blank{ display:inline-block; min-width:4.6em; margin:0 .2em; border-bottom:4px solid var(--flood); color:var(--flood); text-align:center; line-height:1.15; animation:blink 1.4s ease-in-out infinite }
@@ -609,7 +607,7 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .qp.fit1 .m5-i{ min-height:clamp(40px,5.8vh,72px) } .qp.fit1 .qp-body{ gap:clamp(8px,1.4vh,16px) }
 .qp.fit2 .word{ font-size:clamp(28px,min(4.4vw,7vh),96px) } .qp.fit2 .sentence{ font-size:clamp(17px,min(2.1vw,3.8vh),44px) } .qp.fit2 .opt{ min-height:clamp(42px,6.4vh,84px); font-size:clamp(16px,min(1.8vw,3.2vh),36px) }
 .qp.fit2 .slot, .qp.fit2 .tile{ width:clamp(28px,min(2.8vw,5vh),58px); height:clamp(36px,min(3.6vw,6.4vh),74px); font-size:clamp(18px,min(2vw,3.4vh),40px) }
-.qp.fit2 .m5-i{ min-height:clamp(36px,5vh,62px); font-size:clamp(15px,min(1.6vw,2.8vh),30px) } .qp.fit2 .sb-foot{ display:none } .qp.fit2 .lb{ width:clamp(34px,min(3.8vw,6.6vh),76px); height:clamp(44px,min(4.9vw,8.6vh),96px); font-size:clamp(24px,min(2.9vw,5vh),58px) }
+.qp.fit2 .m5-i{ min-height:clamp(36px,5vh,62px); font-size:clamp(15px,min(1.6vw,2.8vh),30px) } .qp.fit2 .lb{ width:clamp(34px,min(3.8vw,6.6vh),76px); height:clamp(44px,min(4.9vw,8.6vh),96px); font-size:clamp(24px,min(2.9vw,5vh),58px) }
 /* the turn card: before EVERY question «الآن دور:» + the full name fills the question panel (same box, same size) */
 .turn-card{ position:absolute; inset:0; z-index:6; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:clamp(6px,1.4vh,16px); padding:16px; text-align:center; cursor:pointer; background:radial-gradient(120% 95% at 50% 20%, color-mix(in srgb, var(--tc) 58%, #0b1a45), color-mix(in srgb, var(--tc) 16%, #081333) 62%, #060d24); transition:opacity .28s ease }
 .turn-card.out{ opacity:0; pointer-events:none }
@@ -647,6 +645,10 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .is-no .res-t{ color:var(--silver); text-shadow:none; font-size:clamp(34px,min(4.4vw,8vh),84px) }
 .res-sd{ display:inline-flex; align-items:center; gap:6px; padding:2px 14px; border-radius:99px; background:rgba(242,193,78,.16); color:var(--gold); font-weight:700; font-size:clamp(15px,1.1vw,18px) }
 .res-team{ display:flex; align-items:center; justify-content:center; gap:8px; font-size:clamp(19px,min(1.5vw,2.6vh),28px); flex-wrap:wrap }
+.res-name{ font-weight:700 }
+.res-for{ color:var(--silver) }
+.plus-tag{ display:inline-flex; align-items:center; gap:.3em; padding:3px 14px 1px; border-radius:99px; background:linear-gradient(180deg,#ffe08a,#e2a82c); color:#241500; font-weight:700; line-height:1.35 }
+.plus-tag bdi{ font-family:var(--f-num); font-size:1.25em; line-height:1 }
 .rev-tag{ display:inline-flex; align-items:center; gap:4px; padding:2px 10px; border-radius:99px; background:rgba(124,196,255,.14); color:var(--flood); font-size:15px; font-weight:600 }
 .rev-tag .ic{ width:14px; height:14px }
 .res-ans{ margin-top:12px; font-size:clamp(18px,1.4vw,24px) }
@@ -700,7 +702,7 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .bk{ display:grid; gap:18px }
 .bk section{ display:flex; flex-direction:column; gap:10px; padding:14px; border-radius:var(--r); background:rgba(6,13,36,.45); border:1px solid var(--line) }
 .bk h4{ font-size:1.05rem }
-.bk textarea{ width:100%; border-radius:12px; border:1px solid var(--line); background:rgba(6,13,36,.7); padding:10px; resize:vertical; min-height:90px }
+.bk textarea, textarea.mono{ width:100%; border-radius:12px; border:1px solid var(--line); background:rgba(6,13,36,.7); padding:10px; resize:vertical; min-height:90px; font-size:1rem }
 .file-btn{ position:relative; cursor:pointer }
 .file-btn:focus-within{ outline:3px solid var(--flood); outline-offset:3px }
 /* storage warning (autosave unavailable / failed) */
@@ -830,7 +832,7 @@ td.ok .rc{ background:var(--good); color:#032012 } td.no .rc{ background:rgba(25
 .sg b{ font-size:1.8cqw; min-height:1.2em }
 .sg i{ display:block; width:80%; height:.15cqw; background:#0b1a45; margin-top:1.8cqw }
 .seal svg{ width:6.5cqw; height:auto; opacity:.9 }
-.cert{ width:min(1100px, 100%, calc((100vh - 250px) * 1.4143)) }
+.cert{ width:min(1100px, 100%, calc((100vh - 250px) * 1.4143)); width:min(1100px, 100%, calc((100dvh - 250px) * 1.4143)) }
 .cert-pick{ margin:0 auto 12px; justify-content:center } .cert-pick .seg-b{ display:inline-flex; align-items:center; gap:6px } .cert-pick .ic{ width:16px; height:16px }
 .cert-head{ font-family:var(--f-disp); font-weight:600; font-size:2.35cqw; line-height:1.45; color:#b07d12; max-width:88% }
 .cert-comp{ color:#1c2a55 }
@@ -922,7 +924,8 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
   .help-grid{ grid-template-columns:1fr }
   .dw-board{ grid-template-columns:1fr }
   .ips.n4, .ips.n3{ --n:2 }
-  .sb-top{ grid-template-columns:minmax(0,1fr) auto; padding-inline-start:6px }
+  .sb-top{ grid-template-columns:minmax(0,1fr) 132px; padding-inline-start:6px }
+  .sb-q{ justify-self:stretch; justify-content:center; overflow:hidden }
   .sb-stage{ display:none }
   .turn{ width:auto; min-width:0; justify-self:stretch; justify-content:flex-start }
   .sb-chips{ grid-template-columns:repeat(min(var(--n),2),minmax(0,1fr)) }
@@ -961,7 +964,8 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
   .sb{ gap:6px }
   .sb-chips{ gap:6px }
   .turn{ font-size:15px; padding:0 12px }
-  .sb-q{ font-size:14px; padding-inline-end:4px }
+  .sb-top{ grid-template-columns:minmax(0,1fr) 116px }
+  .sb-q{ font-size:15px; padding-inline-end:4px }
   .chip{ gap:7px; padding:0 6px 0 10px; border-radius:12px }
   .chip .av{ width:26px; height:26px; font-size:10px; margin-inline-start:2px }
   .chip-b{ gap:4px }
@@ -993,7 +997,6 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
   .slot, .tile{ width:36px; height:46px; font-size:24px }
   .slot.fixed{ width:12px }
   .lb{ width:36px; height:48px; font-size:26px }
-  .sb-foot{ font-size:13px }
   .turn-card .tc-n{ font-size:32px; white-space:normal; overflow-wrap:anywhere }
   .res-t{ font-size:38px }
   .ft-rounds small{ display:none }
@@ -2856,8 +2859,7 @@ function bodyHTML(q) {
       return `<div class="prompt sm"><span class="word ar">${esc(q.ar)}</span>${sayBtn(q.w)}</div>
 <div class="slots${long}" id="slots" dir="ltr" lang="en">${groups.map((g) => `<span class="sbw">${g.join('')}</span>`).join('')}</div>
 <div class="tiles${long}" id="tiles" dir="ltr" lang="en">${q.tiles.map((t) => `<button class="tile" data-act="tile" data-id="${esc(t.id)}" aria-label="الحرف ${esc(t.ch)}">${esc(t.ch)}</button>`).join('')}</div>
-<div class="sbc"><button class="btn btn-ghost" data-act="sb-back" aria-label="حذف آخر حرف">${icon('backspace')}<span>تراجع</span></button><button class="btn btn-ghost" data-act="sb-clear">${icon('x')}<span>مسح</span></button><button class="btn btn-primary" data-act="sb-check" id="sb-check" disabled>${icon('check')}<span>تحقق</span></button></div>
-<p class="kbd-hint">اضغط الحروف بالترتيب أو اكتبها بلوحة المفاتيح، واضغط خانة ممتلئة لإرجاع حرفها · للنطق: زر النطق أو <kbd dir="ltr">Shift+P</kbd></p>`;
+<div class="sbc"><button class="btn btn-ghost" data-act="sb-back" aria-label="حذف آخر حرف">${icon('backspace')}<span>تراجع</span></button><button class="btn btn-ghost" data-act="sb-clear">${icon('x')}<span>مسح</span></button><button class="btn btn-primary" data-act="sb-check" id="sb-check" disabled>${icon('check')}<span>تحقق</span></button></div>`;
     }
     case 'gap_sentence': { const [a, b] = q.s.split('___'); return `<p class="sentence" dir="ltr" lang="en">${esc(a)}<span class="blank" id="blank" aria-label="فراغ">&nbsp;</span>${esc(b)}</p>${optsHTML(q, true)}`; }
     case 'gap_letters': {
@@ -3255,7 +3257,6 @@ function revealMarks(q, ok, given) {
     const built = typeof given === 'string' ? given : '';
     $$('#slots .slot[data-s]').forEach((el) => { const s = +el.dataset.s; el.disabled = true; el.classList.add(built[s] === q.target[s] ? 'ok' : 'bad'); });
     $$('#tiles .tile, .sbc .btn').forEach((b) => { b.disabled = true; });
-    if (!ok) { const p = document.createElement('p'); p.className = 'sb-correct'; p.innerHTML = `الكتابة الصحيحة: ${en(q.w, 'b')}`; const sl = $('#slots'); if (sl) sl.after(p); }
   }
   if (q.type === 'match5' && Q && Q.m5) {
     const M = Q.m5; M.reveal = true; M.sel = null;
