@@ -251,9 +251,11 @@ bdi{ unicode-bidi:isolate }
 .hub-meta{ display:flex; gap:14px; color:var(--muted); font-size:.88rem; flex-wrap:wrap }
 .hub-meta span{ display:inline-flex; align-items:center; gap:6px }
 .hub-meta .ic{ width:16px; height:16px }
-.v-hub .topbar{ margin-bottom:14px }
-.hub-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:10px 20px; flex-wrap:wrap; margin-bottom:14px }
-.hub-name{ font-family:var(--f-ui); font-weight:700; font-size:clamp(22px,2.3vw,32px); line-height:1.3 }
+.v-hub .topbar{ margin-bottom:12px; padding:10px 0 }
+.road-h{ display:flex; align-items:center; justify-content:space-between; gap:8px 20px; flex-wrap:wrap; margin-bottom:12px }
+.road-tt .kicker{ color:var(--gold); font-size:.9rem }
+.hub-head{ display:flex; flex-direction:column; align-items:flex-end; gap:2px; min-width:0; text-align:end }
+.hub-name{ font-family:var(--f-ui); font-weight:700; font-size:clamp(17px,1.5vw,22px); line-height:1.3 }
 .hub-meta .hm-done{ color:var(--white); font-weight:500 }
 .champ-banner{ display:flex; align-items:center; gap:14px; padding:12px 18px; margin-bottom:16px; border-radius:var(--r-l); background:radial-gradient(120% 180% at 100% 0%, rgba(242,193,78,.26), rgba(19,41,106,.85) 55%, rgba(11,26,69,.9)); border:1px solid rgba(242,193,78,.55); box-shadow:0 10px 40px rgba(242,193,78,.12); flex-wrap:wrap }
 .champ-banner > .ic{ color:var(--gold); width:30px; height:30px }
@@ -261,18 +263,18 @@ bdi{ unicode-bidi:isolate }
 .champ-banner small{ color:var(--gold); font-weight:500 }
 .champ-banner b{ font-size:1.35rem }
 /* the road graphic: three class columns converging on the Grand Final */
-.road{ position:relative; padding:16px 18px 20px; margin-bottom:22px; border-radius:26px; background:radial-gradient(90% 70% at 50% 100%, rgba(242,193,78,.12), transparent 60%), var(--glass); border:1px solid var(--line); box-shadow:var(--shadow) }
-.road-t{ display:flex; align-items:center; justify-content:center; gap:10px; font-family:var(--f-disp); font-weight:600; font-size:clamp(1.15rem,1.6vw,1.45rem); margin-bottom:14px }
+.road{ position:relative; padding:12px 16px 16px; margin-bottom:18px; border-radius:26px; background:radial-gradient(90% 70% at 50% 100%, rgba(242,193,78,.12), transparent 60%), var(--glass); border:1px solid var(--line); box-shadow:var(--shadow) }
+.road-t{ display:flex; align-items:center; gap:10px; font-family:var(--f-disp); font-weight:600; font-size:clamp(1.2rem,1.7vw,1.55rem) }
 .road-t .ic{ color:var(--gold); width:24px; height:24px }
 .road-cols{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px }
-.rcol{ position:relative; display:flex; flex-direction:column; padding:12px 12px 14px; border-radius:20px; background:linear-gradient(180deg, color-mix(in srgb, var(--cc) 22%, rgba(11,26,69,.92)), rgba(6,13,36,.6) 55%); border:1px solid color-mix(in srgb, var(--cc) 50%, transparent); min-width:0 }
+.rcol{ position:relative; display:flex; flex-direction:column; padding:10px 10px 12px; border-radius:20px; background:linear-gradient(180deg, color-mix(in srgb, var(--cc) 22%, rgba(11,26,69,.92)), rgba(6,13,36,.6) 55%); border:1px solid color-mix(in srgb, var(--cc) 50%, transparent); min-width:0 }
 .rcol::before{ content:''; position:absolute; top:-1px; inset-inline:24px; height:4px; border-radius:0 0 4px 4px; background:var(--cc) }
-.rcol-h{ display:flex; align-items:baseline; justify-content:space-between; gap:8px; margin-bottom:10px; padding-inline:4px }
-.rcol-h b{ font-family:var(--f-num); font-weight:600; font-size:2.1rem; line-height:1; color:#fff; text-shadow:0 0 18px color-mix(in srgb, var(--cc) 70%, transparent) }
+.rcol-h{ display:flex; align-items:baseline; justify-content:space-between; gap:8px; margin-bottom:8px; padding-inline:4px }
+.rcol-h b{ font-family:var(--f-num); font-weight:600; font-size:1.9rem; line-height:1; color:#fff; text-shadow:0 0 18px color-mix(in srgb, var(--cc) 70%, transparent) }
 .rcol-h small{ color:var(--muted); font-size:.82rem }
 .rcol-body{ display:flex; flex-direction:column; flex:1 }
 .rn-pair{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:8px }
-.rn{ position:relative; display:flex; flex-direction:column; align-items:center; gap:5px; padding:8px 6px 7px; border-radius:14px; background:rgba(6,13,36,.66); border:1px solid rgba(201,211,232,.18); color:inherit; font:inherit; text-align:center; min-width:0; width:100%; transition:border-color .2s, transform .2s, box-shadow .2s }
+.rn{ position:relative; display:flex; flex-direction:column; align-items:center; gap:4px; padding:6px 6px 5px; border-radius:14px; background:rgba(6,13,36,.66); border:1px solid rgba(201,211,232,.18); color:inherit; font:inherit; text-align:center; min-width:0; width:100%; transition:border-color .2s, transform .2s, box-shadow .2s }
 button.rn{ cursor:pointer } button.rn:hover{ border-color:var(--flood); transform:translateY(-1px) }
 .rn-t{ display:inline-flex; align-items:center; gap:5px; font-weight:600; font-size:.86rem; white-space:nowrap; line-height:1.3 } .rn-t .ic{ width:15px; height:15px; color:var(--gold) }
 .rn-s{ display:inline-flex; align-items:center; gap:4px; font-size:.72rem; color:var(--muted); line-height:1.3 } .rn-s .ic{ width:12px; height:12px; flex:none }
@@ -283,23 +285,24 @@ button.rn{ cursor:pointer } button.rn:hover{ border-color:var(--flood); transfor
 .rn.st-done .rn-s{ color:var(--good) }
 .rn.st-locked{ border-style:dashed; background:rgba(6,13,36,.35) } .rn.st-locked .rn-t{ color:var(--muted) }
 .rn-draw{ border-style:solid }
-.rn-link{ display:block; width:2px; height:12px; margin:0 auto; background:linear-gradient(color-mix(in srgb, var(--cc) 80%, #fff), rgba(201,211,232,.18)); flex:none }
-.mavs{ display:flex; justify-content:center; flex-wrap:wrap; row-gap:3px; padding-inline-start:7px; min-height:26px }
-.mav{ margin-inline-start:-7px; transition:opacity .3s, filter .3s }
-.mav .av{ width:26px; height:26px; font-size:10px; box-shadow:0 0 0 2px #0b1a45 }
+.rn-link{ display:block; width:2px; height:8px; margin:0 auto; background:linear-gradient(color-mix(in srgb, var(--cc) 80%, #fff), rgba(201,211,232,.18)); flex:none }
+.mavs{ display:flex; justify-content:center; flex-wrap:wrap; row-gap:3px; padding-inline-start:5px; min-height:24px }
+.mav{ margin-inline-start:-5px; transition:opacity .3s, filter .3s }
+.mav .av{ width:24px; height:24px; font-size:9px; box-shadow:0 0 0 2px #0b1a45 }
 .mav.out{ opacity:.32; filter:grayscale(.8) }
 .mav.win .av{ box-shadow:0 0 0 2px var(--gold), 0 0 10px rgba(242,193,78,.5) }
 .rn-champ{ border-color:rgba(242,193,78,.55); background:radial-gradient(120% 140% at 50% 0%, rgba(242,193,78,.22), rgba(11,26,69,.9) 65%) }
 .rn-champ.tbd{ border-style:dashed; border-color:rgba(242,193,78,.3); background:rgba(6,13,36,.4) }
 .rc-champ{ display:flex; align-items:center; justify-content:center; gap:8px; min-width:0; max-width:100% }
+.rn-champ .av.lg{ width:38px; height:38px; font-size:14px }
 .rc-champ b{ font-size:1rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0 }
-.rcol-next{ margin-top:12px; width:100%; white-space:normal; min-height:58px; text-align:start; justify-content:flex-start; line-height:1.35 }
+.rcol-next{ margin-top:10px; width:100%; white-space:normal; min-height:52px; text-align:start; justify-content:flex-start; line-height:1.35 }
 .rcol-next small{ display:block; font-weight:500; margin:0 0 1px; opacity:.8 }
-.rcol-done{ margin-top:12px; display:flex; align-items:center; justify-content:center; gap:6px; min-height:58px; color:var(--good); font-weight:600 } .rcol-done .ic{ width:18px; height:18px }
-.road-join{ position:relative; width:66.67%; height:34px; margin:0 auto }
-.road-join::before{ content:''; position:absolute; top:0; left:0; right:0; height:18px; border:2px solid rgba(242,193,78,.5); border-top:0; border-radius:0 0 16px 16px }
+.rcol-done{ margin-top:10px; display:flex; align-items:center; justify-content:center; gap:6px; min-height:52px; color:var(--good); font-weight:600 } .rcol-done .ic{ width:18px; height:18px }
+.road-join{ position:relative; width:66.67%; height:26px; margin:0 auto }
+.road-join::before{ content:''; position:absolute; top:0; left:0; right:0; height:14px; border:2px solid rgba(242,193,78,.5); border-top:0; border-radius:0 0 16px 16px }
 .road-join::after{ content:''; position:absolute; top:0; bottom:0; left:calc(50% - 1px); width:2px; background:linear-gradient(rgba(242,193,78,.5), var(--gold)) }
-.gf-card{ position:relative; display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:14px 22px; width:min(980px,100%); margin:0 auto; padding:14px 22px; border-radius:22px; background:radial-gradient(120% 170% at 50% 0%, rgba(242,193,78,.2), rgba(19,41,106,.92) 62%); border:1px solid rgba(242,193,78,.4); box-shadow:0 0 40px rgba(242,193,78,.1) }
+.gf-card{ position:relative; display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:10px 22px; width:min(980px,100%); margin:0 auto; padding:10px 20px; border-radius:22px; background:radial-gradient(120% 170% at 50% 0%, rgba(242,193,78,.2), rgba(19,41,106,.92) 62%); border:1px solid rgba(242,193,78,.4); box-shadow:0 0 40px rgba(242,193,78,.1) }
 .gf-card.ready, .gf-card.done{ border-color:rgba(242,193,78,.8); box-shadow:0 0 0 1px rgba(242,193,78,.3), 0 0 50px rgba(242,193,78,.2) }
 .gf-h{ display:flex; align-items:center; gap:12px }
 .gf-h h3{ font-family:var(--f-disp); font-weight:700; font-size:1.5rem; color:var(--gold); line-height:1.2 }
@@ -359,8 +362,9 @@ button.rn{ cursor:pointer } button.rn:hover{ border-color:var(--flood); transfor
 .stand td{ padding:7px 10px; border-bottom:1px solid var(--line); vertical-align:middle }
 .stand tr:last-child td{ border-bottom:0 }
 .stand td.rk{ font-family:var(--f-num); font-size:1.35rem; color:var(--muted); width:42px; white-space:nowrap }
-.stand td.who{ display:flex; align-items:center; gap:10px; min-width:170px }
-.stand td.who > span{ display:flex; flex-direction:column; min-width:0 }
+.stand td.who{ min-width:170px }
+.who-in{ display:flex; align-items:center; gap:10px }
+.who-in > span{ display:flex; flex-direction:column; min-width:0 }
 .stand td.who .nm{ font-weight:600; line-height:1.3 }
 .stand .cl{ font-family:var(--f-num); font-size:1rem; color:var(--cc); line-height:1 }
 .stand td.ca{ color:var(--silver); white-space:nowrap; font-size:.92rem }
@@ -614,8 +618,8 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .is-no .res-t{ color:var(--silver); text-shadow:none; font-size:clamp(34px,min(4.4vw,8vh),84px) }
 .res-team{ display:flex; align-items:center; justify-content:center; gap:8px; font-size:clamp(19px,min(1.4vw,2.5vh),26px); flex-wrap:wrap }
 .res-team svg{ width:34px; height:auto }
-.var-tag{ display:inline-flex; align-items:center; gap:4px; padding:2px 10px; border-radius:99px; background:rgba(124,196,255,.14); color:var(--flood); font-size:.8rem; font-weight:600 }
-.var-tag .ic{ width:14px; height:14px }
+.rev-tag{ display:inline-flex; align-items:center; gap:4px; padding:2px 10px; border-radius:99px; background:rgba(124,196,255,.14); color:var(--flood); font-size:.8rem; font-weight:600 }
+.rev-tag .ic{ width:14px; height:14px }
 .res-ans{ margin-top:10px; font-size:1.15rem }
 .learn{ margin-top:14px; display:flex; flex-direction:column; gap:6px; padding:12px 16px; border-radius:16px; background:rgba(6,13,36,.55); border:1px solid var(--line) }
 .learn-w{ display:flex; justify-content:center; align-items:center; gap:10px 14px; flex-wrap:wrap }
@@ -628,7 +632,7 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .lp{ display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); gap:12px; align-items:center; padding:3px 10px; border-radius:10px; background:rgba(255,255,255,.04) }
 .lp .lw{ font-size:clamp(17px,min(1.5vw,2.7vh),26px); text-align:left; overflow-wrap:anywhere; min-width:0 }
 .lp .la{ font-size:clamp(16px,min(1.4vw,2.5vh),24px); text-align:start; overflow-wrap:anywhere; min-width:0 }
-.res-crest .av.xxl{ width:clamp(80px,min(8vw,13vh),118px); height:clamp(80px,min(8vw,13vh),118px); font-size:clamp(30px,min(3vw,5vh),44px) }
+.res-av .av.xxl{ width:clamp(80px,min(8vw,13vh),118px); height:clamp(80px,min(8vw,13vh),118px); font-size:clamp(30px,min(3vw,5vh),44px) }
 .res-board{ display:flex; justify-content:center; flex-wrap:wrap; gap:8px; margin:12px auto 0 }
 .rs-c{ display:inline-flex; align-items:center; gap:8px; padding:4px 12px 4px 5px; border-radius:99px; background:rgba(6,13,36,.6); border:1px solid rgba(201,211,232,.16); max-width:100% }
 .rs-c .av{ width:28px; height:28px; font-size:11px }
@@ -653,9 +657,9 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .modal h3 .ic{ color:var(--flood); width:24px; height:24px }
 .modal-actions{ display:flex; gap:10px; justify-content:flex-end; flex-wrap:wrap; margin-top:18px }
 .confirm-t{ font-size:1.08rem; line-height:1.7 }
-.var-box{ display:flex; flex-direction:column; gap:8px; border-inline-start:4px solid var(--tc); padding-inline-start:14px }
-.var-now{ font-size:1.15rem }
-.var-now .ic{ display:inline; width:18px; height:18px; vertical-align:-3px }
+.rev-box{ display:flex; flex-direction:column; gap:8px; border-inline-start:4px solid var(--tc); padding-inline-start:14px }
+.rev-now{ font-size:1.15rem }
+.rev-now .ic{ display:inline; width:18px; height:18px; vertical-align:-3px }
 .bk{ display:grid; gap:18px }
 .bk section{ display:flex; flex-direction:column; gap:10px; padding:14px; border-radius:var(--r); background:rgba(6,13,36,.45); border:1px solid var(--line) }
 .bk h4{ font-size:1.05rem }
@@ -691,6 +695,11 @@ html.in-match .warn-bar{ display:none }
 .out-card h2{ display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; font-size:clamp(20px,2vw,28px); line-height:1.45 }
 .out-card h2 .ic{ color:var(--good); width:26px; height:26px } .out-card.gold h2 .ic{ color:var(--gold) }
 .out-card p{ color:var(--silver) }
+.nchips{ display:flex; justify-content:center; flex-wrap:wrap; gap:10px }
+.nchip{ display:inline-flex; align-items:center; gap:10px; padding:5px 18px 5px 6px; border-radius:99px; background:rgba(6,13,36,.6); border:1px solid color-mix(in srgb, var(--tc) 60%, transparent); font-weight:700; font-size:clamp(17px,1.5vw,22px); max-width:100% }
+.nchip .av{ width:40px; height:40px; font-size:15px }
+.nchip .nm{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0 }
+.nchip.gold{ border-color:var(--gold); box-shadow:0 0 26px rgba(242,193,78,.25); font-size:clamp(20px,1.9vw,28px) }
 .ft-demo{ display:flex; justify-content:center; gap:16px; flex-wrap:wrap }
 .ft-demo .ip{ width:220px } .ft-demo em{ font-style:normal; font-family:var(--f-num); font-size:1.6rem; color:var(--gold); line-height:1 }
 .ft-tbl{ width:min(860px,100%); transition:opacity .5s }
@@ -707,7 +716,7 @@ html.in-match .warn-bar{ display:none }
 td.ok .rc{ background:var(--good); color:#032012 } td.no .rc{ background:rgba(255,90,106,.25); color:var(--bad) }
 .rw{ font-weight:500 }
 .ft-rounds small{ display:inline-block; margin-inline-start:6px; color:var(--muted); font-size:.75rem }
-.var-s{ color:var(--flood)!important }
+.rev-s{ color:var(--flood)!important }
 .ft-actions{ display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top:6px }
 .ft-rounds th bdi{ font-weight:600; color:var(--white) }
 
@@ -859,11 +868,11 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 .res-fx::after{ content:''; position:absolute; left:50%; top:110px; width:420px; height:260px; margin:-130px 0 0 -210px; background:radial-gradient(ellipse, rgba(242,193,78,.24), transparent 65%); animation:fadeIn .5s both }
 .is-no .res-fx::after{ display:none }
 .sweep{ position:absolute; top:-20%; bottom:-20%; left:-45%; width:38%; background:linear-gradient(90deg, transparent, rgba(255,241,191,.3), transparent); transform:skewX(-18deg); animation:sweep 1.2s .2s ease-out both }
-.res-crest svg{ width:clamp(70px,min(7vw,12vh),112px); height:auto; filter:drop-shadow(0 0 26px rgba(242,193,78,.55)) drop-shadow(0 10px 20px rgba(0,0,0,.4)); animation:crestPop .75s var(--ease) both }
-.is-no .res-crest svg{ filter:grayscale(.8) brightness(.8); animation:fadeIn .4s both }
+.res-av svg{ width:clamp(70px,min(7vw,12vh),112px); height:auto; filter:drop-shadow(0 0 26px rgba(242,193,78,.55)) drop-shadow(0 10px 20px rgba(0,0,0,.4)); animation:avPop .75s var(--ease) both }
+.is-no .res-av svg{ filter:grayscale(.8) brightness(.8); animation:fadeIn .4s both }
 .is-no .res-t{ animation:fadeUp .45s var(--ease) both }
 .is-no .res-team{ filter:saturate(.4) }
-.res-crest{ position:relative }
+.res-av{ position:relative }
 .spark{ position:absolute; left:50%; top:46%; width:14px; height:14px; margin:-7px 0 0 -7px; background:linear-gradient(135deg,#fff6d6,#f2c14e); clip-path:polygon(50% 0,61% 39%,100% 50%,61% 61%,50% 100%,39% 61%,0 50%,39% 39%); opacity:0; animation:spark 1.15s var(--ease) var(--dl) both; pointer-events:none }
 .spark:nth-child(3n){ background:#ffffff } .spark:nth-child(4n){ width:9px; height:9px; margin:-4.5px 0 0 -4.5px }
 .plus-tag{ display:inline-flex; align-items:center; gap:.3em; padding:1px 12px; border-radius:99px; background:linear-gradient(180deg,#ffe08a,#e2a82c); color:#241500; font-family:var(--f-num); font-weight:600; font-size:clamp(18px,min(1.4vw,2.5vh),24px); line-height:1.35; padding-top:3px; box-shadow:0 6px 20px rgba(242,193,78,.35) }
@@ -896,7 +905,7 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 @keyframes burstIn{ from{opacity:0; scale:.4} to{opacity:1; scale:1} }
 @keyframes spin{ to{ rotate:360deg } }
 @keyframes sweep{ from{ left:-45% } to{ left:120% } }
-@keyframes crestPop{ 0%{opacity:0; transform:scale(.5) rotate(-8deg)} 60%{opacity:1; transform:scale(1.12) rotate(2deg)} 100%{transform:none} }
+@keyframes avPop{ 0%{opacity:0; transform:scale(.5) rotate(-8deg)} 60%{opacity:1; transform:scale(1.12) rotate(2deg)} 100%{transform:none} }
 @keyframes spark{ 0%{ opacity:0; transform:rotate(var(--a)) translateY(0) scale(.2) } 20%{ opacity:1 } 100%{ opacity:0; transform:rotate(var(--a)) translateY(calc(-1 * var(--d))) scale(var(--s)) rotate(160deg) } }
 @keyframes flOut{ from{ transform:translateY(0); opacity:1 } to{ transform:translateY(-100%); opacity:0 } }
 @keyframes flIn{ from{ transform:translateY(100%); opacity:0 } to{ transform:none; opacity:1 } }
@@ -992,6 +1001,8 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
   .words td.ex, .words th.ex{ display:none }
   .words{ min-width:0 }
   .csec-h .btn-xl{ width:100% }
+  .road-h{ flex-direction:column; align-items:flex-start }
+  .hub-head{ align-items:flex-start; text-align:start }
   .stand td.fate small{ display:none }
   .h-l{ min-width:0 }
   .podium{ gap:8px }
@@ -1344,7 +1355,7 @@ function sealMini(id) {
 <text x="50" y="59.5" text-anchor="middle" font-family="'Reem Kufi','Readex Pro','Segoe UI',Tahoma,sans-serif" font-weight="700" font-size="27" fill="#f5f7ff" stroke="#f2c14e" stroke-width=".7" paint-order="stroke">حطين</text></svg>`;
 }
 function trophySVG(id) {
-  return `<svg class="trophy" viewBox="0 0 220 280" role="img" aria-label="كأس البطولة"><defs>
+  return `<svg class="trophy" viewBox="0 0 220 280" role="img" aria-label="كأس المسابقة"><defs>
 <linearGradient id="${id}s" x1="0" x2="1"><stop offset="0" stop-color="#7d88a8"/><stop offset=".3" stop-color="#f5f7ff"/><stop offset=".52" stop-color="#c9d3e8"/><stop offset=".78" stop-color="#7a86a6"/><stop offset="1" stop-color="#dfe5f3"/></linearGradient>
 <linearGradient id="${id}g" x1="0" x2="1"><stop offset="0" stop-color="#b8860b"/><stop offset=".45" stop-color="#ffe08a"/><stop offset="1" stop-color="#c8931e"/></linearGradient>
 <linearGradient id="${id}d" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#13296a"/><stop offset="1" stop-color="#060d24"/></linearGradient></defs>
@@ -1383,7 +1394,7 @@ function savePrefs() { sSet(KEYS.p, JSON.stringify(PREFS)); }
 let T = null;           // the competition (persisted)
 let LOAD_WARN = '';
 let LEGACY = null;      // { key, raw } — a save of an earlier version found on this device (kept until the teacher decides)
-/* storage health: ok = localStorage usable (probed at start); failing = a save of the tournament did not persist */
+/* storage health: ok = localStorage usable (probed at start); failing = a save of the competition did not persist */
 const STORE = { ok: true, failing: false, warned: false, conflict: false };
 function probeStorage() {
   try { const k = 'vcl.__probe', v = String(Date.now()); window.localStorage.setItem(k, v); const ok = window.localStorage.getItem(k) === v; window.localStorage.removeItem(k); return ok; } catch (e) { return false; }
@@ -1629,7 +1640,7 @@ function poolFor(unitIds) {
   return out;
 }
 function allEntries() { return poolFor(unitList().map((u) => u.id)); }
-/* the tournament's own word pool: «كلماتي» comes from the copy taken at the draw, so later edits never break it */
+/* the competition's own word pool: «كلماتي» comes from the copy taken when it was created, so later edits never break it */
 function tPool() {
   if (!T) return [];
   const ids = T.settings.units;
@@ -2582,7 +2593,7 @@ function refreshSetupBits(i) {
 /* ---------- Hub: «مركز المسابقة» ---------- */
 const STATE_AR = { locked: 'بانتظار المتأهلين', ready: 'جاهزة للعب', live: 'جارية', tie: 'تعادل — مباراة فاصلة', toss: 'تعادل — قرعة الترتيب', done: 'انتهت' };
 const STATE_IC = { locked: 'lock', ready: 'play', live: 'play', tie: 'replay', toss: 'coin', done: 'check' };
-function miniAvs(ids, win) { return `<span class="mavs">${ids.map((id) => `<span class="mav${win && !win.includes(id) ? ' out' : ''}${win && win.includes(id) ? ' win' : ''}" title="${esc(pName(id))}">${avatar(id)}</span>`).join('')}</span>`; }
+function miniAvs(ids, win) { if (win) ids = win.concat(ids.filter((x) => !win.includes(x))); return `<span class="mavs">${ids.map((id) => `<span class="mav${win && !win.includes(id) ? ' out' : ''}${win && win.includes(id) ? ' win' : ''}" title="${esc(pName(id))}">${avatar(id)}</span>`).join('')}</span>`; }
 /* the students a finished step sends on */
 function winnersOf(st) {
   if (st.auto) return st.players;
@@ -2623,8 +2634,8 @@ function gfCard(G) {
   else act = `<p class="gf-lock">${icon('lock')} يُفتح عند معرفة أبطال الشعب</p>`;
   return `<article class="gf-card${G.ready ? ' ready' : ''}${G.podium ? ' done' : ''}"><div class="gf-h"><span class="gf-cup">${icon('trophy')}</span><div><p class="kicker" dir="ltr" lang="en">GRAND FINAL</p><h3>النهائي الكبير</h3><small>أبطال الشعب · ${num(T.settings.rounds.grand)} أسئلة لكل طالب</small></div></div><div class="gf-slots">${slots}</div>${act}</article>`;
 }
-function roadHTML(G) {
-  return `<section class="road" aria-labelledby="road-t"><h2 class="road-t" id="road-t">${icon('road')} الطريق إلى النهائي الكبير</h2>
+function roadHTML(G, meta) {
+  return `<section class="road" aria-labelledby="road-t"><header class="road-h"><div class="road-tt"><p class="kicker" dir="ltr" lang="en">ROAD TO THE GRAND FINAL</p><h2 class="road-t" id="road-t">${icon('road')} الطريق إلى النهائي الكبير</h2></div>${meta || ''}</header>
 <div class="road-cols">${G.flows.map(roadCol).join('')}</div>
 <div class="road-join" aria-hidden="true"><i></i><i></i><i></i></div>
 ${gfCard(G)}</section>`;
@@ -2639,7 +2650,7 @@ function standingsTable(m, opts) {
   const body = rows.map((x) => {
     const i = rr.pending ? -1 : rr.order.indexOf(x.id), f = i >= 0 ? fateOf(root, i) : null, p = person(x.id);
     const rep = !rr.pending && m === root ? T.matches.filter((y) => y.root === root.id && y.of && y.players.includes(x.id) && y.status === 'done') : [];
-    return `<tr class="${f ? 'f-' + f.cls : ''}"><td class="rk">${x.eq ? '=' : ''}${num(x.n)}</td><td class="who">${avatar(x.id)}<span>${nm(x.id)}${opts.cls ? `<small class="cl" style="--cc:${p.color}">${esc(p.cls)}</small>` : ''}</span></td><td class="ca">${num(pts[x.id])} من ${num(answeredOf(m, x.id))}</td><td class="pt">${num(pts[x.id])}</td><td class="fate">${f ? `<span class="tag t-${f.cls}">${esc(f.ar)}</span>` : ''}${rep.length ? `<small class="muted rep-n">${rep.map((y) => `فاصلة ${num(y.no)}: ${num(ptsOf(y)[x.id])}`).join(' · ')}</small>` : ''}${x.eq && !r.pending && f ? '<small class="muted">تعادل لا يغيّر شيئًا</small>' : ''}</td></tr>`;
+    return `<tr class="${f ? 'f-' + f.cls : ''}"><td class="rk">${x.eq ? '=' : ''}${num(x.n)}</td><td class="who"><div class="who-in">${avatar(x.id)}<span>${nm(x.id)}${opts.cls ? `<small class="cl" style="--cc:${p.color}">${esc(p.cls)}</small>` : ''}</span></div></td><td class="ca">${num(pts[x.id])} من ${num(answeredOf(m, x.id))}</td><td class="pt">${num(pts[x.id])}</td><td class="fate">${f ? `<span class="tag t-${f.cls}">${esc(f.ar)}</span>` : ''}${rep.length ? `<small class="muted rep-n">${rep.map((y) => `فاصلة ${num(y.no)}: ${num(ptsOf(y)[x.id])}`).join(' · ')}</small>` : ''}${x.eq && !r.pending && f ? '<small class="muted">تعادل لا يغيّر شيئًا</small>' : ''}</td></tr>`;
   }).join('');
   return `<div class="tbl-wrap"><table class="stand"><thead><tr><th>#</th><th>الطالب</th><th>الصحيحة</th><th>النقاط</th><th></th></tr></thead><tbody>${body}</tbody></table></div>`;
 }
@@ -2695,8 +2706,7 @@ VIEWS.hub = () => {
   const done = T.matches.filter((m) => m.status === 'done').length;
   const banner = G.podium ? `<div class="champ-banner">${icon('trophy')}${avatar(G.podium[0], 'lg')}<div><small>بطل دوري أبطال المفردات — الجائزة الكبرى</small><b>${nm(G.podium[0])} <span class="muted" dir="ltr">${esc(person(G.podium[0]).cls)}</span></b></div><button class="btn btn-gold" data-act="go" data-to="ceremony">${icon('trophy')}<span>حفل التتويج</span></button></div>` : '';
   return `<section class="v-hub page">${topbar('مركز المسابقة', `<button class="btn btn-ghost btn-sm" data-act="backup">${icon('save')}<span>النسخ الاحتياطي</span></button><button class="btn btn-danger btn-sm" data-act="reset-t">${icon('reset')}<span>إعادة ضبط</span></button>`)}
-<div class="hub-head"><div><p class="kicker" dir="ltr" lang="en">ROAD TO THE GRAND FINAL</p><h2 class="hub-name"><bdi>${esc(T.name)}</bdi></h2></div><div class="hub-meta"><span>${icon('users')} ${num(T.classes.reduce((n, c) => n + c.students.length, 0))} طالبًا · ${num(T.classes.length)} شعب</span><span class="hm-done">${icon('check')} مباريات منتهية: ${num(done)}</span><span>${icon('clock')} ${num(T.settings.rounds.group)} · ${num(T.settings.rounds.second)} · ${num(T.settings.rounds.final)} · ${num(T.settings.rounds.grand)} أسئلة</span></div></div>
-${banner}${roadHTML(G)}
+${banner}${roadHTML(G, `<div class="hub-head"><h3 class="hub-name"><bdi>${esc(T.name)}</bdi></h3><div class="hub-meta"><span>${icon('users')} ${num(T.classes.reduce((n, c) => n + c.students.length, 0))} طالبًا · ${num(T.classes.length)} شعب</span><span class="hm-done">${icon('check')} مباريات منتهية: ${num(done)}</span><span>${icon('clock')} ${num(T.settings.rounds.group)} أسئلة لكل طالب · النهائي الكبير ${num(T.settings.rounds.grand)}</span></div></div>`)}
 <div class="tabs" role="tablist" aria-label="أقسام المسابقة">${tabs.map((t) => `<button class="tab${S.tab === t.id ? ' on' : ''}" role="tab" id="tab-${t.id}" aria-selected="${S.tab === t.id}" data-act="tab" data-tab="${t.id}" style="--cc:${t.color}">${t.id === 'gf' ? icon('trophy') : '<i class="tab-sw"></i>'}<span${t.id === 'gf' ? '' : ' dir="ltr"'}>${esc(t.label)}</span>${t.dot ? `<i class="tab-dot ${t.dot}" aria-hidden="true"></i>` : ''}</button>`).join('')}</div>
 <div class="tab-body" id="tab-body" role="tabpanel" aria-labelledby="tab-${S.tab}">${S.tab === 'gf' ? grandSection(G) : classSection(F)}</div></section>`;
 };
@@ -2859,8 +2869,8 @@ function resultOverlay(m, st) {
   const board = m.players.map((id, i) => `<span class="rs-c${id === st.p ? ' me' : ''}" style="--tc:${safeColor(person(id).color)}">${avatar(id)}<bdi dir="auto" class="rs-n" title="${esc(pName(id))}">${esc(sh[i])}</bdi><b class="rs-p">${flipNum(pts[id], ok && id === st.p)}</b></span>`).join('');
   return `<div class="ovl-card res ${ok ? 'is-ok' : 'is-no'}" role="dialog" aria-modal="true" aria-labelledby="res-t" style="--tc:${safeColor(p.color)}" data-i="${idx}">
   <div class="res-fx" aria-hidden="true">${ok ? '<i class="burst"></i><i class="sweep"></i>' : ''}</div>
-  <div class="res-top"><div class="res-crest" aria-hidden="true">${sparks}${avatar(st.p, 'xxl')}</div><div class="res-head"><p class="kicker" dir="ltr" lang="en">${kick}</p><h2 class="res-t" id="res-t">${title}</h2>
-  <div class="res-team">${ok ? `<span class="plus-tag"><bdi dir="ltr">+1</bdi> نقطة</span><span class="res-for">لـ</span>` : ''}<b class="res-name">${nm(st.p)}</b>${st.var ? `<span class="var-tag">${icon('review')} قرار المعلم</span>` : ''}</div></div></div>
+  <div class="res-top"><div class="res-av" aria-hidden="true">${sparks}${avatar(st.p, 'xxl')}</div><div class="res-head"><p class="kicker" dir="ltr" lang="en">${kick}</p><h2 class="res-t" id="res-t">${title}</h2>
+  <div class="res-team">${ok ? `<span class="plus-tag"><bdi dir="ltr">+1</bdi> نقطة</span><span class="res-for">لـ</span>` : ''}<b class="res-name">${nm(st.p)}</b>${st.tr ? `<span class="rev-tag">${icon('review')} قرار المعلم</span>` : ''}</div></div></div>
   <div class="res-board">${board}</div>
   ${!ok && q.type !== 'match5' ? `<p class="res-ans">الإجابة الصحيحة: ${answerHTML(q)}</p>` : ''}
   ${learnCard(q)}
@@ -2879,21 +2889,23 @@ VIEWS.match = () => {
 function roundsTable(m) {
   const sh = shortNames(m.players);
   const rows = Array.from({ length: m.R }, (_, r) => { const rs = m.seq.filter((x) => x.r === r); const t = rs[0] ? rs[0].q.type : 'mean_en_ar';
-    return `<tr><td class="rn">${r + 1}</td><td class="rt"><span class="cat-dot" style="--cc:${CATS[TYPES[t].cat].color}"></span>${TYPES[t].short}</td>${m.players.map((id) => { const s = rs.find((x) => x.p === id); if (!s || s.ok === null || s.ok === undefined) return '<td class="muted">—</td>'; return `<td class="${s.ok ? 'ok' : 'no'}"><span class="rc">${s.ok ? icon('check') : icon('x')}</span>${s.q.type === 'match5' ? '<small>5 كلمات</small>' : en(s.q.w, 'rw')}${s.var ? '<small class="var-s">المعلم</small>' : ''}</td>`; }).join('')}</tr>`; }).join('');
+    return `<tr><td class="rn">${r + 1}</td><td class="rt"><span class="cat-dot" style="--cc:${CATS[TYPES[t].cat].color}"></span>${TYPES[t].short}</td>${m.players.map((id) => { const s = rs.find((x) => x.p === id); if (!s || s.ok === null || s.ok === undefined) return '<td class="muted">—</td>'; return `<td class="${s.ok ? 'ok' : 'no'}"><span class="rc">${s.ok ? icon('check') : icon('x')}</span>${s.q.type === 'match5' ? '<small>5 كلمات</small>' : en(s.q.w, 'rw')}${s.tr ? '<small class="rev-s">المعلم</small>' : ''}</td>`; }).join('')}</tr>`; }).join('');
   return `<div class="tbl-wrap ft-tbl"><table class="ft-rounds"><caption class="sr-only">نتيجة كل سؤال</caption><thead><tr><th>#</th><th>نوع السؤال</th>${m.players.map((id, i) => `<th><bdi dir="auto" title="${esc(pName(id))}">${esc(sh[i])}</bdi></th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>`;
 }
+/* students as chips (avatar + name) for the big cards */
+const nameChips = (ids, cls) => `<span class="nchips">${ids.map((id) => `<span class="nchip${cls ? ' ' + cls : ''}" style="--tc:${safeColor(person(id).color)}">${avatar(id)}${nm(id)}</span>`).join('')}</span>`;
 /* the tie / toss card of an unresolved stage, or what happens next */
 function outcomeHTML(m) {
   const root = matchById(m.root) || m, rr = resolve(root), p = rr.pending, cls = root.cls ? classById(root.cls) : null;
-  if (p && p.kind === 'replay') return `<section class="tie-card"><p class="kicker" dir="ltr" lang="en">TIE · PLAY-OFF</p><h2 class="disp">${icon('replay')} تعادل — مباراة فاصلة بين ${namesList(p.block)}</h2><p>التعادل ${esc(tieWhat(p.m, p.cuts))}، لذلك تُعاد المباراة بين المتعادلين فقط بأسئلة جديدة (${num(replayR(root))} أسئلة لكل طالب) حتى يتقدّم أحدهم.</p><button class="btn btn-gold btn-xl" data-act="root-next" data-id="${esc(root.id)}" id="btn-next">${icon('replay')}<span>ابدأ المباراة الفاصلة</span></button></section>`;
-  if (p && p.kind === 'play' && p.m !== root) return `<section class="tie-card"><p class="kicker" dir="ltr" lang="en">PLAY-OFF ${p.m.no}</p><h2 class="disp">${icon('replay')} المباراة الفاصلة ${num(p.m.no)} بين ${namesList(p.m.players)}</h2><p>${p.m.seq ? 'بدأت ولم تكتمل بعد.' : 'جاهزة للعب.'}</p><button class="btn btn-gold btn-xl" data-act="root-next" data-id="${esc(root.id)}" id="btn-next">${icon('replay')}<span>${p.m.seq ? 'أكمل' : 'ابدأ'} المباراة الفاصلة</span></button></section>`;
-  if (p && p.kind === 'toss') return `<section class="tie-card toss"><p class="kicker" dir="ltr" lang="en">SEEDING DRAW</p><h2 class="disp">${icon('coin')} تعادل على صدارة المجموعة</h2><p>${namesList(p.block)} متأهلان معًا، والقرعة تحدد الأول والثاني (أول المجموعة يواجه ثاني المجموعة الأخرى).</p><button class="btn btn-gold btn-xl" data-act="root-next" data-id="${esc(root.id)}" id="btn-next">${icon('coin')}<span>قرعة الترتيب</span></button></section>`;
+  if (p && p.kind === 'replay') return `<section class="tie-card"><p class="kicker" dir="ltr" lang="en">TIE · PLAY-OFF</p><h2 class="disp">${icon('replay')} تعادل — مباراة فاصلة</h2>${nameChips(p.block)}<p>التعادل ${esc(tieWhat(p.m, p.cuts))}، لذلك تُعاد المباراة بين المتعادلين فقط بأسئلة جديدة (${num(replayR(root))} أسئلة لكل طالب) حتى يتقدّم أحدهم.</p><button class="btn btn-gold btn-xl" data-act="root-next" data-id="${esc(root.id)}" id="btn-next">${icon('replay')}<span>ابدأ المباراة الفاصلة</span></button></section>`;
+  if (p && p.kind === 'play' && p.m !== root) return `<section class="tie-card"><p class="kicker" dir="ltr" lang="en">PLAY-OFF ${p.m.no}</p><h2 class="disp">${icon('replay')} المباراة الفاصلة ${num(p.m.no)}</h2>${nameChips(p.m.players)}<p>${p.m.seq ? 'بدأت ولم تكتمل بعد.' : 'جاهزة للعب.'}</p><button class="btn btn-gold btn-xl" data-act="root-next" data-id="${esc(root.id)}" id="btn-next">${icon('replay')}<span>${p.m.seq ? 'أكمل' : 'ابدأ'} المباراة الفاصلة</span></button></section>`;
+  if (p && p.kind === 'toss') return `<section class="tie-card toss"><p class="kicker" dir="ltr" lang="en">SEEDING DRAW</p><h2 class="disp">${icon('coin')} تعادل على صدارة المجموعة</h2>${nameChips(p.block)}<p>الطالبان متأهلان معًا، والقرعة تحدد الأول والثاني (أول المجموعة يواجه ثاني المجموعة الأخرى).</p><button class="btn btn-gold btn-xl" data-act="root-next" data-id="${esc(root.id)}" id="btn-next">${icon('coin')}<span>قرعة الترتيب</span></button></section>`;
   if (p) return '';
   const o = rr.order;
-  if (root.stage === 'grand') return `<section class="out-card gold"><h2 class="disp">${icon('trophy')} ${nm(o[0])} بطل دوري أبطال المفردات!</h2><p>المركز الثاني: ${nm(o[1])}${o[2] ? ` · المركز الثالث: ${nm(o[2])}` : ''}</p><button class="btn btn-gold btn-xl" data-act="go" data-to="ceremony" id="btn-next">${icon('trophy')}<span>حفل التتويج</span></button></section>`;
-  if (root.stage === 'final') return `<section class="out-card gold"><h2 class="disp">${icon('crown')} ${nm(o[0])} بطل الشعبة ${bd(cls ? cls.name : '')}!</h2><p>يمثّل شعبته في النهائي الكبير · وصيف الصف: ${nm(o[1])}</p></section>`;
+  if (root.stage === 'grand') return `<section class="out-card gold"><h2 class="disp">${icon('trophy')} بطل دوري أبطال المفردات — الجائزة الكبرى</h2>${nameChips([o[0]], 'gold')}<p>المركز الثاني: ${nm(o[1])}${o[2] ? ` · المركز الثالث: ${nm(o[2])}` : ''}</p><button class="btn btn-gold btn-xl" data-act="go" data-to="ceremony" id="btn-next">${icon('trophy')}<span>حفل التتويج</span></button></section>`;
+  if (root.stage === 'final') return `<section class="out-card gold"><h2 class="disp">${icon('crown')} بطل الشعبة ${bd(cls ? cls.name : '')}</h2>${nameChips([o[0]], 'gold')}<p>يمثّل شعبته في النهائي الكبير · وصيف الصف: ${nm(o[1])}</p></section>`;
   const q = root.stage === 'group' ? o.slice(0, 2) : o.slice(0, root.players.length > 2 ? 2 : 1);
-  return `<section class="out-card"><h2 class="disp">${icon('check')} ${root.stage === 'group' ? `المتأهلان من ${esc(GROUP_AR[root.slot])}` : root.players.length > 2 ? 'المتأهلان إلى نهائي الصف' : 'الفائز إلى نهائي الصف'}: ${namesList(q)}</h2>${rr.tied.some((b) => b.every((x) => q.includes(x))) ? '<p class="muted">تعادل (كلاهما متأهل) — لا يحتاج إلى مباراة فاصلة.</p>' : ''}</section>`;
+  return `<section class="out-card"><h2 class="disp">${icon('check')} ${root.stage === 'group' ? `المتأهلان من ${esc(GROUP_AR[root.slot])}` : root.players.length > 2 ? 'المتأهلان إلى نهائي الصف' : 'الفائز إلى نهائي الصف'}</h2>${nameChips(q)}${rr.tied.some((b) => b.every((x) => q.includes(x))) ? '<p class="muted">تعادل (كلاهما متأهل) — لا يحتاج إلى مباراة فاصلة.</p>' : ''}</section>`;
 }
 VIEWS.result = () => {
   const m = curMatch(); if (!m || !m.seq || m.status !== 'done') return T ? VIEWS.hub() : VIEWS.home();
@@ -2997,7 +3009,7 @@ function myWordsPanel() {
 <div class="row"><button class="btn btn-primary" data-act="cw-preview">${icon('eye')}<span>معاينة</span></button><button class="btn btn-gold" data-act="cw-save" id="cw-save" ${S.cwPreview && S.cwPreview.some((r) => r.ok) ? '' : 'disabled'}>${icon('save')}<span>حفظ الكلمات الصحيحة</span></button></div>
 <div id="cw-prev">${S.cwPreview ? previewTable(S.cwPreview) : ''}</div>
 <h3 class="h3">الكلمات المحفوظة <small>(${CUSTOM.length})</small></h3>
-${CUSTOM.length ? `<div class="tbl-wrap"><table class="words"><thead><tr><th>الكلمة</th><th>المعنى</th><th class="ex">الجملة</th><th><span class="sr-only">حذف</span></th></tr></thead><tbody>${CUSTOM.map((c, i) => `<tr><td class="w">${en(c.w)}</td><td class="a">${esc(c.ar)}</td><td class="ex">${c.s ? `<span dir="ltr" lang="en">${esc(c.s)}</span>` : '<span class="muted">—</span>'}</td><td><button class="icon-btn sm" data-act="cw-del" data-i="${i}" aria-label="حذف ${esc(c.w)}">${icon('trash')}</button></td></tr>`).join('')}</tbody></table></div>` : '<p class="muted">لا توجد كلمات محفوظة بعد. بعد الحفظ تظهر «كلماتي» كوحدة يمكن اختيارها في إعداد البطولة.</p>'}
+${CUSTOM.length ? `<div class="tbl-wrap"><table class="words"><thead><tr><th>الكلمة</th><th>المعنى</th><th class="ex">الجملة</th><th><span class="sr-only">حذف</span></th></tr></thead><tbody>${CUSTOM.map((c, i) => `<tr><td class="w">${en(c.w)}</td><td class="a">${esc(c.ar)}</td><td class="ex">${c.s ? `<span dir="ltr" lang="en">${esc(c.s)}</span>` : '<span class="muted">—</span>'}</td><td><button class="icon-btn sm" data-act="cw-del" data-i="${i}" aria-label="حذف ${esc(c.w)}">${icon('trash')}</button></td></tr>`).join('')}</tbody></table></div>` : '<p class="muted">لا توجد كلمات محفوظة بعد. بعد الحفظ يمكن تفعيل «استخدم كلماتي فقط» لمسابقة الوحدة الثانية.</p>'}
 </section>`;
 }
 VIEWS.bank = () => {
@@ -3227,14 +3239,14 @@ function openReview() {
   const st = L.st, p = person(st.p);
   openModal({
     title: `${icon('review')} مراجعة المعلم`,
-    body: `<div class="var-box" style="--tc:${safeColor(p.color)}"><p class="kicker" dir="ltr" lang="en">TEACHER REVIEW</p><p>آخر إجابة: <b>${nm(st.p)}</b> — السؤال ${esc(st.r + 1)} · ${TYPES[st.q.type].ar}${st.q.type !== 'match5' ? ` · ${en(st.q.w)}` : ''}</p><p class="var-now">القرار الحالي: ${st.ok ? `<b class="good">${icon('check')} إجابة صحيحة (نقطة)</b>` : `<b class="bad">${icon('x')} إجابة غير صحيحة</b>`}</p><p class="muted small">استخدمها إذا قال الطالب الإجابة الصحيحة شفهيًا أو حدث خطأ في الضغط.</p></div>`,
+    body: `<div class="rev-box" style="--tc:${safeColor(p.color)}"><p class="kicker" dir="ltr" lang="en">TEACHER REVIEW</p><p>آخر إجابة: <b>${nm(st.p)}</b> — السؤال ${esc(st.r + 1)} · ${TYPES[st.q.type].ar}${st.q.type !== 'match5' ? ` · ${en(st.q.w)}` : ''}</p><p class="rev-now">القرار الحالي: ${st.ok ? `<b class="good">${icon('check')} إجابة صحيحة (نقطة)</b>` : `<b class="bad">${icon('x')} إجابة غير صحيحة</b>`}</p><p class="muted small">استخدمها إذا قال الطالب الإجابة الصحيحة شفهيًا أو حدث خطأ في الضغط.</p></div>`,
     actions: [{ label: 'إغلاق' }, st.ok ? { label: 'إلغاء النقطة', cls: 'btn-danger', icon: 'x', fn: () => applyReview(L, false) } : { label: 'احتساب النقطة', cls: 'btn-gold', icon: 'check', fn: () => applyReview(L, true) }],
     onClose: () => { if (Q && !Q.answered && !Q.paused && !topLayer()) timerResume(); },
   });
 }
 function applyReview(L, ok) {
   const st = L.st, m = L.m; if (!!st.ok === ok) return;
-  st.ok = ok; st.var = true;
+  st.ok = ok; st.tr = true;
   refreshStatus(m); persist(m);
   refreshBoard(m, ok ? st.p : null);
   const ov = $('#layer > [data-name="res"]');
@@ -3344,6 +3356,7 @@ function m5Click(side, i) {
 function m5Check() { if (!m5Live()) return; const M = Q.m5; if (M.L.some((j) => j < 0)) return; submit(M.L.every((j, i) => j === Q.q.ans[i]), M.L.slice()); }
 let M5RAF = 0;
 document.addEventListener('pointerdown', (e) => {
+  if (Q && Q.m5) Q.m5.just = false; // a new press is a new interaction (only the click that ends a drag is swallowed)
   const it = e.target && e.target.closest ? e.target.closest('.m5-i') : null;
   if (!it || !m5Live() || it.disabled || e.button > 0) return;
   if (!Q.m5.rects) m5Measure();
@@ -3796,13 +3809,13 @@ const byName = (n) => { if (!T) return null; for (const c of T.classes) { const 
 window.VCL = {
   version: APP_VERSION,
   getState() {
-    return JSON.parse(JSON.stringify({ view: S.view, tab: S.tab, matchId: S.matchId, drawCls: S.drawCls, layer: topLayer(), modal: MODAL.open, paused: !!(Q && Q.paused), contest: T, tournament: T, demo: S.demo, prefs: PREFS, custom: CUSTOM, timerSpeed: TM.speed, legacy: !!LEGACY }));
+    return JSON.parse(JSON.stringify({ view: S.view, tab: S.tab, matchId: S.matchId, drawCls: S.drawCls, layer: topLayer(), modal: MODAL.open, paused: !!(Q && Q.paused), contest: T, demo: S.demo, prefs: PREFS, custom: CUSTOM, timerSpeed: TM.speed, legacy: !!LEGACY }));
   },
   ui() { return { view: S.view, tab: S.tab, matchId: S.matchId, layer: topLayer(), modal: MODAL.open, paused: !!(Q && Q.paused) }; },
   currentQuestion() {
     if (!Q) return null;
     const q = Q.q, out = JSON.parse(JSON.stringify(q));
-    out.matchId = Q.m.id; out.step = Q.idx; out.player = Q.p; out.team = Q.p; out.round = Q.st.r; out.answered = Q.answered; out.paused = Q.paused;
+    out.matchId = Q.m.id; out.step = Q.idx; out.player = Q.p; out.round = Q.st.r; out.answered = Q.answered; out.paused = Q.paused;
     out.timeLeft = TM.total ? Math.round(TM.left) : null; out.armed = qArmed();
     out.answer = q.type === 'spell_build' ? q.target : q.type === 'match5' ? q.ans.slice() : q.ans;
     if (Q.sb) out.slots = Q.sb.slots.slice();
