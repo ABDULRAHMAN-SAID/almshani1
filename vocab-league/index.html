@@ -8,7 +8,18 @@
 <meta name="theme-color" content="#060d24">
 <meta name="color-scheme" content="dark">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%230b1a45'/%3E%3Ccircle cx='32' cy='32' r='15' fill='%23f5f7ff'/%3E%3Cpolygon points='32,24 39.6,29.5 36.7,38.5 27.3,38.5 24.4,29.5' fill='%230b1a45'/%3E%3Ccircle cx='32' cy='32' r='25' fill='none' stroke='%23c9d3e8' stroke-width='2.5' stroke-dasharray='3 4.85'/%3E%3C/svg%3E">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&family=Reem+Kufi:wght@500;600;700&family=Teko:wght@400;500;600;700&display=swap">
+<!-- fonts load without blocking the first paint (media swap); the fallback stacks below render fine meanwhile -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300;400;500;600;700&family=Reem+Kufi:wght@500;600;700&family=Teko:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<script>
+/* ES5 guard: if the main script cannot run in this browser (too old), show a readable notice instead of a blank page */
+document.addEventListener('DOMContentLoaded', function () {
+  if (window.VCL) return;
+  var v = document.getElementById('view'); if (!v) return;
+  v.innerHTML = '<div style="max-width:640px;margin:18vh auto 0;padding:24px;text-align:center;font:18px/1.8 Tahoma,Arial,sans-serif;color:#f5f7ff">'
+    + '<p style="font-size:24px;font-weight:bold;margin:0 0 8px">تعذّر تشغيل «دوري أبطال المفردات» في هذا المتصفح</p>'
+    + '<p style="margin:0;color:#c9d3e8">حدّث المتصفح أو نظام الجهاز إلى إصدار أحدث، أو افتح الصفحة في Chrome أو Edge أو Safari حديث.</p></div>';
+});
+</script>
 <style>
 /* ============ tokens (single deliberate dark "stadium at night" theme) ============ */
 :root{
@@ -367,6 +378,8 @@ bdi{ unicode-bidi:isolate }
 .split-resume{ text-align:center; display:flex; flex-direction:column; align-items:center; gap:12px }
 .split-resume h2{ font-family:var(--f-disp); font-size:1.6rem }
 .split-resume p .ic{ display:inline; width:18px; height:18px; vertical-align:-3px }
+.intro-warn{ display:flex; gap:8px; align-items:flex-start; color:#ffd89a; margin-top:4px }
+.intro-warn .ic{ width:16px; height:16px; margin-top:4px; color:var(--warn) }
 
 /* ============ match (broadcast) ============ */
 html.in-match, html.in-match body{ overflow:hidden; height:100% }
@@ -388,58 +401,58 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .sb-side.b{ padding-inline-end:20px }
 .sb-side.on{ background:linear-gradient(0deg, color-mix(in srgb, var(--tc) 30%, transparent), transparent) }
 .sb-side.on::after{ content:''; position:absolute; inset-inline:0; bottom:0; height:3px; background:var(--tc); box-shadow:0 0 16px var(--tc) }
-.sb-crest svg{ width:42px; height:auto; filter:drop-shadow(0 3px 6px rgba(0,0,0,.4)) }
-.sb-name{ font-weight:700; font-size:clamp(17px,1.9vw,27px); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0 }
-.sb-score{ font-family:var(--f-num); font-weight:600; font-size:clamp(38px,4.2vw,60px); line-height:1; min-width:1.35em; text-align:center; padding:.1em .22em 0; border-radius:10px; background:rgba(6,13,36,.55); font-variant-numeric:tabular-nums }
+.sb-crest svg{ width:clamp(38px,min(3.1vw,5.5vh),62px); height:auto; filter:drop-shadow(0 3px 6px rgba(0,0,0,.4)) }
+.sb-name{ font-weight:700; font-size:clamp(17px,min(1.9vw,3.4vh),38px); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0 }
+.sb-score{ font-family:var(--f-num); font-weight:600; font-size:clamp(38px,min(4.2vw,7.5vh),84px); line-height:1; min-width:1.35em; text-align:center; padding:.1em .22em 0; border-radius:10px; background:rgba(6,13,36,.55); font-variant-numeric:tabular-nums }
 .sb-side.a .sb-score{ margin-inline-start:auto }
 .sb-side.b .sb-crest{ margin-inline-start:auto }
 .sb-score.bump{ animation:bump .8s var(--ease) }
 .sb-clock{ display:flex; flex-direction:column; align-items:center; justify-content:center; padding:4px 18px; background:#050b1f; min-width:118px; border-inline:1px solid rgba(201,211,232,.2) }
-.sb-min{ font-family:var(--f-num); font-weight:500; font-size:clamp(30px,3vw,44px); line-height:1; color:var(--gold); padding-top:4px; font-variant-numeric:tabular-nums }
+.sb-min{ font-family:var(--f-num); font-weight:500; font-size:clamp(30px,min(3vw,5.4vh),62px); line-height:1; color:var(--gold); padding-top:4px; font-variant-numeric:tabular-nums }
 .sb-min.pens-l{ font-family:var(--f-disp); font-size:clamp(15px,1.5vw,20px); padding:4px 0 2px }
-.sb-stage{ font-size:.74rem; color:var(--silver); white-space:nowrap; display:flex; align-items:center; gap:4px }
+.sb-stage{ font-size:clamp(12px,min(1.05vw,1.9vh),17px); color:var(--silver); white-space:nowrap; display:flex; align-items:center; gap:4px }
 .sb-stage .sp{ font-size:1.05rem }
 .sb-sub{ display:grid; grid-template-columns:1fr auto 1fr; width:min(1120px,100%); align-items:center; gap:10px }
 .dots{ display:flex; gap:6px; flex-wrap:wrap }
 .dots.b{ justify-content:flex-end }
-.dot{ width:15px; height:15px; border-radius:50%; border:2px solid rgba(201,211,232,.45); background:rgba(6,13,36,.5); position:relative; flex:none }
+.dot{ width:clamp(15px,min(1.1vw,2vh),22px); height:clamp(15px,min(1.1vw,2vh),22px); border-radius:50%; border:2px solid rgba(201,211,232,.45); background:rgba(6,13,36,.5); position:relative; flex:none }
 .dot.g{ background:var(--good); border-color:var(--good); box-shadow:0 0 8px rgba(47,208,122,.6) }
 .dot.x{ border-color:var(--bad); background:rgba(255,90,106,.15) }
 .dot.x::before, .dot.x::after{ content:''; position:absolute; left:50%; top:50%; width:9px; height:2px; background:var(--bad); border-radius:2px }
 .dot.x::before{ transform:translate(-50%,-50%) rotate(45deg) } .dot.x::after{ transform:translate(-50%,-50%) rotate(-45deg) }
 .dot.h{ background:rgba(201,211,232,.45); border-color:rgba(201,211,232,.45) }
 .dot.cur{ border-color:var(--tc); box-shadow:0 0 0 3px color-mix(in srgb, var(--tc) 35%, transparent); animation:pulse 1.2s infinite }
-.turn{ padding:3px 16px; border-radius:99px; background:rgba(6,13,36,.8); border:1px solid color-mix(in srgb, var(--tc) 60%, transparent); white-space:nowrap; font-size:.95rem; box-shadow:0 0 18px color-mix(in srgb, var(--tc) 25%, transparent) }
+.turn{ padding:4px 20px; border-radius:99px; background:rgba(6,13,36,.8); border:1px solid color-mix(in srgb, var(--tc) 60%, transparent); white-space:nowrap; font-size:clamp(16px,min(1.6vw,2.9vh),26px); font-weight:600; box-shadow:0 0 18px color-mix(in srgb, var(--tc) 25%, transparent) }
 .turn b{ color:var(--white) }
 .qzone{ min-height:0; display:flex; justify-content:center; align-items:center; padding:10px var(--gutter); overflow:auto; transition:filter .3s }
 .v-match.is-paused .qzone{ filter:blur(18px) saturate(.6); pointer-events:none }
 .qp{ position:relative; width:min(1120px,100%); max-height:100%; display:flex; flex-direction:column; gap:clamp(10px,1.8vh,20px); padding:clamp(14px,2.2vh,24px) clamp(16px,2.4vw,32px); background:var(--glass); border:1px solid var(--line); border-radius:var(--r-l); -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px); box-shadow:var(--shadow), inset 0 3px 0 var(--cc); animation:qIn .45s var(--ease) both }
 .qp-h{ display:flex; align-items:center; gap:12px }
-.cat-chip{ display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:99px; background:color-mix(in srgb, var(--cc) 14%, transparent); color:var(--cc); font-weight:600; font-size:.9rem; border:1px solid color-mix(in srgb, var(--cc) 40%, transparent); white-space:nowrap }
+.cat-chip{ display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:99px; background:color-mix(in srgb, var(--cc) 14%, transparent); color:var(--cc); font-weight:600; font-size:clamp(14px,min(1.1vw,2vh),20px); border:1px solid color-mix(in srgb, var(--cc) 40%, transparent); white-space:nowrap }
 .cat-chip .ic{ width:17px; height:17px }
-.qp-t{ flex:1; font-family:var(--f-disp); font-weight:600; font-size:clamp(20px,2.1vw,30px); min-width:0 }
-.qp-n{ color:var(--silver); font-size:.9rem; white-space:nowrap }
-.ring{ position:relative; width:clamp(56px,5.2vw,72px); aspect-ratio:1; flex:none }
+.qp-t{ flex:1; font-family:var(--f-disp); font-weight:600; font-size:clamp(20px,min(2.1vw,3.8vh),40px); min-width:0 }
+.qp-n{ color:var(--silver); font-size:clamp(14px,min(1.25vw,2.2vh),20px); white-space:nowrap }
+.ring{ position:relative; width:clamp(56px,min(5.2vw,9.4vh),100px); aspect-ratio:1; flex:none }
 .ring svg{ width:100%; height:100% }
 .ring-bg{ fill:rgba(6,13,36,.65); stroke:rgba(201,211,232,.16); stroke-width:6 }
 .ring-fg{ fill:none; stroke:var(--flood); stroke-width:6; stroke-linecap:round; transition:stroke .3s }
-.ring b{ position:absolute; inset:0; display:grid; place-items:center; font-family:var(--f-num); font-weight:500; font-size:clamp(24px,2.3vw,34px); padding-top:.12em; font-variant-numeric:tabular-nums }
+.ring b{ position:absolute; inset:0; display:grid; place-items:center; font-family:var(--f-num); font-weight:500; font-size:clamp(24px,min(2.3vw,4.2vh),46px); padding-top:.12em; font-variant-numeric:tabular-nums }
 .ring.low .ring-fg{ stroke:var(--bad) }
 .ring.low b{ color:var(--bad); animation:pulse 1s infinite }
 .ring.off b{ font-size:1.6rem; color:var(--muted); padding-top:0 }
 .qp-body{ display:flex; flex-direction:column; gap:clamp(10px,2vh,22px); min-height:0 }
 .prompt{ display:flex; align-items:center; justify-content:center; gap:16px; min-height:clamp(84px,17vh,160px); text-align:center; flex-wrap:wrap }
 .prompt.sm{ min-height:clamp(60px,10vh,110px) }
-.word{ font-weight:700; font-size:clamp(40px,6.5vw,104px); line-height:1.1; letter-spacing:.005em; text-shadow:0 6px 30px rgba(124,196,255,.18) }
-.word.ar{ font-weight:600; font-size:clamp(34px,4.6vw,72px); line-height:1.3 }
-.prompt.sm .word.ar{ font-size:clamp(30px,3.8vw,58px) }
+.word{ font-weight:700; font-size:clamp(40px,min(6.5vw,11vh),150px); line-height:1.1; letter-spacing:.005em; text-shadow:0 6px 30px rgba(124,196,255,.18) }
+.word.ar{ font-weight:600; font-size:clamp(34px,min(4.6vw,8.5vh),100px); line-height:1.3 }
+.prompt.sm .word.ar{ font-size:clamp(30px,min(3.8vw,7vh),80px) }
 .say{ width:56px; height:56px; border-radius:50%; display:grid; place-items:center; border:1px solid rgba(124,196,255,.45); background:rgba(124,196,255,.12); color:var(--flood); flex:none; transition:transform .15s, background-color .2s }
 .say:hover{ background:rgba(124,196,255,.24); transform:scale(1.06) }
 .say .ic{ width:26px; height:26px }
 .say.sm{ width:40px; height:40px }
 .say.sm .ic{ width:20px; height:20px }
 .opts{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(10px,1.4vw,16px) }
-.opt{ position:relative; display:flex; align-items:center; gap:14px; min-height:clamp(58px,9.2vh,90px); padding:8px 16px; border-radius:16px; border:1.5px solid rgba(201,211,232,.22); background:linear-gradient(180deg, rgba(26,52,128,.7), rgba(15,33,86,.7)); font-size:clamp(18px,2.2vw,30px); font-weight:600; text-align:center; line-height:1.25; transition:transform .15s var(--ease), border-color .2s, background .2s, opacity .3s, box-shadow .2s }
+.opt{ position:relative; display:flex; align-items:center; gap:14px; min-height:clamp(58px,9.2vh,112px); padding:8px 16px; border-radius:16px; border:1.5px solid rgba(201,211,232,.22); background:linear-gradient(180deg, rgba(26,52,128,.7), rgba(15,33,86,.7)); font-size:clamp(18px,min(2.2vw,3.9vh),44px); font-weight:600; text-align:center; line-height:1.25; transition:transform .15s var(--ease), border-color .2s, background .2s, opacity .3s, box-shadow .2s }
 .opt:hover:not([disabled]){ border-color:var(--flood); transform:translateY(-2px); box-shadow:0 10px 24px rgba(0,0,0,.3) }
 .opt .k{ flex:none; display:grid; place-items:center; width:1.55em; height:1.55em; border-radius:10px; background:rgba(6,13,36,.6); font-family:var(--f-num); font-size:.82em; color:var(--silver); padding-top:.12em; font-weight:500 }
 .opt .t{ flex:1; min-width:0; overflow-wrap:anywhere; padding-inline-end:1.55em }
@@ -453,40 +466,40 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .opt.is-wrong .k{ background:var(--bad); color:#2a0006 }
 /* spell_build */
 .slots, .tiles{ display:flex; flex-wrap:wrap; justify-content:center; gap:clamp(6px,.7vw,10px) }
-.slot{ width:clamp(40px,4.2vw,60px); height:clamp(50px,5.4vw,72px); border-radius:12px; border:2px dashed rgba(201,211,232,.4); background:rgba(6,13,36,.55); display:grid; place-items:center; font-size:clamp(24px,2.8vw,40px); font-weight:700; padding:0; transition:border-color .2s, background-color .2s, transform .15s }
+.slot{ width:clamp(40px,min(4.2vw,7.4vh),84px); height:clamp(50px,min(5.4vw,9.4vh),104px); border-radius:12px; border:2px dashed rgba(201,211,232,.4); background:rgba(6,13,36,.55); display:grid; place-items:center; font-size:clamp(24px,min(2.8vw,5vh),56px); font-weight:700; padding:0; transition:border-color .2s, background-color .2s, transform .15s }
 .slot.fill{ border-style:solid; border-color:var(--flood); background:rgba(124,196,255,.14); animation:slotIn .25s var(--ease) }
-.slot.fixed{ border:0; background:none; width:clamp(14px,1.6vw,24px); color:var(--silver) }
+.slot.fixed{ border:0; background:none; width:clamp(14px,min(1.6vw,2.8vh),32px); color:var(--silver) }
 .slot.ok{ border-color:var(--good); background:rgba(47,208,122,.22); border-style:solid }
 .slot.bad{ border-color:var(--bad); background:rgba(255,90,106,.2); border-style:solid }
 .slots.shake{ animation:shake .35s }
-.tile{ width:clamp(40px,4.2vw,60px); height:clamp(50px,5.4vw,72px); border-radius:12px; border:0; background:linear-gradient(180deg,#ffffff,#cdd6ea); color:#0b1a45; box-shadow:0 5px 0 #7c88ad, 0 10px 18px rgba(0,0,0,.35); font-size:clamp(24px,2.8vw,40px); font-weight:700; padding:0; transition:transform .12s, opacity .2s, box-shadow .12s }
+.tile{ width:clamp(40px,min(4.2vw,7.4vh),84px); height:clamp(50px,min(5.4vw,9.4vh),104px); border-radius:12px; border:0; background:linear-gradient(180deg,#ffffff,#cdd6ea); color:#0b1a45; box-shadow:0 5px 0 #7c88ad, 0 10px 18px rgba(0,0,0,.35); font-size:clamp(24px,min(2.8vw,5vh),56px); font-weight:700; padding:0; transition:transform .12s, opacity .2s, box-shadow .12s }
 .tile:hover:not([disabled]){ transform:translateY(-3px) }
 .tile:active:not([disabled]){ transform:translateY(3px); box-shadow:0 2px 0 #7c88ad }
 .tile.used{ opacity:.14; transform:scale(.9); box-shadow:none }
 .sbc{ display:flex; justify-content:center; gap:10px; flex-wrap:wrap }
-.kbd-hint{ text-align:center; color:var(--muted); font-size:.82rem; margin-top:-6px }
+.kbd-hint{ text-align:center; color:var(--muted); font-size:clamp(13px,min(1.05vw,1.9vh),18px); margin-top:-6px }
 .sb-correct{ text-align:center; font-size:1.2rem }
 .sb-correct .b, .res-ans .b{ font-weight:700; color:var(--good) }
 /* gap_sentence */
-.sentence{ font-size:clamp(24px,3.1vw,46px); line-height:1.55; font-weight:500; text-align:center; padding:clamp(6px,2vh,26px) 0 }
+.sentence{ font-size:clamp(24px,min(3.1vw,5.6vh),64px); line-height:1.55; font-weight:500; text-align:center; padding:clamp(6px,2vh,26px) 0 }
 .blank{ display:inline-block; min-width:4.6em; margin:0 .2em; border-bottom:4px solid var(--flood); color:var(--flood); text-align:center; line-height:1.15; animation:blink 1.4s ease-in-out infinite }
 .blank.ok{ color:var(--good); border-color:var(--good); animation:none }
 .blank.fix{ color:var(--gold); border-color:var(--gold); animation:none }
 /* gap_letters */
 .letters{ display:flex; justify-content:center; flex-wrap:wrap; gap:clamp(6px,.7vw,10px); padding-top:clamp(4px,1.5vh,18px) }
-.lb{ width:clamp(42px,4.8vw,72px); height:clamp(54px,6.2vw,90px); display:grid; place-items:center; font-size:clamp(28px,3.6vw,54px); font-weight:700; border-radius:12px; background:rgba(245,247,255,.08); border:1px solid rgba(201,211,232,.2) }
+.lb{ width:clamp(42px,min(4.8vw,8.5vh),96px); height:clamp(54px,min(6.2vw,11vh),120px); display:grid; place-items:center; font-size:clamp(28px,min(3.6vw,6.4vh),72px); font-weight:700; border-radius:12px; background:rgba(245,247,255,.08); border:1px solid rgba(201,211,232,.2) }
 .lb.miss{ border:2.5px dashed var(--gold); color:var(--gold); background:rgba(242,193,78,.1) }
 .lb.miss.ok{ border-style:solid; border-color:var(--good); color:var(--good); background:rgba(47,208,122,.18) }
 .lb.miss.fix{ border-style:solid }
-.lb.gap{ background:none; border:0; width:clamp(12px,1.4vw,22px) }
-.hint{ text-align:center; color:var(--silver); font-size:clamp(16px,1.6vw,22px) }
+.lb.gap{ background:none; border:0; width:clamp(12px,min(1.4vw,2.5vh),30px) }
+.hint{ text-align:center; color:var(--silver); font-size:clamp(16px,min(1.6vw,2.9vh),30px) }
 .hint b{ color:var(--white); font-weight:600 }
 /* match5 */
 .m5{ position:relative; display:grid; grid-template-columns:minmax(0,1fr) minmax(48px,20%) minmax(0,1fr); }
 .m5-svg{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible; z-index:0 }
 .m5-col{ display:flex; flex-direction:column; gap:clamp(8px,1.3vh,12px); position:relative; z-index:1 }
 .m5-col.en{ grid-column:1 } .m5-col.ar{ grid-column:3 }
-.m5-i{ min-height:clamp(46px,6.8vh,64px); border-radius:14px; border:2px solid rgba(201,211,232,.24); background:linear-gradient(180deg, rgba(26,52,128,.75), rgba(15,33,86,.75)); font-size:clamp(17px,1.9vw,27px); font-weight:600; padding:4px 12px; touch-action:none; user-select:none; -webkit-user-select:none; transition:border-color .2s, background-color .2s, box-shadow .2s, transform .15s; line-height:1.2 }
+.m5-i{ min-height:clamp(46px,6.8vh,84px); border-radius:14px; border:2px solid rgba(201,211,232,.24); background:linear-gradient(180deg, rgba(26,52,128,.75), rgba(15,33,86,.75)); font-size:clamp(17px,min(1.9vw,3.4vh),36px); font-weight:600; padding:4px 12px; touch-action:none; user-select:none; -webkit-user-select:none; transition:border-color .2s, background-color .2s, box-shadow .2s, transform .15s; line-height:1.2 }
 .m5-i:hover:not([disabled]){ border-color:rgba(245,247,255,.6) }
 .m5-i.sel{ border-color:var(--white); box-shadow:0 0 0 4px rgba(245,247,255,.22); transform:scale(1.02) }
 .m5-i.lnk{ border-color:var(--lc); background:linear-gradient(180deg, color-mix(in srgb, var(--lc) 26%, #13296a), color-mix(in srgb, var(--lc) 12%, #0b1a45)) }
@@ -499,11 +512,11 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .ln.bad{ stroke:var(--bad); stroke-dasharray:10 8 } .lnd.bad{ fill:var(--bad) }
 .ln.miss{ stroke:var(--good); stroke-dasharray:2 8; stroke-width:4.5 } .lnd.miss{ fill:var(--good) }
 .m5-foot{ display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap }
-.m5-count{ font-family:var(--f-num); font-size:1.7rem; line-height:1; color:var(--gold); min-width:3em; text-align:center; padding-top:4px }
+.m5-count{ font-family:var(--f-num); font-size:clamp(1.7rem,min(2.4vw,4.3vh),2.6rem); line-height:1; color:var(--gold); min-width:3em; text-align:center; padding-top:4px }
 .qp.answered .kbd-hint, .qp.answered .m5-foot .muted{ visibility:hidden }
 /* toolbar */
 .tools{ display:flex; align-items:center; justify-content:center; gap:6px; padding:8px var(--gutter) calc(8px + env(safe-area-inset-bottom)); background:linear-gradient(0deg, rgba(5,11,31,.96), rgba(5,11,31,.72)); border-top:1px solid var(--line); overflow-x:auto; scrollbar-width:thin }
-.tool{ display:inline-flex; align-items:center; gap:7px; min-height:44px; min-width:44px; justify-content:center; padding:6px 12px; border-radius:12px; border:1px solid transparent; background:rgba(255,255,255,.05); color:var(--silver); font-size:.9rem; white-space:nowrap; flex:none; transition:background-color .2s, color .2s }
+.tool{ display:inline-flex; align-items:center; gap:7px; min-height:44px; min-width:44px; justify-content:center; padding:6px 12px; border-radius:12px; border:1px solid transparent; background:rgba(255,255,255,.05); color:var(--silver); font-size:clamp(14px,1vw,16px); white-space:nowrap; flex:none; transition:background-color .2s, color .2s }
 .tool:hover:not([disabled]){ color:var(--white); background:rgba(255,255,255,.11) }
 .tool[disabled]{ opacity:.35; cursor:not-allowed }
 .tool kbd{ font-family:var(--f-num); font-size:.85rem; padding:0 6px; border-radius:6px; border:1px solid var(--line); color:var(--muted); line-height:1.5 }
@@ -535,9 +548,9 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .ovl-goal{ background:radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--gold) 16%, rgba(4,9,26,.62)), rgba(4,9,26,.8)) }
 .res-top{ display:flex; align-items:center; justify-content:center; gap:18px; flex-wrap:wrap }
 .res-head{ display:flex; flex-direction:column; align-items:center }
-.res-t{ font-family:var(--f-disp); font-weight:700; font-size:clamp(52px,7vw,96px); line-height:1.05; color:var(--gold); text-shadow:0 8px 40px rgba(242,193,78,.45); animation:goalPop .7s var(--ease) both }
-.is-miss .res-t{ color:var(--silver); text-shadow:none; font-size:clamp(42px,5.4vw,72px) }
-.res-team{ display:flex; align-items:center; justify-content:center; gap:8px; font-size:1.2rem; flex-wrap:wrap }
+.res-t{ font-family:var(--f-disp); font-weight:700; font-size:clamp(52px,min(7vw,12vh),128px); line-height:1.05; color:var(--gold); text-shadow:0 8px 40px rgba(242,193,78,.45); animation:goalPop .7s var(--ease) both }
+.is-miss .res-t{ color:var(--silver); text-shadow:none; font-size:clamp(42px,min(5.4vw,9.6vh),100px) }
+.res-team{ display:flex; align-items:center; justify-content:center; gap:8px; font-size:clamp(19px,min(1.4vw,2.5vh),26px); flex-wrap:wrap }
 .res-team svg{ width:34px; height:auto }
 .var-tag{ display:inline-flex; align-items:center; gap:4px; padding:2px 10px; border-radius:99px; background:rgba(124,196,255,.14); color:var(--flood); font-size:.8rem; font-weight:600 }
 .var-tag .ic{ width:14px; height:14px }
@@ -557,14 +570,15 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .out .frame{ animation:postHit .4s .45s }
 .learn{ margin-top:14px; display:flex; flex-direction:column; gap:6px; padding:12px 16px; border-radius:16px; background:rgba(6,13,36,.55); border:1px solid var(--line) }
 .learn-w{ display:flex; justify-content:center; align-items:center; gap:10px 14px; flex-wrap:wrap }
-.lw{ font-size:clamp(26px,3vw,40px); font-weight:700; line-height:1.2 }
-.la{ font-size:clamp(20px,2.1vw,28px); color:var(--silver); font-weight:500 }
+.lw{ font-size:clamp(26px,min(3vw,5.4vh),52px); font-weight:700; line-height:1.2 }
+.la{ font-size:clamp(20px,min(2.1vw,3.8vh),36px); color:var(--silver); font-weight:500 }
 .pos{ font-size:.8rem; padding:2px 10px; border-radius:99px; background:rgba(201,211,232,.12); color:var(--silver) }
-.learn-s{ font-size:clamp(16px,1.7vw,22px); color:var(--silver); line-height:1.5 }
+.learn-s{ font-size:clamp(16px,min(1.7vw,3vh),28px); color:var(--silver); line-height:1.5 }
 .learn-s mark{ background:rgba(242,193,78,.2); color:var(--gold); padding:0 .25em; border-radius:6px; font-weight:600 }
-.learn.m5l{ display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:6px 14px; text-align:start }
-.lp{ display:flex; align-items:center; gap:8px; justify-content:space-between; padding:4px 8px; border-radius:10px; background:rgba(255,255,255,.04) }
-.lp .lw{ font-size:1.15rem } .lp .la{ font-size:1.05rem; flex:1; text-align:end }
+.learn.m5l{ display:grid; grid-template-columns:1fr; gap:4px; text-align:start }
+.lp{ display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); gap:12px; align-items:center; padding:3px 10px; border-radius:10px; background:rgba(255,255,255,.04) }
+.lp .lw{ font-size:clamp(17px,min(1.5vw,2.7vh),26px); text-align:left; overflow-wrap:anywhere; min-width:0 }
+.lp .la{ font-size:clamp(16px,min(1.4vw,2.5vh),24px); text-align:start; overflow-wrap:anywhere; min-width:0 }
 .ht-score{ display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap; margin:6px 0 14px }
 .ht-score svg{ width:56px; height:auto }
 .ht-score b{ font-size:1.4rem }
@@ -601,6 +615,13 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .bk textarea{ width:100%; border-radius:12px; border:1px solid var(--line); background:rgba(6,13,36,.7); padding:10px; resize:vertical; min-height:90px }
 .file-btn{ position:relative; cursor:pointer }
 .file-btn:focus-within{ outline:3px solid var(--flood); outline-offset:3px }
+/* storage warning (autosave unavailable / failed) */
+.warn-bar{ position:relative; z-index:6; display:flex; align-items:center; justify-content:center; gap:10px 14px; flex-wrap:wrap; padding:8px var(--gutter); background:rgba(255,181,71,.15); border-bottom:1px solid rgba(255,181,71,.5); color:#ffe2b8; font-size:.92rem; line-height:1.5; text-align:center }
+.warn-bar > .ic{ color:var(--warn) }
+.warn-bar .btn{ min-height:38px; padding:.3em .9em; font-size:.88rem }
+html.in-match .warn-bar{ display:none }
+.tool.warn{ color:var(--warn); border-color:rgba(255,181,71,.5) }
+.kbd-hint kbd{ font-size:.92em; padding:0 6px }
 /* toasts */
 #toasts{ position:fixed; bottom:calc(92px + env(safe-area-inset-bottom)); left:50%; transform:translateX(-50%); z-index:95; display:flex; flex-direction:column; gap:8px; align-items:center; pointer-events:none; width:min(560px, calc(100% - 32px)) }
 .toast{ padding:10px 18px; border-radius:14px; background:rgba(11,26,69,.97); border:1px solid var(--line); box-shadow:var(--shadow); animation:toastIn .3s var(--ease) both; font-weight:500; text-align:center; transition:opacity .3s, transform .3s }
@@ -623,14 +644,14 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .ft-pens{ display:flex; align-items:center; gap:10px; font-size:1.05rem; color:var(--silver) }
 .ft-pens .sp{ font-size:1.8rem; color:var(--white) }
 .ft-result{ display:flex; flex-direction:column; align-items:center; gap:6px; transition:opacity .5s }
-.ft-result.pending{ opacity:0 }
+.ft-result.pending, .ft-tbl.pending{ opacity:0 }
 .rl{ display:inline-flex; align-items:center; gap:8px; font-family:var(--f-disp); font-size:clamp(22px,2.4vw,32px); font-weight:600 }
 .rl.win{ color:var(--gold) }
 .rl .ic{ width:28px; height:28px }
 .ft-points{ color:var(--silver) }
 .ft-points b{ font-family:var(--f-num); font-size:1.5rem; color:var(--good); vertical-align:-2px }
 .ft-points.gold{ color:var(--gold); font-weight:600; display:flex; align-items:center; gap:6px }
-.ft-tbl{ width:min(860px,100%) }
+.ft-tbl{ width:min(860px,100%); transition:opacity .5s }
 .ft-rounds{ width:100%; border-collapse:collapse; min-width:480px }
 .ft-rounds th{ padding:10px; font-weight:500; color:var(--silver); font-size:.88rem; border-bottom:1px solid var(--line); background:rgba(6,13,36,.35) }
 .ft-rounds td{ padding:8px 10px; border-bottom:1px solid var(--line) }
@@ -872,6 +893,13 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
   .sb-score{ font-size:48px }
   .prompt{ min-height:clamp(70px,14vh,120px) }
 }
+/* projectors / big screens: let the broadcast graphics grow with the screen instead of stopping at laptop size */
+@media (min-width: 1500px){
+  .sb, .sb-sub, .qp{ width:min(80vw,1560px) }
+  .ovl-card{ width:min(1000px,100%) }
+  .ovl-card.pz, .ovl-card.se, .ovl-card.ht{ width:min(760px,100%) }
+  .ovl-card.pick-card{ width:min(620px,100%) }
+}
 
 /* ============ print: certificate only ============ */
 @media print{
@@ -886,7 +914,7 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 </head>
 <body>
 <canvas id="sky" aria-hidden="true"></canvas>
-<div id="app"><main id="view" class="view" tabindex="-1"></main></div>
+<div id="app"><div class="warn-bar" id="warn" role="alert" hidden></div><main id="view" class="view" tabindex="-1"></main></div>
 <div id="layer"></div>
 <div id="modal-root"></div>
 <div id="toasts" role="status" aria-live="polite"></div>
@@ -1268,6 +1296,11 @@ const CATS = {
 const CAT_IDS = ['mean', 'spell', 'gap', 'match'];
 const TIMER_OPTS = [{ v: 0, ar: 'بدون مؤقت' }, { v: 1.5, ar: 'مريح ×1.5' }, { v: 1, ar: 'عادي' }, { v: 0.7, ar: 'سريع ×0.7' }];
 const ROUND_OPTS = [4, 5, 6, 8];
+/* near-synonyms in the bank: never offered as distractors for each other (two defensible answers) */
+const NEAR_SYN = [['hire', 'rent'], ['save', 'rescue'], ['protect', 'preserve'], ['principal', 'manager'], ['experiment', 'experience'], ['moon', 'satellite'], ['storm', 'cyclone'], ['disease', 'infection'], ['pain', 'headache'], ['medicine', 'vaccine'], ['heritage', 'tradition'], ['cash', 'coin'], ['exam', 'assessment'], ['device', 'computer'], ['habitat', 'environment'], ['league', 'tournament'], ['mild', 'calm'], ['digital', 'virtual'], ['forecast', 'predict'], ['generous', 'hospitality']];
+/* ~14k common English words (prefix-compressed: an uppercase/digit marks how many letters are shared with the previous word).
+   Used to make sure a generated misspelling / letter distractor is not itself a real word (lent, here, apple…). */
+const COMMON_EN = '0aaa2ron1bandon7ed7ing2bey3ott3y2c2domen5inal3ucted4l5lah2e3rdeen2ide3lities6y2le2normal2oard3lished5tion3riginal4tion8s3ut3ve2raham3oad3uptly2s3ence5t3olute8ly4rb6ed6ing5ption3tract3urd2u3ndance7t3se5d5s4ing5ve1cademia7c8s6y2c3elerateAd9ion4nt6s4pt6able7nce6ed6ing6s4ss6ed6ibility8le6ories8y3ident8alAly8s3laimed3ommodateAion5panied8y9ing6lishAedAment4rd6ance6ing9ly4unt7ability9le8nt7ed7ing7s3reditation8ed3umulated9ion4racy6te8ly4sationAs5e6d5ing5tomed2e2hieve7d7mentBs6ing2id4s2knowledgeBdBsAing2ne2oustic2quaintance8ed4ire7d6ing5sitionBs2re4s3oss2t3ed3ing4on6s4vate8d7ion5e6ly5ism7t8s6ties7y3or5s3ress3s3ual6ly2ute1da3m4s3pt5ation5ed6r5ing6ve2d3ed3ict6ed6ion7ve6s4ng4tion8alAly8s3ress7ed8s7ing3s2elaide3quate8ly2here2idas2jacent3oining3ust6able6ed6ing6mentAs2min5isterAed8rationCveBorDs4ral6tion5e6d4ssion9s4t5s5ted8ly6ing2obe3lescentAs3pt5ed5ing6on3rable4e2renaline3ian2s2ult5hood5s2vance7d7ment7s6ing5tage9s3ent6ure9s4rse5tise9d9mentDs9rs8ing3ice4se6d6r7s5ing5or7s7y3ocacy6te8d8s7ing1erial3ospace2sthetic9s1fc2fair6s3ect6ed6ing7on6s3iliate9d9s8ion4nity4rmative3ord6able2ghan6istan2l2orementioned2raid3ica6n7s2ter5math5noon5ward9s1gain5st2e3d3ncies5y4da4t5s3s2gregate5ssion8veAly2ing2nes2o3ny2ree5d5ing5ment9s5s3iculturalAe1ha2ead2h2mad3ed1id3e4d3s2m3ed3ing3s2r3borne3craft3ed4s3ing3line7s3plane8s4ort7s3s3ways2sle1ka2in1la3bama3n3rm5ing5s3s4ka2bany3eit4rt6a3um5s4querque2cohol7ic2e3c3ppo3rt5s3x4a5nder7ra8ia4is2fred2gae3ebra4ria3orithm9s2i3ce4ia3en5s3gn5ed5ment3ke3son3ve2l3ah4n3egationAs5ed7ly5iance4n4rgic7es6y4viate4y3iance8s4ed5s4son3ocated7ion4w5ance5ed5ing5s4y3y2ma3ighty3ond4st2one4g5side3t3ud2pha5bet3ine3s2ready3ight2so2t3ar3er5ations5ed5ing5nate8ing9veBlyBs3hough3itude3ogether2uminium6um4ni2ways1manda3teur3zed4ing7ly4on2bassadorAs3er3ient4guous4tion8s7us3ulance4sh2d2elia3n4d5ed5ment9s4ities3rica7n8s7s2id4st3no2munition2nesty2ong5st3unt6ed6s2p3le2sterdam2used5ment4ing2y1na3l4og6y4yses6is6t7s5tical8s5ze7d6ing3rchy3tomy2cestors6ry3hor3ient2d3erson3re5a5w6s4oid3y2g3el5a5es5o5s4r3le5s4o3ry3ular4s2imal6s5ted6ion4e3ta2kle5s2n3a3e4x5ed3ie4versary3ounce8d8mentCs8r8s7ing4yed5ing3ual6ly2onymous3ther2swer6ed6ing6s2t3arctic9a3enna4rior3hem4ony4ropology3i4bioticAs5odies4cipateAd9ion4que3on5io3s2xiety4ous2y3body3more3one3thing4ime3way6s4here1pache3rt5heid5ment9s2ex2i2ocalypse3llo4ogies7se7ze9d6y2p3aratus5el6nt8ly3eal6ed6ing6s5r6anceAs6ed6ing6s4ndix4tite3lause4e5s4iances5cable7nt9s7tionBs5ed6s4y5ing3oint7ed7mentBs3reciateAd9ion5ntice4oach8ed9s8ing5priateBly5val6e7d5x6imateBly3s2r3il2t1quarium4tic1rab4ia6n5c4s2bitrary7tion2c3ade3h4aeologicalAy4bishop4er4ie5tect9s9uralBe5ve7s3tic2e3a4s3na4t2gentina8e3uably4e5d5s4ing4ment8s2i3el3se5s4ing3zona2k3ansas2lington2m3ed4nia7n3ies3or5ed4ur3s4trong3y2nold2ose3und2range7d7mentBs6ing4y3est6ed6ing6s3ival5e6d6s5ing3ogance7t4w5s2se4nal2t3ery3hritis4ur3icle7s5ulate4facts5icial4llery4st6ic6s3s3work1sap2bestos2h3amed3es3ley3ore3ton2ia4n3de2k3ed3ing3s2leep2pect6s3halt3irations5ing2s3ad4ssin8ation4ult7ed3emble8d7y4rt6ed6ion4s5s6ed6ing6mentAs4t5s3hole7s3ign6ed6mentAs4st6ance8t9s6ed6ing6s3ociate9d9s8ionBs3ume6d6s5ing5ptionAs4rance5e6d2teroid3hma3on5ishing3ronaut6omy2ylum1te2heist4ns3lete7s6ic8s2lanta6ic4s3east2m3osphere9ic2om4ic4s3p2p2rocities2tach6ed6ment5k6ed7r8s6ing6s4in6ed3empt7ed7ing7s4nd6ance8t6ed7es6ing5tion3ic4tude8s3orney8s3ract7ed7ing8onAs8ve7s4ibute9d9s1uburn2ckland3tion2di4ence8s4o4t5ion5orium3rey2g3mented3ust6a6ine2nt2ra3ora2s3sie3tin4ralia9nAs5ia7n2thentic9ity4or6ised7tarian8ies8y7zation8ed6s3ism3o4biography4mated7ic9ally8on5obile6tive4nomous7y4psy3umn2xiliary1vail5ability7le3tar2e3ngers4ue6s3rage7d7s6ing4y2iation3d3v2oid5ance5ed5ing5s1wait5ed5ing5s3ke5ning3rd5ed5s4e5ness3y2e3some2ful2hile2kward2w1xe2is1ye0baba3e3ies3y4lon2ch4elor3k4bone4drop4ed4groundAs4ing4lash4pack4s5tage4up4ward8s4yard3on3teria8l2d3ass3en3ge5s3ly2e2g3gage3hdad3s2hamas3rain2il4ey3t2ke4d4r5y3ing2lance7d7s6ing3cony3d4win3e3i3l4et4oon7s5t6s4room4s3tic5more2m3boo2n3ana6s3d4s4width3g4alore4ing4kok4ladesh3k4er6s4ing4rupt8cy4s3ned5r6s4ing3quet3s2ptism6t2r3ack3bados5ra4ecue5r4ie3celona3e4ly3gain7ing4e3k4er4ing3n4es5y3on3racks4ed5l6s5tt4ier7s4y3s3t4ender4on2se4ball4d4line4ment4s3h3ic5ally5s4l4n4s3ket6ball3s3tard7s2t3ch3es3h4ing4room8s4s3man3on3s3talion4er6ies6y4ing4le6field6s5ing2uer2xter2y3ern1bc2q1each5es4on3ds3m4s3n4s3r4d4ing7s4s3st5s3t4en4ing4les4s3u4tiful9ly5y3ver2came4use3k4ham4y3ome6s5ing2d3ford3room7s3s3time2e3f3n3r4s3s3tle2fore6hand2g3an3ged4ing3in5ner8s6ing9s5s3un2half4ve6d5ing6or8al8s7ur3ind3old2ijing3ng5s3rut2lfast3gian5um3ief6s5ve7d7r8s7s6ing3l4a4e4s4y3ong6ed6ing9s6s4ved4w3t4s2n3ch5mark3d4ing3eath4dict4ficial6t7ed7s3gal4hazi3ign3jamin3nett4y3son3t4ley3z2rkeley4shire3lin3muda3nard4ie3ries4y3t2side6s3t2t3a3h3rayal6ed3s3ter4ing4y3ween2verage8s5ly2ware2yond1ias4ed2ble4ical5ography2cycle2d3ding3en3s2eber2g3ger5st2ke4s3ini2lateral3ingual3l4board4ed4ing5on7aire7s4s4y2n3ary3d4ing3g4e4o2o3graphy3logical6y2polar2rch3d4s3mingham3th5day5s2scuits3exual3hop6s2t3ch5es4oin3e4s3ing3s3ter2zarre1jp1lack5berry5out5s3dder4e5s3h3ir3ke3me5d5s4ing3nd4k5et7s3st5ing3ze2each3ed5ing3nd5ed3ss5ed5ing8s3w2ind4k3ss3tz3zzard2oc4k5ade5chain5ed5ing5s3g4ger7s5ing4s3ke3nd5e3od5y4m5berg3ssom3w4ing4n4s2u3e4s4tooth3ff3nt3r3sh2vd1mw1oard5ing5s3st5s3t4s2b3by2dies4ly3y2eing2hemian2il4ed5r4ing2ld3ivia3lywood3t4on4s2mb4ay4ed5r6s4ing7s4s2n3d4ed4ing4s3e4s3g3nie3us5es2o3bs3gie3k4ed5r4ing4let4s3m3st5er5ing3t4h4s4y3ze2rder6s3e4d3ing4s3n4e3ough3row6ed6ing2snia3s4es3ton2t3h4er6ed6ing6s3tle6s4om6s2ught3lder4evard3nce5ing4d5aries7y5ed5s4ty3rbon3t4ique2w3el4n3ie3l4ing4s3s2x3er4s3ing2y3cott3d3friend3le3s1ra3ce5let4ket7s3d4ford4ley4y3in5s3ke5s3nch6es4d5ed5ing5on5s5y3ss3ve5ry5s4o3wl3zil6ian2each4d4k5down5er5fast5ing5s5through5up4st6feeding6s4th6e6ing6taking3d3ed5ing5s4ze3nda6n4nan4t3thren4t3w4er6s6y4ing3xit2ian3be3ck5s3dal4e4ge6s3ef5ing5ly3gade4gs4ht6er7st6ness6on3lliant3ng5ing5s4k3sbane4tol3t4ain4ish4s4tany2o3ad5band5cast9er9ing9s5er5ly5way3ccoli4k3ke5n5r6s3ncos4x4ze3ok5e5lyn5s3s3ther7hood7s3ught3w4n5s4se6r5ing2uce3h3ins3no4swick3sh5ed6s5ing4sels3tal6ity6ly2yan5t3ce1tw1ubble6s2chanan3k4et6s4ingham4le4s2d3apest3dha5ism7t4ies4y3get6s3s2enos2ff4alo4er5t2g3s2ild5er7s5ing8s5s4t2lb4s3garia8n3k3l4dogs4et6in6s4ied4s5hit4y5ing2m3p4er4s2n3ch3dle6s3ker3ny2rden3eau6cracy3ger6s5ss3ial4ed3ke3lington3ma3n4ed5r4ing4s4t3st5s3ton3y2s3es3h4es3iness8es8man9en3t4ed3y2t3cher3ler3t4er6flies8y4on6s4s2y3er5s3ing3s2zz4ing1ye2pass2ron0cab3bage3in5et3le5s2che2esar2fe3feine2ge2in3ro2ke4s2l3cium4ulate9d8ing9onBs8or6us5tta3eb4ndar3f3gary3iber4f5ornia3l4ed5r4ing4s3m4ly3orie7s3vin2m3bodia4ridge3den3e4l4ra6s5on6on3p4aign8ing8s4bell4ing4s4us6es2n3ada5ian8s4l3berra3cel6ed6lation7ed5r6s3didate9s4le6s4y3e3nabis4ed5s4on5t3oe4n4py3s3t4erbury4on3vas3yon2p3abilities9y5le4city3e3ita6l7ism9t7s5ol3ped3s4ule3t4ain7s4ion5ve6ity4ure7d7s6ing2r3avan3bon3d4board4iac5ff5nal8s5ovascular4s3e4d4er6s4ful7ly4less4s4y3go3ibbean4ng3l4o5s4ton3men3negie4ival3ol5ina7e3penter5t3r4iage5e6d6r7s6s4oll5t6s4y5ing3s4on3t4el5r4oon7s4ridge3ved4ing2s3a3e4s4y3h4ier3ino3s3t4e4ing4le4ro4s3ual6ly6ties7y2t3alog7ue5yst4stropheAic3ch5er6s5ing3egories7y4r5ing3hedral5rine4olic8s4y3s3tle2ucus3ght3se5d5s4ing3tion6us2valry3e4s3ity1bd2s1ctv1dc2s1ease5d2cil2dar2iling2lebrate9d9s8ing9onBs6ities8y4stial3l4ar4phone4s4ular3tic6s2ment4tery2nsorship4us3t4er6ed6s4ral5e6d6s4s4uries6y2o2ramic3eal4bral4monies7y3tain7ly7ty4ificateBsAion7ed1ha3d3in5s4r5man5s3lk4lenge9d9r9s8ing3mber7lain7s4p5agne5ion8s9hipCs5s3n4ce6llor6s4dler4g5e6d6s5ing4nel7s4t5ing3os4tic3p4el4man4ter7s3racter9isticAzed9s4coal4ge6d6r7s6s5ing4itable6ies6y4les7ton5ie5otte4m5ing5s4t5er7ed5s3se5d4ing4sis3t4ting2eap5er6st4t5ed5ing3ck5ed5ing5out5s3ek5s5y4r5ful5ing5s4se5y3f4s3lsea3mical8s5st7ry4otherapy3n4nai3rish4ry4yl3ss4t5er3vrolet4y3w4ing2i3c4ago4k5en7s5s3ef5s3ld5hood5ish5ren4e4i4l5ing5y3mney3n4a4ese3p4s2loe2ocolate3i4ce6s4r3ke5d4ing3lesterol3ose6s5ing3p4ped3rd5s4es4us3se5n2ris5t6ian9ity9s7e7na8e6mas6opher3ome4nic7le9s3ysler2u3ck5le3nk3rch6es6ill1ia2der2gar5ette9s2ncinnati3dy3ema6s6tic3namon2rca4le6s4uit7s5lar7ted8ing9on5mstanceCs5s2s2tation8s3e4d4s3ies4ng4zen7s8hip3rus3y2vic4l5ian8s6zation7ed1lad3im5ed5ing5s4re3n3p3ra4e5nce4ification6y5ty4k5e3sh5es4s5es5ic7al7s6fication8ed5mates5room9s5y3ude5ia4se3w4s3y4ton2ean5ed6r5ing5sing4r5ance5ed6r5ing5ly5s3rgy4k3veland5r2ick5ed5ing5s3ent6s3ff5ord5s3mate5x4b5ed5ing3nic6al6s4t5on3p4pers4s3ve2oak3ck5s3ne3se5d5ly5r5s6t5t4ing4ure3th5es5ing3ud5s5y3wn5s2ub4s3e4less4s3ster7s3tch2yde1nn1oach5ed6s5ing3l4ition3st5al5er5line3t4ed4ing4s2bb3ra2ca4ine3k4pit4tail8s3oa4nut2d3e4d4s3ing3y2ffee4in2gnitive2hen4rent2il3n4cidence4s2ke2l3a3d4er3e4man3in3laborateAionBve5pse8d5r5teral4eague9s5ct7ed7ing8onAs8veAly7or9s7s5ge7s4ins5sion3ogne4mbia8n4n5el5ial6es5y4r5ado5ed5ful5ing5s4ur6ed6ful6s3t4s3umbia6us5n6ist6s2m3a3b4at4inationBs6e7d7s6ing4o4ustion3e4back4dian5y4s4t3fort7ableAy7ing4y3ic5s4n5g3mand7ed8r9s7ing7s4ence8d6t7ary8torBs7ed7ing7s5rce7ialAlyAs4issionAedBrCsAs5t6mentAs6ted8e9s7ing4odities8y5n6ly6s6wealth4unal6icateBdAingBonDs7on7sm8t9s7ties8y5te3p4act5nies7on9s6y5rable7tiveBly6e7d7s6ing7sonAs6tment5ss7ionAate5tibility8le4elled7ing5nsateAd9ion5te7d7nce8t6ing7tionBs9ve8orAs4ilation6ed4lain8ed8ing8t9s5ementAary6te8d8ly8s7ing8on6x7es7ity5iance6cated9ions6mentAs5y4onent9s5sed7r6ite8ionBs5und8s4rehend9sionBve6ssed8ion5ise8d8s7ing5omiseAd4ulsory5tational6er8s6ing3rade7s2n3ceal7ed5ded5ived5ntrateBdAingBonDs5pt7ion7s7ual5rn7ed7ing7s6t7s5ssionAs4lude8d8s7ing6sionAs4rete4ussion3demn7ation7ed4ition9al9ed9ing9s4o5lences5m6s4uct7ed7ing7or3e3federate5renceAs5ss7ed7ionAs4idence8t9ial5guration5ned5rm7ation7ed7ing7s4lict8ing8s4orm4ront8ation8ed4use7d6ing7on3gestion4o4rats7ulate5egation6ss8ional8man3junction3nect7ed7icut8ng8onAs8vity7s4or3or3quer7ed6st3rad3s4cience6ous9ly9ness4ecutive5nsus6t5quenceBs9tly5rvationAveCs4ider8ableBy9tionDs8ed8ing8s5st7ed8ncy9tAly7ing7s4olation6e7s6idatedAion5rtium4piracy4table6nt8ly5ituencyAtBs8teAdAs9ionCal5raints6uct9ed9ingAonAve4ul6ate6t7antAs8tion7ed7ing5me7d7r8s6ing6ption3tact7ed7ing7s5gious5in7ed8r9s7ing7s5minatedAion4emplating7orary7t5nd7er6t7ion7s5st7ants7ed7s5xt7s4inent9al9s6gent6ually8tion7e8d8s7ing8ty7ousAly4ract8ed8ing8orAs8s6ry6st5ibuteAdAs9ingAonCs9orBs5ol7led9rAs8ing7s6versialAy3venience9tAly6tionAalAs5rsationCs7ely7ion6t7ed7ible8ng7s5y4ict7ed7ionAs5nce8d7ing4oy3way2ok4ed4ie6s5ng4s3l4ed5r5st4ing3per6ate8ion9ve3rdinateAdAs9ingAon9or2p3e4nhagen3ied5s4ng3per3s3y4ing4right2ral3d3e4s4y3k3n4ell5r6s4wall3p4oral7te8ionBs4s5e6s4us3rect7ed7ionAs7ly5lated8ion5spondAenceCtAingAs4idor4upt7ion3tex3y2s3metic8s4ic4os3t4a4ing4ly4s4ume7s2ttage4on2uch3gh3ld3ncil7lorAs7s4sel7ing7or4t5down5ed6r7partBs7s6ss5ies6ng5less5ries6y7side5s5y3p4le6d6s4on6s3rage7ous4ier4se6s4t5esy5house5ney5room5s5yard3sin6s2ve4nant4r5age5ed5ing5s5t3id2w3ard3boy6s3s2x2zy1pu1rab3ck5ed5ing5s3dle3ft5ed5ing5s3ig3ne4k3p4py3sh5ed6s5ing3ter3ving3wford4l5ing3zy2eam4te6d6s5ing6on8s6ve7ity5or7s5ure8s3dentials4ibility6le5t6ed6ors6s3ed4k4p5ing5y3scent4t3w4s2icket3ed4s3me5s4inal8s4son3nge3ppled3ses4is4p3teria4ic6al8ly6ised8m9s7ze9d8ing6s5que2oatia3oked3p4s3sby4s5ed6s5ing5over3w4d5ed5s4n5ed2ucial3de3el5ty3ise6r5ing3nch3sade4h5ed5ing4t3z2y3ing3pto3stal7s1uba4n3e3ic3s2e3s2ff2isine2linary3t4ivated8ion4ural8ly6e7s2m3ulative2nningham3t2p3s2rator3b3e4d3iosity5us3l4ing4y3rencies7y6t7ly7s4iculum4y3se5d3tain7s4is3ve5d5s2shion3tody5m6ary6er8s6s2t3e3s3ter4ing2z1yber2cle5s4ing5st7s4one2linder2nical3thia2prus2rus1zech0dad3dy3s2gger2ily3ry3sy2kota2le3las3ton2m3age6d6s5ing4scus3e3ien3mit3n4ed3on3p3s2n3a3ce5d5r6s5s4ing3g4er6ous6s3iel6le6s4sh3ny3te2re4d3ing3k4er5st4ness3ling3n3ren3t3win2s3h2t3a4base8s3e4d4s3ing2ughter8s2ve3id5son4es4s2wn3son2y3light3s3time4on1ead4line5y3f3l4er6s4ing7s4s4t3n3r3th5s2bate6d6s5ing3bie3it3orah3ris3t4s3ut5ed2c3ade6s4y3eased4mber4ncy5t4ption3ide6d6s5ing4sion8s6ve3k4s3laration6e7d7s6ing4ine7d7s6ing3or5ated7ionAs8ve3rease8d8s7ing5e2dicate8d7ion2e3d4s3med3p4er5st4ly3r2f3ault3eat6ed6ing6s4ct6ive6s4nce5d6ant9s6ed7r8s6ing6s5se7s6ive4rred3iciency6t7s4ne6d6s5ing6te8ly7ionAs8ve2gradation4ee6s2ity2l3aware4y5ed5s3egate8s7ion4te6d5ing3hi3iberateAly4cate5ious4ght7ed7ful4ver7ed7ies8ng7s7y3l3ta3usional4xe2m3and6ed6ing6s3entia3ise3o4cracy7t8ic8s4graphicBs4lished6tion4n5s6trateBdBsAingBonDs3s2n3ial4ed5s4m4s5e3mark3nis3se4ity3t4al4ist3ver3y4ing2part6ed6ing6mentAs6ure3end6ence9y8t6ing6s3icted6ing6s3loy6ed6ment3ortation6ed4sit7ed7ion7s4t3ressed7ing8on4ived3t4h5s3uties5y2r3by3ek3ivativeAs5e6d2s3cend7ants7ed7ing6t4ribe8d8s7ing6ptionBs9ve3ert6ed5ve7d7s6ing3ign6ated8ion6ed7r8s6ing6s4rable5e6d6s3k4top3pair4erate9ly8ion4ise5te3sert3tinationBs6ed6y4roy7ed8r7ing7s5uction9ve2tached4il6ed6ing6s5ned3ect6ed6ing7on7ve9s6or4ntion4rmination8e9d9s8ing3rimental4oit2utsche2v3astated8ing3elop7ed8r9s7ing7mentBalBs7s3ice6s4l5s4sed3on4te6d5ion2w2xter1iabetes3gnosed7is7tic4ram3l4ect4ogue3meter4ond7s3na4e3ries4rhea4y3z2ce3k4ens4s3tate6or8ship4ionary2d3nt2e3d3go3s4el3t4ary4s2ffer6enceAs8t9ialBte9ly6ing6s4icult9ies9y2g3est3ging3it5al5s3nity2lemma3igence2m3e4nsion9al9s3inished2n3g3ing3ner6s3osaur8s2ocese3xide2p3loma7cy7t8ic8s3ped2r3e4ct6ed6ing7on9s7ve6ly6or8s8y6s3t4y2s3abilities9y5le7d4dvantage4gree8ment4ppear9ance9ed9ing9s6ointAedAingAment4ster8s6rous3c4arded4harge9d4iples7inary9eAdAs4lose8d7ure4o5mfort5nnected6tinued5unt8ed8s6rageAd7se5ver8ed8ies9ng8s8y4rete7ion5iminateBion4s4uss7ed8s7ing8onAs3ease7s3grace4uise8d5st7ed7ing3h4es4onest3k3like3miss7al7ed3ney3order8s3patch8ed4ersed4laced8ment6y7ed7ing7s4osable7l6e7d4ute7d7s3regard5spectAful4upt7ion3sent5rtation4olution6ved3tance8s6t4inct8ion9ve8ly6guishBed4orted7ion4ract8ed8ion5ess8ed5ibuteAd9ingAonCs9orBs6ct8s4urb7ance7ed7ing2tch2ve4rs6e6ion7ty3ide6d6nd8s5ing4ne5g4sion8s3orce7d2xon2y1na2c1oc3k4s3s3tor6al6s4rine3ument8ary9tion8ed8s2dge5rs2e3s4nt2g3s2in4g2ll4ar6s4s4y3phin7s2m3ain6s3e4stic3inance7t6te8d7ing8on5ic7an6on2n3ald4te6d5ing6on8s3e3g3key3na3or5s4van3t2o3m4ed3r4s5tep4way2pe2ris3m3othy2s3age3e4s2t3s2uble6d6s5ing4t5ful5s3g4h4las2ve4r2w3n4fall4hill4load8ed8ing8s4s5ide5tairs6ream4town4ward2yle2zen5s1raft5ed5ing5s3g4ged5ing4on6s3in5age5ed5ing5s3ke3ma5s5tic8ally3nk3stic7ally3w4er4ing7s4n4s2ead5ful4m5ed5ing5s3ss5ed6s5ing3w2ied3ft5ing3ll5ed5ing5s3nk5ing5s3p3ve5n5r6s5s5way4ing2one5s3p4ped5ing4s3ught3ve3wn5ed5ing2ug4s3m4mer4s3nk5en2y3er3ing1ual2b3ai3bed3lin2chess3k4s3t2de4s2e3l2g2h2ke2ll2mb4ass3my3p4ed4ing4ster2ncan3dee3geon3k3n4o2o2plicate2rable4tion3ham3ing2st4y2tch3ies3y1vd1warf2ell5ing2ight1ye2ing2lan2namic7s6te4sty2sfunction0each2ger3le5s2r3l4ier6st4y3n4ed5st4ing7s4s3rings3s3th5quakeAs2se3ier5st4ly3t4er6n3y2t3en3ing3s1bay2ola3ok1ccentric2ho4es2lipse2o3logical6y3nomic8alAly8s7es7st9s6y3system9s2uador1ddie2en2gar3e4d4s2ible3nburgh3son3t4ed4h4ing5on7s4or6ial6s2monton3und2s2ucate7d6ing7on9al6or8s2ward6s3in1ffect6ive9ly9ness6s3icacy5iency8t9ly3ort6s1gg3s2o2ypt5ian1ight5een5h5y2nstein2ther1laborate3ine3stic2bow2der5ly5s4st2eanor3ct5ed5ion8s5oral8te5ric8al8ity6o7n8icAs8s3gant3ment7ary7s3na3phant8s3vated6ion6or4en2f2i3gibility6le3jah3minate9d8ing9on3ot3te5s3zabeth2la3en3ie4ot6t4s2se4where2vis1mail5ed5s2barked5rassed9ing9ment4ssy3edded3lem3race7d6ing2erald4ge6d6nce8ies8y6s5ing4son2ily3nent3rates3ssion8s2ma3y2otion7al9ly7s2pathy3eror3hasis7ze9d3ire5ical3loy6ed7e8s7r8s6ing6ment6s3ower7ed7ment3ty1nable6d6s5ing3cted2closed6ure3ounter9ed9s5rage9d9ment9s8ing3ryption3yclopedia2d3angered3eavor4d3ing6s3less3orse7d7ment4wment3s3urance5e6d5ing2emies4y3rgetic5ies5y2force7d7ment6ing2g3age6d6ment5ing3ine6er8ed8ing8s6s3land4ish3raved2hance7d7ment6ing2joy5able5ed5ing5ment5s2larged3ightenment4sted2ormous3ugh2riched6ment3olled6ment2semble3uing4re6d6s5ing2ter5ed5ing5priseAs5s5tain9ed9ing9ment3husiasm9ticAs3ire6ly6ty4ties5led7ment5y3rance4epreneurCs4ies4y2velope3ironmentBalBs3y2zyme6s1pa2ic3demic3sode7s2s1qual5ity5ly5s4tion8s3ilibrium4p5ment5ped4ty4valent1ra3se2ect5ed5ion2ic4a3e3k3n2nest3st2osion3tic2ror5s2uption1scape6d6s5ing3ort2p3ecially3n2say5s3ence5tial9ly9s4x2t3ablish9ed9ing9mentDs4te6s3eem3her3imate8d8s1tc2ernal5ity2han3ic5al5s4opia8n3nic6ity1ugene2ro4pa5e6an8s4s1va3cuate8d7ion3luate8d7ing8on3n4gelical4s2e3lyn3n4ing7s4ly4t5s5ual8ly3r4ett4ton4y5body5day5one5thing6ime5where2idence6t7ly3l2olution9ary4ve6d5ing1xact5ly3ggerated3m4inationBs6e7d7r7s6ing4ple7s4s2ceed6ed6ing6s4l5lence8t4pt6ion9alBly9s4rpt4ss6ive3hange8d8s3ited6ment5ing3lude7d6ing5sion7ve9ly3use6s2ecute7d6ing7on7ve9s3mpt6ion3rcise8d8s7ing3ter2haust7ed7ing3ibit7ed7ionAs7s2ile3st5ed6nce7t5ing5s3t4s2odus3tic2p3and6ed6ing6s5sion3ect6ationBs6ed6ing6s4dition4lled4nditureBs5se7s6ive4rienceAdAs9ing6mentAalAingAs5t6ise6s3ire6d6s3lain7ed7ing7s5nationBs4icit8ly4ode7d6ing5it7ation7ed7s5ration6e7d7r7s6ing5sion9s7ve9s3o4rt6ed6s4se6d5ing6tion5ure3ress7ed8s7ing8onAs2quisite2tend6ed6ing6s5sion9s7ve9ly5t4rior5nal3inct7ion3ra5ct7ed7ion5ordinary5s4eme7ly1ye3brows3d3s1zra0faa2bric6ated6s3ulous2ce4book4d4s3ial4litate7ies7y4ng3t4ion7s4o5r6ies6s6y4s4ual3ulty2de4d3ing2il4ed4ing4s4ure7s3nt3r4fax4ly4ness4y3th5ful2ke2lcon6s3l4en4ing4out4s3se5ly2m3e4d3iliar6es5y4ne3ous2n3cy3dom3s3tasies6tic6y2r3e4s4well3go3m4er6s4ing4s3t4her2scinated8ing5sm6t3hion7able7ed3t4er5st4ing2t3al3e3her6s3igue3s3ty2ult5s5y3na3x2vor5able5ed5ite8s5s4ur6able6ed6ite9s2x1bi1cc1da1ear4ed4ful4ing4less4s3sible4t3t4her7s4ure7d7s6ing2b3ruary2d3eral6tion3s2e3d4back4ing4s3l4ing7s4s3s3t2lix3l4as4ow6s7hip3ony3t2male6s3inine6sm7t8s2nce5s4ing2rdinand3guson3nando3rari4y3tile6ity2st4ival8s6e2tch3ish3us2ud2ver2w3er1iat2ber5s3re2ction7al2delity2eld5s3rce4y2fa3teen4h4y2g3ht5er7s5ing5s3ure6d6s5ing2ji2le4d4s3ing4pino3l4ed4ing4s3m4ed4ing4maker9s4s3ter6ed6ing6s4hy2n3al5e5ists5ly5s4nce7d7s6ial9ly7ng3ch3d4ing7s4s3e4d4ly4s5t3ger6s3ish6ed7s6ing4te3land3n4ish2ona2re4arm7s4d4fighters4place4s4works3ing3m4ly4s3st5ly2scal4her3h4er6ies6men4ing3t2t3ness3s3ted4ing3zgerald2ve2x3ed4s3ing3ture7s1la3g4s5hip3ir3me5s3nk3re3sh5es5ing3t4s3vor6s5ur3w4ed4less4s2ed3e4ing4t3ming3sh3tcher3w3x4ibility6le2ick3es3ght6s3nt3p4ped5ing3rt5ing2oat5ing3ck3od5ed5ing5s4r5s3p3ra5l4ence4ida3ur5ish3w4er6ing6s4ing4n4s3yd2u3ent3ffy3id5s3sh3te3x2y3er5s3ing3nn1oam2cal3us5ed6s5ing2e2g2il2ld4ed5r4ing3ey3k4s3low6ed7r8s6ing6s2nd3t2od4s3l4ed4ish4s3t4age4ball8er4ing4print4steps2r3bes4id6den3ce5d5s4ing3d3e4cast8s4front4head4ign7ers4man5ost4nsic4st6ry6s4ver4x3ge5d5t6ting4ive7n8ess4ot6ten3k3m4al6ly5t6ion9s6s4ed5r6ly4idable5ng4s4ula7ted3rest3t4h5coming4ress4unate9ly6e7s4y3um5s3ward7s2ssil6s3ter2ught3l3nd5ationAs5ed6r7s5ing4tain3r4teen5h2wler2x1raction5ure8s3gile4ment8s4rance3me5d5s5work4ing3nce6s5hise9s5is7co5o4k5furt5ie5lin6y4z3ser3ternity3ud5ulent2eak5ed5ing5s3d4die4erick3e4d5om7s4lance5y4man4style4way4ze6r5ing3ight3nch3quencies8y7t8ly3sh5ly5man5water2iction3day4ge3ed4nd6ly6s7hipAs4s3ghtened8ing3nge2og4s3m3nt5ier5s3st3zen2uit5s3strated8ing9on2y1uck4ed5r4in6g4s2el4ed4s2gitive2lfil6l7ed7ing3l4er4y3ton2n3ction8alAity8ing8s3d4amentalBlyBs4ed4ing4raiser8ing4s3eral3gus3k4y3niest4y2r3ious3nace4ished5ture3ry3ther7more3y2se3ion3s2ture6s2zzy1yi0gabriel2dgets2g3a2in4ed4ing4s2l3a4xies5y3e3lagher4eries6y4on6s2mble5ing3e4play4r5s4s3ing3ma2ndhi3g4s5ter2p3s2rage3bage3cia3den6ing6s4ner3eth3lic3ment7s3ner3rett4ison3y2s3es3oline2te4s4way3her6ed6ing9s2uge2ve3in2y3s2za3e4tte1dp1ear4ed4s2e3k2l2m3s2n3der3e4ral7ly7s6te8d8s7ing8onAs7or9s5ic5osity6us4s5is4tic7ally7s4va3ius3ocide4me3re5s3tle6man7en5y3uine7ly4s2o3ff5rey3graphicAal8y3logical6y3metric7y3rge6town5ia7n2rald4rd3man6s6y3ry2sture7s2t3away3s3tin6g1hana2etto2ost5s1iant5s2bbs3son2f3t4ed4s2g3antic3s2l3bert3es3l2mme2n3a3ger2rl4friendAs4s2ve4away4n4s3ing1lacier3d4ly3morous5ur3nce3sgow4s5es2en4n2impse3tter2obal6ly4e3ria5ous4y3ucester3ve5s3w4ing2ucose3e3ten1mt1oal4keeper4s3t4s2d3damn4ess3s2es2in4g2ld4berg4en4man3f2mez2ne3na2od4bye4man4ness5ight4s4will3fy3gle3se2p2rdon3e3geous3illa2sh3pel3sip2t3ham4ic3ta4en2v3ern6ance6ed6ing6mentAalAs6or8s3t2wn1pa2s1rab4bed5ing4s3ce4ious3d4e5s4ual7ly6te8d8s7ing8on3ffiti3ham3in5s3m4mar5y4s3nd5children5daughter5e5father5ma6other5pa7rents5son4ite4ny4t5ed5ing5s3pe5s4h5ic7s5s3sp4s3teful4itude3ve5l5s5yard4ity3y2ease4t5er6st5ly5ness3ece4d5y4k5s4n5e5house5s5wich4t5ed5ing8s3g4ory3nade3w3y2id3ef3ffin6th3ll5ed3m3n4d5ing3p2oceries6y3om4ve3ss3und6ed6s4p5ed5s3ve3w4ers4ing4n4s4th1ta1uarantee9d9s4d5ed5ian8s6ng5s3temala2ess5ed5ing4t5s2idance4e5d5lines5s4ing3ld4t5y3nea3tar6ist6s2jarat2lf2m2n3fire3s2ru2s2t3s2y3s1ym3nastics2psy0habit5at5s2ck4ed5r6s4ing2d2gue2h3a4ha2i3l3r4cut4ed4s4y3ti2l3e3f4time4way3ifax3l4oween4s4way3o3t4ed2m3as3burg3ilton3let3mer4ond3pshire4ton2n3cock3d4book4ed4ful4icap5ng4le6d6r6s5ing4made4s5ome4writing4y3g4ed4ing4over4s3k3na5h3s4en4on2ppen6ed6ing6s4ier6st5ly5ness4y2rassed6ment3bor5ur3d4core4en6ed5r5st4ly4ship4ware4y3e3lem5y3m4ful4less4ony3ness3old3per3riet5s6on4y3sh3t4ford3vard4est7ed7ing5y2s3h4tag3san4le3tings2t3ch3e4d4ful4rs4s3h3ing3red3s2ul3nt5ed5ing2vana3e4n5t3ing3oc2waii6an3k4ins4s2y3den3es2zard6ous6s3el1bo1ead4ache8s4ed5r4ing4line8s4phones4quarters4s5et3l4ed4ing4th6care6ier6y3p3r4d4ing7s4s4t5beat6reaking5ed5s3t4ed5r4h5er4ing3ven6ly6s4ier5ly4y5weight2brew2ck3tor2dge2e3l4s2h2ight6s3r4s2ld3en5a3icopterAs3l4o3m4et6s3p4ed4ful4ing4less4s2misphere2n3ce3derson3ri4y2patitis2r3ald3b4ert4s3cules3d3e4by4in3itage3man3nandez3o4es4ic5n6e3s4elf2s3itate7ion2y1icks2d3den3e4s3ing2erarchy2ggins3h4er5st4land8s5ight9ed9ing9s5y4s4way7s2ke3ing2larious5y3l4ary4s3ton2m3self2nd4i4u5s3t4s2p3s2re4d3ing2s3panic3torian9s7c8alAly7es6y2t3ler3s3ter4ing2v3e1mm3m1oax2bbies4y2ckey2ffman2g3an2ld4en5r6s4ing7s4s3e4s3iday7s3land4ow4y5wood3mes3ocaust3t3y2mage3e4coming4land5ess4made4owners4r4s4town4work3icide3o4phobic4sexualAity2n3da4uras3est6ly6y4y5moon3g3olulu4r5able6ry5ed5ing5s4ur6able6ed6s2od3k4ed5r4s3ver2p3e4d4ful7ly4less4s3ing3kins2race3izon7tal3mone7s3n4s4y3rible5fic4or6s3se5s2se3pital8ity8s3t4age7s4ed4ile6ity5ng4s2t3el5s3ter5st2ur4ly4s3se5d5hold9s5s4ing4ton2w3ard3e4ver1rs1tml2tp4s1ub2dson2g3e4ly3h4es3o3s2h2lk3l2m3an5e5itarian7ies7y5s3ble3id5ity4liation6ty3or5ous4ur3phrey2ndred7s3g4arian6y4er4ry3t4ed5r6s4ing7ton2rdles3ricane9s4y3t4ing4s2sband7s3sein3tle2t1ybrid2de4rabad3raulic4o5gen2giene2mn2pe4d4r3ocrisy4thesis7tical0ian1bm2rahim1cc2e3land2on4ic4s2y1daho2ea4l5ly5s4s3ntical6fication8ed9s7y8ing6ties7y3ological7y2iot5s2k2le2ol1eee1gnition3orance7t5e6d6s5ing1ii1ll3egal7ly3inois3ness7es3uminated4sion5trateAdAs9ionCs1mage5ry5s4inary7tion6e7d6g6ing3m2f2mature3ediate9ly4nse7ly3igrant9s7tion4nent3ortal3une5ity2o2pact6ed6s4ired6ment4tient3eachment4nding4rative5ial3lants4ement9ation9ed9ing4icationBs5ed6s4y5ing3ort6ance8t9ly6ed6s4se6d5ing5sible3ress7ed7ionAs8ve4isoned8ment4oper5ve7d7mentBs7s6ing3ulse1nability3ccurate4tive3dequate3ppropriate3ugural8tion2box2c3apable3entive9s4ption3h4es3idence7t8ally8s3lined4ude7d7s6ing5sion7ve3ome6s5ing5petent6lete4nsistent5venience4rporateBdBsAing5rect9ly3rease8d8s7ingAly5dible9y3umbent4rred2d3eed4finitely4pendenceAtBly4x3ia5n6a7polis6s4cate8d8s7ing8onAs8ve7or9s5ted6ment4e5s4genous4rect8ly4vidualAlyAs3onesia9n4or6s3uce6d5tion4lge4strial8es7y3y2effective3quality3vitable9y3xpensive6rienced2famous4nt6ry6s3ected6ion9s8us4rior3inite8ly7y3lammation9ory5ted6ion4icted4uence9d9s8ing7tial7za5x3o4rm6al7tion9ve6ed6ing6s3rared5structure4ingement2g3redientAs2habitants7ed3erent8ly5it7ance7ed2itial7ly6te8d7ion8veAs2jected6ion9s3ured5ies5y4stice2k2land2mate6s2n3er3ing6s3ocence7t4vationAs8ve2put5s2quiries6y2s3ane5ity3cription3ect6s5ure7ity4rt6ed3ide6r4ght7s5nificant4st6ed6ing6s3pect7ed7ionAs7or9s4irationBal6e7d6ing3tability5gram5ll7ationCs7ed7ing7ment5nce8s6t7ly4ead4inct8s5tute9s8ionBalBs4ructed8ionBalBs8orAs6mentAalAs3ufficient4lation5in5t6ed6ing6s4rance5ed6r2t3act4ke3egral7te9d8ing9on6ity4l5lectual6igenceAt4nd6ed6s5se7ly6ity7ve5t6ion9alBly9s4r5act8ing9onBs9ve5cept9ed6ourse5est8ed8ingBly8s5face6ere9nce8ing5im6or5mediate5n6al8ly7tional6et6ship5pret9ation9edAr5rogation6upt9ed5section6tate5val8s6ene8tionCs6iew9edAr9ing9s3imacy6te5idating3o3ricate5guing4o5duce9d9s8ing8tion9ory3uition7ve2vade6d5ing4lid5uable4sion6ve3ent6ed6ion9s6or8y4st6ed6igateBdAingBonDsBveAorCs7ng6mentAs6or8s3isible4tation5e6d6s5ing3olve7d7ment7s6ing1on3s2s2t2wa1pad2hone2od1ra3n4ian3q4i2eland3ne2is4h2on4ic6ally4y2rational3egular4levant4sponsible3igation4tated7ing2s2vine5g2win1sa3ac3bel3iah2h2is2lam5ic4nd6s3e4s2nt2o3late7d6ion2rael6i2sue5d5s4ing2tanbul1talian7s4y2em4s2s3elf2unes2v1van2e2ory2y0jack4et6s4ie4pot4son7ville3ob5s3ques2de2guar2il4ed3me2karta3e2m3aica7n4l3es3ie2n3e4iro4t3uary2pan5ese2r3ed2smine3on3per2va4script2w3s2y2zz1ealous7y3n4s2di2ep2ff4erson4rey2lly2n3kins3na4ifer5ngs4y3sen2opardy2remy3k3ome3ry3sey6s3usalem2ss4e4ica5e3us2t3s2w3el5lery5ry5s3ish3s1ill2m3my2n1oan4na2b3s2ckey2e3l3y2hannesburg3n4ny4s5on5ton2in4ed4ing4s4t5ly5s2ke4r4s3ing2lly2n3ah4s4than3es3g2rdan3ge2se4ph3h4ua2urnal7ism9tAs7s5ey7s2y3ce1uan2daism3ge5d5ment5s4ing4ment8s3icial7ry4th3y2ice4y2l3es3ia5n4e5t4us3y2mp4ed5r4ing4s2n3ction3e3g4le3ior3k2piter2rassic3isdictionCs3y2st4ice7s5fication7ed6y5n2venile0kai3ser2ne3g4aroo3sas3ye2ra4chi4te3dashian3en3l3ma2shmir2t3e3herine4leen4y3ie3rina3y2y2zakhstan1een3p4er4ing4s2ith2ller4y2n3dall3nedy5th4y3sington3t4ucky3ya5n2pt2rala3nel3r4y2ttle2vin2y3board3s1han1ick4ed4ing4s5tarter2d3ding3napped7ing4ey3s2ll4ed5r6s4ing7s4s3ometers7res2m2n3d4a4ergarten4le5y4ness4s3g4dom7s4s5ton2rby3k2ss4ed5s4ing2t3chen3e3s3ten4y1laus2ein1nee4s3w2icks3fe3ght6s3t3ves2ock5ed5ing5out5s3t4s3w4ing7ly4ledge9able4n4s3x1obe2ch2ng2rea5n1ris1uala2mar2ng2rdish3t2wait1yle3ie0lab3el5ed5ing5led5s3or5atories9y4ur3s2ce3k4ed4ing4s2d3der3en3ies3s3y2fayette2g3os2id2ke4rs4s2mar3b4ert3e3p4s2n3a3cashire6ter4e3d4ed4ing4lord8s4mark4s5cape9s3e4s3g4uage8s3ka3tern2p3s3top6s2ra3ge5ly5r5st3ry3vae2s3er5s3t4ed4ing4ly4s2te4ly4r5al4st3in5o4tude3ter2ugh5ed5ing5s5ter3nch6ed7s6ing4dry3ra4el5n6t4ie2va2w3ful3makers3n3rence3s4on4uit7s3yer6s2x2y3er5s3ing3out3s2zy1bs1ea3d4er6s7hip4ing4s3f4s3gue6s3k4ed4ing4s3n4ing3p3rn5ed5ing5s5t3se5d4ing4t3ther3ve5s4ing2banese5on3ron2cture7r7s2d2e3ds2ft4ist2g3acy4l5ly3end6ary6s3ged3ion4slation9ve8ors8ure4t5imacy8te3o3s2icester3gh3sure2mon2na3d4er6s4ing3gth6s6y3non3s4es3t2o3n4ard7o4e3pard2s3bian7s3lie3s4er4on6s3t4er2t3hal3s3ter6s4ing4uce2vel5s4r5age3i3y2wis2x3ington1gbt1iabilities8y4le3ison3m3r2b3eral7ism7s6ted7ion5ia5tarian6ies6y3rarian7es6y3ya2cence5se7d7s6ing3k4ing2d2e3d3s3utenant2fe4long4style4time3t4ed4ing4s2ght5er5house5ing5ly5ning5s5weight2ke4d4lihood5y4s4wise3ing2l3ly3y2ma3b4s3e4stone3it5ationAs5ed5ing5s2n3coln3da4say5ey3e4ar4d4n4r4s4up3g4erie4uistic3ing3k4ed6in4ing4s3ux2on4el4s2p3s4tick2quid4or2sa3bon3t4ed5n6ed7r8s6ing6s4ing7s4s2t3e4racy6l7ly6ry6ture3hium4uania3igation3re3ter4le2u2ve4d4ly4r5pool4s5tock3ing2z3ard1lc2oyd1mao1oad4ed4ing4s3n4s2bby5ing3ster2cal5ities7y5ly5s4te6d5ion8s3k4down4e5d5r4ing4s3omotive2dge2ft2g3an3ged4ing3ic5al4stics3o4s3s2is2l2ndon3e4liness5y3g4er5st5vity4ing4time2ok4ed4in6g4out4s3p4s3se5ly2pez2rd4s3e2s3e4r5s4s3ing3s4es3t2t3s3tery3us2u3d4er4ly3is5e5iana5ville3nge2ve4d4ly4r5s4s3ing2w3e4r5ed5ing4st2yal5ty1su1td1ucas3k4ily4y3rative3y2ggage2is2ke2mber3p2na4r3ch3g4s2re3king2sh3t2ther2xembourg3urious5y1ydia2ing2nch3n2on2ric5s0mac3donald3hine7ry7s3k4enzie3millan3ro2d3am5e3den3e3ison3ness3onna3rid2e2fia2g3azine8s3gie3ic5al5ian4strateAs3net6ic4ificent5tude2i3d4en3l4ed4ing4s3n4e4land5y4stream4tain8ed8ing8s5enance2jestic6y3or5ity5s2ke4r5s4s4up3ing2l3aria4ysia8n3colm3e4s3i4cious4k3l3one3ta2ma3mals2n3age6d6ment6r7ial7s6s5ing3chester3darin5te7d6ory3euver3ga4o3hattan3ifest8o4la4pulateAd9ion3kind3ly3n4er6s4ing4y3or3s4ion3tle4ra3ual6ly4el4factureBdBrCsAing4scriptAs3y2o2p3le3ped4ing3s2r3athon3ble3c4el4h5ed5ing4o4us3e3garet4in6al6s3ia4e4juana4lyn4na5e6rs6s4o5n4tal5ime3k4ed5r6s5t6ed6ing6place6s4ing7s4s3riage8s5ed4ow4y5ing3s4h5al7l3t4ha4ial5n6ez4y3vel6ous4in3x4ist3y4land2s3cot4uline3h3k4ed4s3on3s4achusetts6re5ge4es4ive7ly3t4er6ed6piece6s6y2t3ch5ed6s5ing3e4rial8s5nal6ity4s3h4ematicalAs4s3ing3rix3s3t4e5r6ed6s4hew7s4ress3ure5ity2urice2x3imize5um3well2y3a3be3er3o4r2ze1ba1ccain4rthy6ney3onnell4y2donald2gregor2kay1eadow6s3l4s3n4ing7ful7less7s4s4t5ime4while3sure7d7mentBs7s6ing3t2chanic8al8s7sm9s2d3al5s3ia5n5ted6ion4caid6l6re6tionAs5inal7e8s4eval4ocre4tation5erranean4um3s2et4ing7s4s2g3a4n2l3anie3bourne3issa3ody3t4down4ed4ing2mber6s7hip4rane3e4s3o4ir6s4rable5ial6es5y3phis2n3ace3tal6ity6ly4ion7ed7ing7s4or3u2rcedes4handise7t8s4ury4y3e4dith4ly3ge5d5r3it5s3rill4y2sa3h3s4age7s6ing4ed5nger4i5ah5ng4y2t3a4bolic8sm4l5lic5s4phor3eor4r5s3h4ane4od6ist6ology6s3re5s4ic6s4o5polis9tan3s2xican7s5o2yer1ia3mi2c3e3hael4el6le4igan3k4ey3ro5phone5scope6oft5wave2d3dle6ton3field8er3lands3night3st3way4est2ght5y3rant7s5tion3uel2ke2l3an3d3e4age4s5tone4y3itant8s6ry5ia3k4y3l4ennials8um5r4ion7aire7s4s3o3ton3waukee2n3d4ed4s5et3e4craft4r5al7s5s4s3g3i4ature4mal5ize5um4ng4ster8ial8s6ries7y3neapolis5sota3or5ities7y5s3s3t3us4te6s2racle7s4nda3ror6s2s3conduct3erable5y3leading3s4ed5s4ile7s5ng5on7aries9y7s5ssippi4ouri3t4ake7n7s4er4ress3understood4se2t3ch5ell3igate2x3ed4s3ing3ture1lb2s1ma2m1ob3ile5ity2ck4ing2d3e4l5ing5ling5s4rate8ly5n4s5t3i4ficationCs6ed5y3ular5e6s2hamed5mad6ed2ist5ure2ld3e4cular7e8s3ly2m3ent6s6um3my3s2n3a4co4rch7y4stery3day3etary4y3ica4tor7ed7ing7s3k4ey6s4s3o4poly3roe3ster7s3tana4e4gomery4h5ly5s4real4y3ument8s2od4y3n4light3re3se2ral5e5ity5ly5s3e4over3gan3mon3ning7s3occo4n5s3ris6on3se3tal6ity5r4gage8s4on2saic3cow3es3que5ito3s3t4ly2tel3her6fucker6s3ion6s4vate8d7ion5e6s3or5cycle5s3to2und4t5ain8s5ed5ing5s3rinho4ning3se3th5s2ve4d4ment8s4s3ie5s4ng1ph2s1ri2s1tv1uch2d3dy2eller2g2hammad2lti5media5national5player7e5tude2m3bai3my2nich5ipal9itiesBy2rder6ed7r8s6ing6s3phy3ray2scle6s4ular3e4um6s3hroom8s3ic5al5ian8s3lim6s3t4ang5rd2tant4tion8s3e3ual6ly1vp1yanmar2ers2self3teries7ous6y4ic6al2th4ology4s0nah2il4ed4s3robi3ve2ked2m3e4d4ly4s3ing2na3cy3ny2omi2p3les3oleon2rrative9s6or4ow6ly2s3a3car3h4ville3ty2t3alie3e3han3ion6al8ismAtBs9ty8ly8s6s6wide4ve6s3o3ural7ly5e2ughty3sea2val3igate7ion3y2zi4s1ba2c1caa1eal3r4by4est4ly3t2braska2cessarily8y6ity3k4lace2d2ed4ed4ing4le6s7s4s4y2gative8ly3lect7ed4igence3otiate9d8ing9onBs3ro2ighbor8hoodCs8ing8s7ur9hood9ing9s3l3ther2lson2o3n2pal3hew2rd3ve5s4ous2ss3t2t3flix3herlands3s3work7ing7s2ural4ological5ns3tral7ity2vada3er5theless3ille2w3ark3born3castle3er4st3ly3man3port3s4letter4paper9s3ton2xt3us1fc2l1hl2s1iagara2ce4ly4r4st3he4olas6s3k4el4name3o4la6s5e4tine2ece2gel4ria7n3ga3ht5club5mare9s5s2ke3ki2le2na3e4teen8th5y3ja3tendo4h2pples2ssan2trogen2xon1oah2bel3le3ody2d3e4s2el2ise5s4y2kia2lan2minal6te8d7ionAs5ee7s2n3e4theless3profit3sense2odles3n2pe2r3a3dic3folk3m4al6ly5n4s3ris3th5east9ern6rn5west9ern4on3way4egian4ich2s3e3talgia2t3able6y3ch3e4book4d4s3hin6g3ice6able6d6s5ing4ficationCs6ed5y4ng4on6s3orious3re3tingham2un2v3a3el5ist5s5ty4mber2w3adays3here1sa2fw2w1uclear5us2de2ll2mb4er6ed6s3erical5ous2n2rse5ry5s4ing2t3rient8s5tion9al3s1yc0oak3land3s2sis2th1bama5care2ese4ity3y2ject6ion9s7ve9s6s2ligationAs5ed2scure3ervationBs8ory6e7d7r8s6ing4ssed6ion3olete3tacle8s4ruction2tain6ed6ing2vious7ly1ccasion8alAly8s3upationAal5ied7s5y6ing4r5red7nce6ing5s2ean5s2t3ober1dd3ly3s2yssey1ff3ence7s5d6ed7r8s5se7s6ive4r5ed5ing8s5s3ice6r7s6s5ial8ly8s3line3s4et4hore4pring2ten1hh2io1il3s1kay2lahoma1ld3er4st3s2e2ive5r4ia2ympic7s1maha3r2ega2g2itted1nboard2ce2e3s4elf2going2ion5s2line3y2s3et2tario3o2wards1oh2ps1pen4ed5r4ing7s4ly4s3ra5te7d7s6ing7on9al9s7ve6or8s2inion7s2ponent8s4rtunitiesAy4se6d5ing6te7ion3ressed7ion2s2t3ed3ic5al5s4mal5ism7tic6zation5um4on6al6s1racle3l3nge6s2bit5al2chard4estra2der5ed5ing5s3inance6ry2e3gon2g3an5ic6sationCs7ed7m8s6zationCalCs7e8d8r9s7ing5s4sm2iental7tion6ed3gin6al8ly8s7ted6s2lando3eans2phan2thodox1saka2borne2car5s2lo1ther5s5wise2tawa3o4man1uch2ght2nce5s2r3s4elves2t3break3come7s3dated4oor7s3er3fit6s3going3law4et6s4ine7d7s4ook3put3rage7d7ous4each4ight3s4ide7r8s4kirts4tanding3ta3ward1val2en3r4all4come7ing4dose4haul5ead4lap7ping5ook8ed8ing5y4night4rated4s5eas6e5ight4throw5ime4view4weight5helmed9ingCly1we3d3n4s3s2ing2l2n3ed4r5s6hip3ing3s1xford2ide2ygen1yster0pablo2c3e4d3ific3k4age7d7s6ing4ed5rs5t6s4ing4s3t2d3dy3s2gan3e4ant4s2id3ge3n4ful4s4t5ed6r7s5ing8s5s3r4ed4ing4s2kistan8i2l3ace3e4stine8ianBs4tte3m4er4s3s2m3ela2n3ama3cakes3da4emic3el5s3ic3ther7s4ies4s2pa3er5back5s5work2r3a4chute4de5igm6se5ox4graph9s4llel8s4meter9s5ount4noid4site3cel3don3ent6al6hood6ing6s3is5h3k4ed5r4ing4s3liamentAary3ody4le3sons3t4ial7ly5cipantBs9teBdAingBon6le8s6ularAly5es5san5tion4ly4ner7ed7s8hipBs4s4y2s3s4age7s4ed5nger9s5s4ing5on7ate7s5ve4port8s4word8s3t4a4e4or6al4ry2t3ch5es3ent6ed6s3h4etic4ology4s4way7s3ience6t7s3ricia6k5ot7ic8sm7s4ol5n6s3tern7s6son4y2ul4a4o3se2ved4ment3ilion2wn2y3day3ing3ment7s3ne3pal3roll3s1bs1cs1df1ea3ce5ful8ly4h3k4s3nut6s3rl5s4son3s4ant7s2culiar2dal3estrian3iatric3ro2e3k3l3r4s2ggy2n3alties6y3ce4il3ding3etrate8ion3guin7s3insula4s3n4sylvania4y3s4ion7s3tagon2ople6s2p3per6s2r3ceive8d5nt7age5ptionAs4y3ennial4z3fect7ion7ly4orm7anceBs7ed8r9s7ing7s4ume3haps3imeter4od6ic8ally6s4pheral3kins4s3manent9ly4ission5t6s6ted3petual3ry3secution4ian5st7ence9t4on6a7l8itiesAy9zed8ly6nel6s4pectiveBs4uade8d3taining4h3u2st2t3e4r5s6burg6on3ition3rol6eum3s3ty2yton1ga1hantom3rmaceutical7y3se5s2d2elps3nomena9l8on2i3l4adelphia4ip6pe7ineAs4lip7s5y4osopherBs9ical9y2oenix3ne5s3to5graphAedBrCsAicAsAy5s6hop2rase6s2ysical8ly6ian9s6s5ological9y1iano2c3k4ed4ing4s4up3nic3s3ture7d7s2e3ce5s3r4ce5ing4re4s3s2g3eon3s2ke2le4s3l4ar6s4ow4s3ot5s2n3ch3e4apple3g3k3ned3s3t2oneer7ing7s2pe4line4r4s2racy4te6s2ss4ed4ing3tol2t3ch5ed6r6s5ing3s3t4sburgh3y2xel2zza1lace5d5ment5s4ing3gue3in5s5tiff9s3n4e5s5t6ary6s4ned6r7s5ing4s4t5ation5ed5ing5s3que3sma4ter5ic7s3te5au5s4form8s4inum4oon3usible3y4boy4ed5r6s4ful4ground4ing4list4off7s4s5tation3za2c2ea4d5ed5ing4s5ant5e6d5ing5ure8s3dge6d3nty2ot4s4ting2s2ug3m4bing3ral3s2ymouth1neumonia1ocket6s2d3cast3ium2e3m4s3t4ic4ry4s2int5ed6r5ing5less5s3son6ed6ing6ous2ke4mon4r2land4r3e4s3ice6man7en5ies6ng5y4sh6ed4te5ical9ly7ianAs7s3l4ing4s4ution3o3y4mer2nd3y2o3l4s3p3r4er4ly2p3corn3e3ped4ing4y3s3ular7ity6ted7ionAs2rcelain4h3k3n4ography3sche3t4able5l4er4folio4ion7s4land4o4rait8s6y7al7ed4s5mouth4ugal6uese2s3e4d4s3ing4tion8ed8ing8s6ve8ly3sess7ed8s7ing8onAs4ibilitiesAy6le7y3t4age5l4ed5r6s4ing4poned4s4ure2t3assium4to6es3ent6ial9ly3s3ter6y2ultry3nd5ing5s3r4ed4ing2verty2wder3ell4r5ed5ful5s1pl1ractical9ly7e8d8s7ing6se6tionerCs3desh3gue3irie4se6d6s5ing3nk3tt3y4ed5r6s4ing2e3ach6er6ing3cautions4eded7nt6ing4inct5ous5pitation5se7ly6ion3dator8s4ecessorBs4ict7able7ed7ing8onAs4ominantly3fer6ably6enceAs6red6s3gnancy7t3judice3liminary3mature4ier7e7ship5se7s5um7s3p4arationBs6e7d7s6ing3s4byterian4chool5ribed7ption4eason5nce6t7ationCs7ed8r7ing7ly7s5rvation7e8d7ing4idency8t9ial9s4s5ed6s5ing5ure8s4tige7ious5on4umably6e7d3tend7ed7ing4ty3vail7ing5lence8t4ent7ed7ing8on7s4iew5ous8ly3y2ice5d5less5s4ing4k3de3est6s3marily6y4e4itive3nce6s7s6ton5ipal7le9s4t5ed6r7s5ing5s3or5ities7y3son6er8s6s3vacy5te7ly4ilege9d9s3x3ze5s2o3bability6le7y5tion4e4lem7atic7s3cedural8e9s5ed7ed7ingAs7s5ss7ed8s7ing8on7or9s4laimed4urement3duce7d7r8s7s6ing6t7ionAs8ve9ity7s3f4essionAalClyCsAs7or9s4ile7s5t6able6s4ound8ly3gram7me9d9r9s8ing7s5ess8ed8ion9ve3hibit8ed8ion3ject7ed7ing8onAs7s3liferation6ic4onged3m4inence8t5se7d7s6ing4o5te7d7r7s6ing7on9al9s4pt6ed6ly3ne4ounce9d4unciation3of3p4aganda4er6ly6ties7y4hecy6t7s4ortionAalAs5sal8s6e7d7s6ing7tion4rietary4s3s4e5cute9d8ion8orAs4pect8ive8s6rity7ous4tate5ituteAs9ion3tagonist4ect7ed7ing8onAs8ve7or7s5in7s5st7ant7ed8rs7ing7s4ocol8s5type3ud5ly3ve5d5n5s4ide7d7nce7r8s7s6ing5nce8s7ial6g5sion9al9s4oked3ximity4y1salm2eudo2ychiatricAst9y6c5o6logicalAstCs9y1tsd1ub3lic6ationBs6ity6ly5sh7ed8r9s8s7ing3s2ck2dding2erto2ff2ll4ed4ing4s3p3se2mp4ed4ing4kin4s2n3ch5ed6s5ing3ish6ed6ment3jab3k2p3il5s3pet4ies4y2rchase8d8s7ing3e4ly3ge3ity3ple4ose7s3se4uant5e6d5ing6t2sh4ed5s4ing3sy2t3in3s3ting2zzle6s1yramid2thon0qaeda2tar1uad3lificationDs7ed6y7ing5ties6y3ntitative7ies7y5um3rantine4ry4ter7back7ly7s6t5z2e3bec3en5s6land4r3ry3st5ion8able8ed8ing8s3ue2ick5er5ly3et5ly3nn3rky3t4e4ting3z2o3ta5tion4e5d5s4ing2ran0rabbi5t6s2ce4d4s3hel3ial4ng4sm5t3k2dar3iation4cal7ly4o5active4us2f3ael2g3e3ing2id4ers4s3l4road4s4way7s3n4bow4fall4ing4s4y3se5d5s4ing2j2leigh3lies4y3ph2m3p4ant3s4ey2n3ch3d4all4olph5m6ly4y3g4e5d5r6s5s4ing3k4ed4ing7s4s3som3t2p3e4d3id5ly5s4ng4st3per6s2re4ly2sh2t3e4d4s3her3ing6s4o5nal8e5s3s2ve4n5s2w2y3mond3s2zor1each5ed6s5ing4t5ed5ing6on8s6ve5or7s5s3d4er6s4ily5ness6g7s4s4y3gan3l4ise7d6m6tic5ties6y5zation6e7d7s6ing4ly4m3p3r3son6able9y6ing6s2becca4l5lion5s3oot4und7s3uild7ing6t2c3all6ed6s3eipt7s5ve7d7r8s7s6ing4nt6ly4ption6or8s4ss6ion3ipe6s5ient9s3kless4on3ognise9d7tion7ze9d9s8ing4mmend9ation9ed9ing9s4nciliation5sider6truction4rd6ed7r6ing9s6s4ver7ed7ing7y3reate7ionAal4uit7ed7ing7ment7s3tangular3urring3ycled6ing2d3dit3eem4mption3s4kins3uce6d6s5ing5tion9s4ndant2ed3f3l3ves2f3er5ee6nce9d9s7dum5ral6ed6ing5s3ined3lect7ed7ing8onAs8ve7s3orm6ation6ed6s3rain4esh7ing4igerator3s3uge6e7s4nd4sal5e6d6s5ing2g3ain4rd6ed6ing6less6s3eneration3gie3ime6nt6s4na4on6al6s4ster8ed8s6ration7y3ret6s3ular7ly6te8d7ing8onAs7or9s9y2hab5ilitation3earsal2id3gn5s3nforce9d2ject6ed6ing7on6s2late6d6s5ing6on8s9hipCs6ve8ly8s4x5ation5ed5ing4y3ease7d7s6ing4ntless4vance7t3iability6le5nce4ed5f5s5ve7d4gion8s7us3ocation3uctant3y4ing2main6der6ed6ing6s4ke4rk6able9y6ed6s3edies5y4mber8ed8ing8s6rance3ind6ed7r6ing6s5iscent4x3nants3ote6ly4val5e6d6s5ing2naissance4med3der6ed6ing3ew5able6l5ed3o4vated7ion4wned3t4al4ed4ing4s2p3air6ed6ing6s4y3eal5t6ed8ly6ing6s4titive3lace7d7mentBs7s6ing5y4ica7te5ed6s4y5ing3ort6ed8ly7r8s6ing6s4st3resent9ationCve9ed9ing9s6sion4inted4oduce8tionAve3s3ublic8anAs4tation2quest7ed7ing7s4ire7d7mentBs7s6ing2s3cue6d3earch8ed9rAs8ing4mblance7e8s7ing4ntment4rvationBs6e7d7s6oir4t3ide6nce8y7t8ial8s6s5ing5ual6e4gn6ation6ed4lience4n4st6ance8t6ed6ing3olutionAs5ve7d6ing4nance4rt6s4urce8s3pect7able7ed7ful7ing8veAly7s4iratory4ond7ed8nts7ing7s6se8s7ibility9le8ve3t4art5urantAs4ed4ing4less4oration6e7d6ing4raint5ict8ed8ing9onBs9ve5ucturing4s3ult6ed6ing6s4me6d4rrection2tail6er8s5n6ed6ing6s4liation4rded3ention3ire6d6ment5ing3reat4ieve8d4o3urn6ed6ing6s2union5ted3ters2v3eal6ed6ing6s4lationAs4nge5ue7s4rend5sal6e7d3iew6ed6ing6s4sed5ion4val5e6d3olt5utionAary2ward6ed6ing6s2x2y3nolds1hetoric2ino2ode5s2yme3thm1ib3bon3s2ca3e3h4ard7s8on4er5s6t4ie4mond3k4y3o2d3den3e4r5s4s3ge3iculousAly4ng2fle5s3t2g3ged3ht5eous5ly5s3id3orous2ley2m2ng4ing4s2o3t4s2p3e3ped4ing2se4n4s3ing3k4ing4s4y2ta3e3ual6s2val5ry5s3er5s6ide1na1oad4s3r4ing3st5ed2b3bed5ry4ie3e4rt6o6s7on3in5son3ot5ic7s5s3ust2chester3k4ed5t6s4ing4s4y2d3e3gers3ney3riguez3s2ger5s3ue2land3e4s3l4ed5r4ing4s2m3a4n5ce5ia7n5s5tic3e4o3ney2n3ald6o3nie2of4s4top3kie3m4mate4s3ney3sevelt3t4ed4ing4s2pe4s2ry2sa3e4mary4s3ie3s3ter2t3ary4te5ing6on3h3ten2uge4h5ly3nd5ed5s3te5s4ine7ly6g2ver2w3s2y3al5s5ty3ce1pg1ub3bed5r4ing5sh3y2de3y2e2g3by3ged2in4ed4ing4s2le4d4r5s4s3ing2m3or5s4urs2n3away3ner6s4ing3off3s3way2pert2ral2sh4ed4ing3s4ell4ia6n7s3t4y2th4less1wanda1yan2e0sabotage2c3k4ed4s3ramento4ed4ifice9d9s2d3dle3ly3ness2fari3e4guard4ly4r4st4ty2ga3e2id3l4ed4ing4or6s4s3nt5s2ke2lad4ries5y3e4m4s5man3isbury3ly3mon3on3sa3t4y3ute3vador5ge5tion2m3antha3e3my3ple6s5ing3sung3uel4rai2n3chez4tioned8s5uary3d4ers4ra4s5tone4wich8es4y3e3g3itation3k3s3ta4iago4os2p2ra4h3casm6tic2sha2t3an3ellite9s3ire4sfaction9ory6ied6y7ing3urated5day8s5n2uce3di3l3nders3sage2vage4nnah3e4d4s3ing6s4or3vy2w3yer2xon2y3in5g3s1cale5d5s4ing3m3n4dal7s4ned6r5ing4s3r4ce4e5d5s4f4let4s4y3ttered2enario8s4e5ry5s4ic4t2hedule8d8s7ing4me6s3izophrenia3midt3olar7ly7s8hipBs4ol6ing6s2i3ence7s5tific7st9s3ssors2oop4ter3pe3re5d5r5s4ing3tch4land4s4t5ish3ut5s2rap5ped4tch7ing3eam6ed6ing6s4en6ed6ing6play6s7hotAs4w5ed5s3ipt6s6ure9s3oll3ub4tiny2ulpture9s3m1ea3food3hawks3l4ed4s3n3rch6ed7s6ing3s4ide4on6al6ed6s3t4ed4ing4s4tle2bastian2c3ond6ary6ly6s3recy5t6ary6ly6s3t4ion7s4or6s3ular4re6d5ing6ties7y2dan2e3d4ed4s3ing3k4ers4ing4s3m4ed4ingly4s3n3s2gment7s3regation2ismic3ze5d4ure7s2ldom3ect6ed6ing7on9s7ve3f4ie5sh3l4er6s4ing4s2mester3i4conductor4nar7y4tic2n3ate5or7s3d4ing4s3ior6s3sation9al4e5s4ible5ng5tive8ity4or6s6y3t4ence8d8s7ing4iment9al9s2o3ul2p3arate8d8ly8s7ing8on3t4ember2quel5nce8s2rbia6n3ena3geant4io3ial4es4ous7ly7ness3mon3um3vant7s4e5d5r6s5s4ice7s5ng2ssion7s2t3h3s3ting7s4le6d6mentAs6rs5ing3up2ven5teen6h6y4ral5e6d6ly5ity2wage3er3ing2x3ism5t3ual6ity6ly3y2ymour1gt1hade5s4ow6s4y3ft3h3ke5n5s6peare4ing3le4l5ow3me5ful4poo3ne4ghai4non3pe5d5s4ing3re5d5holderBs5s4ing4k5s4on4p5ly3ttered3un3ve5d4ing3w4n2e3d3ep4r4t5s3ffield3ikh4la3lby4don4f4l5ey5s4ter7s4ves3pherd3riff4lock4man3s2ield6s3ft5ed5ing5s3n4e5s4ing4y3p4ment8s4ped5ing4s3rley4t5s3t4s4ty2ock5ed5ing5s3e4s3ok4t5er7s5ing8s5out5s3p4pers5ing4s3re5s4t5age5er6st5ly5s3t4gun4s3uld6er8s4t5ed5ing5s3ve3w4case4ed5r6s4ing4n4s2ri4mp4ne5k2ut4down4ting5le2y1ibling7s2c3k4ness2d3e4d4s4walk6ys3ney2ege3rra2gh4t5ed5s3ma3n4al6ing6s5ture9s4ed4ificanceAtBly5ng4s2lence5t6ly3icon3k3ly3va4er2m3ilar7ities9y7ly3mons3on5e3ple6r6st5icity6fied5y4son7s3s3ulationAs7or5taneousCly2n3ce5re7ly4lair3g4apore4er6s4h4ing4le6s4s4ular3ister3k4ing3s2p2r2s3ter6s2t3com3e4s3s3ting3uated6ion9s2x3teen4h4y2ze4d4s1kate4ing2eleton3ptical3tch6es2i3es3ing3ll5ed5s3n4ned5y4s3p4ped6r5ing3rt5s2ull2y3pe1lack3in3m4med4s3ng3p4ped3sh3te3ughter9ed3ve5ry5s2eep5ing5s5y4ve6s3nder3pt2ice5d5s4k3d4e5s4ing3ght6est6ly3m3p4ped6ry5ing4s2ogan3pe5s4py3t4s3w4ed5r4ing4ly2ut1mack3ll5er6st3rt5er5phoneAs3sh5ed5ing2ell5ing5s2ile5d5s4ing3th2oke5d5rs4ing3oth6ly2s2uggling1nack5s3il3ke5s3p4chat4ped4s3tch2eak5ers5y2iper2ow2p2yder1oak4ed3p2ber2ccer3ial6ism8t9s6ly4etal6ies6y4o5logy3k4et4s2da3ium2fa3ia3t4ball4er4ly4ware2il4s2l3ar3d4ier7s3e4ly3icitor4d5arity4tary3o4mon3ution8s3ve5d4ing2mali6a3e4body4day4how4one4rset4thin8g5ime8s4what6ere2n3g4s4writer3ia4c3ny3s3y2o3n4er2phia5e5sticated4omore2re3row4y3t4ed4ing4s2ught3l4s3nd5ed5ing5s5track3p3r4ce6d6s3th5ampton5east9ern6rn5west9ern2vereign9ty3iet6s2x2y1pa3ce5craft5s3ghetti3in3m3n4ish4ning3re5d4k5ed5ling5s3tial2eak5er7s5ing5s4r5s3c4ial7istAs8zed9ing7ly7s7ty5es5fic8ally9tionDs8s7ed6y5men8s4s4tacle7ular6tor9s5rum4ulation9ve3ech6es4d5ing5s5y3ll5ed5ing5s3ncer4d5ing5s4t3rm2here2ice5s4y3der6s3es3ke5s3ll5ed3n4al4e4ning4s3ral4it6ed6s6ual9ity3t4e2lash3endid3it5ting2oil5ed6r3ke5n5sman6person3nge4sor7ed7s8hip4taneous3oky4n3rt5ing5s3t4ify4light4s4ted3use6s2ray3ead6ing6s4e3ing6er6field6s5t2un3r4s2y3ing1quad5ron5s4re6s4sh3eeze7d3irrel1ri1tab4bed5ing4ility4le3ck5ed3dium7s3ff5ing5ord3ge5d5s4ing3in5ed5less4rcase5s3ke5holders5s3lin4king4l5s3mp5ed5s3n4ce4d5ard8ized8s5ing5point5s4ford4ley4ton3ple6s3r4bucks4e5d4ing4k4red5ing4s4t5ed6r7s5ing5s5up4vation5e5ing3sh3t4e5d5ment9s5s5wide4ic5ng5on7ary7ed7s5sticalBly9s4s4ue6s5s5te6ory3y4ed4ing4s2eadily5y4k4l5ing5s5th4m3el5e6rs4p4r5ing3fan3in3lla6r3m4s3p4hanie5en7s4ped5ing4s3reo6types4ling4n4oids3ve5n6s7on4ie3wart2ick5er7s5ing5s5y3ff3gma3ll3mulate8ing9on6us3ng4t3r4ring3tch6es2ock5holm5s3ke5s3le5n3mach3ne5s3od4l3p4ped5ing4s3rage4e5d5s5y4ies5ng4m5s4y5line5telling3ve2raight5n6ed6s5t4nd6ed5ge7ly7r8s4p4tegic8es7y4w5berries9y4y3eak5m6ing6s4et6s4ngth8enAedAing8s4ss6ed7s6ful4tch7ed8s7ing3icken5t6ly4ke6r6s5ing4ng6s4p5e6d6s5ped6ing5s4ve3oke6s4ll4ng6er7st6ly3uck5tural8e9d9s4ggle8d8s7ing2uart3bborn3ck3d4ent7s4ied6s5o6s4y5ing3ff5ed3mbled3nned5ing4t3pid6ity2yle5d5s4ish1ub3division3ject7ed7ive7s3marine4erged4issionAs5t6ted7ing3s4cribe9d9rAs7ption4equentAly5t4idiaries9y7es6y4tance9s7tialBly5itute5rate3tle3urb6an6s3way2cceed7ed7ing5ss7es7fulAly7ion8ve7or3h3k4ed5r4ing4s2dan3den6ly2e3d2ffer6ed6ing6s4icientAly4olk2gar3gest7ed7ing8onAs7s2icidal6e3t4able4case4e5d4s2llivan3tan2m3mary4ed5r6s4it4on6ed3s2n3day6s4erland3g4lasses3k3light3ny3rise3s4et4hine2p3er5b5ficial5hero5intendent6or8ity5man7rket5natural5star5vised8ion8orAs3per4lementAs5ied7r8s7s5y6ing4ort7ed8r9s7ing8ve7s5se7d8ly4ress8ed8ion3remacy6e2r3e4ly3f4ace7s4ing3ge5on7s5ries6y4ical3passed4lus4rise8d8s7ingAly3real5nder9ed5y4ound8ed8ingBs3veillance5y6ed6s4ival6e7d7s6ing6or8s2san3ceptible3hi3pect7ed7s5nd7ed6se7ion4icion8us3sex3tain7ability9le7ed7ing2tton2v2zanne1wallow7ed3mp3n4sea3p3y2ear5ing4t5er5ing5y3den4ish3ep5ing4t5heart5ie5s3ll5ing3pt2ift5ly3m4ming3ng5ing5s3pe3ss3tch6ed7s6ing4zerland2ollen3rd5s4e4n1ydney2lvia2mbol6ic6s3metry3pathetic7y4hony4osium4tom7s2nc3dicate4rome3tax4hesis6tic2racuse3ia5n3up2stem6aticAally6ic6s0tab3le5s5t6s3s2ckle6s3o3tic6al6s2d2e2g3ged3s2il4or6ed4s3wan2ke4n4over4s3ing2le4nt6ed6s4s3iban3k4ed4in6g4s3l4er4y2me3il3pa2n3dem3g4ible4o3k4s3ner3zania2p3e4s3ped4ing3s2r3a3get6ed6ing6s3iffs2sk4ed4s3mania3te5d5s4ing4y2te3too6s2ught2vern2x3ation3ed4s3i3payer8s2ylor1bh1ea3ch5er7s6s5ing8s3m4ed4mate8s4s3r4ing4s3se4ing2ch4nical9ly7ianAs6que9s5ologicalAes9y2d3dy2e3n4age7r8s4s3th2hran2l3ecom4gram7ph4phone4scope4vised7ion3l4ing4s2mp4er6atureBs6ed4late5e6s4o5ral7rily8y4tation5ed5ing2n3ant6s3d4ed5ncies7y5r4s3nessee4is3s4e4ion7s3t4h4s3ure2resa3m4ed4inal8s7te9d8ion6ology4s3race5in4ible7y5fic7ed6ying5torial9es8y4or6ism8t9s4y3tiary2sla3t4ament4ed4ified6y5mony5ng4osterone4s2x3ans4s3t4book8s4ile5ng4s4ure1ha3i4land3mes3n4k5ed5ful8ly5ing5s6giving3t4s2e3ater7s5re7s6ical3e3ft3ir5s3m4e5d5s4selves3n3o4dore4logical7y4rem6ticalBly5ies5y3rapeutic6ist6y4e5after5by5fore5of5s6a4mal3se4is3y2ick5er5ness3ef4ves3gh5s3n4g5s4k5ing5s4ner3rd5s4st6y4teen5y3s2o3mas4pson4son3r4nton4ough8ly3se3u4gh6t7ful7s4sand8s2read6s5t6en8ed8ing8s6s4e4shold4w3ill6ed7r6ing4ve5ing3oat4ne6s4ugh7out4w5ing5n5s3u4st2ugs3mb5s3nder3rsday3s2y3roid1ibet5an2ck4et6s2dal3e3y2e3d3r3s2ffany2ger5s3ht5en6r5ly2l3e4s3l3t2m3ber3e4d4less5ine5y4r4s3ing3othy2n3a3der3y2p3ped4ing3s2re4d4s2s3sue6s2tan5ic6um5s3le5d5s3s1oast2bacco3y2day3d4ler2e3s2gether2ilet6s2ken5s3yo2ld3edo4rance7t6te8d3l2m3ato6es3b3my3orrow2n3e4s3gue3i4ght3nes3s3y2o3k3l4s3th2p3ic5s3ped4ing3s2r3ch3e3ies3n4ado3onto3que3res3ture7d3y2ss4ed2tal5ly3tenham2uch5down9s5ed6s5ing3gh5er6st3r4ing5sm6t7s4namentAs4s2w3ard6s3el5s4r5s3n4s5end5hip2xic5ity2y3ota3s1race5d5s4ing4k5ed6r5ing5s4t5ion5or4y3de5d5mark5r6s5s4ing5tion9alBly9s3ffic7king3gedy4ic3il5er7s5ing5s4n5ed6r7s5ing5s4t5or5s3jectory3ns5actionBs5criptAion5fer8red9ing8s6orm9ation9edArs9ing5gender5it7ionAalAs5late9d9s8ionBs8or5mission7t8tedAr5parencyAt6lant6ort9ation9ed9ing3p4ped4s3sh3uma6tic3vel6ed7r8s6ing6led8rs7ing6s4is3y2ead4son5ure8r8s7y4t5ed5ies6ng5ment9s5s5y3e4s3k3mendous3nch6es4d5ing5s4t3vor2i3al5s4ngle3bal4e5s4unal6e5te3ck5s5y3ed4s3gger7ed7s3llion4ogy3m3nidad5ty3o3p4le4ping4s3umph3vial2oll5s3op5s3phies5y4ical3uble7d7s4sers4t3y2uce4k5s3e3ly3man4p5et3nk3st5ed6e7s5ing5s5worthy3th5s2y3ing1sunami1ub3e4rculosis4s2ck4ed5r3son2esday2ition2mblr3or5s2na3e4d4s3ing4sia3nel6s2rbine7s4o4ulence3f3key4ish4s3moil3n4ed5r4ing4out5ver4s3tle6s2tor5ial1vs1weet5ed5ing5s3lfth4ve3ntieth5y2ice3light3n4s3st5ed3tch4ter2o1ying2ler2pe4d4s3hoon3ical7ly4ng2ranny3e4s2son0uae1ber1cla1efa1fc1ganda2h2ly1kip2raine6ian1lster2timate8ly3ra5sound1mbrella2m1nable3cceptable3nimous9ly3rmed3uthorized3vailable3ware2believable2certain9ty3hanged3le5ar3omfortable5mon4nscious4vered2d3efeated4r5cover5estimate5go7ing7ne6raduate7ound5lying5mine5neath5rated5standAableAingAs7ood5take9n8ing5water7y6ear7nt3o4ubtedly2employed8ment3sco3ven3xpectedAly2fair4miliar3inished4t3ortunateBly2happy3ealthy2i3corn3dentified3fied4orm7s3on5s3que6ly3t4e5d4s4y3versal9ly7e7ities9y2known2lawful3ess3ike6ly4mited3ock6ed3ucky2named3ecessary2official2paid3leasant3opular3recedented5dictable2real6istic5sonable4lated5iable4st2safe3een3table3uccessful4re2til3o2used4ual7ly2veiled2wanted3illing1pbeat2coming2date6d6s5ing2grade7d7s6ing2held3old2load6ed2on2per2right4sing2s3et5ting3ide3tairs4ream2ward6s1ranium2ban2ge4d4ncy5t4s3ing2ine2l2uguay1sa3ble3ge2b2c2d2e3d3ful3less3r4name4s3s2her2ing2sr2ual5ly1tah2c2ilities6y5ze7d6ing2most2ter5ly0vacancy5t4tion8s3cination6e7s3uum2gina3ue2in2l3e4ncia5tine4rie3id5ation5ity3ley6s3uable5tion4e5d5s3ve5s2mpire7s2n3couver3essa3guard3illa4shed4ty3s2por2r3iable8s5nt7s5tion9s4ed5s5ties6y4ous3sity3y4ing2scular3e3t4ly2t3ican2ult1ector2gan4s3etable9s6rian6tion2hicle7s2il3n4s2locity3vet2ndor6s3ezuela3geance3ice3om3t4ilation4ure7s3ue5s4s2ra3b4al3dict3ge3ification6ed5y4zon3mont3non3onica3sa5tile4e5s4ion7s4us3tical3y2ssel6s3t2t3eran7s5inary3o3s1ia3ble2be4s3rant5tion2c3e3inity4ous3tim6s4or6ia8n7es7ous6y2deo5s2enna3tnam7ese3w4ed5r6s4ing4point4s2i3i2king6s3tor2le3la5ge7rs7s5in7s2nce5nt3e4gar4s4yard3tage3yl2ola5te7d6ing7on9s4ence6t7ly5t4in2p2ral3gin6ia3tual7ly5e3us5es2sa3ibility5le4on6s4t5ed5ing5or7s5s3ta3ual6ly6s2ta4l4min7s2vid1ladimir1ocabulary4l5s4tional2dka2gue2ice5d5s3d2l3atile3canic6o3leyball3tage3ume6s4ntarily8y6eer9ed9ing9s2mit5ing2n2te4d4r5s4s3ing2w3s2yage1ulgar3nerability8le0wade2ge4s3ner3on2ist3t4ed5r4ing4ress4s3ver2ke4s3ing2l3es3k4ed5r4ing4s3l4ace4et4paper4s3mart3nut3sh3t4er4on2n3der6ing3g3na3t4ed4ing4s2r3d4en4robe4s3e4house3fare3m4er4ing4th3n4ed5r4ing7s4s3p3rant7s7y4en4ior7s3s4aw3time3wick3y2s3h4ed4ing7ton3nt3te5d4ing2tch5ed6s5ing3er5fall6ront5ing5loo5proof5s6hed3kins3son3t4s2ve4d4s3ing2x2y3ne3s1eak4ened5r5st4ness8es3lth6y3pon6s3r4ing4s4y3ther3ve5r4ing2b3b3er3site7s4ter2d3ding7s3ge3nesday2e3d4s3k4end7s4ly4s2igh5ed5ing5s5t6ed6s3r4d3ss2lcome7d7s6ing3ding3fare3l4being4ington4ness4s3sh2mbley2ndy3ger3t2re2s3ley3t4ern4minster2t1hale5s3t4ever4s5app5oever2eat3el5chair5er5s3n4ever3re5abouts6s5by5in5ver3ther2ich5ever3le4st3ning3p4ped3skey5y4per7s4tle3te5s4ney2o3a3ever3le5sale6ome4ly3m3re3se2y1icked5t6s2de4ly4r4spread3ow3th2fe3i2g2i2ki4leaks4pedia2ld4erness4life5y3ey3kinson3l4iam7s8on5e5ng7ly7ness5s4ow4s4y3son2mbledon2n3chester3d4ing4ow6s4s5or4y3e4s3g4er4s3ner6s4ing5peg3s4ton3ter6s2pe4d2re4d4less4s3ing2sconsin3dom3e4ly3h4ed5s4ing2t3ch5es3h4draw8al8n6ew4in4out4stand3ness7ed8s7ing3ty2ves2zard6s1oah2ke2lf3ves2man3b3en2n3der6ed6ful9ly6ing6land6s3g3t2o3d4en4land4s4y3l2rcester3d4ing4press4s3e3k4ed5r6s4force4ing4out7s4place4s5hop8s3ld5s5wide3m4s3n3ried6s4y5ing3se4hip4t3th5less5while5y2uld3nd5ed5s2ven2w1rap4ped5ing4s3th2eck5ed3stler6ing2ight3st3te5r6s5s4ing7s4ten2ong3te1tf1we2ii1yatt2oming0xbox1xx0yacht2h3oo2le2n3g3kee6s2rd4s3n2y1ea3h3r4ly4s3st2ll4ed4ing4ow2men2n2p2s3terday2t1ield5ed5s1oga3urt2rk4shire2u3ng5er6st5sters3r4e4s5elf7ves3th5ful5s4ube1rs1uan2mmy2p2ri0zach3k1ealand2lda2n2ro2us1hang1imbabwe3merman2nc2p1oe2mbie6s2ne4s3ing2o3m1urich';
 
 /* ============================ 3. UTILS ============================ */
 const $ = (s, r = document) => r.querySelector(s);
@@ -1408,10 +1441,19 @@ function trophySVG(id) {
 <rect x="58" y="226" width="104" height="36" rx="5" fill="url(#${id}d)" stroke="#c9d3e8" stroke-opacity=".5"/>
 <rect x="58" y="238" width="104" height="8" fill="url(#${id}g)"/></svg>`;
 }
-const crestShort = (name) => { const s = String(name || '').trim(); return s.length > 6 ? s.slice(0, 6) : s; };
+/* crest label = the distinguishing part of the name: its section code (10/6) or its last word, never a shared prefix */
+const CREST_DIGITS = /[0-9٠-٩۰-۹]+(?:\s*\/\s*[0-9٠-٩۰-۹]+)?/g;
+const crestDigits = (s) => { const d = String(s || '').match(CREST_DIGITS); return d ? d[d.length - 1].replace(/\s+/g, '').slice(0, 6) : ''; };
+const crestWord = (s, last) => { const w = String(s || '').trim().split(/\s+/); return (last ? w[w.length - 1] : w[0]).slice(0, 6); };
+const crestShort = (name) => { const s = String(name || '').trim(); return crestDigits(s) || crestWord(s, true); };
+function crestLabels(names) {
+  const kinds = [(s) => crestShort(s), (s) => crestDigits(s), (s) => crestWord(s, true), (s) => crestWord(s, false), (s) => String(s).trim().slice(0, 6)];
+  for (const k of kinds) { const L = names.map(k); if (L.every(Boolean) && new Set(L).size === L.length) return L; }
+  return names.map((s, i) => crestShort(s).slice(0, 4) + (i + 1));
+}
 function crestSVG(team, size, idp) {
   const c = safeColor(team.color), light = mixHex(c, true, 0.28), dark = mixHex(c, false, 0.38), ink = inkOn(c);
-  const short = crestShort(team.name); const len = short.length;
+  const short = team.crest || crestShort(team.name); const len = short.length;
   const fs = len <= 3 ? 40 : len <= 4 ? 34 : len <= 5 ? 29 : 24;
   const id = 'cr' + (idp || '') + uid();
   return `<svg class="crest" viewBox="0 0 100 112" ${size ? `width="${size}" height="${Math.round(size * 1.12)}"` : ''} aria-hidden="true" focusable="false"><defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${light}"/><stop offset="1" stop-color="${dark}"/></linearGradient></defs>
@@ -1434,22 +1476,92 @@ function savePrefs() { sSet(KEYS.p, JSON.stringify(PREFS)); }
 
 let T = null;           // the tournament (persisted)
 let LOAD_WARN = '';
-function validT(t) {
-  return !!(t && typeof t === 'object' && t.v === SCHEMA && Array.isArray(t.teams) && t.teams.length >= 3 && t.teams.length <= 8
-    && t.teams.every((x) => x && typeof x.id === 'string' && typeof x.name === 'string')
-    && Array.isArray(t.matches) && t.matches.every((m) => m && typeof m.id === 'string' && typeof m.a === 'string' && typeof m.b === 'string' && (!m.seq || Array.isArray(m.seq)))
-    && t.settings && Array.isArray(t.settings.types) && t.settings.types.length && Array.isArray(t.settings.units));
+/* storage health: ok = localStorage usable (probed at start); failing = a save of the tournament did not persist */
+const STORE = { ok: true, failing: false, warned: false, conflict: false };
+function probeStorage() {
+  try { const k = 'vcl.__probe', v = String(Date.now()); window.localStorage.setItem(k, v); const ok = window.localStorage.getItem(k) === v; window.localStorage.removeItem(k); return ok; } catch (e) { return false; }
 }
+/* ---- deep validation of stored / restored data: anything that reaches the HTML must be inert ---- */
+const ID_RE = /^[A-Za-z0-9_-]{1,24}$/;
+const isInt = (x, a, b) => Number.isInteger(x) && x >= a && x <= b;
+const isStr = (x, max) => typeof x === 'string' && x.length <= (max || 400);
+const isNum = (x) => typeof x === 'number' && isFinite(x);
+function validQ(q) {
+  if (!q || typeof q !== 'object' || !TYPES[q.type]) return false;
+  if (q.c) return isStr(q.w, 200); // compacted question of a finished match (type + word only)
+  if (q.type === 'match5') {
+    const n = Array.isArray(q.items) ? q.items.length : 0, idx = (a) => Array.isArray(a) && a.length === n && a.every((v) => isInt(v, 0, n - 1));
+    return n >= 2 && n <= 5 && q.items.every((it) => it && isStr(it.w, 60) && isStr(it.ar, 200) && (it.s == null || isStr(it.s))) && idx(q.right) && idx(q.ans);
+  }
+  if (!isStr(q.w, 60) || !isStr(q.ar, 200) || (q.s != null && !isStr(q.s))) return false;
+  if (q.type === 'spell_build') {
+    return Array.isArray(q.tiles) && q.tiles.length >= 2 && q.tiles.length <= 30 && q.tiles.every((t, i) => t && t.id === i && /^[a-z]$/.test(t.ch))
+      && Array.isArray(q.pattern) && q.pattern.every((c) => c === '' || c === ' ' || c === '-') && q.pattern.filter((c) => c === '').length === q.tiles.length
+      && typeof q.target === 'string' && /^[a-z]+$/.test(q.target) && q.target.length === q.tiles.length;
+  }
+  if (!Array.isArray(q.opts) || q.opts.length < 2 || q.opts.length > 6 || !q.opts.every((o) => isStr(o, 200)) || !isInt(q.ans, 0, q.opts.length - 1)) return false;
+  if (q.type === 'gap_letters') return Array.isArray(q.hid) && q.hid.length >= 1 && q.hid.every((i) => isInt(i, 1, q.w.length - 1));
+  return true;
+}
+function validMatch(m, ids) {
+  if (!m || typeof m !== 'object' || !ID_RE.test(m.id) || !ids.has(m.a) || !ids.has(m.b) || m.a === m.b) return false;
+  if (!['league', 'semi', 'final'].includes(m.stage) || (m.label != null && !isStr(m.label, 60))) return false;
+  if ((m.md != null && !isInt(m.md, 0, 30)) || (m.R != null && !isInt(m.R, 0, 8)) || (m.step != null && !isInt(m.step, 0, 40))) return false;
+  if (m.mode != null && m.mode !== 'live' && m.mode !== 'split') return false;
+  if (['first', 'present', 'winner'].some((k) => m[k] != null && m[k] !== m.a && m[k] !== m.b)) return false;
+  if (m.plan != null && !(Array.isArray(m.plan) && m.plan.length <= 8 && m.plan.every((t) => TYPES[t]))) return false;
+  const okFlag = (x) => x === null || x === undefined || typeof x === 'boolean';
+  if (m.seq != null && !(Array.isArray(m.seq) && m.seq.length <= 16 && m.seq.every((st) => st && (st.t === m.a || st.t === m.b) && isInt(st.r, 0, 7) && okFlag(st.ok) && validQ(st.q)))) return false;
+  if (m.pre != null && !(Array.isArray(m.pre) && m.pre.length <= 8 && m.pre.every((rd) => rd && TYPES[rd.type] && Array.isArray(rd.qs) && rd.qs.length === 2 && rd.qs.every(validQ)))) return false;
+  if (m.pens != null) {
+    const p = m.pens;
+    if (typeof p !== 'object' || !Array.isArray(p.kicks) || p.kicks.length > 200 || !p.kicks.every((k) => k && (k.t === m.a || k.t === m.b) && okFlag(k.ok) && validQ(k.q))) return false;
+    if ((p.first != null && p.first !== m.a && p.first !== m.b) || (p.last != null && !isInt(p.last, 0, 199))) return false;
+  }
+  return true;
+}
+function validT(t) {
+  if (!(t && typeof t === 'object' && t.v === SCHEMA && Array.isArray(t.teams) && t.teams.length >= 3 && t.teams.length <= 8)) return false;
+  if (t.id != null && !(typeof t.id === 'string' && ID_RE.test(t.id))) return false;
+  if (!t.teams.every((x) => x && typeof x.id === 'string' && ID_RE.test(x.id) && isStr(x.name, 40) && (x.crest == null || isStr(x.crest, 12)))) return false;
+  const ids = new Set(t.teams.map((x) => x.id)); if (ids.size !== t.teams.length) return false;
+  if (!Array.isArray(t.matches) || t.matches.length > 80 || !t.matches.every((m) => validMatch(m, ids)) || new Set(t.matches.map((m) => m.id)).size !== t.matches.length) return false;
+  return !!(t.settings && typeof t.settings === 'object' && Array.isArray(t.settings.types) && t.settings.types.length && Array.isArray(t.settings.units) && t.settings.units.every((u) => isStr(u, 40)));
+}
+const cleanCustom = (arr) => (Array.isArray(arr) ? arr : []).filter((x) => x && typeof x.w === 'string' && typeof x.ar === 'string' && WORD_RE.test(x.w) && x.w.length <= 24 && x.ar.length <= 200)
+  .map((x) => ({ w: x.w, ar: x.ar, s: typeof x.s === 'string' && x.s.length <= 400 ? x.s : '' }));
 function repairT(t) {
+  const ids = t.teams.map((x) => x.id), has = (id) => ids.includes(id), mids = t.matches.map((m) => m.id);
   t.used = Array.isArray(t.used) ? t.used.filter((x) => typeof x === 'string') : [];
-  t.drawOrder = Array.isArray(t.drawOrder) ? t.drawOrder : t.teams.map((x) => x.id);
-  t.teams.forEach((x) => { x.color = safeColor(x.color); x.students = clamp(parseInt(x.students, 10) || 35, 1, 99); x.picked = Array.isArray(x.picked) ? x.picked : []; });
+  t.drawOrder = Array.isArray(t.drawOrder) ? t.drawOrder.filter(has) : []; ids.forEach((id) => { if (!t.drawOrder.includes(id)) t.drawOrder.push(id); });
+  t.teams.forEach((x) => { x.color = safeColor(x.color); x.students = clamp(parseInt(x.students, 10) || 35, 1, 99); x.picked = Array.isArray(x.picked) ? x.picked.filter((n) => isInt(n, 1, 99)) : []; });
+  if (!t.teams.every((x) => typeof x.crest === 'string' && x.crest)) crestLabels(t.teams.map((x) => x.name)).forEach((l, i) => { t.teams[i].crest = l; });
   t.settings.types = t.settings.types.filter((x) => TYPES[x]);
   if (!t.settings.types.length) t.settings.types = TYPE_IDS.slice();
   if (!ROUND_OPTS.includes(t.settings.rounds)) t.settings.rounds = 5;
-  if (typeof t.settings.timer !== 'number') t.settings.timer = 1;
-  t.mdRest = t.mdRest || {};
-  t.matches.forEach((m) => { if (!m.status) m.status = m.seq ? 'live' : 'upcoming'; if (typeof m.step !== 'number') m.step = 0; });
+  if (!TIMER_OPTS.some((o) => o.v === t.settings.timer)) t.settings.timer = 1;
+  if (t.settings.ko !== 'semis') t.settings.ko = 'final';
+  if (t.settings.mode !== 'split') t.settings.mode = 'live';
+  const md = {}; if (t.mdRest && typeof t.mdRest === 'object') Object.keys(t.mdRest).forEach((k) => { if (/^\d{1,2}$/.test(k)) md[k] = has(t.mdRest[k]) ? t.mdRest[k] : null; }); t.mdRest = md;
+  if (!has(t.championId)) t.championId = null;
+  if (!mids.includes(t.cur)) t.cur = null;
+  ['createdAt', 'finishedAt'].forEach((k) => { if (!isNum(t[k])) t[k] = k === 'createdAt' ? Date.now() : null; });
+  if (t.id == null) t.id = uid();
+  t.rev = isInt(t.rev, 0, 1e9) ? t.rev : 0;
+  if (t.custom != null) t.custom = cleanCustom(t.custom);
+  const ST = ['upcoming', 'live', 'wait', 'pens', 'done'];
+  t.matches.forEach((m) => {
+    if (!ST.includes(m.status)) m.status = m.seq ? 'live' : 'upcoming';
+    if (typeof m.step !== 'number') m.step = 0;
+    if (!isInt(m.md, 0, 30)) m.md = 0;
+    m.label = typeof m.label === 'string' ? m.label : '';
+    if (!isInt(m.R, 0, 8) || (m.seq && m.R < 1)) m.R = m.seq ? Math.max(1, m.seq.length / 2) : 0;
+    if (typeof m.revealed !== 'boolean') m.revealed = !(m.mode === 'split' && m.status !== 'done' && m.status !== 'pens');
+    const fixQ = (q) => { q.cat = TYPES[q.type].cat; if (!['n', 'v', 'adj', 'adv'].includes(q.pos)) q.pos = ''; if (![1, 2, 3].includes(q.lvl)) q.lvl = 2; };
+    if (m.seq) m.seq.forEach((st) => fixQ(st.q));
+    if (m.pre) m.pre.forEach((rd) => rd.qs.forEach(fixQ));
+    if (m.pens) m.pens.kicks.forEach((k) => fixQ(k.q));
+  });
   return t;
 }
 function loadT() {
@@ -1459,7 +1571,26 @@ function loadT() {
   if (!validT(r.val)) { LOAD_WARN = 'البطولة المحفوظة غير صالحة — تم البدء من جديد.'; return null; }
   try { return repairT(r.val); } catch (e) { LOAD_WARN = 'تعذّر إصلاح البطولة المحفوظة — تم البدء من جديد.'; return null; }
 }
-function saveT() { if (!T) { sDel(KEYS.t); return; } sSet(KEYS.t, JSON.stringify(T)); }
+/* finished matches keep only what the full-time table and statistics read (type, category, word) */
+function compactT() {
+  const cq = (q) => (q.c ? q : { c: 1, type: q.type, cat: q.cat, w: String(q.w || '').slice(0, 200) });
+  T.matches.forEach((m) => { if (m.status !== 'done') return; if (m.seq) m.seq.forEach((st) => { st.q = cq(st.q); }); if (m.pens) m.pens.kicks.forEach((k) => { k.q = cq(k.q); }); });
+}
+/* saves the tournament. Returns false when it could not be persisted (the teacher is warned once, and a banner stays).
+   A tab holding an older copy never overwrites newer results saved by another tab (force = intentional replace). */
+function saveT(force) {
+  if (!T) { sDel(KEYS.t); return true; }
+  if (!force && STORE.ok) {
+    const r = jGet(KEYS.t), cur = r.ok && r.val && typeof r.val === 'object' ? r.val : null;
+    if (cur && ((cur.id && cur.id !== T.id) || (cur.id === T.id && (cur.rev || 0) > (T.rev || 0)))) { staleTab(); return false; }
+  }
+  T.rev = (T.rev || 0) + 1;
+  let ok = sSet(KEYS.t, JSON.stringify(T));
+  if (!ok && STORE.ok) { try { compactT(); ok = sSet(KEYS.t, JSON.stringify(T)); } catch (e) { ok = false; } }
+  if (ok) { if (STORE.failing) { STORE.failing = false; renderWarn(); } }
+  else if (STORE.ok) { STORE.failing = true; renderWarn(); if (!STORE.warned) { STORE.warned = true; toast('تعذّر حفظ البطولة على هذا الجهاز (مساحة التخزين ممتلئة أو محظورة) — انسخ رمز النسخة الاحتياطية الآن', 'bad'); } }
+  return ok;
+}
 
 /* ============================ 6. AUDIO (WebAudio, synthesized) ============================ */
 const AU = { ctx: null, master: null, noise: null };
@@ -1558,7 +1689,7 @@ function unitList() {
   return list;
 }
 function unitEntries(u) {
-  const key = u.id === 'custom' ? 'custom#' + CUSTOM_REV : u.id;
+  const key = u.key || (u.id === 'custom' ? 'custom#' + CUSTOM_REV : u.id);
   if (ENTRY_CACHE.has(key)) return ENTRY_CACHE.get(key);
   const seen = new Set(), out = [];
   for (const r of u.words) { const e = normEntry(r, u.id); if (e && !seen.has(e.w)) { seen.add(e.w); out.push(e); } }
@@ -1570,10 +1701,42 @@ function poolFor(unitIds) {
   return out;
 }
 function allEntries() { return poolFor(unitList().map((u) => u.id)); }
+/* the tournament's own word pool: «كلماتي» comes from the copy taken at the draw, so later edits never break it */
+function tPool() {
+  if (!T) return [];
+  const ids = T.settings.units;
+  if (!ids.includes('custom') || !Array.isArray(T.custom)) return poolFor(ids);
+  const base = poolFor(ids.filter((u) => u !== 'custom')), seen = new Set(base.map((e) => e.w)), key = 'tc#' + T.id + '#' + T.custom.length;
+  if (!ENTRY_CACHE.has(key)) unitEntries({ id: 'custom', words: T.custom, key });
+  return base.concat(ENTRY_CACHE.get(key).filter((e) => !seen.has(e.w)));
+}
 function bankWords() { if (!BANK_WORDS) BANK_WORDS = new Set(allEntries().map((e) => e.w)); return BANK_WORDS; }
+let COMMON = null;
+function commonWords() {
+  if (COMMON) return COMMON;
+  COMMON = new Set(); let prev = '', cur = null;
+  for (const ch of COMMON_EN) { if (ch >= 'a' && ch <= 'z') cur += ch; else { if (cur !== null) { COMMON.add(cur); prev = cur; } cur = prev.slice(0, parseInt(ch, 36)); } }
+  if (cur) COMMON.add(cur);
+  return COMMON;
+}
+/* true when x is a form of w (lend/lent, spend/spent, fisherman/fishermen, injury/injure, diet/died) */
+function sameStem(x, w) { const st = (s) => s.replace(/men$/, 'man').replace(/ies$/, 'y').replace(/t$/, 'd').replace(/(?:es|s|ed|d|ing|e|y)$/, ''); return st(x) === st(w); }
+/* a generated misspelling / letter distractor must not be a real word */
+const realWord = (x, w) => bankWords().has(x) || commonWords().has(x) || (!!w && sameStem(x, w));
+const SYN_OF = new Map();
+NEAR_SYN.forEach((g) => g.forEach((w) => { if (!SYN_OF.has(w)) SYN_OF.set(w, new Set()); g.forEach((x) => { if (x !== w) SYN_OF.get(w).add(x); }); }));
+const AR_STOP = new Set(['علي', 'الي', 'من', 'في', 'عن', 'مع', 'او']);
+const arTokens = (s) => normAr(s).split(/[\s/;-]+/).map((t) => t.replace(/^(?:وال|بال|لل|ال)/, '')).filter((t) => t.length >= 3 && !AR_STOP.has(t));
+/* two entries that could both be defended as the answer (near-synonyms, or Arabic meanings sharing a word: قمر / قمر صناعي) */
+function nearSame(e, x) {
+  if (e.w === x.w) return true;
+  const s = SYN_OF.get(e.w); if (s && s.has(x.w)) return true;
+  const A = arTokens(e.ar); if (!A.length) return false; const B = new Set(arTokens(x.ar));
+  return A.some((t) => B.has(t));
+}
 function loadCustom() {
-  const r = jGet(KEYS.c); const arr = r.ok && r.val && Array.isArray(r.val.words) ? r.val.words : [];
-  CUSTOM = arr.filter((x) => x && typeof x.w === 'string' && typeof x.ar === 'string' && WORD_RE.test(x.w)).map((x) => ({ w: x.w, ar: x.ar, s: typeof x.s === 'string' ? x.s : '' }));
+  const r = jGet(KEYS.c);
+  CUSTOM = cleanCustom(r.ok && r.val ? r.val.words : []);
   if (!r.ok) LOAD_WARN = LOAD_WARN || 'تعذّرت قراءة «كلماتي» المحفوظة.';
 }
 function saveCustom() { CUSTOM_REV++; BANK_WORDS = null; sSet(KEYS.c, JSON.stringify({ v: 1, words: CUSTOM })); }
@@ -1604,7 +1767,7 @@ function collect(pools, n, ok, keyOf, prefer, seed) {
 }
 function genMeaning(type, e, pools) {
   const q = baseQ(type, e), eAr = normAr(e.ar);
-  const ok = (x) => x.w !== e.w && normAr(x.ar) !== eAr;
+  const ok = (x) => x.w !== e.w && normAr(x.ar) !== eAr && !nearSame(e, x) && !nearSame(x, e);
   const samePos = (x) => !!(e.pos && x.pos === e.pos);
   if (type === 'mean_en_ar') return finishChoice(q, e.ar, collect(pools, 3, ok, (x) => normAr(x.ar), samePos, [eAr]).map((x) => x.ar));
   return finishChoice(q, e.w, collect(pools, 3, ok, (x) => x.w, samePos, [e.w]).map((x) => x.w));
@@ -1621,36 +1784,109 @@ function misspellings(w) {
   [['ie', 'ei'], ['ei', 'ie'], ['a', 'e'], ['e', 'a'], ['e', 'i'], ['i', 'e'], ['o', 'u'], ['u', 'o']].forEach(([a, b]) => {
     let i = w.indexOf(a, 1); while (i > 0) { out.add(w.slice(0, i) + b + w.slice(i + a.length)); i = w.indexOf(a, i + 1); }
   });
-  [/e$/, /(?<=[wgr])h/, /(?<=m)b/, /gh/, /(?<=[a-z])u(?=[aeio])/, /(?<=[a-z])k(?=n)/].forEach((re) => { if (re.test(w)) out.add(w.replace(re, '')); });
+  [[/e$/, ''], [/([wgr])h/, '$1'], [/mb/, 'm'], [/gh/, ''], [/([a-z])u(?=[aeio])/, '$1'], [/([a-z])k(?=n)/, '$1']].forEach(([re, to]) => { if (re.test(w)) out.add(w.replace(re, to)); });
   out.delete(w);
   return Array.from(out).filter((x) => x.length >= 2 && WORD_RE.test(x));
 }
+/* one contiguous edit turning w into m: w[a..b) is replaced by r */
+function editOf(w, m) {
+  let p = 0; while (p < w.length && p < m.length && w[p] === m[p]) p++;
+  let q = 0; while (q < w.length - p && q < m.length - p && w[w.length - 1 - q] === m[m.length - 1 - q]) q++;
+  return { a: p, b: w.length - q, r: m.slice(p, m.length - q) };
+}
+const applyEdit = (w, e) => w.slice(0, e.a) + e.r + w.slice(e.b);
+/* spell_choice: a 2x2 design {w, w+e1, w+e2, w+e1+e2} from two separate edits, so every error spot is right in exactly
+   2 of the 4 options and "pick the most typical-looking spelling" no longer finds the answer. */
 function genSpellChoice(e) {
-  const q = baseQ('spell_choice', e), bw = bankWords();
-  let wrong = e.m.filter((x) => x !== e.w && !bw.has(x)).slice(0, 3);
-  if (wrong.length < 3) wrong = wrong.concat(shuffle(misspellings(e.w)).filter((x) => !wrong.includes(x) && !bw.has(x)).slice(0, 3 - wrong.length));
-  let guard = 0;
-  while (wrong.length < 3 && guard++ < 40) { // last resort: random inner vowel change
-    const i = 1 + rnd(Math.max(1, e.w.length - 1)); const x = e.w.slice(0, i) + pick('aeiou') + e.w.slice(i + 1);
-    if (x !== e.w && !wrong.includes(x) && WORD_RE.test(x)) wrong.push(x);
+  const q = baseQ('spell_choice', e), w = e.w, bad = (x) => x === w || !WORD_RE.test(x) || x.length < 2 || realWord(x, w);
+  const cur = e.m.filter((x) => !bad(x)), key = (d) => d.a + ':' + d.b + ':' + d.r, seen = new Set(), edits = [];
+  const addEdits = (list, curated) => list.forEach((m) => { const d = editOf(w, m); if (d.a === d.b && !d.r) return; const k = key(d); if (seen.has(k)) return; seen.add(k); d.cur = curated; edits.push(d); });
+  addEdits(shuffle(cur), true); addEdits(shuffle(misspellings(w)).slice(0, 40), false);
+  const pairs = [];
+  for (let i = 0; i < edits.length; i++) for (let j = i + 1; j < edits.length; j++) {
+    const [x, y] = edits[i].a <= edits[j].a ? [edits[i], edits[j]] : [edits[j], edits[i]];
+    if (x.b >= y.a) continue; // edits must not touch
+    pairs.push({ x, y, score: (x.cur ? 2 : 0) + (y.cur ? 2 : 0) + Math.random() });
   }
-  return finishChoice(q, e.w, wrong);
+  pairs.sort((p1, p2) => p2.score - p1.score);
+  for (const { x, y } of pairs) {
+    const w1 = applyEdit(w, x), w2 = applyEdit(w, y), w12 = w.slice(0, x.a) + x.r + w.slice(x.b, y.a) + y.r + w.slice(y.b);
+    if (bad(w1) || bad(w2) || bad(w12) || new Set([w1, w2, w12]).size < 3) continue;
+    return finishChoice(q, w, [w1, w2, w12]);
+  }
+  let wrong = cur.slice(0, 3); // fallback (very short words): independent misspellings
+  if (wrong.length < 3) wrong = wrong.concat(shuffle(misspellings(w)).filter((x) => !wrong.includes(x) && !bad(x)).slice(0, 3 - wrong.length));
+  let guard = 0;
+  while (wrong.length < 3 && guard++ < 60) { // last resort: random inner vowel change
+    const i = 1 + rnd(Math.max(1, w.length - 1)); const x = w.slice(0, i) + pick('aeiou') + w.slice(i + 1);
+    if (!wrong.includes(x) && !bad(x)) wrong.push(x);
+  }
+  guard = 0;
+  while (wrong.length < 3 && guard++ < 60) { const i = 1 + rnd(Math.max(1, w.length - 1)); const x = w.slice(0, i) + pick('aeiou') + w.slice(i + 1); if (x !== w && !wrong.includes(x) && WORD_RE.test(x)) wrong.push(x); }
+  return finishChoice(q, w, wrong);
+}
+/* gap_sentence fallback (teacher words without "gd"): bank words (never other teacher words) of a word class that cannot
+   fill the blank. The class of the blank is read from the word before it (a/the/my… → noun, to/can/will… → verb,
+   very/too… → adjective), then from the word itself. */
+const DET_W = new Set('a an the my your his her its our their this that these those every each some any no another'.split(' '));
+const VERB_W = new Set("can could will would shall should must may might cannot can't won't don't doesn't didn't please let's".split(' '));
+const ADJ_W = new Set('very too so really quite more most less extremely'.split(' '));
+const NOUNISH_V = new Set('plant camp score kick rent hunt waste harm respect cough jump launch measure download upload broadcast orbit graduate pack bargain delete cancel hire race match save spend'.split(' '));
+const VERBISH_N = new Set('exercise queue tour interview experiment forecast shelter flood storm snow guarantee budget profit refund discount cash price drum match race whistle plastic screen message channel promotion diet'.split(' '));
+const CANNOT_FIT = { n: ['v', 'adv'], v: ['adj', 'n'], adj: ['n', 'v'], adv: ['n', 'v'], to: ['adj', 'adv'] }; // after "to": verb or noun (to school) — only adjectives fit neither
+let BANK_POS = null;
+function guessPos(w) {
+  if (!BANK_POS) { BANK_POS = new Map(); allEntries().forEach((x) => { if (x.pos && !BANK_POS.has(x.w)) BANK_POS.set(x.w, x.pos); }); }
+  if (BANK_POS.has(w)) return BANK_POS.get(w);
+  if (/ly$/.test(w)) return 'adv';
+  if (/(?:ful|less|ous|ive|able|ible|ic|ish)$/.test(w)) return 'adj';
+  if (/(?:ise|ize|ify)$/.test(w)) return 'v';
+  return 'n';
+}
+function blankClass(e) {
+  const [a, b] = e.s.split('___'), tok = (x) => String(x || '').toLowerCase().replace(/[^a-z']/g, '');
+  const prev = tok(a.trim().split(/\s+/).pop()), next = tok((b || '').trim().split(/\s+/)[0]);
+  if (DET_W.has(prev)) return 'n';
+  if (prev === 'to') return 'to';
+  if (VERB_W.has(prev)) return 'v';
+  if (ADJ_W.has(prev)) return 'adj';
+  if (e.pos) return e.pos;
+  const g = guessPos(e.w);
+  if (g === 'n' && prev && DET_W.has(next)) return 'v'; // "Factories ___ the river."
+  return g;
 }
 function genGapSentence(e, pools) {
   const q = baseQ('gap_sentence', e);
   let ds = uniq(e.gd.filter((x) => x !== e.w)).slice(0, 3);
   if (ds.length < 3) {
-    const more = collect(pools, 3 - ds.length, (x) => x.w !== e.w && !ds.includes(x.w) && !(e.pos && x.pos === e.pos), (x) => x.w, (x) => !!(e.pos && x.pos && x.pos !== e.pos), [e.w].concat(ds));
-    ds = ds.concat(more.map((x) => x.w));
+    const cls = blankClass(e), fit = CANNOT_FIT[cls] || CANNOT_FIT.n, bank = allEntries().filter((x) => x.u !== 'custom');
+    const base = (x) => x.w !== e.w && !ds.includes(x.w) && !nearSame(e, x) && !/[ -]/.test(x.w);
+    const dual = cls === 'n' ? NOUNISH_V : cls === 'v' ? VERBISH_N : new Set();
+    const tries = [
+      [(x) => base(x) && fit.includes(x.pos) && !dual.has(x.w), (x) => x.pos === fit[0]],
+      [(x) => base(x) && fit.includes(x.pos), null],
+      [(x) => base(x) && x.pos && x.pos !== cls, null],
+      [(x) => base(x), null],
+    ];
+    for (const [ok, prefer] of tries) {
+      if (ds.length >= 3) break;
+      ds = ds.concat(collect([bank], 3 - ds.length, ok, (x) => x.w, prefer, [e.w].concat(ds)).map((x) => x.w));
+    }
+    if (ds.length < 3) ds = ds.concat(collect(pools, 3 - ds.length, (x) => x.w !== e.w && !ds.includes(x.w), (x) => x.w, null, [e.w].concat(ds)).map((x) => x.w));
   }
   return finishChoice(q, e.w, ds);
 }
-const CONF = { a: ['e', 'o', 'u', 'i'], e: ['a', 'i', 'o'], i: ['e', 'y', 'a'], o: ['u', 'a', 'e'], u: ['o', 'a', 'e'], y: ['i', 'e'], c: ['k', 's', 'ck'], k: ['c', 'ck'], s: ['c', 'z', 'ss'], z: ['s'], b: ['p', 'd'], p: ['b', 'd'], d: ['t', 'b'], t: ['d', 'tt'], m: ['n', 'mm'], n: ['m', 'nn'], f: ['v', 'ph', 'ff'], v: ['f', 'w'], g: ['j', 'gh'], j: ['g'], l: ['r', 'll'], r: ['l', 'rr'], w: ['v', 'u'], h: ['gh', 'e'], x: ['ks', 'z'], q: ['k', 'c'] };
-const CONF_DEF = ['e', 'a', 'i'];
+/* confusable single letters (every hidden spot is ONE letter box, so options are single letters too) */
+const CONF = { a: ['e', 'o', 'u', 'i'], e: ['a', 'i', 'o'], i: ['e', 'y', 'a'], o: ['u', 'a', 'e'], u: ['o', 'a', 'e'], y: ['i', 'e'], c: ['k', 's'], k: ['c'], s: ['c', 'z'], z: ['s'], b: ['p', 'd'], p: ['b', 'd'], d: ['t', 'b'], t: ['d'], m: ['n'], n: ['m'], f: ['v'], v: ['f', 'w'], g: ['j'], j: ['g'], l: ['r'], r: ['l'], w: ['v', 'u'], h: ['e', 'a'], x: ['z', 's'], q: ['k', 'c'] };
+const VOWELS = 'aeiouy', CONSONANTS = 'bcdfghjklmnprstvwz';
+/* how many letters gap_letters hides in w (2, or 3 from 8 letters); mirrored words are paired by this count */
+function hideCount(w) {
+  let n = 0; for (let i = 1; i < w.length; i++) if (/[a-z]/.test(w[i]) && /[a-z]/.test(w[i - 1])) n++;
+  return Math.max(1, Math.min(letters(w).length >= 8 ? 3 : 2, Math.ceil(n / 2)));
+}
 function hideSpots(w) {
   const idx = []; for (let i = 1; i < w.length; i++) if (/[a-z]/.test(w[i]) && /[a-z]/.test(w[i - 1])) idx.push(i);
-  const want = letters(w).length >= 8 ? 3 : 2;
-  const n = Math.max(1, Math.min(want, Math.ceil(idx.length / 2)));
+  const n = hideCount(w);
   const vow = idx.filter((i) => /[aeiouy]/.test(w[i]));
   for (let t = 0; t < 400; t++) {
     const c = shuffle(idx).slice(0, n).sort((a, b) => a - b);
@@ -1660,23 +1896,38 @@ function hideSpots(w) {
   }
   const c = []; for (const i of idx) { if (c.length >= n) break; if (!c.length || i - c[c.length - 1] > 1) c.push(i); } return c;
 }
+/* gap_letters options as a balanced design: one wrong letter a_j per hidden spot, and the 3 distractors each change a
+   different subset of spots (2 spots: a1c2, c1a2, a1a2 · 3 spots: a1a2c3, a1c2a3, c1a2a3). Every spot then shows the
+   right letter in exactly 2 of the 4 options, so neither "majority letter" nor "odd one out" gives the answer away. */
 function genGapLetters(e) {
-  const q = baseQ('gap_letters', e), w = e.w, hid = hideSpots(w), correct = hid.map((i) => w[i]), bw = bankWords();
-  const key = (a) => a.join('|'), ck = key(correct);
+  const q = baseQ('gap_letters', e), w = e.w, hid = hideSpots(w), correct = hid.map((i) => w[i]), n = hid.length;
   const spell = (a) => { const ch = w.split(''); hid.forEach((p, j) => { ch[p] = a[j]; }); return ch.join(''); };
-  const singles = new Map(), doubles = new Map();
-  const add = (map, a) => { const k = key(a); if (k === ck || singles.has(k) || doubles.has(k)) return; const sp = spell(a); if (sp === w || bw.has(sp)) return; map.set(k, a); };
-  const confOf = (p) => CONF[w[p]] || CONF_DEF;
-  hid.forEach((p, j) => confOf(p).forEach((c) => { const a = correct.slice(); a[j] = c; add(singles, a); }));
-  for (let j = 0; j < hid.length; j++) for (let k = j + 1; k < hid.length; k++) for (const c1 of confOf(hid[j])) for (const c2 of confOf(hid[k])) { const a = correct.slice(); a[j] = c1; a[k] = c2; add(doubles, a); }
-  const S1 = shuffle(Array.from(singles.values())), D = shuffle(Array.from(doubles.values()));
-  const chosen = S1.slice(0, 2).concat(D.slice(0, 1));
-  const rest = S1.slice(2).concat(D.slice(1));
-  while (chosen.length < 3 && rest.length) chosen.push(rest.shift());
-  let guard = 0;
-  while (chosen.length < 3 && guard++ < 60) { const a = correct.map(() => pick('aeioulnrst')); const k = key(a); if (k !== ck && spell(a) !== w && !chosen.some((x) => key(x) === k)) chosen.push(a); }
-  const opts = shuffle([correct].concat(chosen));
-  q.hid = hid; q.optParts = opts; q.opts = opts.map((a) => a.join(' · ')); q.ans = opts.findIndex((a) => key(a) === ck);
+  const okSpelling = (a) => { const sp = spell(a); return sp !== w && !realWord(sp, w); };
+  const alts = (c, wide) => uniq((CONF[c] || []).concat(wide ? shuffle((VOWELS.includes(c) ? VOWELS : CONSONANTS).split('')) : [])).filter((x) => x !== c);
+  const design = n === 3 ? [[1, 1, 0], [1, 0, 1], [0, 1, 1]] : n === 2 ? [[1, 0], [0, 1], [1, 1]] : null;
+  let chosen = null;
+  if (design) {
+    for (const wide of [false, true]) {
+      const lists = correct.map((c) => shuffle(alts(c, wide)).slice(0, wide ? 8 : 4));
+      const combos = lists.reduce((acc, l) => { const out = []; acc.forEach((pre) => l.forEach((x) => out.push(pre.concat(x)))); return out; }, [[]]);
+      for (const alt of shuffle(combos).slice(0, 300)) {
+        const opts = design.map((mask) => mask.map((on, j) => (on ? alt[j] : correct[j])));
+        if (opts.every(okSpelling)) { chosen = opts; break; }
+      }
+      if (chosen) break;
+    }
+  }
+  if (!chosen) { // 1 hidden letter (short custom words) or no balanced set found: 3 distinct single-letter variants
+    chosen = []; const seen = new Set([correct.join('|')]);
+    const tryAdd = (a) => { const k = a.join('|'); if (chosen.length < 3 && !seen.has(k) && okSpelling(a)) { seen.add(k); chosen.push(a); } };
+    for (const wide of [false, true]) hid.forEach((p, j) => alts(correct[j], wide).forEach((c) => { const a = correct.slice(); a[j] = c; tryAdd(a); }));
+    let guard = 0;
+    while (chosen.length < 3 && guard++ < 200) tryAdd(correct.map((c) => pick(alts(c, true))));
+    guard = 0;
+    while (chosen.length < 3 && guard++ < 200) { const a = correct.map(() => pick('aeioulnrst')); const k = a.join('|'); if (!seen.has(k) && spell(a) !== w) { seen.add(k); chosen.push(a); } }
+  }
+  const ck = correct.join('|'), opts = shuffle([correct].concat(chosen));
+  q.hid = hid; q.optParts = opts; q.opts = opts.map((a) => a.join(' · ')); q.ans = opts.findIndex((a) => a.join('|') === ck);
   return q;
 }
 function genSpellBuild(e) {
@@ -1729,23 +1980,38 @@ function planLineup(types, R) {
 function levelFor(r, R) { return r < Math.round(R / 3) ? 1 : r >= R - Math.floor(R / 3) ? 3 : 2; }
 function levelOrder(l) { return l === 1 ? [1, 2, 3] : l === 3 ? [3, 2, 1] : [2].concat(shuffle([1, 3])); }
 const LEN_SENSITIVE = { spell_choice: 1, spell_build: 1, gap_letters: 1 };
-function makePicker(pool, used) {
-  const inMatch = new Set();
+/* word picker for one match. `used` = words already asked in this tournament (avoided until they run out);
+   `exclude` = words that must not come back in this match (e.g. a shoot-out after the match). */
+function makePicker(pool, used, exclude) {
+  const inMatch = new Set(exclude || []);
   const take = (e) => { inMatch.add(e.w); used.add(e.w); };
+  const elig = (type) => pool.filter((e) => eligible(type, e) && !inMatch.has(e.w));
   function avail(type, need) {
-    const el = pool.filter((e) => eligible(type, e) && !inMatch.has(e.w));
-    let a = el.filter((e) => !used.has(e.w));
-    if (a.length < need) { used.clear(); inMatch.forEach((w) => used.add(w)); a = el; } // pool ran out → reset memory
+    const el = elig(type); let a = el.filter((e) => !used.has(e.w));
+    if (a.length < need) { el.forEach((e) => used.delete(e.w)); a = el; } // this type's words ran out → they may be asked again (never twice in one match)
     return a;
   }
+  /* unused words of one level; when that level ran out, its own used words come back first (keeps the difficulty curve) */
+  function atLevel(type, L, need) {
+    const el = elig(type).filter((e) => e.lvl === L); let a = el.filter((e) => !used.has(e.w));
+    if (a.length < need && el.length >= need) { el.forEach((e) => used.delete(e.w)); a = el; }
+    return a;
+  }
+  function choosePair(type, list) {
+    let cand = list;
+    if (type === 'gap_letters') { const hc = new Map(list.map((e) => [e, hideCount(e.w)])); const ok = list.filter((e) => list.some((o) => o !== e && hc.get(o) === hc.get(e))); if (ok.length >= 2) cand = ok; }
+    const x = pick(cand); let c = cand.filter((e) => e !== x);
+    if (type === 'gap_letters') { const same = c.filter((e) => hideCount(e.w) === hideCount(x.w)); if (same.length) c = same; }
+    if (LEN_SENSITIVE[type]) { const lx = letters(x.w).length, close = c.filter((e) => Math.abs(letters(e.w).length - lx) <= 1); if (close.length) c = close; }
+    return [x, pick(c)];
+  }
   function pair(type, lvl) {
-    const a = avail(type, 2); if (a.length < 2) return null;
+    if (elig(type).length < 2) return null;
     for (const L of levelOrder(lvl)) {
-      const list = a.filter((e) => e.lvl === L); if (list.length < 2) continue;
-      const x = pick(list); let c = list.filter((e) => e !== x);
-      if (LEN_SENSITIVE[type]) { const lx = letters(x.w).length, close = c.filter((e) => Math.abs(letters(e.w).length - lx) <= 1); if (close.length) c = close; }
-      const y = pick(c); take(x); take(y); return [x, y];
+      const list = atLevel(type, L, 2); if (list.length < 2) continue;
+      const pr = choosePair(type, list); take(pr[0]); take(pr[1]); return pr;
     }
+    const a = avail(type, 2); if (a.length < 2) return null;
     const x = pick(a), rest = a.filter((e) => e !== x).sort((p, q) => Math.abs(p.lvl - x.lvl) - Math.abs(q.lvl - x.lvl));
     take(x); take(rest[0]); return [x, rest[0]];
   }
@@ -1755,8 +2021,11 @@ function makePicker(pool, used) {
     return null;
   }
   function five(lvl, count) {
-    const n = count || 2, a = avail('match5', 5 * n); if (a.length < 5 * n) return null;
+    const n = count || 2; if (elig('match5').length < 5 * n) return null;
+    atLevel('match5', lvl, 5 * n);
+    const a = avail('match5', 5 * n); if (a.length < 5 * n) return null;
     const groups = Array.from({ length: n }, () => []), ars = groups.map(() => new Set()), ws = new Set();
+    const fits = (g, e) => !ars[g].has(normAr(e.ar)) && !groups[g].some((x) => nearSame(x, e) || nearSame(e, x));
     for (let i = 0; i < 5; i++) {
       let done = false;
       for (const L of levelOrder(lvl).concat([0])) {
@@ -1764,8 +2033,8 @@ function makePicker(pool, used) {
         const chosen = [];
         for (let g = 0; g < n; g++) {
           const need = chosen.length ? chosen[0].lvl : null;
-          const x = list.find((e) => !chosen.includes(e) && !ars[g].has(normAr(e.ar)) && (need === null || L !== 0 || e.lvl === need))
-            || (L === 0 ? list.find((e) => !chosen.includes(e) && !ars[g].has(normAr(e.ar))) : null);
+          const x = list.find((e) => !chosen.includes(e) && fits(g, e) && (need === null || L !== 0 || e.lvl === need))
+            || (L === 0 ? list.find((e) => !chosen.includes(e) && fits(g, e)) || list.find((e) => !chosen.includes(e) && !ars[g].has(normAr(e.ar))) : null);
           if (!x) break; chosen.push(x);
         }
         if (chosen.length < n) continue;
@@ -1779,24 +2048,62 @@ function makePicker(pool, used) {
   }
   return { pair, one, five, inMatch };
 }
-function buildRounds(plan, R, pool, used) {
-  const pools = [pool, allEntries()], P = makePicker(pool, used), rounds = [];
+/* builds every mirrored round of a match. Scarce types are filled first; a round whose type cannot be filled falls back
+   to another ENABLED type (same category first), and only as a last resort may a word repeat inside the match. */
+function buildRounds(plan, R, pool, used, types) {
+  const allowed = uniq((types && types.length ? types : plan).filter((t) => TYPES[t]));
+  const pools = [pool, allEntries()], P = makePicker(pool, used), rounds = new Array(R);
   const make = (t, lvl) => {
     if (t === 'match5') { const g = P.five(lvl, 2); return g ? [genMatch5(g[0]), genMatch5(g[1])] : null; }
     const p = P.pair(t, lvl); return p ? [genQuestion(t, p[0], pools), genQuestion(t, p[1], pools)] : null;
   };
-  for (let r = 0; r < R; r++) {
-    const lvl = levelFor(r, R); let type = plan[r] || 'mean_en_ar'; let qs = make(type, lvl);
-    if (!qs) {
-      const sameCat = TYPE_IDS.filter((t) => t !== type && TYPES[t].cat === TYPES[type].cat), others = shuffle(TYPE_IDS.filter((t) => TYPES[t].cat !== TYPES[type].cat));
-      for (const t of sameCat.concat(others)) { qs = make(t, lvl); if (qs) { type = t; break; } }
-    }
+  const room = (t) => pool.filter((e) => eligible(t, e)).length / (t === 'match5' ? 10 : 2);
+  const order = Array.from({ length: R }, (_, r) => r).sort((x, y) => room(plan[x] || allowed[0]) - room(plan[y] || allowed[0]) || x - y);
+  for (const r of order) {
+    const lvl = levelFor(r, R); let type = TYPES[plan[r]] ? plan[r] : allowed[0] || 'mean_en_ar'; let qs = make(type, lvl);
+    const alternatives = () => allowed.filter((t) => t !== type && TYPES[t].cat === TYPES[type].cat).concat(shuffle(allowed.filter((t) => TYPES[t].cat !== TYPES[type].cat)));
+    if (!qs) for (const t of alternatives()) { qs = make(t, lvl); if (qs) { type = t; break; } }
+    if (!qs) { P.inMatch.clear(); qs = make(type, lvl); if (!qs) for (const t of alternatives()) { qs = make(t, lvl); if (qs) { type = t; break; } } }
     if (!qs) throw new Error('POOL_TOO_SMALL');
-    rounds.push({ type, lvl, qs });
+    rounds[r] = { type, lvl, qs };
   }
   return rounds;
 }
-
+/* every per-type round count planLineup() can deal for these types and R (categories get floor/ceil(R/#cats) rounds,
+   types alternate inside a category) */
+function lineupCounts(types, R) {
+  const byCat = {}; CAT_IDS.forEach((c) => { byCat[c] = TYPE_IDS.filter((t) => types.includes(t) && TYPES[t].cat === c); });
+  const cats = CAT_IDS.filter((c) => byCat[c].length); if (!cats.length) return [];
+  const base = Math.floor(R / cats.length), extra = R % cats.length, out = new Map();
+  const subsets = (arr, k) => (k === 0 ? [[]] : arr.length < k ? [] : subsets(arr.slice(1), k - 1).map((x) => [arr[0]].concat(x)).concat(subsets(arr.slice(1), k)));
+  for (const ex of subsets(cats, extra)) {
+    let vars = [{}];
+    for (const c of cats) {
+      const k = base + (ex.includes(c) ? 1 : 0), ts = byCat[c], next = [];
+      for (const v of vars) for (let st = 0; st < ts.length; st++) { const o = Object.assign({}, v); for (let j = 0; j < k; j++) { const t = ts[(st + j) % ts.length]; o[t] = (o[t] || 0) + 1; } next.push(o); }
+      vars = next;
+    }
+    vars.forEach((v) => out.set(JSON.stringify(TYPE_IDS.map((t) => v[t] || 0)), v));
+  }
+  return Array.from(out.values());
+}
+/* can EVERY lineup of R rounds be filled with distinct words from the pool? (Hall's condition per set of types)
+   → { ok, need: most distinct words one match may need, short: the type that lacks words (if one) } */
+function matchFits(types, pool, R) {
+  const ids = TYPE_IDS.filter((t) => types.includes(t)), per = (t) => (t === 'match5' ? 10 : 2), cnt = new Map();
+  for (const e of pool) { let m = 0; ids.forEach((t, i) => { if (eligible(t, e)) m |= 1 << i; }); if (m) cnt.set(m, (cnt.get(m) || 0) + 1); }
+  const union = (S) => { let n = 0; cnt.forEach((c, m) => { if (m & S) n += c; }); return n; };
+  const lineups = lineupCounts(ids, R); let need = 0, res = { ok: true };
+  lineups.forEach((c) => { need = Math.max(need, ids.reduce((s2, t) => s2 + (c[t] || 0) * per(t), 0)); });
+  for (const c of lineups) {
+    for (let S = 1; S < 1 << ids.length && res.ok; S++) {
+      let d = 0; ids.forEach((t, i) => { if (S & (1 << i)) d += (c[t] || 0) * per(t); });
+      if (d > union(S)) { const one = ids.filter((t, i) => S & (1 << i)); res = { ok: false, short: one.length === 1 ? one[0] : '', have: union(S), want: d }; }
+    }
+    if (!res.ok) break;
+  }
+  res.need = need; return res;
+}
 /* ============================ 11. TOURNAMENT / STANDINGS ============================ */
 function roundRobin(ids) {
   const list = ids.slice(); if (list.length % 2) list.push(null);
@@ -1814,12 +2121,14 @@ function newMatch(id, stage, md, a, b, label) {
 }
 function createTournament(cfg) {
   const teams = cfg.teams.map((t, i) => ({ id: 't' + i, name: String(t.name).trim().slice(0, 12), color: safeColor(t.color), students: clamp(parseInt(t.students, 10) || 35, 1, 99), picked: [] }));
+  crestLabels(teams.map((x) => x.name)).forEach((l, i) => { teams[i].crest = l; });
   const ids = shuffle(teams.map((t) => t.id));
   const t = {
-    v: SCHEMA, app: 'vcl', id: uid(), createdAt: Date.now(),
+    v: SCHEMA, app: 'vcl', id: uid(), rev: 0, createdAt: Date.now(),
     settings: { rounds: cfg.rounds, types: cfg.types.slice(), units: cfg.units.slice(), timer: cfg.timer, ko: cfg.ko, mode: cfg.mode },
     teams, drawOrder: shuffle(teams.map((x) => x.id)), mdRest: {}, matches: [], used: [], championId: null, finishedAt: null, cur: null,
   };
+  if (cfg.units.includes('custom')) t.custom = CUSTOM.map((c) => ({ w: c.w, ar: c.ar, s: c.s || '' })); // the tournament keeps its own copy of «كلماتي»
   roundRobin(ids).forEach((md) => {
     t.mdRest[md.md] = md.rest;
     md.pairs.forEach(([a, b], j) => t.matches.push(newMatch(`L${md.md}-${j + 1}`, 'league', md.md, a, b)));
@@ -1918,7 +2227,7 @@ function stageEn(m) { if (m.demo) return 'FRIENDLY'; if (m.stage === 'league') r
 function teamStats() {
   const out = {}; if (!T) return out;
   T.teams.forEach((t) => { out[t.id] = { goals: 0, tries: 0, cat: { mean: [0, 0], spell: [0, 0], gap: [0, 0], match: [0, 0] } }; });
-  T.matches.forEach((m) => { if (!m.seq) return; m.seq.forEach((st) => { if (st.ok === null || st.ok === undefined || !out[st.t]) return; const o = out[st.t]; o.tries++; if (st.ok) o.goals++; const c = o.cat[st.q.cat]; if (c) { c[1]++; if (st.ok) c[0]++; } }); });
+  T.matches.forEach((m) => { if (!m.seq) return; const hid = hiddenTeam(m); m.seq.forEach((st) => { if (st.ok === null || st.ok === undefined || !out[st.t] || st.t === hid) return; const o = out[st.t]; o.tries++; if (st.ok) o.goals++; const c = o.cat[st.q.cat]; if (c) { c[1]++; if (st.ok) c[0]++; } }); });
   return out;
 }
 
@@ -1934,6 +2243,26 @@ function toast(msg, kind) {
   setTimeout(() => { el.classList.add('out'); setTimeout(() => el.remove(), 350); }, 2800);
 }
 function announce(text) { const sr = $('#sr'); if (!sr) return; sr.textContent = ''; setTimeout(() => { sr.textContent = text; }, 30); }
+/* storage health banner (outside the match) + toolbar button (inside the match) */
+const storageBad = () => !STORE.ok || STORE.failing;
+function renderWarn() {
+  const bad = storageBad(), bar = $('#warn'), tw = $('#tool-warn');
+  if (tw) tw.hidden = !bad;
+  if (!bar) return;
+  bar.hidden = !bad;
+  bar.innerHTML = bad ? `${icon('save')}<span>${STORE.ok ? 'تعذّر الحفظ التلقائي على هذا الجهاز (مساحة التخزين ممتلئة أو محظورة).' : 'الحفظ التلقائي غير متاح في هذه الصفحة — ستضيع النتائج عند إغلاقها أو تحديثها.'} احفظ «رمز النسخة الاحتياطية» قبل الإغلاق.</span><button class="btn btn-gold btn-sm" data-act="backup">${icon('copy')}<span>النسخ الاحتياطي</span></button>` : '';
+}
+/* another tab saved newer results: this tab stops saving and offers to load them */
+function staleTab() {
+  if (STORE.conflict) return; STORE.conflict = true;
+  if (Q && !Q.answered && !Q.paused) timerPause();
+  openModal({
+    title: `${icon('reset')} تغيّرت البطولة في نافذة أخرى`, dismissable: false,
+    body: '<p class="confirm-t">هذه البطولة مفتوحة أيضًا في نافذة (أو تبويب) أخرى، وحُفظت هناك نتائج أحدث. حتى لا تُمحى تلك النتائج لن يُحفظ شيء من هذه النافذة — حمّل النسخة الأحدث وتابع من هنا، أو أغلق هذه النافذة.</p>',
+    actions: [{ label: 'تحميل أحدث نسخة', cls: 'btn-gold', icon: 'reset', fn: reloadFromStorage }],
+  });
+}
+function reloadFromStorage() { STORE.conflict = false; T = loadT(); LOAD_WARN = ''; if (S.matchId !== 'demo') S.matchId = null; S.tab = 'fixtures'; go(T ? 'hub' : 'home'); }
 
 const MODAL = { open: false, handlers: [], onClose: null, prevFocus: null, gen: 0, dismissable: true };
 function openModal(o) {
@@ -1950,6 +2279,7 @@ function closeModal(silent) {
   $('#modal-root').innerHTML = ''; MODAL.open = false;
   const cb = MODAL.onClose; MODAL.onClose = null;
   if (cb && !silent) cb();
+  if (!silent && Q && !Q.answered) armQ();
   if (!silent && MODAL.prevFocus && document.contains(MODAL.prevFocus)) MODAL.prevFocus.focus({ preventScroll: true });
   if (!silent) MODAL.prevFocus = null;
 }
@@ -1960,7 +2290,8 @@ function confirmModal(text, okLabel, onOk, cls) {
 function showLayer(name, html, cls) {
   hideLayer(name);
   const el = document.createElement('div'); el.className = 'ovl ovl-' + name + (cls ? ' ' + cls : ''); el.dataset.name = name; el.innerHTML = html;
-  $('#layer').appendChild(el);
+  $('#layer').appendChild(el); UI_AT = performance.now();
+  setTimeout(() => { el.dataset.ready = '1'; }, OVL_ARM_MS); // its buttons wake up after a moment (double-tap guard)
   const b = $('#btn-next', el); if (b) b.focus({ preventScroll: true });
   return el;
 }
@@ -2054,7 +2385,7 @@ function wordsTotalHTML() {
 }
 function rulesHTML() {
   const s = S.setup, four = s.teams.length >= 4;
-  return `${segField('عدد الجولات في المباراة', 'rounds', ROUND_OPTS.map((v) => ({ v, ar: String(v) })), s.rounds, 'في كل جولة سؤال لكل شعبة من النوع والمستوى نفسيهما.')}
+  return `${segField('عدد الأسئلة لكل شعبة في المباراة', 'rounds', ROUND_OPTS.map((v) => ({ v, ar: String(v) })), s.rounds, 'كل سؤال يقابله سؤال للشعبة الأخرى من النوع والمستوى نفسيهما.')}
   ${segField('المؤقت', 'timer', TIMER_OPTS, s.timer, s.timer === 0 ? 'بدون مؤقت: يضغط المعلم «كشف الإجابة» عند انتهاء الوقت.' : 'آخر 5 ثوانٍ باللون الأحمر مع صوت تنبيه.')}
   ${segField('الأدوار الإقصائية', 'ko', [{ v: 'final', ar: 'نهائي: الأول × الثاني' }, { v: 'semis', ar: 'نصف نهائي ثم نهائي', dis: !four }], s.ko, four ? 'نصف النهائي: الأول × الرابع، الثاني × الثالث.' : 'نصف النهائي متاح عند وجود 4 شعب فأكثر.')}
   ${segField('طريقة اللعب الافتراضية', 'mode', [{ v: 'live', ar: 'مباشر (الشعبتان معًا)' }, { v: 'split', ar: 'على حصتين' }], s.mode, 'يمكن تغييرها قبل كل مباراة.')}`;
@@ -2085,7 +2416,7 @@ function miniFixture(m) {
 VIEWS.draw = () => {
   if (!T) return VIEWS.home();
   let d = 0;
-  const cols = mdGroups().map((g) => `<section class="md-col"><h3><span>الجولة ${g.md}</span><small dir="ltr" lang="en">MATCHDAY ${g.md}</small></h3>${g.matches.map((m) => { d++; return `<div class="fx-flip" style="--d:${500 + d * 420}ms">${miniFixture(m)}</div>`; }).join('')}${g.rest ? `<p class="rest reveal" style="--d:${700 + d * 420}ms">${icon('clock')} تستريح: ${bd(teamName(g.rest))}</p>` : ''}</section>`).join('');
+  const cols = mdGroups().map((g) => `<section class="md-col"><h3><span>الجولة ${esc(g.md)}</span><small dir="ltr" lang="en">MATCHDAY ${esc(g.md)}</small></h3>${g.matches.map((m) => { d++; return `<div class="fx-flip" style="--d:${500 + d * 420}ms">${miniFixture(m)}</div>`; }).join('')}${g.rest ? `<p class="rest reveal" style="--d:${700 + d * 420}ms">${icon('clock')} تستريح: ${bd(teamName(g.rest))}</p>` : ''}</section>`).join('');
   S.drawCount = d;
   return `<section class="v-draw page">
   <div class="draw-head"><p class="kicker" dir="ltr" lang="en">THE DRAW</p><h1 class="disp">القرعة</h1><p class="muted">مرحلة الدوري: كل شعبة تواجه كل شعبة مرة واحدة فقط — بدون إياب</p></div>
@@ -2103,7 +2434,7 @@ AFTER.draw = () => {
 /* ---------- Hub ---------- */
 function visibleScore(m) {
   const [a, b] = score(m);
-  if (m.mode !== 'split' || m.status === 'done' || m.status === 'pens' || !m.seq) return [a, b];
+  if (m.mode !== 'split' || m.revealed || m.demo || !m.seq) return [a, b];
   const X = m.present;
   if (m.step < m.R) return X === m.a ? [a, '–'] : ['–', b];
   if (m.step === m.R && !m.s2) return X === m.a ? ['?', '–'] : ['–', '?'];
@@ -2122,14 +2453,14 @@ function fxCard(m) {
   <div class="fx-t a${m.winner === m.a ? ' win' : ''}" style="--tc:${A.color}">${crestSVG(A, 40)}<b>${bd(A.name)}</b></div>
   <div class="fx-mid">${stage}${mid}${pens}<span class="pill ${pill[1]}">${pill[0]}</span></div>
   <div class="fx-t b${m.winner === m.b ? ' win' : ''}" style="--tc:${B.color}"><b>${bd(B.name)}</b>${crestSVG(B, 40)}</div>
-  <div class="fx-act"><button class="btn btn-sm ${btn[1]}" data-act="open-match" data-id="${m.id}">${icon(btn[2])}<span>${btn[0]}</span></button></div>
+  <div class="fx-act"><button class="btn btn-sm ${btn[1]}" data-act="open-match" data-id="${esc(m.id)}">${icon(btn[2])}<span>${btn[0]}</span></button></div>
 </article>`;
 }
 function koCallout(nx) {
   return `<div class="callout">${icon('flag')}<div><b>${nx === 'semis' ? 'انتهت مرحلة الدوري!' : (T.matches.some((m) => m.stage === 'semi') ? 'انتهى نصف النهائي!' : 'انتهت مرحلة الدوري!')}</b><p>${nx === 'semis' ? 'تأهل الأربعة الأوائل إلى نصف النهائي.' : 'حان وقت المباراة النهائية.'}</p></div><button class="btn btn-gold" data-act="create-ko" data-kind="${nx}">${icon('trophy')}<span>${nx === 'semis' ? 'إنشاء نصف النهائي' : 'إنشاء النهائي'}</span></button></div>`;
 }
 function tabFixtures() {
-  let html = mdGroups().map((g) => `<section class="fx-group"><h3 class="grp-h"><span>الجولة ${g.md}</span><small dir="ltr" lang="en">MATCHDAY ${g.md}</small>${g.rest ? `<em class="rest-inline">${icon('clock')} تستريح: ${bd(teamName(g.rest))}</em>` : ''}</h3><div class="fx-list">${g.matches.map(fxCard).join('')}</div></section>`).join('');
+  let html = mdGroups().map((g) => `<section class="fx-group"><h3 class="grp-h"><span>الجولة ${esc(g.md)}</span><small dir="ltr" lang="en">MATCHDAY ${esc(g.md)}</small>${g.rest ? `<em class="rest-inline">${icon('clock')} تستريح: ${bd(teamName(g.rest))}</em>` : ''}</h3><div class="fx-list">${g.matches.map(fxCard).join('')}</div></section>`).join('');
   const nx = koNext(); if (nx) html += koCallout(nx);
   const ko = T.matches.filter((m) => m.stage !== 'league');
   if (ko.length) html += `<section class="fx-group ko"><h3 class="grp-h"><span>الأدوار الإقصائية</span><small dir="ltr" lang="en">KNOCKOUT</small></h3><div class="fx-list">${ko.map(fxCard).join('')}</div></section>`;
@@ -2137,14 +2468,14 @@ function tabFixtures() {
 }
 function tabTable() {
   const rows = standings(), q = koSize();
-  return `<div class="tbl-wrap"><table class="standings"><caption class="sr-only">جدول الترتيب</caption><thead><tr><th>#</th><th class="tm">الفريق</th><th>لعب</th><th>فوز</th><th>تعادل</th><th>خسارة</th><th>له</th><th>عليه</th><th>الفارق</th><th>النقاط</th><th class="fm">آخر النتائج</th></tr></thead><tbody>${rows.map((r) => { const t = teamById(r.id); return `<tr class="${r.rank <= q ? 'qz' : ''}" data-id="${r.id}" style="--tc:${t.color}"><td class="rk"><span>${r.rank}</span></td><td class="tm"><span class="tm-in">${crestSVG(t, 30)}<b>${bd(t.name)}</b></span></td><td>${r.p}</td><td>${r.w}</td><td>${r.d}</td><td>${r.l}</td><td>${r.gf}</td><td>${r.ga}</td><td>${num(signed(r.gd))}</td><td class="pts">${r.pts}</td><td class="fm"><span class="fm-in">${formPills(r.form)}</span></td></tr>`; }).join('')}</tbody></table></div>
+  return `<div class="tbl-wrap"><table class="standings"><caption class="sr-only">جدول الترتيب</caption><thead><tr><th>#</th><th class="tm">الفريق</th><th>لعب</th><th>فوز</th><th>تعادل</th><th>خسارة</th><th>له</th><th>عليه</th><th>الفارق</th><th>النقاط</th><th class="fm">آخر النتائج</th></tr></thead><tbody>${rows.map((r) => { const t = teamById(r.id); return `<tr class="${r.rank <= q ? 'qz' : ''}" data-id="${esc(r.id)}" style="--tc:${t.color}"><td class="rk"><span>${r.rank}</span></td><td class="tm"><span class="tm-in">${crestSVG(t, 30)}<b>${bd(t.name)}</b></span></td><td>${r.p}</td><td>${r.w}</td><td>${r.d}</td><td>${r.l}</td><td>${r.gf}</td><td>${r.ga}</td><td>${num(signed(r.gd))}</td><td class="pts">${r.pts}</td><td class="fm"><span class="fm-in">${formPills(r.form)}</span></td></tr>`; }).join('')}</tbody></table></div>
 <div class="legend"><span><i class="lg-q"></i> منطقة التأهل ${q === 4 ? 'إلى نصف النهائي' : 'إلى النهائي'}</span><span>الفوز 3 · التعادل 1 · الخسارة 0</span><span>الترتيب: النقاط ← فارق الأهداف ← الأهداف المسجلة ← المواجهة المباشرة ← القرعة</span></div>`;
 }
 function brMatch(m) {
   const [a, b] = score(m), pt = m.pens ? pensTally(m) : null, shown = m.seq && m.status !== 'upcoming';
   const v = shown ? visibleScore(m) : ['', ''];
   const row = (id, s, p) => { const t = teamById(id); return `<div class="br-t${m.winner === id ? ' win' : ''}" style="--tc:${t.color}">${crestSVG(t, 26)}<b>${bd(t.name)}</b><span class="br-s">${esc(s)}${p !== null && p !== undefined ? `<small>(${p})</small>` : ''}</span></div>`; };
-  return `<div class="br-m">${row(m.a, v[0], pt && (pt.ta || pt.tb) ? pt.sa : null)}${row(m.b, v[1], pt && (pt.ta || pt.tb) ? pt.sb : null)}<button class="btn btn-sm ${m.status === 'done' ? 'btn-ghost' : 'btn-gold'}" data-act="open-match" data-id="${m.id}">${m.status === 'done' ? 'الملخص' : m.status === 'upcoming' ? 'ابدأ' : 'أكمل'}</button></div>`;
+  return `<div class="br-m">${row(m.a, v[0], pt && (pt.ta || pt.tb) ? pt.sa : null)}${row(m.b, v[1], pt && (pt.ta || pt.tb) ? pt.sb : null)}<button class="btn btn-sm ${m.status === 'done' ? 'btn-ghost' : 'btn-gold'}" data-act="open-match" data-id="${esc(m.id)}">${m.status === 'done' ? 'الملخص' : m.status === 'upcoming' ? 'ابدأ' : 'أكمل'}</button></div>`;
 }
 function brPlaceholder(a, b, la, lb) {
   const row = (id, l) => (id ? `<div class="br-t" style="--tc:${teamById(id).color}">${crestSVG(teamById(id), 26)}<b>${bd(teamName(id))}</b></div>` : `<div class="br-t tbd"><span class="tbd-c"></span><b>${l || 'يُحدد لاحقًا'}</b></div>`);
@@ -2182,7 +2513,7 @@ VIEWS.hub = () => {
   const body = { fixtures: tabFixtures, table: tabTable, ko: tabKO, stats: tabStats }[S.tab] || tabFixtures;
   return `<section class="v-hub page">${topbar('مركز البطولة', actions)}${champ}
 <div class="hub-head"><div class="tabs" role="tablist" aria-label="أقسام مركز البطولة">${tabs.map(([k, l, ic]) => `<button role="tab" id="tab-${k}" class="tab${S.tab === k ? ' on' : ''}" aria-selected="${S.tab === k}" aria-controls="tab-body" data-act="tab" data-tab="${k}">${icon(ic)}<span>${l}</span>${k === 'ko' && nx ? '<i class="badge-dot" aria-label="جديد"></i>' : ''}</button>`).join('')}</div>
-<div class="hub-meta"><span>${icon('cal')} ${done} / ${T.matches.length} مباريات</span><span>${icon('clock')} ${T.settings.rounds} جولات</span><span>${icon('list')} ${T.settings.types.length} أنواع</span></div></div>
+<div class="hub-meta"><span>${icon('cal')} ${done} / ${T.matches.length} مباريات</span><span>${icon('clock')} ${T.settings.rounds} أسئلة لكل شعبة</span><span>${icon('list')} ${T.settings.types.length} أنواع</span></div></div>
 <div class="tab-body" id="tab-body" role="tabpanel" aria-labelledby="tab-${S.tab}">${body()}</div></section>`;
 };
 AFTER.hub = () => {
@@ -2200,7 +2531,7 @@ AFTER.hub = () => {
 
 /* ---------- Match intro ---------- */
 function lineupStrip(m) {
-  return `<ol class="lineup" aria-label="خطة المباراة">${m.plan.map((t, r) => { const c = TYPES[t].cat, L = levelFor(r, m.R); return `<li class="lu" style="--cc:${CATS[c].color}"><span class="lu-r" dir="ltr">R${r + 1}</span>${icon(CATS[c].icon)}<b>${CATS[c].ar}</b><small>${TYPES[t].short}</small>${lvlDots(L)}</li>`; }).join('')}</ol>`;
+  return `<ol class="lineup" aria-label="خطة المباراة">${m.plan.map((t, r) => { const c = TYPES[t].cat, L = levelFor(r, m.R); return `<li class="lu" style="--cc:${CATS[c].color}"><span class="lu-r" dir="ltr">${r + 1}</span>${icon(CATS[c].icon)}<b>${CATS[c].ar}</b><small>${TYPES[t].short}</small>${lvlDots(L)}</li>`; }).join('')}</ol>`;
 }
 function coinHTML(m, first) {
   const A = teamById(m.a), B = teamById(m.b);
@@ -2213,26 +2544,26 @@ function faceoffHTML(m) {
 VIEWS.intro = () => {
   const m = curMatch(); if (!m) return VIEWS.hub();
   const back = `<div class="intro-top"><button class="btn btn-ghost btn-sm" data-act="go" data-to="hub">${icon('back')}<span>مركز البطولة</span></button>${soundBtn()}</div>`;
-  const head = `<div class="intro-head"><p class="kicker" dir="ltr" lang="en">${stageEn(m)}</p><h1 class="disp">${stageLabel(m)}</h1></div>`;
+  const head = `<div class="intro-head"><p class="kicker" dir="ltr" lang="en">${esc(stageEn(m))}</p><h1 class="disp">${esc(stageLabel(m))}</h1></div>`;
   if (m.status === 'wait') {
     const X = m.present, Y = other(m, X);
-    return `<section class="v-intro page-narrow">${back}${head}${faceoffHTML(m)}<div class="panel split-resume"><p>${icon('clock')} أنهت الشعبة ${bd(teamName(X))} دورها — <b>النتيجة مخفية</b> حتى نهاية المباراة.</p><h2>الآن دور الشعبة ${bd(teamName(Y))}</h2><p class="muted">${m.R} أسئلة بنفس خطة المباراة: الأنواع والمستويات نفسها.</p>${lineupStrip(m)}<button class="btn btn-gold btn-xl" data-act="split-start">${icon('whistle')}<span>ابدأ دور ${bd(teamName(Y))}</span></button></div></section>`;
+    return `<section class="v-intro page-narrow">${back}${head}${faceoffHTML(m)}<div class="panel split-resume"><p>${icon('clock')} أنهت الشعبة ${bd(teamName(X))} دورها — <b>النتيجة مخفية</b> حتى نهاية المباراة.</p><h2>الآن دور الشعبة ${bd(teamName(Y))}</h2><p class="muted">${esc(m.R)} أسئلة بنفس خطة المباراة: الأنواع والمستويات نفسها.</p>${lineupStrip(m)}<button class="btn btn-gold btn-xl" data-act="split-start">${icon('whistle')}<span>ابدأ دور ${bd(teamName(Y))}</span></button></div></section>`;
   }
   const I = S.intro || { mode: 'live', present: m.a }, live = I.mode === 'live';
   return `<section class="v-intro page-narrow">${back}${head}${faceoffHTML(m)}
 <div class="intro-grid${live ? '' : ' no-toss'}">
   <section class="panel ip-mode"><h3>${icon('users')} طريقة اللعب</h3><div class="seg" role="radiogroup" aria-label="طريقة اللعب">${[['live', 'مباشر'], ['split', 'على حصتين']].map(([v, l]) => `<button class="seg-b${I.mode === v ? ' on' : ''}" role="radio" aria-checked="${I.mode === v}" data-act="intro-mode" data-v="${v}">${l}</button>`).join('')}</div>
-    <p class="muted small">${live ? 'الشعبتان في الصف معًا: تتناوب الأسئلة بين الشعبتين، ويتبدل من يبدأ كل جولة.' : 'تلعب الشعبة الحاضرة أسئلتها الآن، والأخرى في حصتها لاحقًا بالأسئلة المتقابلة نفسها. تبقى النتيجة مخفية حتى النهاية.'}</p>
-    ${live ? '' : `<div class="present"><span>الشعبة الحاضرة الآن:</span>${[m.a, m.b].map((id) => `<button class="chip-btn${I.present === id ? ' on' : ''}" aria-pressed="${I.present === id}" data-act="intro-present" data-id="${id}" style="--tc:${teamById(id).color}">${bd(teamName(id))}</button>`).join('')}</div>`}</section>
-  <section class="panel ip-lineup"><h3>${icon('list')} خطة المباراة <small>${m.R} جولات · سؤال لكل شعبة في كل جولة</small></h3>${lineupStrip(m)}<p class="muted small">تنويع عادل: الفئات موزعة بالتساوي، والمستوى يتدرج من السهل إلى الصعب، والسؤال متطابق النوع والمستوى للشعبتين.</p></section>
-  ${live ? `<section class="panel ip-toss"><h3>${icon('target')} القرعة: من يبدأ؟</h3>${coinHTML(m, m.first)}<p class="toss-res" id="toss-res" aria-live="polite">${m.first ? `يبدأ: <b>${bd(teamName(m.first))}</b> — ثم يتناوب الترتيب كل جولة` : 'ارمِ العملة لتحديد الشعبة التي تبدأ'}</p><button class="btn btn-primary" data-act="toss" id="btn-toss" ${m.first ? 'disabled' : ''}>${icon('target')}<span>ارمِ العملة</span></button></section>` : ''}
+    <p class="muted small">${live ? 'الشعبتان في الصف معًا: تتناوب الأسئلة بين الشعبتين، ويتبدل من يبدأ في كل سؤال.' : 'تلعب الشعبة الحاضرة أسئلتها الآن، والأخرى في حصتها لاحقًا بالأسئلة المتقابلة نفسها. تبقى النتيجة مخفية حتى النهاية.'}</p>
+    ${live ? '' : `<div class="present"><span>الشعبة الحاضرة الآن:</span>${[m.a, m.b].map((id) => `<button class="chip-btn${I.present === id ? ' on' : ''}" aria-pressed="${I.present === id}" data-act="intro-present" data-id="${esc(id)}" style="--tc:${teamById(id).color}">${bd(teamName(id))}</button>`).join('')}</div>${m.stage !== 'league' ? `<p class="small intro-warn">${icon('help')} مباراة إقصائية: إذا انتهت بالتعادل تُحسم بركلات الترجيح على حصتين أيضًا — 5 ركلات لكل شعبة في حصتها، والنتيجة مخفية حتى النهاية.</p>` : ''}`}</section>
+  <section class="panel ip-lineup"><h3>${icon('list')} خطة المباراة <small>${esc(m.R)} أسئلة لكل شعبة · أسئلة متقابلة</small></h3>${S.introErr ? `<p class="bad">${esc(S.introErr)}</p>` : lineupStrip(m)}<p class="muted small">تنويع عادل: الفئات موزعة بالتساوي، والمستوى يتدرج من السهل إلى الصعب، والسؤال متطابق النوع والمستوى للشعبتين.</p></section>
+  ${live ? `<section class="panel ip-toss"><h3>${icon('target')} القرعة: من يبدأ؟</h3>${coinHTML(m, m.first)}<p class="toss-res" id="toss-res" aria-live="polite">${m.first ? `يبدأ: <b>${bd(teamName(m.first))}</b> — ثم يتناوب البدء في كل سؤال` : 'ارمِ العملة لتحديد الشعبة التي تبدأ'}</p><button class="btn btn-primary" data-act="toss" id="btn-toss" ${m.first ? 'disabled' : ''}>${icon('target')}<span>ارمِ العملة</span></button></section>` : ''}
 </div>
-<div class="intro-foot"><button class="btn btn-gold btn-xl" data-act="kickoff" id="btn-kickoff" ${live && !m.first ? 'disabled' : ''}>${icon('whistle')}<span>صافرة البداية</span></button></div>
+<div class="intro-foot"><button class="btn btn-gold btn-xl" data-act="kickoff" id="btn-kickoff" ${(live && !m.first) || S.introErr ? 'disabled' : ''}>${icon('whistle')}<span>صافرة البداية</span></button></div>
 </section>`;
 };
 
 /* ---------- Match & penalties ---------- */
-function hiddenTeam(m) { return m.mode === 'split' && m.status !== 'done' && m.status !== 'pens' && m.seq && m.step >= m.R ? m.present : null; }
+function hiddenTeam(m) { return m.mode === 'split' && !m.demo && !m.revealed && m.seq && m.step >= m.R ? m.present : null; }
 function dotsHTML(m, t) {
   const hide = hiddenTeam(m) === t, cur = m.seq && m.step < m.seq.length ? m.seq[m.step] : null;
   return m.seq.filter((s) => s.t === t).map((s) => {
@@ -2254,14 +2585,15 @@ function scoreboardHTML(m) {
 <div class="sb-sub"><div class="dots a" style="--tc:${A.color}">${dotsHTML(m, m.a)}</div><div class="turn" style="--tc:${turn ? teamById(turn).color : 'var(--silver)'}">${turn ? `الدور على: <b>${bd(teamName(turn))}</b>` : 'نهاية المباراة'}</div><div class="dots b" style="--tc:${B.color}">${dotsHTML(m, m.b)}</div></div>`;
 }
 function tool(act, ic, label, key, disabled) {
-  return `<button class="tool" data-act="${act}" aria-label="${label}" title="${label}${key ? ' (' + key + ')' : ''}" ${disabled ? 'disabled' : ''}>${icon(ic)}<span>${label}</span>${key ? `<kbd>${key}</kbd>` : ''}</button>`;
+  return `<button class="tool" data-act="${act}" aria-label="${label}" title="${label}${key ? ' (' + key + ')' : ''}" ${disabled ? 'disabled' : ''}>${icon(ic)}<span>${label}</span>${key ? `<kbd data-k="${key}">${key}</kbd>` : ''}</button>`;
 }
 function toolbarHTML() {
   return `<footer class="tools" id="tools" role="toolbar" aria-label="أدوات المعلم">
   ${SPEECH_OK ? tool('say', 'wave', 'نطق', 'P') : ''}${tool('picker', 'dice', 'لاعب عشوائي', 'R')}${tool('var', 'var', 'الفار', '', true)}${tool('reveal', 'eye', 'كشف الإجابة', '')}
   <span class="tools-sp"></span>
   ${tool('pause', 'pause', 'إيقاف', 'Esc')}${FS_OK ? tool('fullscreen', 'full', 'ملء الشاشة', 'F') : ''}
-  <button class="tool" data-act="mute" aria-pressed="${PREFS.muted}" aria-label="الصوت" title="الصوت (M)">${icon(PREFS.muted ? 'mute' : 'speaker')}<span>الصوت</span><kbd>M</kbd></button>
+  <button class="tool" data-act="mute" aria-pressed="${PREFS.muted}" aria-label="الصوت" title="الصوت (M)">${icon(PREFS.muted ? 'mute' : 'speaker')}<span>الصوت</span><kbd data-k="M">M</kbd></button>
+  <button class="tool warn" data-act="backup" id="tool-warn" aria-label="الحفظ غير متاح — النسخ الاحتياطي" title="الحفظ التلقائي غير متاح — احفظ رمز النسخة الاحتياطية" ${storageBad() ? '' : 'hidden'}>${icon('save')}<span>غير محفوظ</span></button>
   ${tool('exit-match', 'exit', 'خروج', '')}
 </footer>`;
 }
@@ -2284,7 +2616,7 @@ function bodyHTML(q) {
 <div class="slots" id="slots" dir="ltr" lang="en">${slots}</div>
 <div class="tiles" id="tiles" dir="ltr" lang="en">${q.tiles.map((t) => `<button class="tile" data-act="tile" data-id="${t.id}" aria-label="الحرف ${t.ch}">${t.ch}</button>`).join('')}</div>
 <div class="sbc"><button class="btn btn-ghost" data-act="sb-back" aria-label="حذف آخر حرف">${icon('backspace')}<span>تراجع</span></button><button class="btn btn-ghost" data-act="sb-clear">${icon('x')}<span>مسح</span></button><button class="btn btn-primary" data-act="sb-check" id="sb-check" disabled>${icon('check')}<span>تحقق</span></button></div>
-<p class="kbd-hint">اضغط الحروف بالترتيب، أو اكتب بلوحة المفاتيح — اضغط خانة ممتلئة لإرجاع حرفها</p>`;
+<p class="kbd-hint">اضغط الحروف بالترتيب أو اكتبها بلوحة المفاتيح، واضغط خانة ممتلئة لإرجاع حرفها · للنطق: زر النطق أو <kbd dir="ltr">Shift+P</kbd></p>`;
     }
     case 'gap_sentence': { const [a, b] = q.s.split('___'); return `<p class="sentence" dir="ltr" lang="en">${esc(a)}<span class="blank" id="blank" aria-label="فراغ">&nbsp;</span>${esc(b)}</p>${optsHTML(q, true)}`; }
     case 'gap_letters': return `<div class="letters" dir="ltr" lang="en" aria-label="الكلمة مع حروف ناقصة">${q.w.split('').map((c, i) => { const j = q.hid.indexOf(i); if (j >= 0) return `<span class="lb miss" data-h="${j}">?</span>`; if (c === ' ') return '<span class="lb gap"></span>'; if (c === '-') return '<span class="lb gap">-</span>'; return `<span class="lb">${c}</span>`; }).join('')}</div><p class="hint">المعنى: <b>${esc(q.ar)}</b></p>${optsHTML(q, true, 'letter-opts')}`;
@@ -2345,8 +2677,8 @@ function halftimeHTML(m) {
 function splitEndHTML(m) {
   const X = m.present, Y = other(m, X);
   return `<div class="ovl-card se" role="dialog" aria-modal="true" aria-labelledby="se-t"><p class="kicker" dir="ltr" lang="en">END OF SESSION 1</p><h2 id="se-t" class="disp">انتهى دور الشعبة ${bd(teamName(X))}</h2>
-  <p>أجابت الشعبة على ${m.R} أسئلة. <b>النتيجة مخفية</b> ولن تُكشف إلا في نهاية المباراة.</p><p class="muted">المباراة الآن «بانتظار شعبة ${bd(teamName(Y))}» — ستلعب الأسئلة المتقابلة نفسها في حصتها.</p>
-  <div class="ovl-actions"><button class="btn btn-ghost" data-act="exit-match">${icon('home')}<span>مركز البطولة</span></button><button class="btn btn-gold" data-act="split-start" id="btn-next">${icon('play')}<span>ابدأ دور ${bd(teamName(Y))} الآن</span></button></div></div>`;
+  <p>أجابت الشعبة على ${esc(m.R)} أسئلة. <b>النتيجة مخفية</b> ولن تُكشف إلا في نهاية المباراة.</p><p class="muted">المباراة الآن «بانتظار شعبة ${bd(teamName(Y))}» — ستلعب الأسئلة المتقابلة نفسها في حصتها.</p>
+  <div class="ovl-actions"><button class="btn btn-ghost" data-act="split-start">${icon('play')}<span>ابدأ دور ${bd(teamName(Y))} الآن</span></button><button class="btn btn-gold btn-xl" data-act="exit-match" id="btn-next">${icon('home')}<span>حفظ والعودة إلى مركز البطولة</span></button></div></div>`;
 }
 function pauseHTML(resumed) {
   return `<div class="ovl-card pz" role="dialog" aria-modal="true" aria-labelledby="pz-t"><p class="kicker" dir="ltr" lang="en">${resumed ? 'RESUME' : 'PAUSED'}</p><h2 id="pz-t" class="disp">${resumed ? 'استئناف المباراة' : 'متوقف مؤقتًا'}</h2><p class="muted">${resumed ? 'تم حفظ التقدم تلقائيًا — تابع من السؤال نفسه.' : 'المؤقت متوقف والسؤال مخفي عن الطلاب.'}</p><div class="ovl-actions"><button class="btn btn-ghost" data-act="exit-match">${icon('home')}<span>${S.matchId === 'demo' ? 'إنهاء التجربة' : 'مركز البطولة'}</span></button><button class="btn btn-gold btn-xl" data-act="resume" id="btn-next">${icon('play')}<span>استئناف</span></button></div></div>`;
@@ -2383,7 +2715,7 @@ VIEWS.pens = () => {
 VIEWS.ft = () => {
   const m = curMatch(); if (!m || !m.seq) return VIEWS.home();
   const A = teamById(m.a), B = teamById(m.b), [a, b] = score(m), pt = m.pens ? pensTally(m) : null;
-  const hide = S.ftReveal && S.ftFresh ? (m.present === m.a ? 0 : 1) : -1;
+  const hide = needsReveal(m) ? (m.present === m.a ? 0 : 1) : -1;
   let result;
   if (m.status === 'pens') result = `<span class="rl draw">تعادل — تُحسم المباراة بركلات الترجيح</span>`;
   else if (m.winner) result = `<span class="rl win" style="--tc:${teamById(m.winner).color}">${icon('trophy')} فوز ${bd(teamName(m.winner))}${pt && pt.winner ? ' بركلات الترجيح' : ''}</span>`;
@@ -2412,16 +2744,23 @@ VIEWS.ft = () => {
 ${pt && (pt.ta || pt.tb) ? `<p class="ft-pens">ركلات الترجيح ${scorePair(pt.sa, pt.sb)}</p>` : ''}
 <div class="ft-result${hide >= 0 ? ' pending' : ''}" id="ft-result">${result}${points}</div>
 <div class="ft-actions">${actions}</div>
-<div class="tbl-wrap ft-tbl"><table class="ft-rounds"><caption class="sr-only">نتيجة كل جولة</caption><thead><tr><th>#</th>${m.demo ? '' : '<th>نوع السؤال</th>'}<th>${bd(A.name)}</th><th>${bd(B.name)}</th></tr></thead><tbody>${rows}</tbody></table></div>
+<div class="tbl-wrap ft-tbl${hide >= 0 ? ' pending' : ''}" id="ft-tbl"><table class="ft-rounds"><caption class="sr-only">نتيجة كل سؤال</caption><thead><tr><th>#</th>${m.demo ? '' : '<th>نوع السؤال</th>'}<th>${bd(A.name)}</th><th>${bd(B.name)}</th></tr></thead><tbody>${rows}</tbody></table></div>
 </section>`;
 };
+/* split mode: the first section's score is revealed here, once; until then it stays hidden everywhere */
+const needsReveal = (m) => !!(m && m.mode === 'split' && !m.demo && !m.revealed && m.seq && m.step >= m.seq.length);
 AFTER.ft = () => {
   const m = curMatch();
-  if (S.ftReveal && S.ftFresh && m) {
+  if (needsReveal(m)) {
     const el = $(m.present === m.a ? '#ft-a' : '#ft-b');
     if (el) {
       SFX.roll();
-      later(() => { el.textContent = el.dataset.v; el.classList.add('reveal-pop'); SFX.whistle(true); $('#ft-result') && $('#ft-result').classList.remove('pending'); announce('النتيجة النهائية ' + $('#ft-a').textContent + ' مقابل ' + $('#ft-b').textContent); }, reduced() ? 300 : 1600);
+      later(() => {
+        m.revealed = true; persist(m);
+        el.textContent = el.dataset.v; el.classList.add('reveal-pop'); SFX.whistle(true);
+        ['#ft-result', '#ft-tbl'].forEach((sel) => { const x = $(sel); if (x) x.classList.remove('pending'); });
+        announce('النتيجة النهائية ' + $('#ft-a').textContent + ' مقابل ' + $('#ft-b').textContent);
+      }, reduced() ? 300 : 1600);
     }
   }
   S.ftFresh = false;
@@ -2514,31 +2853,31 @@ VIEWS.help = () => {
     gap_letters: `${en('p o l l ? t ? o n')} ← ${en('u · i')}`,
     match5: `5 كلمات إنجليزية ↔ 5 معانٍ عربية مخلوطة، تُوصل بخطوط`,
   };
-  const keys = [['1 – 4', 'اختيار الإجابة'], ['Enter / Space', 'التالي / تأكيد'], ['P', 'نطق الكلمة'], ['R', 'اختيار طالب عشوائي'], ['Esc', 'إيقاف مؤقت / إغلاق النافذة'], ['F', 'ملء الشاشة'], ['M', 'كتم الصوت'], ['A–Z / ⌫', 'الكتابة في «رتّب الحروف»']];
+  const keys = [['1 – 4', 'اختيار الإجابة'], ['Enter / Space', 'التالي / تأكيد («تحقق» عند اكتمال الإجابة)'], ['P', 'نطق الكلمة'], ['R', 'اختيار طالب عشوائي'], ['Esc', 'إيقاف مؤقت / إغلاق النافذة'], ['F', 'ملء الشاشة'], ['M', 'كتم الصوت'], ['A–Z / ⌫', 'الكتابة في «رتّب الحروف»'], ['Shift + P / R / M / F', 'اختصارات المعلم أثناء «رتّب الحروف» (لأن الحروف تُكتب مباشرة)']];
   return `<section class="v-help page">${topbar('طريقة اللعب', `<button class="btn btn-ghost btn-sm" data-act="go" data-to="home">${icon('home')}<span>الرئيسية</span></button>`)}
 <div class="help-grid">
 <article class="panel"><h2>${icon('trophy')} نظام البطولة</h2><ul class="ticks">
 <li><b>مرحلة الدوري:</b> كل شعبة تواجه كل شعبة <b>مرة واحدة فقط</b> (بدون إياب). مع العدد الفردي تستريح شعبة في كل جولة.</li>
 <li><b>النقاط:</b> الفوز 3 · التعادل 1 · الخسارة 0.</li>
 <li><b>الأدوار الإقصائية:</b> بعد انتهاء الدوري: النهائي بين الأول والثاني، أو نصف نهائي (1×4 و2×3) عند اختياره مع 4 شعب فأكثر.</li>
-<li>التعادل في الأدوار الإقصائية يُحسم بـ<b>ركلات الترجيح</b>: 5 ركلات لكل شعبة بالتناوب (كل ركلة سؤال معنى سريع)، ثم ركلة مقابل ركلة.</li>
+<li>التعادل في الأدوار الإقصائية يُحسم بـ<b>ركلات الترجيح</b>: 5 ركلات لكل شعبة بالتناوب (كل ركلة سؤال معنى سريع)، ثم ركلة مقابل ركلة. وفي مباراة «على حصتين» تسدد كل شعبة ركلاتها في حصتها والنتيجة مخفية حتى النهاية.</li>
 <li>يمكن لعب المباريات <b>بأي ترتيب</b> حسب جدول الحصص.</li></ul></article>
 <article class="panel"><h2>${icon('whistle')} المباراة</h2><ul class="ticks">
-<li>المباراة من عدة جولات؛ في كل جولة تجيب <b>كل شعبة على سؤال</b> من النوع والمستوى نفسيهما (أسئلة متقابلة).</li>
+<li>تجيب كل شعبة في المباراة عن <b>عدد من الأسئلة (4–8)</b>، وكل سؤال يقابله سؤال للشعبة الأخرى من النوع والمستوى نفسيهما (أسئلة متقابلة).</li>
 <li>الإجابة الصحيحة = <b>هدف</b> ⚽، والخاطئة أو انتهاء الوقت = فرصة ضائعة.</li>
-<li><b>قرعة العملة</b> تحدد من يبدأ الجولة الأولى، ثم يتبدل الترتيب كل جولة.</li>
+<li><b>قرعة العملة</b> تحدد من يبدأ السؤال الأول، ثم يتبدل من يبدأ في كل سؤال.</li>
 <li><b>مباشر:</b> الشعبتان معًا وتتناوب الأسئلة. <b>على حصتين:</b> كل شعبة تلعب في حصتها بالأسئلة نفسها، والنتيجة مخفية حتى النهاية.</li>
 <li>بعد كل إجابة تظهر بطاقة تعلّم: الكلمة ومعناها وجملة المثال.</li></ul></article>
 <article class="panel wide"><h2>${icon('list')} أنواع الأسئلة</h2><div class="help-types">${CAT_IDS.map((c) => `<div class="ht-cat" style="--cc:${CATS[c].color}"><h3>${icon(CATS[c].icon)} ${CATS[c].ar} <small dir="ltr" lang="en">${CATS[c].en}</small></h3>${TYPE_IDS.filter((t) => TYPES[t].cat === c).map((t) => `<div class="ht-type"><b>${TYPES[t].ar}</b><span>${ex[t]}</span></div>`).join('')}</div>`).join('')}</div></article>
 <article class="panel"><h2>${icon('sliders')} العدالة في التنويع</h2><ul class="ticks">
-<li>الفئات الأربع تُوزَّع على الجولات <b>بالتساوي</b> (الفرق بينها لا يزيد عن سؤال)، ولا تتكرر الفئة في جولتين متتاليتين قدر الإمكان.</li>
+<li>الفئات الأربع تُوزَّع على أسئلة المباراة <b>بالتساوي</b> (الفرق بينها لا يزيد عن سؤال)، ولا تتكرر الفئة في سؤالين متتاليين قدر الإمكان.</li>
 <li>داخل الفئة يتناوب نوعا السؤال.</li>
 <li>الشعبتان تحصلان في كل جولة على <b>النوع نفسه والمستوى نفسه</b>، وطول الكلمة متقارب في أسئلة الإملاء والحروف.</li>
 <li>المستوى يتدرج: سهل ← متوسط ← صعب. ولا تتكرر الكلمات خلال البطولة حتى ينفد البنك.</li>
 <li>خطة المباراة تظهر قبل صافرة البداية ليرى الطلاب عدالتها.</li></ul></article>
 <article class="panel"><h2>${icon('table')} ترتيب الفرق عند التساوي</h2><ol class="nums">
 <li>النقاط</li><li>فارق الأهداف</li><li>الأهداف المسجلة</li><li>نقاط المواجهة المباشرة بين الفرق المتساوية</li><li>فارق الأهداف في المواجهة المباشرة</li><li>القرعة: ${T ? T.drawOrder.map((id, i) => `${i + 1}. ${bd(teamName(id))}`).join(' · ') : 'تُجرى عند إنشاء البطولة'}</li></ol></article>
-<article class="panel"><h2>${icon('sparkle')} اختصارات لوحة المفاتيح</h2><table class="keys">${keys.map(([k, d]) => `<tr><td><kbd dir="ltr">${k}</kbd></td><td>${d}</td></tr>`).join('')}</table></article>
+<article class="panel"><h2>${icon('sparkle')} اختصارات لوحة المفاتيح</h2><table class="keys">${keys.map(([k, d]) => `<tr><td><kbd dir="ltr">${k}</kbd></td><td>${d}</td></tr>`).join('')}</table><p class="muted small">تعمل الاختصارات والكتابة سواء كانت لغة لوحة المفاتيح عربية أو إنجليزية.</p></article>
 <article class="panel"><h2>${icon('help')} نصائح للمعلم</h2><ul class="ticks">
 <li><b>على حصتين:</b> إذا كانت الشعبتان في حصص مختلفة، العب دور الشعبة الحاضرة الآن، ثم أكمل دور الأخرى في حصتها من «مركز البطولة».</li>
 <li><b>لاعب عشوائي:</b> يختار رقم طالب من الشعبة صاحبة الدور دون تكرار حتى تُستخدم كل الأرقام.</li>
@@ -2587,13 +2926,22 @@ function updateToolbar() {
   const say = $('#tools [data-act="say"]'); if (say) say.disabled = !sayable();
   const rv = $('#tools [data-act="reveal"]'); if (rv) rv.disabled = !(Q && !Q.answered);
   const pk = $('#tools [data-act="picker"]'); if (pk) pk.disabled = !(Q && !Q.answered);
-  const pz = $('#tools [data-act="pause"]'); if (pz) pz.disabled = !Q;
+  const pz = $('#tools [data-act="pause"]'); if (pz) pz.disabled = !(Q && !Q.answered);
+  /* «رتّب الحروف» takes typed letters, so the teacher shortcuts become Shift+letter while it is live */
+  const sb = !!(Q && Q.sb && !Q.answered);
+  $$('#tools kbd[data-k]').forEach((kb) => { kb.textContent = (sb ? '⇧' : '') + kb.dataset.k; });
 }
+/* a new question (or one uncovered again) ignores input for a moment, so the second tap of a double tap on
+   «التالي» / «استئناف» / «ابدأ» can never land on an answer */
+const ARM_MS = 450;
+function armQ() { if (Q) { Q.armAt = performance.now() + ARM_MS; UI_AT = performance.now(); } }
+const qArmed = () => !!Q && performance.now() >= (Q.armAt || 0);
+function unpauseView() { hideLayer('pause'); const vm = $('#vm'); if (vm) vm.classList.remove('is-paused'); }
 
 /* decides what the match view shows next */
 function flow() {
   const m = curMatch(); if (!m || !m.seq) { go(T ? 'hub' : 'home'); return; }
-  hideLayer('res');
+  hideLayer('res'); unpauseView();
   if (m.status === 'done' || m.status === 'pens') { finishMatch(m); return; }
   if (m.status === 'wait') { Q = null; refreshBoard(m); $('#qzone').innerHTML = ''; updateToolbar(); showLayer('split', splitEndHTML(m)); SFX.whistle(true); return; }
   const H = halfStep(m);
@@ -2609,13 +2957,13 @@ function ask(m) {
   $('#qzone').innerHTML = questionHTML(q, { label, secs });
   mountQuestion();
   timerStart(secs, onTimeout);
-  updateToolbar();
+  updateToolbar(); armQ();
   announce(`الدور على ${teamName(st.t)}. ${TYPES[q.type].ar}`);
   if (S.resumePaused) { S.resumePaused = false; pauseGame(true); }
 }
 function mountQuestion() { if (Q && Q.m5) { m5Observe(); requestAnimationFrame(() => { m5Measure(); m5Draw(); }); } }
 function onTimeout() { if (!Q || Q.answered) return; Q.timedOut = true; submit(false, null); }
-function chooseOpt(i) { if (!Q || Q.answered || Q.paused || !Q.q.opts || Q.q.type === 'match5' || i < 0 || i >= Q.q.opts.length) return; submit(i === Q.q.ans, i); }
+function chooseOpt(i) { if (!Q || Q.answered || Q.paused || !qArmed() || !Q.q.opts || Q.q.type === 'match5' || i < 0 || i >= Q.q.opts.length) return; submit(i === Q.q.ans, i); }
 function submit(ok, given) {
   if (!Q || Q.answered) return;
   Q.answered = true; timerStop();
@@ -2666,7 +3014,8 @@ function finishMatch(m) {
 function lastAnswered() {
   const m = curMatch(); if (!m) return null;
   if (S.view === 'pens' && m.pens && m.pens.last != null && m.pens.kicks[m.pens.last]) return { kind: 'p', m, k: m.pens.last, st: m.pens.kicks[m.pens.last] };
-  if (S.view === 'match' && m.last != null && m.seq && m.seq[m.last] && m.seq[m.last].ok !== null && hiddenTeam(m) !== m.seq[m.last].t) return { kind: 'm', m, k: m.last, st: m.seq[m.last] };
+  // while its own result card is open, the last answer can always be reviewed (even the last one of a split session)
+  if (S.view === 'match' && m.last != null && m.seq && m.seq[m.last] && m.seq[m.last].ok !== null && (topLayer() === 'res' || hiddenTeam(m) !== m.seq[m.last].t)) return { kind: 'm', m, k: m.last, st: m.seq[m.last] };
   return null;
 }
 function openVAR() {
@@ -2676,7 +3025,7 @@ function openVAR() {
   const st = L.st, t = teamById(st.t);
   openModal({
     title: `${icon('var')} مراجعة الفار`,
-    body: `<div class="var-box" style="--tc:${t.color}"><p class="kicker" dir="ltr" lang="en">VIDEO ASSISTANT REFEREE</p><p>آخر إجابة: <b>${bd(t.name)}</b> — ${L.kind === 'p' ? `الركلة ${Math.floor(L.k / 2) + 1}` : `الجولة ${st.r + 1}`} · ${TYPES[st.q.type].ar}${st.q.type !== 'match5' ? ` · ${en(st.q.w)}` : ''}</p><p class="var-now">القرار الحالي: ${st.ok ? `<b class="good">${icon('check')} هدف</b>` : `<b class="bad">${icon('x')} لا هدف</b>`}</p><p class="muted small">استخدم الفار إذا قال الطالب الإجابة الصحيحة شفهيًا أو حدث خطأ في الضغط.</p></div>`,
+    body: `<div class="var-box" style="--tc:${t.color}"><p class="kicker" dir="ltr" lang="en">VIDEO ASSISTANT REFEREE</p><p>آخر إجابة: <b>${bd(t.name)}</b> — ${L.kind === 'p' ? `الركلة ${esc(L.st.n || Math.floor(L.k / 2) + 1)}` : `السؤال ${esc(st.r + 1)}`} · ${TYPES[st.q.type].ar}${st.q.type !== 'match5' ? ` · ${en(st.q.w)}` : ''}</p><p class="var-now">القرار الحالي: ${st.ok ? `<b class="good">${icon('check')} هدف</b>` : `<b class="bad">${icon('x')} لا هدف</b>`}</p><p class="muted small">استخدم الفار إذا قال الطالب الإجابة الصحيحة شفهيًا أو حدث خطأ في الضغط.</p></div>`,
     actions: [{ label: 'إغلاق' }, st.ok ? { label: 'إلغاء الهدف', cls: 'btn-danger', icon: 'x', fn: () => applyVAR(L, false) } : { label: 'احتساب الهدف', cls: 'btn-gold', icon: 'check', fn: () => applyVAR(L, true) }],
     onClose: () => { if (Q && !Q.answered && !Q.paused && !topLayer()) timerResume(); },
   });
@@ -2704,15 +3053,15 @@ function sayCurrent() {
   speak(Q.q.type === 'match5' ? Q.q.items.map((x) => x.w).join(', ') : Q.q.w);
 }
 function pauseGame(resumed) {
-  if (!Q || Q.paused) return;
+  if (!Q || Q.paused || Q.answered) return; // after an answer the result card is on its way — nothing to pause
   Q.paused = true; timerPause();
   const vm = $('#vm'); if (vm) vm.classList.add('is-paused');
   showLayer('pause', pauseHTML(!!resumed));
 }
 function resumeGame() {
+  unpauseView(); // the card always goes, even if it outlived its question
   if (!Q || !Q.paused) return;
-  Q.paused = false; hideLayer('pause');
-  const vm = $('#vm'); if (vm) vm.classList.remove('is-paused');
+  Q.paused = false; armQ();
   if (!Q.answered && !topLayer()) timerResume();
   if (Q.m5) requestAnimationFrame(() => { m5Measure(); m5Draw(); });
 }
@@ -2734,7 +3083,7 @@ function rollPicker(t) {
   let i = 0;
   S.pickIv = setInterval(() => { box.textContent = 1 + rnd(n); if (i % 2 === 0) SFX.tick(); if (++i >= 16) { clearInterval(S.pickIv); S.pickIv = 0; done(); } }, 65);
 }
-function closePicker() { clearInterval(S.pickIv); S.pickIv = 0; hideLayer('picker'); if (Q && !Q.answered && !Q.paused && !topLayer()) timerResume(); }
+function closePicker() { clearInterval(S.pickIv); S.pickIv = 0; hideLayer('picker'); armQ(); if (Q && !Q.answered && !Q.paused && !topLayer()) timerResume(); }
 
 /* ---- spell_build ---- */
 function sbRender() {
@@ -2744,7 +3093,7 @@ function sbRender() {
   $$('#tiles .tile').forEach((el) => { const u = used.has(+el.dataset.id); el.classList.toggle('used', u); el.disabled = u; });
   const c = $('#sb-check'); if (c) c.disabled = !Q.sb.slots.every((x) => x !== null);
 }
-const sbLive = () => Q && Q.sb && !Q.answered && !Q.paused;
+const sbLive = () => Q && Q.sb && !Q.answered && !Q.paused && qArmed();
 function sbPlace(id) { if (!sbLive() || Q.sb.slots.includes(id)) return; const s = Q.sb.slots.indexOf(null); if (s < 0) return; Q.sb.slots[s] = id; SFX.click(); sbRender(); }
 function sbType(ch) { if (!sbLive()) return; const used = new Set(Q.sb.slots); const t = Q.q.tiles.find((x) => x.ch === ch && !used.has(x.id)); if (t) sbPlace(t.id); else { const s = $('#slots'); if (s) { s.classList.remove('shake'); void s.offsetWidth; s.classList.add('shake'); } } }
 function sbBack() { if (!sbLive()) return; for (let s = Q.sb.slots.length - 1; s >= 0; s--) if (Q.sb.slots[s] !== null) { Q.sb.slots[s] = null; break; } sbRender(); }
@@ -2793,7 +3142,7 @@ function m5Sync() {
   const b = $('#m5-check'); if (b) b.disabled = n < q.items.length;
   m5Draw();
 }
-const m5Live = () => Q && Q.m5 && !Q.answered && !Q.paused;
+const m5Live = () => Q && Q.m5 && !Q.answered && !Q.paused && qArmed();
 function m5Link(li, rj) { const M = Q.m5; const k = M.L.indexOf(rj); if (k >= 0) M.L[k] = -1; M.L[li] = rj; M.sel = null; SFX.pop(); m5Sync(); }
 function m5Click(side, i) {
   if (!m5Live() || Q.m5.just) return;
@@ -2846,7 +3195,7 @@ ${m.pens.first ? `<p class="lead">يسدد أولًا: <b>${bd(teamName(m.pens.f
 }
 function pensFlow() {
   const m = curMatch(); if (!m) { go('hub'); return; }
-  pensInit(m); hideLayer('res');
+  pensInit(m); hideLayer('res'); unpauseView();
   const pt = pensTally(m);
   if (pt.winner) { m.pens.winner = pt.winner; refreshStatus(m); persist(m); finishMatch(m); return; }
   const started = m.pens.kicks.some((k) => k.ok !== null);
@@ -2854,7 +3203,11 @@ function pensFlow() {
   let idx = m.pens.kicks.findIndex((k) => k.ok === null);
   if (idx < 0) {
     const n = m.pens.kicks.length, type = (n / 2) % 2 === 0 ? 'mean_en_ar' : 'mean_ar_en', F = m.pens.first, O = other(m, F);
-    const pool = poolFor(T.settings.units), used = new Set(T.used), P = makePicker(pool, used), pr = P.pair(type, 2), pools = [pool, allEntries()];
+    const pool = tPool(), used = new Set(T.used), pools = [pool, allEntries()];
+    // never a word from this match or an earlier kick; only a tiny pool may bring earlier kicks back
+    const seen = []; m.seq.forEach((st) => { if (st.q.type === 'match5') (st.q.items || []).forEach((it) => seen.push(it.w)); else seen.push(st.q.w); });
+    const kicked = m.pens.kicks.map((k) => k.q.w);
+    const pr = makePicker(pool, used, seen.concat(kicked)).pair(type, 2) || makePicker(pool, used, kicked).pair(type, 2) || makePicker(pool, used).pair(type, 2);
     if (!pr) { toast('تعذّر توليد سؤال الركلة', 'bad'); return; }
     m.pens.kicks.push({ t: F, q: genQuestion(type, pr[0], pools), ok: null }, { t: O, q: genQuestion(type, pr[1], pools), ok: null });
     T.used = Array.from(used); persist(m); idx = n;
@@ -2864,7 +3217,7 @@ function pensFlow() {
   $('#sb-wrap').innerHTML = pensBoardHTML(m, idx);
   const secs = T.settings.timer ? Math.max(5, Math.round(12 * T.settings.timer)) : 0;
   $('#qzone').innerHTML = questionHTML(kick.q, { label: `الركلة ${Math.floor(idx / 2) + 1} · ${esc(teamName(kick.t))}`, secs });
-  timerStart(secs, onTimeout); updateToolbar();
+  timerStart(secs, onTimeout); updateToolbar(); armQ();
   announce(`ركلة ${teamName(kick.t)}`);
 }
 function submitPen(ok, given) {
@@ -2946,6 +3299,7 @@ function go(view) {
   window.scrollTo(0, 0);
   if (AFTER[S.view]) AFTER[S.view]();
   if (S.view !== 'match' && S.view !== 'pens') main.focus({ preventScroll: true });
+  UI_AT = performance.now(); renderWarn();
 }
 AFTER.match = () => { S.prevRank = T ? standings().map((r) => r.id) : null; flow(); };
 AFTER.pens = () => { const m = curMatch(); if (!m) return; S.pensGo = false; pensInit(m); if (T) { T.cur = null; saveT(); } pensFlow(); };
@@ -3002,14 +3356,28 @@ function openBackup() {
     actions: [{ label: 'إغلاق' }],
   });
 }
+/* restore: a backup's tournament replaces the current one only if it has one; «كلماتي» are always MERGED (words
+   missing here are added, nothing is deleted); the confirm says exactly what will change. */
 function restoreFrom(text) {
   let data; try { data = JSON.parse(String(text || '').trim()); } catch (e) { toast('الرمز غير صالح (ليس JSON)', 'bad'); return; }
-  const t = data && data.tournament !== undefined ? data.tournament : data;
+  if (!data || typeof data !== 'object') { toast('الرمز لا يحتوي بطولة صالحة', 'bad'); return; }
+  const wrapped = !Array.isArray(data.teams) && ('tournament' in data || 'custom' in data); // a backup file, or a bare tournament object
+  const t = wrapped ? data.tournament || null : data;
   if (t !== null && !validT(t)) { toast('الرمز لا يحتوي بطولة صالحة', 'bad'); return; }
-  confirmModal('سيتم استبدال البطولة الحالية بالنسخة المستعادة. متابعة؟', 'استعادة', () => {
-    T = t ? repairT(t) : null; T && (T.cur = null); saveT();
-    if (data && Array.isArray(data.custom)) { CUSTOM = data.custom.filter((x) => x && typeof x.w === 'string' && typeof x.ar === 'string' && WORD_RE.test(x.w)).map((x) => ({ w: x.w, ar: x.ar, s: typeof x.s === 'string' ? x.s : '' })); saveCustom(); }
-    toast('تمت استعادة النسخة', 'good'); S.tab = 'fixtures'; go(T ? 'hub' : 'home');
+  const have = new Set(CUSTOM.map((c) => c.w)), add = cleanCustom(wrapped ? data.custom : []).filter((c) => !have.has(c.w) && (have.add(c.w), true));
+  if (!t && !add.length) { toast(wrapped && Array.isArray(data.custom) && data.custom.length ? 'كل كلمات هذه النسخة موجودة في «كلماتي» — لا شيء لاستعادته' : 'النسخة لا تحتوي بطولة ولا كلمات', 'bad'); return; }
+  const words = add.length ? `ستُضاف ${num(add.length)} كلمة جديدة إلى «كلماتي» (دون حذف أي كلمة موجودة).` : '';
+  let msg;
+  if (t) {
+    const done = t.matches.filter((m) => m.status === 'done').length;
+    const what = `بطولة الشعب ${t.teams.map((x) => bd(x.name)).join('، ')} — ${num(done)} من ${num(t.matches.length)} مباريات انتهت${typeof t.createdAt === 'number' ? ` · أُنشئت ${esc(fmtDate(t.createdAt))}` : ''}`;
+    msg = `<b>ستُستعاد:</b> ${what}.<br>${T ? '<b class="bad">ستُحذف البطولة الحالية ونتائجها من هذا الجهاز.</b><br>' : ''}${words}`;
+  } else msg = `${words}<br>البطولة الحالية لن تتغير.`;
+  confirmModal(msg + '<br>متابعة؟', t ? 'استعادة' : 'إضافة الكلمات', () => {
+    if (add.length) { CUSTOM = CUSTOM.concat(add); saveCustom(); }
+    if (t) { T = repairT(t); T.cur = null; if (T.settings.units.includes('custom') && !Array.isArray(T.custom)) T.custom = CUSTOM.map((c) => ({ w: c.w, ar: c.ar, s: c.s || '' })); saveT(true); }
+    toast(t ? 'تمت استعادة النسخة' : `أُضيفت ${add.length} كلمة إلى «كلماتي»`, 'good'); S.tab = 'fixtures';
+    if (t) go('hub'); else go(S.view === 'bank' ? 'bank' : T ? 'hub' : 'home');
   }, 'btn-gold');
 }
 
@@ -3032,13 +3400,22 @@ const ACT = {
     if (!s.types.length) err.push('اختر نوعًا واحدًا على الأقل من الأسئلة.');
     const pool = poolFor(s.units); if (pool.length < 30) err.push('اختر وحدات تحتوي 30 كلمة على الأقل.');
     const feas = feasibleTypes(s.types, pool); if (s.types.length && pool.length >= 30 && !feas.length) err.push('لا توجد كلمات مناسبة لأنواع الأسئلة المختارة.');
+    if (!err.length) { // every possible lineup of one match must be fillable with different words
+      const fit = matchFits(feas, pool, s.rounds);
+      if (!fit.ok) {
+        const alt = ROUND_OPTS.filter((r) => r < s.rounds && matchFits(feas, pool, r).ok).pop();
+        const why = fit.short ? `لا تكفي الكلمات المناسبة لنوع «${TYPES[fit.short].short}» (${fit.have} كلمة، وقد تحتاج المباراة ${fit.want}${fit.short === 'match5' ? ' — كل سؤال «صِل» يحتاج 10 كلمات' : ''}).`
+          : `الكلمات المختارة (${pool.length} كلمة) لا تكفي لمباراة من ${s.rounds} أسئلة لكل شعبة: قد تحتاج المباراة الواحدة حتى ${fit.need} كلمة مختلفة${feas.includes('match5') ? ' (كل سؤال «صِل» يحتاج 10 كلمات)' : ''}.`;
+        err.push(`${why} ${alt ? `اختر ${alt} أسئلة لكل شعبة، أو وحدات أكثر.` : 'اختر وحدات أكثر أو أنواعًا أخرى من الأسئلة.'}`);
+      }
+    }
     if (s.ko === 'semis' && s.teams.length < 4) s.ko = 'final';
     const box = $('#setup-err');
     if (err.length) { if (box) box.textContent = err.join(' '); toast(err[0], 'bad'); return; }
     if (box) box.textContent = '';
     const doIt = () => {
       PREFS.setup = JSON.parse(JSON.stringify(s)); savePrefs();
-      T = createTournament(Object.assign({}, s, { types: feas })); saveT(); S.tab = 'fixtures';
+      T = createTournament(Object.assign({}, s, { types: feas })); STORE.conflict = false; saveT(true); S.tab = 'fixtures';
       const dropped = s.types.filter((t) => !feas.includes(t)); if (dropped.length) toast('استُبعدت أنواع لا تتوفر لها كلمات كافية: ' + dropped.map((t) => TYPES[t].short).join('، '));
       go('draw');
     };
@@ -3046,19 +3423,19 @@ const ACT = {
   },
   /* hub */
   tab: (el) => { S.tab = el.dataset.tab; SFX.click(); go('hub'); const t = $(`#tab-${S.tab}`); if (t) t.focus({ preventScroll: true }); },
-  backup: () => openBackup(),
+  backup: () => { if (Q && !Q.answered && !Q.paused) pauseGame(); openBackup(); },
   'reset-t': () => confirmModal('سيتم حذف البطولة الحالية وجميع نتائجها نهائيًا. هل أنت متأكد؟', 'حذف البطولة', () => { T = null; saveT(); toast('تم حذف البطولة'); go('home'); }),
   'create-ko': (el) => { createKO(el.dataset.kind); SFX.whistle(); toast(el.dataset.kind === 'semis' ? 'تم إنشاء نصف النهائي' : 'تم إنشاء النهائي', 'good'); S.tab = 'fixtures'; go('hub'); },
   'open-match': (el) => {
     const m = T && T.matches.find((x) => x.id === el.dataset.id); if (!m) return; S.matchId = m.id; SFX.click();
+    S.introErr = '';
     if (m.status === 'upcoming') {
-      m.R = T.settings.rounds;
-      if (!m.plan || m.plan.length !== m.R) { m.plan = planLineup(feasibleTypes(T.settings.types, poolFor(T.settings.units)), m.R); saveT(); }
+      m.R = T.settings.rounds; prepareRounds(m);
       S.intro = { mode: m.mode || T.settings.mode || 'live', present: m.present || m.a }; go('intro');
     } else if (m.status === 'live') { T.cur = m.id; saveT(); go('match'); }
     else if (m.status === 'wait') go('intro');
-    else if (m.status === 'pens') go('pens');
-    else { S.ftFresh = false; S.ftReveal = false; go('ft'); }
+    else if (m.status === 'pens') go(pensWaiting(m) ? 'intro' : 'pens');
+    else { S.ftFresh = true; go('ft'); }
   },
   /* intro */
   'intro-mode': (el) => { S.intro.mode = el.dataset.v; SFX.click(); go('intro'); },
@@ -3067,21 +3444,18 @@ const ACT = {
     const m = curMatch(); if (!m || m.first) return;
     const win = Math.random() < 0.5 ? m.a : m.b; m.first = win; persist(m);
     const b = $('#btn-toss'); if (b) b.disabled = true;
-    coinFlip(win === m.b, () => { const r = $('#toss-res'); if (r) r.innerHTML = `يبدأ: <b>${bd(teamName(win))}</b> — ثم يتناوب الترتيب كل جولة`; const k = $('#btn-kickoff'); if (k) { k.disabled = false; k.focus({ preventScroll: true }); } SFX.pop(); announce('يبدأ ' + teamName(win)); });
+    coinFlip(win === m.b, () => { const r = $('#toss-res'); if (r) r.innerHTML = `يبدأ: <b>${bd(teamName(win))}</b> — ثم يتناوب البدء في كل سؤال`; const k = $('#btn-kickoff'); if (k) { k.disabled = false; k.focus({ preventScroll: true }); } SFX.pop(); announce('يبدأ ' + teamName(win)); });
   },
   kickoff: () => {
     const m = curMatch(), I = S.intro; if (!m || m.seq) return;
     if (I.mode === 'live' && !m.first) { toast('ارمِ العملة أولًا', 'bad'); return; }
+    if (!prepareRounds(m)) { toast(S.introErr || 'تعذّر توليد الأسئلة.', 'bad'); go('intro'); return; }
     m.mode = I.mode; m.present = I.mode === 'split' ? (I.present || m.a) : null;
-    try {
-      const used = new Set(T.used), rounds = buildRounds(m.plan, m.R, poolFor(T.settings.units), used);
-      m.plan = rounds.map((r) => r.type);
-      const seq = [], F = m.mode === 'split' ? m.present : m.first, O = other(m, F);
-      const qFor = (rd, t) => (t === m.a ? rd.qs[0] : rd.qs[1]);
-      if (m.mode === 'split') { [F, O].forEach((t) => rounds.forEach((rd, r) => seq.push({ t, r, q: qFor(rd, t), ok: null }))); }
-      else rounds.forEach((rd, r) => (r % 2 === 0 ? [F, O] : [O, F]).forEach((t) => seq.push({ t, r, q: qFor(rd, t), ok: null })));
-      m.seq = seq; T.used = Array.from(used);
-    } catch (e) { toast('تعذّر توليد الأسئلة: بنك الكلمات المختار صغير جدًا.', 'bad'); return; }
+    const rounds = m.pre, seq = [], F = m.mode === 'split' ? m.present : m.first, O = other(m, F);
+    const qFor = (rd, t) => (t === m.a ? rd.qs[0] : rd.qs[1]);
+    if (m.mode === 'split') { [F, O].forEach((t) => rounds.forEach((rd, r) => seq.push({ t, r, q: qFor(rd, t), ok: null }))); }
+    else rounds.forEach((rd, r) => (r % 2 === 0 ? [F, O] : [O, F]).forEach((t) => seq.push({ t, r, q: qFor(rd, t), ok: null })));
+    m.seq = seq; m.plan = rounds.map((r) => r.type); delete m.pre; m.revealed = m.mode !== 'split';
     m.step = 0; m.half = false; m.s2 = false; m.last = null; m.startedAt = Date.now(); refreshStatus(m); T.cur = m.id; saveT(); SFX.whistle(); go('match');
   },
   'split-start': () => { const m = curMatch(); if (!m || m.status !== 'wait') return; m.s2 = true; refreshStatus(m); if (T) T.cur = m.id; persist(m); SFX.whistle(); go('match'); },
@@ -3107,8 +3481,9 @@ const ACT = {
   'exit-match': () => {
     const m = curMatch();
     if (m && m.demo) { S.demo = null; S.matchId = null; go('home'); return; }
-    if (T) { T.cur = null; saveT(); }
-    S.tab = 'fixtures'; go(T ? 'hub' : 'home'); if (m && m.status !== 'done') toast('تم حفظ التقدم — يمكنك إكمال المباراة لاحقًا');
+    let saved = true; if (T) { T.cur = null; saved = saveT(); }
+    S.tab = 'fixtures'; go(T ? 'hub' : 'home');
+    if (m && m.status !== 'done') toast(saved ? 'تم حفظ التقدم — يمكنك إكمال المباراة لاحقًا' : 'لم يُحفظ التقدم على هذا الجهاز — احفظ «رمز النسخة الاحتياطية» من مركز البطولة', saved ? '' : 'bad');
   },
   /* full time / penalties */
   'ft-hub': () => { S.tab = S.flip ? 'table' : 'fixtures'; go('hub'); },
@@ -3130,8 +3505,8 @@ const ACT = {
     S.cwText = ''; S.cwPreview = null; toast(`تم حفظ ${ok.length} كلمة في «كلماتي»`, 'good'); S.bankOpen.custom = true; go('bank');
     const el = $('#my-words'); if (el) el.scrollIntoView({ block: 'start' });
   },
-  'cw-del': (el) => { const i = +el.dataset.i, c = CUSTOM[i]; if (!c) return; confirmModal(`حذف الكلمة ${en(c.w)} من «كلماتي»؟`, 'حذف', () => { CUSTOM.splice(i, 1); saveCustom(); go('bank'); const e2 = $('#my-words'); if (e2) e2.scrollIntoView({ block: 'start' }); }); },
-  'cw-clear': () => confirmModal('حذف جميع «كلماتي» نهائيًا؟', 'حذف الكل', () => { CUSTOM = []; saveCustom(); go('bank'); }),
+  'cw-del': (el) => { const i = +el.dataset.i, c = CUSTOM[i]; if (!c) return; confirmModal(`حذف الكلمة ${en(c.w)} من «كلماتي»؟${customNote()}`, 'حذف', () => { CUSTOM.splice(i, 1); saveCustom(); go('bank'); const e2 = $('#my-words'); if (e2) e2.scrollIntoView({ block: 'start' }); }); },
+  'cw-clear': () => confirmModal(`حذف جميع «كلماتي» (${CUSTOM.length} كلمة) نهائيًا؟${customNote()}`, 'حذف الكل', () => { CUSTOM = []; saveCustom(); go('bank'); }),
   /* backup */
   'bk-copy': () => {
     const json = backupJSON(), out = $('#bk-out');
@@ -3141,6 +3516,16 @@ const ACT = {
   'bk-download': () => { try { const blob = new Blob([backupJSON()], { type: 'application/json' }), a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `vocab-league-${new Date().toISOString().slice(0, 10)}.json`; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); } catch (e) { toast('تعذّر التنزيل', 'bad'); } },
   'bk-restore': () => restoreFrom(($('#bk-in') || {}).value),
 };
+const customNote = () => (T && T.settings.units.includes('custom') ? '<br><span class="muted small">البطولة الحالية تحتفظ بنسخة من كلماتها، فلن تتأثر مبارياتها بهذا الحذف.</span>' : '');
+/* builds (once) the mirrored rounds of an upcoming match, so the intro shows the lineup that will really be played */
+function prepareRounds(m) {
+  if (Array.isArray(m.pre) && m.pre.length === m.R) return true;
+  const pool = tPool(), feas = feasibleTypes(T.settings.types, pool);
+  const plan = Array.isArray(m.plan) && m.plan.length === m.R && m.plan.every((t) => feas.includes(t)) ? m.plan : planLineup(feas, m.R);
+  const used = new Set(T.used);
+  try { m.pre = buildRounds(plan, m.R, pool, used, feas); m.plan = m.pre.map((r) => r.type); T.used = Array.from(used); S.introErr = ''; saveT(); return true; }
+  catch (e) { m.pre = null; m.plan = plan; S.introErr = 'تعذّر توليد أسئلة هذه المباراة: الكلمات المتاحة لا تكفي لأنواع الأسئلة المختارة. أنشئ بطولة بوحدات أكثر أو أسئلة أقل.'; return false; }
+}
 function rerenderSetup() { const y = window.scrollY; go('setup'); window.scrollTo(0, y); }
 const INP = {
   'team-name': (el) => { const i = +el.dataset.i, t = S.setup.teams[i]; if (!t) return; t.name = el.value; const c = $('#tr-crest-' + i); if (c) c.innerHTML = crestSVG(t, 46, 's' + i); },
@@ -3154,13 +3539,21 @@ const CHG = {
   'team-students': (el) => { const t = S.setup.teams[+el.dataset.i]; if (t) { t.students = clamp(parseInt(el.value, 10) || 35, 1, 99); el.value = t.students; } },
   'bk-file': (el) => { const f = el.files && el.files[0]; if (!f) return; const rd = new FileReader(); rd.onload = () => { const ta = $('#bk-in'); if (ta) ta.value = String(rd.result || ''); toast('تم تحميل الملف — اضغط «استعادة»'); }; rd.onerror = () => toast('تعذّرت قراءة الملف', 'bad'); rd.readAsText(f); },
 };
+/* double-tap protection: a card's buttons only work once the card has been visible for a moment, and the second click
+   of a double click never acts on something that was rendered by the first one */
+let UI_AT = 0;
+const OVL_ARM_MS = 350;
 document.addEventListener('click', (e) => {
   const el = e.target && e.target.closest ? e.target.closest('[data-act]') : null;
   if (!el || el.disabled || el.getAttribute('aria-disabled') === 'true') return;
   const fn = ACT[el.dataset.act]; if (!fn) return;
   if (el.tagName === 'A') e.preventDefault();
+  const ov = el.closest('#layer > .ovl'); if (ov && ov.dataset.ready !== '1') return;
+  if (e.detail > 1 && performance.now() - UI_AT < 700) return;
   audioInit(); fn(el, e);
 });
+/* the pronounce buttons must not keep the keyboard focus (Enter would replay the word instead of confirming) */
+document.addEventListener('mousedown', (e) => { const b = e.target && e.target.closest ? e.target.closest('.say, .tool') : null; if (b) e.preventDefault(); });
 document.addEventListener('input', (e) => { const k = e.target && e.target.dataset ? e.target.dataset.in : null; if (k && INP[k]) INP[k](e.target, e); });
 document.addEventListener('change', (e) => { const k = e.target && e.target.dataset ? e.target.dataset.in : null; if (k && CHG[k]) CHG[k](e.target, e); });
 document.addEventListener('pointerdown', () => audioInit(), { passive: true, capture: true });
@@ -3168,36 +3561,53 @@ document.addEventListener('toggle', (e) => { const d = e.target; if (d && d.matc
 document.addEventListener('keydown', (e) => {
   if (e.ctrlKey || e.metaKey || e.altKey) return;
   const tg = e.target, tag = tg && tg.tagName, typing = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || (tg && tg.isContentEditable);
-  const k = e.key, lk = k.length === 1 ? k.toLowerCase() : k, onBtn = tag === 'BUTTON' || tag === 'SUMMARY' || tag === 'A';
+  /* letters and digits by physical key too, so shortcuts and typing work with the Arabic keyboard layout */
+  const k = e.key || '', km = /^Key([A-Z])$/.exec(e.code || ''), dm = /^(?:Digit|Numpad)([0-9])$/.exec(e.code || '');
+  const lk = /^[a-z]$/i.test(k) ? k.toLowerCase() : km ? km[1].toLowerCase() : k.length === 1 ? k.toLowerCase() : k;
+  const dk = /^[0-9]$/.test(k) ? k : dm ? dm[1] : '';
+  const onBtn = tag === 'BUTTON' || tag === 'SUMMARY' || tag === 'A', enter = k === 'Enter' || k === ' ';
   audioInit();
-  if (MODAL.open) { if (k === 'Escape') { e.preventDefault(); closeModal(); } return; }
+  if (!typing && e.repeat && enter) { e.preventDefault(); return; } // a held key never skips cards
+  if (MODAL.open) { if (k === 'Escape' && MODAL.dismissable) { e.preventDefault(); closeModal(); } return; }
   if (typing) return;
   const top = topLayer(), inGame = S.view === 'match' || S.view === 'pens';
+  const sbLiveKeys = inGame && !top && Q && Q.sb && !Q.answered && !Q.paused;
+  const shortcut = (x) => lk === x && (!sbLiveKeys || e.shiftKey); // during «رتّب الحروف» the teacher keys need Shift
   if (top) {
-    if (top === 'picker') { if (k === 'Escape' || ((k === 'Enter' || k === ' ') && !onBtn)) { e.preventDefault(); closePicker(); } return; }
-    if (top === 'pause') { if (k === 'Escape' || ((k === 'Enter' || k === ' ') && !onBtn)) { e.preventDefault(); resumeGame(); } else if (lk === 'm') setMuted(!PREFS.muted); else if (lk === 'f' && FS_OK) toggleFS(); return; }
-    if ((k === 'Enter' || k === ' ') && !onBtn) { const b = $('#btn-next'); if (b) { e.preventDefault(); b.click(); } return; }
+    if (top === 'picker') { if (k === 'Escape' || (enter && !onBtn)) { e.preventDefault(); closePicker(); } return; }
+    if (top === 'pause') { if (k === 'Escape' || (enter && !onBtn)) { e.preventDefault(); resumeGame(); } else if (lk === 'm') setMuted(!PREFS.muted); else if (lk === 'f' && FS_OK) toggleFS(); return; }
+    if (enter && !onBtn) { const b = $('#btn-next'); if (b) { e.preventDefault(); b.click(); } return; }
     if (lk === 'p' && top === 'res') { sayCurrent(); return; }
     if (lk === 'm') setMuted(!PREFS.muted); else if (lk === 'f' && FS_OK) toggleFS();
     return;
   }
   if (inGame && Q && !Q.answered && !Q.paused) {
     if (Q.sb) {
-      if (/^[a-z]$/.test(lk)) { e.preventDefault(); sbType(lk); return; }
+      if (/^[a-z]$/.test(lk) && !e.shiftKey) { e.preventDefault(); sbType(lk); return; }
       if (k === 'Backspace') { e.preventDefault(); sbBack(); return; }
-      if (k === 'Enter' && !onBtn) { e.preventDefault(); sbCheck(); return; }
+      if (k === 'Enter' && (!onBtn || Q.sb.slots.every((x) => x !== null))) { e.preventDefault(); sbCheck(); return; }
     }
-    if (/^[1-9]$/.test(k) && Q.q.opts && Q.q.type !== 'match5') { e.preventDefault(); chooseOpt(+k - 1); return; }
-    if (k === 'Enter' && !onBtn && Q.m5) { e.preventDefault(); m5Check(); return; }
+    if (Q.m5 && enter && (!onBtn || Q.m5.L.every((j) => j >= 0))) { e.preventDefault(); m5Check(); return; }
+    if (/^[1-9]$/.test(dk) && Q.q.opts && Q.q.type !== 'match5') { e.preventDefault(); chooseOpt(+dk - 1); return; }
   }
   if (inGame) {
     if (k === 'Escape') { e.preventDefault(); if (Q) (Q.paused ? resumeGame() : pauseGame()); return; }
-    if (lk === 'p') { sayCurrent(); return; }
-    if (lk === 'r') { openPicker(); return; }
+    if (shortcut('p')) { sayCurrent(); return; }
+    if (shortcut('r')) { openPicker(); return; }
   }
-  if (lk === 'm') { setMuted(!PREFS.muted); return; }
-  if (lk === 'f' && FS_OK) { toggleFS(); return; }
-  if ((k === 'Enter' || k === ' ') && !onBtn && S.view === 'ft') { const b = $('#btn-next'); if (b) { e.preventDefault(); b.click(); } }
+  if (shortcut('m')) { setMuted(!PREFS.muted); return; }
+  if (shortcut('f') && FS_OK) { toggleFS(); return; }
+  if (enter && !onBtn && S.view === 'ft') { const b = $('#btn-next'); if (b) { e.preventDefault(); b.click(); } }
+});
+/* another tab (same file opened twice) saved: follow it when idle; never let a stale copy overwrite it mid-match */
+window.addEventListener('storage', (e) => {
+  if (e.key === KEYS.c) { loadCustom(); CUSTOM_REV++; BANK_WORDS = null; BANK_POS = null; return; }
+  if ((e.key !== KEYS.t && e.key !== null) || STORE.conflict) return;
+  if ((S.view === 'match' || S.view === 'pens') && S.matchId !== 'demo') { staleTab(); return; }
+  T = loadT(); LOAD_WARN = '';
+  if (MODAL.open) return;
+  if (S.view === 'intro') { const m = curMatch(); if (!m || !['upcoming', 'wait', 'pens'].includes(m.status)) { S.tab = 'fixtures'; go(T ? 'hub' : 'home'); } else go('intro'); }
+  else if (S.view === 'hub' || S.view === 'home') { const y = window.scrollY; go(T ? S.view : 'home'); window.scrollTo(0, y); }
 });
 document.addEventListener('visibilitychange', () => { if (document.hidden && Q && !Q.answered && !Q.paused && !topLayer()) pauseGame(); });
 let RESIZE_T = 0;
@@ -3207,7 +3617,9 @@ if (MQ_REDUCED && MQ_REDUCED.addEventListener) MQ_REDUCED.addEventListener('chan
 /* ============================ 16. INIT + TEST HOOK ============================ */
 function init() {
   document.documentElement.classList.toggle('rm', reduced());
+  STORE.ok = probeStorage();
   loadCustom(); T = loadT();
+  if (T && T.settings.units.includes('custom') && !Array.isArray(T.custom)) { T.custom = CUSTOM.map((c) => ({ w: c.w, ar: c.ar, s: c.s || '' })); saveT(); } // tournaments from before the snapshot
   drawSky();
   if (T && T.cur) {
     const m = T.matches.find((x) => x.id === T.cur);
@@ -3227,7 +3639,7 @@ window.VCL = {
     if (!Q) return null;
     const q = Q.q, out = JSON.parse(JSON.stringify(q));
     out.ctx = Q.ctx; out.matchId = Q.m.id; out.step = Q.idx; out.team = Q.team; out.answered = Q.answered; out.paused = Q.paused;
-    out.timeLeft = TM.total ? Math.round(TM.left) : null;
+    out.timeLeft = TM.total ? Math.round(TM.left) : null; out.armed = qArmed();
     out.answer = q.type === 'spell_build' ? q.target : q.type === 'match5' ? q.ans.slice() : q.ans;
     if (Q.sb) out.slots = Q.sb.slots.slice();
     if (Q.m5) out.links = Q.m5.L.slice();
