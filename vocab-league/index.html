@@ -72,7 +72,6 @@ bdi{ unicode-bidi:isolate }
 [hidden]{ display:none!important }
 .ic{ width:20px; height:20px; flex:none }
 .ic.big{ width:42px; height:42px }
-.kicker{ font-family:var(--f-num); font-weight:500; letter-spacing:.2em; font-size:1.05rem; line-height:1.1; color:var(--flood); text-transform:uppercase }
 .disp{ font-family:var(--f-disp); font-weight:600 }
 
 /* ============ buttons ============ */
@@ -107,8 +106,6 @@ bdi{ unicode-bidi:isolate }
 .panel h2{ display:flex; align-items:center; gap:10px; font-size:1.15rem; font-weight:600; margin-bottom:14px }
 .panel h2 .ic{ color:var(--flood) }
 .panel h2 small, .panel h3 small{ font-weight:400; color:var(--muted); font-size:.95rem }
-.panel-h{ display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin-bottom:14px }
-.panel-h h2{ margin:0 }
 .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center }
 .bar{ height:8px; border-radius:99px; background:rgba(201,211,232,.14); overflow:hidden; flex:1 }
 .bar > i{ display:block; height:100%; border-radius:inherit; background:var(--flood); transition:width .8s var(--ease) }
@@ -136,7 +133,6 @@ bdi{ unicode-bidi:isolate }
 .home-top{ position:absolute; top:16px; inset-inline-start:var(--gutter) }
 .home-hero{ display:flex; flex-direction:column; align-items:center; gap:6px }
 .home-emblem .seal-svg{ height:clamp(170px,30vh,300px); width:auto; max-width:100%; filter:drop-shadow(0 16px 46px rgba(124,196,255,.28)) drop-shadow(0 0 18px rgba(242,193,78,.18)); animation:float 7s ease-in-out infinite }
-.home-hero .kicker{ margin-top:8px; font-size:clamp(1rem,1.6vw,1.35rem) }
 .home-title{ font-family:var(--f-disp); font-weight:700; font-size:clamp(42px,6.2vw,84px); line-height:1.15; background:linear-gradient(180deg,#ffffff 20%,#c9d3e8 70%,#93a4cc); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow:0 0 40px rgba(124,196,255,.12); padding:0 .1em }
 .home-school{ font-family:var(--f-disp); font-weight:700; font-size:clamp(26px,3.1vw,42px); line-height:1.25; color:var(--gold); text-shadow:0 2px 24px rgba(242,193,78,.28); margin-top:-2px }
 .home-sub{ font-size:clamp(.98rem,1.35vw,1.2rem); color:var(--silver); display:flex; flex-wrap:wrap; justify-content:center; gap:2px 8px }
@@ -193,7 +189,7 @@ bdi{ unicode-bidi:isolate }
 .setup-foot{ position:sticky; bottom:12px; display:flex; align-items:center; justify-content:flex-end; gap:12px; margin-top:20px; padding:12px 16px; border-radius:var(--r-l); background:rgba(8,18,50,.92); border:1px solid var(--line); box-shadow:0 -10px 40px rgba(6,13,36,.8); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); flex-wrap:wrap; z-index:5 }
 .setup-err{ flex:1; color:var(--bad); font-weight:500; min-width:200px }
 .setup-err:empty{ display:none }
-.v-setup .panel + .panel, .v-setup .setup-grid{ margin-top:18px }
+.v-setup .panel + .panel{ margin-top:18px }
 .st-name .fld input{ font-size:1.15rem }
 .rosters{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px }
 .roster{ position:relative; display:flex; flex-direction:column; gap:10px; padding:14px; border-radius:var(--r); background:linear-gradient(180deg, color-mix(in srgb, var(--cc) 16%, rgba(6,13,36,.7)), rgba(6,13,36,.55) 40%); border:1px solid color-mix(in srgb, var(--cc) 45%, transparent); min-width:0 }
@@ -203,9 +199,9 @@ bdi{ unicode-bidi:isolate }
 .ro-n{ grid-column:1 / -1; font-size:.95rem; color:var(--silver) } .ro-n b{ font-family:var(--f-num); font-size:1.3rem; color:var(--white); vertical-align:-2px }
 .warn-t{ color:#ffd89a }
 .ro-edit{ border-top:1px dashed var(--line); padding-top:6px }
-.ro-edit summary{ display:flex; align-items:center; gap:8px; min-height:40px; cursor:pointer; list-style:none; color:var(--flood); font-weight:600; font-size:.92rem }
+.ro-edit summary{ display:flex; align-items:center; gap:8px; min-height:40px; cursor:pointer; list-style:none; color:var(--flood); font-weight:600; font-size:.95rem }
 .ro-edit summary::-webkit-details-marker{ display:none }
-.ro-edit summary small{ color:var(--muted); font-weight:400 }
+.ro-edit summary small{ color:var(--muted); font-weight:400; font-size:1em }
 .ro-edit summary .ic{ width:16px; height:16px } .ro-edit .chev{ margin-inline-start:auto; transition:transform .2s } .ro-edit[open] .chev{ transform:rotate(180deg) }
 .ro-edit textarea{ margin-top:6px }
 .ro-edit textarea, .fld textarea{ width:100%; border-radius:12px; border:1px solid var(--line); background:rgba(6,13,36,.65); padding:8px 12px; resize:vertical; font-size:1rem; line-height:1.65; min-height:120px }
@@ -223,13 +219,10 @@ bdi{ unicode-bidi:isolate }
 .ro-plan{ display:flex; align-items:flex-start; gap:8px; font-size:.95rem; color:var(--silver); line-height:1.6; margin-top:auto }
 .ro-plan .ic{ width:16px; height:16px; margin-top:4px; color:var(--cc, var(--flood)); flex:none }
 .ro-plan b{ font-family:var(--f-num); font-size:1.15rem; color:var(--white) }
-.setup-grid{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:18px; align-items:start }
-.setup-col{ display:flex; flex-direction:column; gap:18px; min-width:0 }
 .rounds-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:4px 16px }
 .rounds-grid .field{ margin-bottom:10px }
 .rounds-h{ display:block; margin:-2px 0 16px }
 .modes{ display:grid; grid-template-columns:1fr 1fr; gap:8px }
-.sug{ font-style:normal; font-size:.68rem; font-weight:600; padding:0 7px; margin-inline-start:6px; border-radius:99px; background:rgba(242,193,78,.2); color:var(--gold); vertical-align:1px }
 .budget.note{ color:var(--muted); padding-inline:0 } .budget.note .ic{ color:var(--flood) }
 
 /* ============ hub: «مركز المسابقة» ============ */
@@ -243,7 +236,6 @@ bdi{ unicode-bidi:isolate }
 .hub-meta .ic{ width:16px; height:16px }
 .v-hub .topbar{ margin-bottom:12px; padding:10px 0 }
 .road-h{ display:flex; align-items:center; justify-content:space-between; gap:8px 20px; flex-wrap:wrap; margin-bottom:12px }
-.road-tt .kicker{ color:var(--gold); font-size:.9rem }
 .hub-head{ display:flex; flex-direction:column; align-items:flex-end; gap:2px; min-width:0; text-align:end }
 .hub-name{ font-family:var(--f-ui); font-weight:700; font-size:clamp(17px,1.5vw,22px); line-height:1.3 }
 .hub-meta .hm-done{ color:var(--white); font-weight:500 }
@@ -269,8 +261,8 @@ button.rn{ cursor:pointer } button.rn:hover{ border-color:var(--flood); transfor
 .rn-t{ display:inline-flex; align-items:center; gap:5px; font-weight:600; font-size:1rem; white-space:nowrap; line-height:1.3 } .rn-t .ic{ width:15px; height:15px; color:var(--gold) }
 .rn-s{ display:inline-flex; align-items:center; gap:4px; font-size:.95rem; color:var(--muted); line-height:1.3 } .rn-s .ic{ width:12px; height:12px; flex:none }
 .rn.st-ready{ border-color:rgba(124,196,255,.6); box-shadow:0 0 0 1px rgba(124,196,255,.2), 0 0 18px rgba(124,196,255,.12) } .rn.st-ready .rn-s{ color:var(--flood) }
-.rn.st-live, .rn.st-tie, .rn.st-toss{ border-color:rgba(242,193,78,.7); box-shadow:0 0 16px rgba(242,193,78,.14) } .rn.st-live .rn-s, .rn.st-tie .rn-s, .rn.st-toss .rn-s{ color:var(--gold) }
-.rn.st-live .rn-s .ic, .rn.st-tie .rn-s .ic{ animation:pulse 1.4s infinite }
+.rn.st-live, .rn.st-sd, .rn.st-toss{ border-color:rgba(242,193,78,.7); box-shadow:0 0 16px rgba(242,193,78,.14) } .rn.st-live .rn-s, .rn.st-sd .rn-s, .rn.st-toss .rn-s{ color:var(--gold) }
+.rn.st-live .rn-s .ic, .rn.st-sd .rn-s .ic{ animation:pulse 1.4s infinite }
 .rn.st-done .rn-s{ color:var(--good) }
 .rn.st-locked{ border-style:dashed; background:rgba(6,13,36,.35) } .rn.st-locked .rn-t{ color:var(--muted) }
 .rn-draw{ border-style:solid }
@@ -296,7 +288,6 @@ button.rn{ cursor:pointer } button.rn:hover{ border-color:var(--flood); transfor
 .gf-card.ready, .gf-card.done{ border-color:rgba(242,193,78,.8); box-shadow:0 0 0 1px rgba(242,193,78,.3), 0 0 50px rgba(242,193,78,.2) }
 .gf-h{ display:flex; align-items:center; gap:12px }
 .gf-h h3{ font-family:var(--f-disp); font-weight:700; font-size:1.5rem; color:var(--gold); line-height:1.2 }
-.gf-h .kicker{ color:var(--gold); font-size:.9rem }
 .gf-h small{ color:var(--silver); font-size:.95rem }
 .gf-cup{ width:56px; height:56px; flex:none; display:grid; place-items:center; border-radius:50%; background:radial-gradient(circle at 50% 35%, rgba(242,193,78,.4), rgba(242,193,78,.06) 72%); color:var(--gold); box-shadow:0 0 0 1px rgba(242,193,78,.4) } .gf-cup .ic{ width:30px; height:30px }
 .gf-slots{ display:flex; justify-content:center; gap:10px 22px; flex-wrap:wrap }
@@ -330,13 +321,13 @@ button.rn{ cursor:pointer } button.rn:hover{ border-color:var(--flood); transfor
 .scard > header h4{ display:flex; align-items:center; gap:8px; font-size:1.08rem; font-weight:600; flex:1; min-width:140px }
 .scard > header h4 .ic{ color:var(--gold); width:20px; height:20px }
 .scard.st-ready{ border-color:rgba(124,196,255,.45) }
-.scard.st-live, .scard.st-tie, .scard.st-toss{ border-color:rgba(242,193,78,.55); box-shadow:0 0 0 1px rgba(242,193,78,.15) inset }
+.scard.st-live, .scard.st-sd, .scard.st-toss{ border-color:rgba(242,193,78,.55); box-shadow:0 0 0 1px rgba(242,193,78,.15) inset }
 .scard.st-locked{ border-style:dashed; background:rgba(11,26,69,.45) }
 .pill{ display:inline-flex; align-items:center; gap:6px; padding:2px 10px; border-radius:99px; font-size:.95rem; font-weight:600; white-space:nowrap; border:1px solid transparent; background:rgba(201,211,232,.1); color:var(--silver) }
 .p-ready{ background:rgba(124,196,255,.12); color:var(--flood); border-color:rgba(124,196,255,.3) }
 .p-live{ background:rgba(47,208,122,.14); color:var(--good); border-color:rgba(47,208,122,.35) }
 .p-live::before{ content:''; width:7px; height:7px; border-radius:50%; background:currentColor; animation:pulse 1.4s infinite }
-.p-tie, .p-toss{ background:rgba(242,193,78,.14); color:var(--gold); border-color:rgba(242,193,78,.4) }
+.p-sd, .p-toss{ background:rgba(242,193,78,.14); color:var(--gold); border-color:rgba(242,193,78,.4) }
 .p-done{ background:rgba(47,208,122,.1); color:var(--good) }
 .p-locked{ background:rgba(201,211,232,.06); color:var(--muted) }
 .wait-l{ display:flex; align-items:center; gap:8px } .wait-l .ic{ width:16px; height:16px }
@@ -361,7 +352,7 @@ button.rn{ cursor:pointer } button.rn:hover{ border-color:var(--flood); transfor
 .stand th.pt{ text-align:center } .stand th small{ font-size:1em; color:var(--muted); font-weight:400 }
 .stand td.pt{ font-family:var(--f-num); font-size:1.8rem; line-height:1; font-weight:600; color:var(--white); width:56px; text-align:center }
 .stand td.fate{ min-width:120px }
-.stand td.fate small{ display:flex; align-items:center; gap:4px; margin-top:3px; font-size:.95rem }
+.stand td.fate small{ display:flex; align-items:center; gap:4px; margin-top:3px; font-size:.95rem; white-space:nowrap }
 .stand td.fate small.sd-l{ color:var(--gold) } .stand td.fate small .ic{ width:15px; height:15px }
 .stand tr.f-q td.rk, .stand tr.f-gold td.rk{ color:var(--gold) }
 .stand tr.f-q, .stand tr.f-gold{ background:linear-gradient(90deg, transparent, rgba(47,208,122,.07)) }
@@ -402,6 +393,10 @@ button.rn{ cursor:pointer } button.rn:hover{ border-color:var(--flood); transfor
 .dw-tok.out{ opacity:.14 }
 .dw-cap{ display:flex; align-items:center; gap:14px; min-width:0; font-size:clamp(17px,1.5vw,26px); color:var(--silver); white-space:nowrap }
 .dw-cap b{ font-weight:700; color:#fff; font-size:clamp(22px,2.1vw,38px); overflow:hidden; text-overflow:ellipsis; min-width:0 }
+/* while names are drawn: «where» on a small line, the drawn NAME on its own full-width line (never cut — dwFitCap shrinks it if needed) */
+.dw-stage:not(.done) .dw-cap{ flex-direction:column; align-items:flex-start; justify-content:center; gap:1px; line-height:1.2; overflow:hidden }
+.dw-cap .dw-where{ font-size:clamp(15px,1.15vw,21px) }
+.dw-cap b.dw-name{ max-width:100%; line-height:1.18 }
 .dw-cap .ic{ color:var(--gold); width:1.3em; height:1.3em }
 .dw-board{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px }
 .dw-col{ position:relative; display:flex; flex-direction:column; gap:10px; padding:12px 14px 14px; border-radius:20px; background:linear-gradient(180deg, color-mix(in srgb, var(--cc) 20%, rgba(11,26,69,.95)), rgba(6,13,36,.68) 45%); border:1px solid color-mix(in srgb, var(--cc) 45%, transparent); min-width:0; transition:opacity .35s, filter .35s }
@@ -478,8 +473,9 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .sb-q.sd{ color:var(--gold); font-weight:700 }
 /* the turn banner: always the same box; its colour is the class colour of the student on turn */
 .turn{ width:clamp(250px,30vw,480px); height:calc(var(--toph) - 8px); display:flex; align-items:center; justify-content:center; gap:8px; padding:0 18px; border-radius:99px; background:color-mix(in srgb, var(--tc) 78%, #0b1a45); color:#fff; font-size:clamp(15px,min(1.3vw,2.4vh),23px); font-weight:600; white-space:nowrap; overflow:hidden; box-shadow:0 0 18px color-mix(in srgb, var(--tc) 40%, transparent); text-shadow:0 1px 3px rgba(0,0,0,.4); transition:background-color .3s, box-shadow .3s }
-.turn > span{ overflow:hidden; text-overflow:ellipsis; min-width:0 }
-.turn b{ font-weight:800 }
+.turn > span{ overflow:hidden; text-overflow:ellipsis; min-width:0; flex:none }
+.turn b{ font-weight:800; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0 }
+.turn.none > span{ flex:0 1 auto }
 .turn.none{ background:rgba(6,13,36,.85); color:var(--silver); box-shadow:none; border:1px solid var(--line); text-shadow:none }
 .sb-chips{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(var(--n,4),minmax(0,1fr)); gap:8px }
 /* one player: avatar · name / result dots («▶ يجيب الآن» while on turn) · points. On turn = lit, others dimmed — colour only, never size */
@@ -632,8 +628,8 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 
 /* ============ overlays ============ */
 #layer{ position:fixed; inset:0; z-index:50; pointer-events:none }
-.ovl{ position:absolute; inset:0; display:grid; place-items:center; padding:16px; background:rgba(4,9,26,.68); -webkit-backdrop-filter:blur(5px); backdrop-filter:blur(5px); pointer-events:auto; animation:fadeIn .25s ease both; overflow:auto }
-.ovl-card{ position:relative; width:min(780px,100%); max-height:calc(100dvh - 32px); overflow:auto; background:linear-gradient(180deg, rgba(22,46,112,.97), rgba(9,21,58,.98)); border:1px solid rgba(201,211,232,.26); border-radius:26px; padding:22px 28px 22px; box-shadow:0 30px 90px rgba(0,0,0,.6); text-align:center; animation:fadeIn .3s ease both }
+.ovl{ position:absolute; inset:0; display:grid; place-items:safe center; padding:16px; background:rgba(4,9,26,.68); -webkit-backdrop-filter:blur(5px); backdrop-filter:blur(5px); pointer-events:auto; animation:fadeIn .25s ease both; overflow:auto }
+.ovl-card{ position:relative; width:min(780px,100%); max-height:calc(100dvh - var(--ovl-top, 0px) - 32px); overflow:auto; background:linear-gradient(180deg, rgba(22,46,112,.97), rgba(9,21,58,.98)); border:1px solid rgba(201,211,232,.26); border-radius:26px; padding:22px 28px 22px; box-shadow:0 30px 90px rgba(0,0,0,.6); text-align:center; animation:fadeIn .3s ease both }
 .ovl-card h2.disp{ font-size:clamp(28px,3.4vw,46px); margin-bottom:10px }
 .ovl-card p.muted{ font-size:clamp(15px,1.1vw,18px) }
 .ovl-actions{ display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:18px }
@@ -676,7 +672,8 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .sd-card h2 .ic{ width:1em; height:1em }
 .sd-card .sd-what{ font-size:clamp(17px,1.4vw,24px); color:var(--white); margin:6px 0 14px }
 .sd-card .nchips{ margin:4px 0 12px }
-.sd-card .sd-rule{ color:var(--silver); font-size:clamp(15px,1.1vw,18px); line-height:1.7; max-width:640px; margin:0 auto }
+.sd-card .sd-rule{ color:var(--silver); font-size:clamp(15px,1.1vw,18px); line-height:1.7; max-width:640px; margin:0 auto; text-wrap:balance }
+.sd-card .sd-rule .muted{ display:block }
 .sd-card .sd-out{ color:var(--silver); font-size:clamp(15px,1.1vw,18px); margin-bottom:8px }
 .sd-card.won h2{ color:var(--good) }
 .toss-card .coin-stage{ margin:14px auto 4px }
@@ -767,7 +764,6 @@ td.ok .rc{ background:var(--good); color:#032012 } td.no .rc{ background:rgba(25
 .champ-title{ font-family:var(--f-disp); font-weight:700; font-size:clamp(28px,3.6vw,52px); color:var(--gold); line-height:1.2 }
 .champ-actions{ display:flex; gap:10px; flex-wrap:wrap }
 .cer{ position:relative; z-index:1; width:min(1200px,100%); display:flex; flex-direction:column; align-items:center; gap:clamp(6px,1.3vh,18px); text-align:center }
-.cer-h .kicker{ color:var(--gold) }
 .cer-name{ color:var(--silver); margin-top:2px }
 .champ-title{ font-size:clamp(30px,min(4vw,7vh),58px) }
 .pod.p0 .av.xxl{ width:clamp(80px,min(8vw,13vh),118px); height:clamp(80px,min(8vw,13vh),118px); font-size:clamp(30px,min(3vw,5vh),44px) }
@@ -882,7 +878,6 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 
 /* ============ motion ============ */
 @keyframes fadeIn{ from{opacity:0} to{opacity:1} }
-@keyframes fadeUp{ from{opacity:0; transform:translateY(14px)} to{opacity:1; transform:none} }
 @keyframes toastIn{ from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none} }
 @keyframes pulse{ 0%,100%{opacity:1} 50%{opacity:.45} }
 @keyframes blink{ 0%,100%{border-color:var(--flood)} 50%{border-color:rgba(124,196,255,.3)} }
@@ -905,7 +900,6 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 }
 @media (max-width: 1100px){
   .tool kbd{ display:none } /* tablets: keep the teacher toolbar on one screen width */
-  .setup-grid{ grid-template-columns:1fr }
   .help-types, .hp{ grid-template-columns:repeat(2,minmax(0,1fr)) }
   .gf-card{ grid-template-columns:1fr; justify-items:center; text-align:center }
   .gf-h{ flex-direction:column }
@@ -964,6 +958,7 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
   .sb{ gap:6px }
   .sb-chips{ gap:6px }
   .turn{ font-size:15px; padding:0 12px }
+  .turn-k{ display:none }
   .sb-top{ grid-template-columns:minmax(0,1fr) 116px }
   .sb-q{ font-size:15px; padding-inline-end:4px }
   .chip{ gap:7px; padding:0 6px 0 10px; border-radius:12px }
@@ -981,6 +976,11 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
   .qp{ padding:10px 12px; border-top-width:5px }
   .qp-h{ display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-rows:auto auto; align-content:center; gap:6px 8px }
   .qp-who{ grid-column:1; grid-row:1; max-width:100%; font-size:15px; padding:3px 12px 3px 4px; justify-self:start }
+  /* «سؤال:» on a small line above the FULL name (always two lines: the pill keeps one height for every name) */
+  .qp-who{ display:grid; grid-template-columns:auto minmax(0,1fr); grid-template-rows:auto auto; column-gap:8px; row-gap:0; align-items:center; border-radius:16px; line-height:1.2 }
+  .qp-who .av{ grid-row:1 / 3 }
+  .qp-who > span:not(.av){ font-size:13px; line-height:16px }
+  .qp-who b{ grid-column:2; white-space:nowrap; line-height:19px }
   .ring{ grid-column:2; grid-row:1 / 3; width:56px }
   .qp-t{ grid-column:1; grid-row:2; font-size:17px }
   .qp-h .cat-chip{ display:none }
@@ -1000,6 +1000,16 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
   .lb{ width:36px; height:48px; font-size:26px }
   .turn-card .tc-n{ font-size:32px; white-space:normal; overflow-wrap:anywhere }
   .res-t{ font-size:38px }
+  /* the answer card on a phone: compact, so even the matching card fits the space under the scoreboard */
+  .ovl{ padding:12px }
+  .ovl-card{ padding:16px 14px; border-radius:22px; max-height:calc(100dvh - var(--ovl-top, 0px) - 24px) }
+  .res-av .av.xxl{ width:60px; height:60px; font-size:23px }
+  .learn{ margin-top:10px; padding:8px 10px; gap:4px }
+  .lp{ gap:8px; padding:2px 6px }
+  .lp .say.sm{ width:34px; height:34px } .lp .say.sm .ic{ width:18px; height:18px }
+  .ovl-res .ovl-actions{ margin-top:12px; gap:8px; flex-wrap:nowrap }
+  .ovl-res .ovl-actions kbd{ display:none }
+  .ovl-res .ovl-actions .btn-xl{ min-height:52px; padding:.5em 1.2em }
   .ft-rounds small{ display:none }
   .words td.ex, .words th.ex, .words .lvc{ display:none }
   .words{ min-width:0 }
@@ -1007,9 +1017,11 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
   .road-h{ flex-direction:column; align-items:flex-start }
   .hub-head{ align-items:flex-start; text-align:start }
   .stand td.fate{ min-width:0 }
-  .stand td.fate small{ display:none }
-  .stand td.who{ min-width:0 } .stand td, .stand th{ padding-inline:6px }
-  .stand .tag{ font-size:.75rem; padding:1px 7px; white-space:normal; text-align:center }
+  .stand td.fate small.sd-l{ display:block; text-align:center; font-size:.78rem; line-height:1.3; white-space:nowrap; margin-top:4px }
+  .stand td.fate small.sd-l .ic{ display:inline-block; width:12px; height:12px; vertical-align:-.1em; margin-inline-end:2px }
+  .stand td.fate small.sd-l .sd-n{ display:block }
+  .stand td.who{ min-width:0 } .stand td, .stand th{ padding-inline:6px } .stand td.who .av{ display:none }
+  .stand .tag{ font-size:.8rem; padding:1px 7px; white-space:nowrap; text-align:center }
   .res-top{ gap:8px }
   .h-l{ min-width:0 }
   .podium{ gap:8px }
@@ -1019,8 +1031,25 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
   .pod-c{ font-size:1rem }
   .congrats{ border-radius:18px; font-size:17px; padding:8px 12px }
 }
+/* the smallest phones: the header pill gives the name the avatar's room (the pill keeps the class colour) */
+@media (max-width: 380px){
+  .qp-who{ grid-template-columns:minmax(0,1fr); padding-inline-start:12px }
+  .qp-who .av{ display:none }
+  .qp-who b{ grid-column:1 }
+}
+/* short phones: the answer card gets a little tighter still */
+@media (max-width: 700px) and (max-height: 780px){
+  .res-av .av.xxl{ width:48px; height:48px; font-size:19px }
+  .res-t, .is-no .res-t{ font-size:30px }
+  .res-team{ font-size:17px }
+  .lp .say.sm{ width:30px; height:30px }
+}
 @media (max-height: 820px) and (min-width: 901px){
   .prompt{ min-height:clamp(70px,14vh,120px) }
+}
+/* the question counter keeps one box for «السؤال n من N» and «سؤال حاسم n» */
+@media (min-width: 901px){
+  .sb-q{ min-width:8.6em; justify-content:flex-end }
 }
 /* projectors / big screens: let the broadcast graphics grow with the screen instead of stopping at laptop size */
 @media (min-width: 1500px){
@@ -1059,7 +1088,7 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
    Individual class championships + the Grand Final. Single-file vanilla JS app. Sections:
    1 data · 2 constants · 3 utils · 4 icons & art · 5 storage · 6 audio · 7 speech · 8 bank/pool
    9 question generators · 10 lineup/fairness/word budget · 11 competition (classes → students, class paths,
-   ties & replays, Grand Final) · 12 ui primitives · 13 views · 14 match engine · 15 events · 16 init + test hook
+   ties by sudden death, Grand Final) · 12 ui primitives · 13 views · 14 match engine · 15 events · 16 init + test hook
    ===================================================================== */
 
 /* ============================ 1. DATA ============================ */
@@ -1231,6 +1260,8 @@ const normAr = (s) => String(s || '').replace(/[ً-ٰٟـ]/g, '').replace(/[أإ
 const en = (s, cls) => `<span class="en${cls ? ' ' + cls : ''}" dir="ltr" lang="en">${esc(s)}</span>`;
 const bd = (s) => `<bdi>${esc(s)}</bdi>`;
 const num = (n) => `<span class="num" dir="ltr">${esc(n)}</span>`;
+/* «نقطة واحدة» · «نقطتان» · «3 نقاط» · «11 نقطة» (Arabic number agreement) */
+const ptsAr = (n) => { n = +n || 0; return n === 1 ? 'نقطة واحدة' : n === 2 ? 'نقطتان' : `${num(n)} ${n >= 3 && n <= 10 || n === 0 ? 'نقاط' : 'نقطة'}`; };
 const IN_FRAME = (() => { try { return window.self !== window.top; } catch (e) { return true; } })();
 const MQ_REDUCED = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
 const reduced = () => !!(MQ_REDUCED && MQ_REDUCED.matches);
@@ -1284,7 +1315,6 @@ const IC = {
   home: '<path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/>',
   save: '<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/>',
   reset: '<path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/>',
-  replay: '<path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/><path d="m10 9 5 3-5 3z" fill="currentColor"/>',
   check: '<path d="M20 6 9 17l-5-5"/>',
   x: '<path d="M18 6 6 18M6 6l12 12"/>',
   book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V3H6.5A2.5 2.5 0 0 0 4 5.5z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/>',
@@ -2364,7 +2394,7 @@ function createCompetition(cfg) {
     classes, matches: [], tosses: {}, used: [], finishedAt: null, cur: null, drawOk: false, drawAt: null,
   };
 }
-/* the budget of every stage: the largest match of each stage × its questions (replays are never larger) */
+/* the budget of every stage: the largest match of each stage × its questions (sudden-death rounds are never larger) */
 function stageSizes(sizes, second) {
   const out = { group: 0, second: 0, final: 2, grand: Math.max(2, sizes.length) };
   sizes.forEach((n) => { const sp = splitSizes(n); if (sp) { out.group = Math.max(out.group, sp[0] >= 3 ? sp[0] : 0); out.second = Math.max(out.second, second === 'pairs' ? 2 : 4); } else if (n === 3) out.second = Math.max(out.second, 3); });
@@ -2430,7 +2460,7 @@ function confirmModal(text, okLabel, onOk, cls) {
 }
 /* on the match screen the answer and tie cards start below the scoreboard, so the points stay in view */
 const ZONE_LAYERS = ['res', 'sd', 'sdwon'];
-function placeLayer(el) { const sb = S.view === 'match' && ZONE_LAYERS.includes(el.dataset.name) ? $('#sb-wrap') : null; el.style.top = sb ? Math.round(sb.getBoundingClientRect().bottom) + 'px' : ''; }
+function placeLayer(el) { const sb = S.view === 'match' && ZONE_LAYERS.includes(el.dataset.name) ? $('#sb-wrap') : null, top = sb ? Math.round(sb.getBoundingClientRect().bottom) : 0; el.style.top = top ? top + 'px' : ''; el.style.setProperty('--ovl-top', top + 'px'); }
 function showLayer(name, html, cls) {
   hideLayer(name);
   const el = document.createElement('div'); el.className = 'ovl ovl-' + name + (cls ? ' ' + cls : ''); el.dataset.name = name; el.innerHTML = html;
@@ -2645,7 +2675,7 @@ function roadHTML(G, meta) {
 ${gfCard(G)}</section>`;
 }
 /* «سؤال حاسم: 2 من 3» for a student who played sudden death */
-const sdLine = (m, id) => { const x = sdOf(m)[id]; return x ? `سؤال حاسم: ${num(x.ok)} من ${num(x.n)}` : ''; };
+const sdLine = (m, id) => { const x = sdOf(m)[id]; return x ? `سؤال حاسم: <span class="sd-n">${num(x.ok)} من ${num(x.n)}</span>` : ''; };
 /* a table of one finished (or live) match: place, student, correct/asked, points, what it means */
 function standingsTable(m, opts) {
   opts = opts || {};
@@ -2655,7 +2685,7 @@ function standingsTable(m, opts) {
   else { const bl = blocksOf(m); let k = 0; rows = []; bl.forEach((b) => { b.forEach((id) => rows.push({ id, n: k + 1, eq: b.length > 1 })); k += b.length; }); }
   const body = rows.map((x) => {
     const i = r.pending ? -1 : r.order.indexOf(x.id), f = i >= 0 ? fateOf(m, i) : null, p = person(x.id), sd = sdLine(m, x.id);
-    return `<tr class="${f ? 'f-' + f.cls : ''}"><td class="rk">${x.eq ? '=' : ''}${num(x.n)}</td><td class="who"><div class="who-in">${avatar(x.id)}<span>${nm(x.id)}${opts.cls ? `<small class="cl" style="--cc:${p.color}">${esc(p.cls)}</small>` : ''}</span></div></td><td class="pt">${num(pts[x.id])}</td><td class="fate">${f ? `<span class="tag t-${f.cls}">${esc(f.ar)}</span>` : ''}${sd ? `<small class="sd-l">${icon('bolt')}${sd}</small>` : ''}${x.eq && !r.pending && f ? '<small class="muted">تعادل لا يغيّر شيئًا</small>' : ''}</td></tr>`;
+    return `<tr class="${f ? 'f-' + f.cls : ''}"><td class="rk">${x.eq ? `<span dir="ltr">=${esc(x.n)}</span>` : num(x.n)}</td><td class="who"><div class="who-in">${avatar(x.id)}<span>${nm(x.id)}${opts.cls ? `<small class="cl" style="--cc:${p.color}">${esc(p.cls)}</small>` : ''}</span></div></td><td class="pt">${num(pts[x.id])}</td><td class="fate">${f ? `<span class="tag t-${f.cls}">${esc(f.ar)}</span>` : ''}${sd ? `<small class="sd-l">${icon('bolt')}${sd}</small>` : ''}</td></tr>`;
   }).join('');
   return `<div class="tbl-wrap"><table class="stand"><thead><tr><th>#</th><th>الطالب</th><th class="pt">النقاط <small>من ${num(m.R)}</small></th><th></th></tr></thead><tbody>${body}</tbody></table></div>`;
 }
@@ -2693,7 +2723,7 @@ ${sec.length ? `<div class="sec-h"><h3>${STAGES.second.ar}</h3><small class="mut
 <div class="sec-h"><h3>${STAGES.final.ar}</h3><small class="muted">واحد ضد واحد</small></div><div class="cards2">${stepCard(F, fin)}${champ}</div>
 ${historyHTML(c.id)}`;
   }
-  return `<section class="csec" style="--cc:${c.color}"><header class="csec-h"><div class="csec-t"><span class="ro-chip" dir="ltr">${esc(c.name)}</span><div><h2>مسار الشعبة ${bd(c.name)}</h2><p class="muted">${status}</p></div></div>${nextBtn}</header>${body}</section>`;
+  return `<section class="csec" style="--cc:${c.color}"><header class="csec-h"><div class="csec-t"><span class="ro-chip" dir="ltr">${esc(c.name)}</span><div><h2>مسار الشعبة</h2><p class="muted">${status}</p></div></div>${nextBtn}</header>${body}</section>`;
 }
 function grandSection(G) {
   const st = G.step;
@@ -2766,8 +2796,15 @@ function dwReveal(c, id, g, k) {
   $$('.dw-n.new').forEach((el) => el.classList.remove('new'));
   const el = $(`.dw-col[data-c="${c.id}"] .dw-n[data-k="${k}"]`); if (el) el.classList.add('on', 'new');
   const tok = $(`#dw-pot .dw-tok[data-k="${k}"]`); if (tok) tok.classList.add('out');
-  const cap = $('#dw-cap'); if (cap) cap.innerHTML = `<span>القرعة: ${g === 'D' ? `<span dir="ltr">${esc(c.name)}</span>` : `<span dir="ltr">${esc(c.name)}</span> · ${GROUP_AR[g]}`} ←</span><b dir="ltr">${esc(pName(id))}</b>`;
+  const cap = $('#dw-cap'); if (cap) { cap.innerHTML = `<span class="dw-where">القرعة: <span dir="ltr">${esc(c.name)}</span>${g === 'D' ? '' : ` · ${GROUP_AR[g]}`}</span><b class="dw-name" dir="ltr">${esc(pName(id))}</b>`; dwFitCap(cap); }
   SFX.pop();
+}
+/* the drawn name is always shown in full: a name wider than its line gets a smaller type (never «…») */
+function dwFitCap(cap) {
+  const b = cap && cap.querySelector('b.dw-name'); if (!b) return;
+  b.style.fontSize = '';
+  const base = parseFloat(getComputedStyle(b).fontSize) || 24;
+  for (let f = base; f > 15 && b.scrollWidth > b.clientWidth + 1; ) { f = Math.max(15, f * 0.92); b.style.fontSize = f + 'px'; }
 }
 function drawDone() {
   clearLater(); if (!S.drawAnim) return;
@@ -2821,7 +2858,7 @@ function scoreboardHTML(m) {
     const p = person(id), on = !!cur && cur.p === id, off = !!cur && !on;
     return `<li class="chip${on ? ' on' : off ? ' off' : ''}" style="--tc:${safeColor(p.color)}"${on ? ' aria-current="true"' : ''}>${avatar(id)}<span class="chip-b"><b class="chip-n" dir="auto" title="${esc(p.name)}">${esc(sh[i])}</b><span class="chip-l2">${multi && p.cls ? `<small class="chip-c" dir="ltr">${esc(p.cls)}</small>` : ''}<span class="dots">${dotsHTML(m, id)}</span><span class="chip-now"><i>▶</i>يجيب الآن</span></span></span><span class="chip-s" id="sc-${i}">${pts[id]}</span></li>`;
   }).join('');
-  const turn = cur ? `<span class="turn" style="--tc:${safeColor(person(cur.p).color)}"><span>الآن دور: <b dir="auto">${esc(sh[m.players.indexOf(cur.p)])}</b></span></span>`
+  const turn = cur ? `<span class="turn" style="--tc:${safeColor(person(cur.p).color)}"><span class="turn-k">الآن دور:</span><b dir="auto">${esc(sh[m.players.indexOf(cur.p)])}</b></span>`
     : `<span class="turn none"><span>${inSd ? 'تعادل — سؤال حاسم' : m.status === 'done' ? 'نهاية المباراة' : '—'}</span></span>`;
   const q = inSd ? `<span class="sb-q sd">سؤال حاسم <b dir="ltr">${cur && cur.sd ? cur.sd : Math.max(1, m.sdr.length + (sdNeed(m) ? 1 : 0))}</b></span>`
     : `<span class="sb-q">السؤال <b dir="ltr">${(cur ? cur.r : m.R - 1) + 1}</b> من <b dir="ltr">${m.R}</b></span>`;
@@ -2902,7 +2939,7 @@ function resultOverlay(m, st) {
   const ok = !!st.ok, p = person(st.p), q = st.q, idx = m.seq.indexOf(st);
   const title = ok ? 'إجابة صحيحة!' : st.to ? 'انتهى الوقت' : 'إجابة غير صحيحة';
   const who = st.sd ? `<span class="res-sd">${icon('bolt')}سؤال حاسم ${num(st.sd)}</span><b class="res-name">${nm(st.p)}</b>`
-    : `${ok ? `<span class="plus-tag"><bdi dir="ltr">+1</bdi> نقطة</span><span class="res-for">لـ</span>` : ''}<b class="res-name">${nm(st.p)}</b>`;
+    : ok ? `<span class="plus-tag"><bdi dir="ltr">+1</bdi> نقطة</span><span class="res-to"><span class="res-for">لـ</span>\u00a0<b class="res-name">${nm(st.p)}</b></span>` : `<b class="res-name">${nm(st.p)}</b>`; // «لـ» never ends a line without the name
   return `<div class="ovl-card res ${ok ? 'is-ok' : 'is-no'}" role="dialog" aria-modal="true" aria-labelledby="res-t" style="--tc:${safeColor(p.color)}" data-i="${idx}">
   <div class="res-top"><div class="res-av" aria-hidden="true">${avatar(st.p, 'xxl')}</div><div class="res-head"><h2 class="res-t" id="res-t">${title}</h2>
   <div class="res-team">${who}${st.tr ? `<span class="rev-tag">${icon('review')} قرار المعلم</span>` : ''}</div></div></div>
@@ -2918,7 +2955,7 @@ function sdCardHTML(m, need) {
     const ts = sdTurns(m, m.sdr.length), C = prev.set.filter((id) => ts.some((x) => x.p === id && x.ok)), W = prev.set.filter((id) => !C.includes(id));
     if (!C.length || !W.length) after = `لم يُحسم التعادل: ${C.length ? 'أجاب الجميع إجابة صحيحة' : 'لم يُجب أحد إجابة صحيحة'} — سؤال حاسم آخر.`;
     else if (need.set.every((x) => C.includes(x))) after = `خرج من التعادل: ${namesList(W)}.`;
-    else after = `حُسم لـ ${namesList(C)} — والتعادل مستمر بين الباقين.`;
+    else after = `حُسم لـ\u00a0${namesList(C)} — والتعادل مستمر بين الباقين.`;
   }
   return `<div class="ovl-card sd-card" role="dialog" aria-modal="true" aria-labelledby="sd-t"><h2 id="sd-t">${icon('bolt')}تعادل! سؤال حاسم${j > 1 ? ` ${num(j)}` : ''}</h2>
   <p class="sd-what">التعادل ${esc(sdWhat(m, need))}</p>
@@ -2935,7 +2972,7 @@ function sdWonHTML(m, winners, cut) {
   <div class="ovl-actions"><button class="btn btn-gold btn-xl" data-act="sd-ok" id="btn-next">${icon('next')}<span>متابعة</span><kbd>Enter</kbd></button></div></div>`;
 }
 function pauseHTML(resumed) {
-  return `<div class="ovl-card pz" role="dialog" aria-modal="true" aria-labelledby="pz-t"><p class="kicker" dir="ltr" lang="en">${resumed ? 'RESUME' : 'PAUSED'}</p><h2 id="pz-t" class="disp">${resumed ? 'استئناف المباراة' : 'متوقف مؤقتًا'}</h2><p class="muted">${resumed ? 'تم حفظ التقدم تلقائيًا — تابع من السؤال نفسه.' : 'المؤقت متوقف والسؤال مخفي عن الطلاب.'}</p><div class="ovl-actions"><button class="btn btn-ghost" data-act="exit-match">${icon('home')}<span>${S.matchId === 'demo' ? 'إنهاء التجربة' : 'مركز المسابقة'}</span></button><button class="btn btn-gold btn-xl" data-act="resume" id="btn-next">${icon('play')}<span>استئناف</span></button></div></div>`;
+  return `<div class="ovl-card pz" role="dialog" aria-modal="true" aria-labelledby="pz-t"><h2 id="pz-t" class="disp">${resumed ? 'استئناف المباراة' : 'متوقف مؤقتًا'}</h2><p class="muted">${resumed ? 'تم حفظ التقدم تلقائيًا — تابع من السؤال نفسه.' : 'المؤقت متوقف والسؤال مخفي عن الطلاب.'}</p><div class="ovl-actions"><button class="btn btn-ghost" data-act="exit-match">${icon('home')}<span>${S.matchId === 'demo' ? 'إنهاء التجربة' : 'مركز المسابقة'}</span></button><button class="btn btn-gold btn-xl" data-act="resume" id="btn-next">${icon('play')}<span>استئناف</span></button></div></div>`;
 }
 VIEWS.match = () => {
   const m = curMatch(); if (!m || !m.seq) return VIEWS.home();
@@ -2972,7 +3009,7 @@ VIEWS.result = () => {
   if (m.demo) {
     const pts = ptsOf(m);
     return `<section class="v-ft page-narrow"><div class="ft-head"><h1 class="disp">انتهت التجربة</h1><p>سؤال من كل نوع من الأنواع السبعة</p></div>
-<div class="ft-demo">${m.players.map((id) => `<span class="ip">${avatar(id, 'xl')}<b>${nm(id)}</b><em>${num(pts[id])} نقاط</em></span>`).join('')}</div>
+<div class="ft-demo">${m.players.map((id) => `<span class="ip">${avatar(id, 'xl')}<b>${nm(id)}</b><em>${ptsAr(pts[id])}</em></span>`).join('')}</div>
 <div class="ft-actions"><button class="btn btn-ghost" data-act="go" data-to="home">${icon('home')}<span>الرئيسية</span></button><button class="btn btn-ghost" data-act="demo">${icon('sparkle')}<span>تجربة أخرى</span></button><button class="btn btn-gold btn-xl" data-act="go" data-to="${T ? 'hub' : 'home'}" id="btn-next">${icon('play')}<span>${T ? 'مركز المسابقة' : 'الرئيسية'}</span></button></div>
 ${roundsTable(m)}</section>`;
   }
@@ -3005,7 +3042,7 @@ VIEWS.ceremony = () => {
   const G = T ? grandFlow() : null; if (!G || !G.podium) return T ? VIEWS.hub() : VIEWS.home();
   const pod = G.podium, gm = matchById('gf'), pts = gm ? ptsOf(gm) : {}, win = person(pod[0]), wc = classById(win.cid);
   const order = [1, 0, 2].filter((i) => pod[i]);
-  const cols = order.map((i) => { const id = pod[i], p = person(id); return `<li class="pod p${i}" style="--tc:${safeColor(p.color)}"><div class="pod-who">${medalSVG(i, 'md' + i)}${avatar(id, i ? 'xl' : 'xxl')}<b>${nm(id)}</b><span class="pod-c" dir="ltr">${esc(p.cls)}</span><small>${num(pts[id] || 0)} نقاط في النهائي</small></div><div class="pod-step"><span class="pod-n" dir="ltr">${i + 1}</span><em>${i === 0 ? 'المركز الأول · الجائزة الكبرى' : `المركز ${placeAr(i)}`}</em></div></li>`; }).join('');
+  const cols = order.map((i) => { const id = pod[i], p = person(id); return `<li class="pod p${i}" style="--tc:${safeColor(p.color)}"><div class="pod-who">${medalSVG(i, 'md' + i)}${avatar(id, i ? 'xl' : 'xxl')}<b>${nm(id)}</b><span class="pod-c" dir="ltr">${esc(p.cls)}</span><small>${ptsAr(pts[id])} في النهائي</small></div><div class="pod-step"><span class="pod-n" dir="ltr">${i + 1}</span><em>${i === 0 ? 'المركز الأول · الجائزة الكبرى' : `المركز ${placeAr(i)}`}</em></div></li>`; }).join('');
   return `<section class="v-champ" style="--tc:${win.color}"><canvas id="fx" aria-hidden="true"></canvas><div class="beams" aria-hidden="true"><i class="beam b1"></i><i class="beam b2"></i></div>
 <div class="cer">
   <header class="cer-h"><h1 class="champ-title">حفل التتويج</h1><p class="cer-name"><bdi>${esc(T.name)}</bdi> · ${SCHOOL}</p></header>
@@ -3155,7 +3192,7 @@ function updateToolbar() {
   const rv = $('#tools [data-act="reveal"]'); if (rv) rv.disabled = !(Q && !Q.answered && !Q.intro);
   const pz = $('#tools [data-act="pause"]'); if (pz) pz.disabled = !(Q && !Q.answered);
   /* «رتّب الحروف» takes typed letters, so the teacher shortcuts become Shift+letter while it is live */
-  const sb = !!(Q && Q.sb && !Q.answered);
+  const sb = !!(Q && Q.sb && !Q.answered && !Q.intro);
   $$('#tools kbd[data-k]').forEach((kb) => { const k = kb.dataset.k; kb.textContent = (sb && k.length === 1 ? '⇧' : '') + k; });
 }
 /* a new question (or one uncovered again) ignores input for a moment, so the second tap of a double tap on
@@ -3217,6 +3254,14 @@ function fitQuestion() {
   const qp = $('#qp'), body = $('#qp-body'); if (!qp || !body) return;
   qp.classList.remove('fit1', 'fit2');
   for (const c of ['fit1', 'fit2']) { if (body.scrollHeight <= body.clientHeight + 1) break; qp.classList.add(c); }
+  fitWho(qp);
+}
+/* «سؤال: <full name>» shows the whole name: on a narrow screen a long name gets smaller type (the pill keeps its size) */
+function fitWho(qp) {
+  const b = qp.querySelector('.qp-who b'); if (!b) return;
+  b.style.fontSize = '';
+  const base = parseFloat(getComputedStyle(b).fontSize) || 15;
+  for (let f = base; f > 12 && b.scrollWidth > b.clientWidth + 1; ) { f = Math.max(12, f - 0.5); b.style.fontSize = f + 'px'; }
 }
 function mountQuestion() { if (Q && Q.m5) { m5Observe(); requestAnimationFrame(() => { m5Measure(); m5Draw(); }); } }
 function onTimeout() { if (!Q || Q.answered) return; Q.timedOut = true; submit(false, null); }
@@ -3284,9 +3329,9 @@ function openReview() {
   const st = L.st, p = person(st.p);
   openModal({
     title: `${icon('review')} مراجعة المعلم`,
-    body: `<div class="rev-box" style="--tc:${safeColor(p.color)}"><p class="kicker" dir="ltr" lang="en">TEACHER REVIEW</p><p>آخر إجابة: <b>${nm(st.p)}</b> — ${st.sd ? `سؤال حاسم ${esc(st.sd)}` : `السؤال ${esc(st.r + 1)}`} · ${TYPES[st.q.type].ar}${st.q.type !== 'match5' ? ` · ${en(st.q.w)}` : ''}</p><p class="rev-now">القرار الحالي: ${st.ok ? `<b class="good">${icon('check')} إجابة صحيحة (نقطة)</b>` : `<b class="bad">${icon('x')} إجابة غير صحيحة</b>`}</p><p class="muted small">استخدمها إذا قال الطالب الإجابة الصحيحة شفهيًا أو حدث خطأ في الضغط.</p></div>`,
+    body: `<div class="rev-box" style="--tc:${safeColor(p.color)}"><p>آخر إجابة: <b>${nm(st.p)}</b> — ${st.sd ? `سؤال حاسم ${esc(st.sd)}` : `السؤال ${esc(st.r + 1)}`} · ${TYPES[st.q.type].ar}${st.q.type !== 'match5' ? ` · ${en(st.q.w)}` : ''}</p><p class="rev-now">القرار الحالي: ${st.ok ? `<b class="good">${icon('check')} إجابة صحيحة (نقطة)</b>` : `<b class="bad">${icon('x')} إجابة غير صحيحة</b>`}</p><p class="muted small">استخدمها إذا قال الطالب الإجابة الصحيحة شفهيًا أو حدث خطأ في الضغط.</p></div>`,
     actions: [{ label: 'إغلاق' }, st.ok ? { label: 'إلغاء النقطة', cls: 'btn-danger', icon: 'x', fn: () => applyReview(L, false) } : { label: 'احتساب النقطة', cls: 'btn-gold', icon: 'check', fn: () => applyReview(L, true) }],
-    onClose: () => { if (Q && !Q.answered && !Q.paused && !topLayer()) timerResume(); },
+    onClose: () => { if (Q && !Q.answered && !Q.paused && !topLayer()) timerResume(); setTimeout(() => { const b = $('#layer #btn-next'); if (b) b.focus({ preventScroll: true }); }, 0); }, // Enter then means «التالي», never the review again
   });
 }
 function applyReview(L, ok) {
@@ -3746,7 +3791,7 @@ document.addEventListener('keydown', (e) => {
   if (MODAL.open) { if (k === 'Escape' && MODAL.dismissable) { e.preventDefault(); closeModal(); } return; }
   if (typing) return;
   const top = topLayer(), inGame = S.view === 'match';
-  const sbLiveKeys = inGame && !top && Q && Q.sb && !Q.answered && !Q.paused;
+  const sbLiveKeys = inGame && !top && Q && Q.sb && !Q.answered && !Q.paused && !Q.intro;
   const shortcut = (x) => lk === x && (!sbLiveKeys || e.shiftKey); // during «رتّب الحروف» the teacher keys need Shift
   if (top) {
     if (top === 'pause') { if (k === 'Escape' || (enter && !onBtn)) { e.preventDefault(); resumeGame(); } else if (lk === 'm') setMuted(!PREFS.muted); else if (lk === 'f' && FS_OK) toggleFS(); return; }
@@ -3756,7 +3801,7 @@ document.addEventListener('keydown', (e) => {
     if (lk === 'm') setMuted(!PREFS.muted); else if (lk === 'f' && FS_OK) toggleFS();
     return;
   }
-  if (inGame && Q && Q.intro && !Q.paused) { if (enter) { e.preventDefault(); endTurnCard(); } else if (k === 'Escape') { e.preventDefault(); pauseGame(); } return; } // the turn card: Enter shows the question now
+  if (inGame && Q && Q.intro && !Q.paused) { if (enter) { e.preventDefault(); endTurnCard(); } else if (k === 'Escape') { e.preventDefault(); pauseGame(); } else if (lk === 'm') setMuted(!PREFS.muted); else if (lk === 'f' && FS_OK) toggleFS(); return; } // the turn card: Enter shows the question now
   if (inGame && Q && !Q.answered && !Q.paused) {
     if (Q.sb) {
       if (/^[a-z]$/.test(lk) && !e.shiftKey) { e.preventDefault(); sbType(lk); return; }
