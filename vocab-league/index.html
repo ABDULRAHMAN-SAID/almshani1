@@ -42,8 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
   :root{ --glass: color-mix(in srgb, var(--navy) 78%, transparent); --glass-2: color-mix(in srgb, var(--navy-2) 55%, transparent); --glass-3: color-mix(in srgb, var(--night) 55%, transparent); }
 }
 *,*::before,*::after{ box-sizing:border-box }
-/* the page scrollbar never appears/disappears between screens (its gutter is always reserved); the match screen never scrolls */
-html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; background:var(--night); scrollbar-gutter:stable }
+html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; background:var(--night) }
 body{
   margin:0; min-height:100vh; min-height:100dvh; color:var(--white); font-family:var(--f-ui); font-size:17px; line-height:1.6;
   background-color:var(--night);
@@ -168,7 +167,7 @@ bdi{ unicode-bidi:isolate }
 .roster{ grid-column:1 / -1; display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr); gap:12px; border-top:1px dashed var(--line); padding-top:10px }
 .ro-in{ display:flex; flex-direction:column; gap:6px; min-width:0 }
 .ro-in > span{ font-size:.8rem; color:var(--muted) }
-.ro-in textarea{ width:100%; min-height:190px; resize:vertical; padding:8px 10px; border-radius:10px; border:1px solid var(--line); background:rgba(6,13,36,.6); line-height:1.55 }
+.ro-in textarea{ width:100%; min-height:190px; resize:vertical; padding:8px 10px; border-radius:10px; border:1px solid var(--line); background:rgba(6,13,36,.6); line-height:1.55; white-space:pre; overflow-wrap:normal; overflow-x:auto } /* one name per line, never wrapped into two */
 .ro-in textarea:focus{ border-color:var(--flood); outline:none; box-shadow:0 0 0 3px rgba(124,196,255,.25) }
 .ro-map{ display:flex; flex-direction:column; gap:6px; min-width:0 }
 .ro-h{ display:flex; align-items:center; justify-content:space-between; gap:8px; flex-wrap:wrap; font-size:.8rem; color:var(--muted) }
@@ -236,7 +235,7 @@ bdi{ unicode-bidi:isolate }
 .setup-err:empty{ display:none }
 
 /* ============ the draw: ceremony + board «من مع من» ============ */
-.v-draw{ padding-top:14px; padding-bottom:24px; max-width:1500px }
+.v-draw{ padding-top:14px; padding-bottom:24px; max-width:1500px; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; justify-content:center }
 .draw-top{ display:flex; align-items:center; justify-content:space-between; gap:10px 24px; flex-wrap:wrap; margin-bottom:12px }
 .draw-head{ text-align:start }
 .draw-head h1{ font-size:clamp(28px,min(3.2vw,5.4vh),50px); line-height:1.2 }
@@ -248,26 +247,26 @@ bdi{ unicode-bidi:isolate }
 .pc svg{ width:26px; height:auto; display:block; transition:opacity .35s, filter .35s }
 .pc.out svg{ opacity:.2; filter:grayscale(1) }
 .db{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:clamp(8px,1.3vh,14px) }
-.db-row{ display:grid; grid-template-columns:minmax(0,1fr) clamp(96px,9vw,150px) minmax(0,1fr); align-items:center; gap:0 }
+.db-row{ display:grid; grid-template-columns:minmax(0,1fr) clamp(88px,7.6vw,140px) minmax(0,1fr); align-items:center; gap:0 }
 .db.single .db-row{ grid-template-columns:minmax(0,1fr) }
 .db-mid{ position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:2px; text-align:center; height:100%; font-size:clamp(.74rem,.95vw,.95rem); color:var(--gold); line-height:1.3 }
 .db-mid::before{ content:''; position:absolute; top:50%; inset-inline:0; border-top:2px solid rgba(242,193,78,.4) }
 .db-mid span{ position:relative; padding:3px 8px; border-radius:99px; background:#0b1a45; border:1px solid rgba(242,193,78,.55); font-weight:600; white-space:nowrap }
 .db-mid small{ position:relative; color:var(--muted); font-size:.86em; background:#081333; padding:0 4px; border-radius:6px }
-.tie{ position:relative; min-height:clamp(84px,12.6vh,150px); border-radius:var(--r); background:linear-gradient(180deg, rgba(22,46,112,.94), rgba(11,26,69,.94)); border:1px solid rgba(201,211,232,.22); box-shadow:0 10px 26px rgba(0,0,0,.32); display:grid; align-items:center }
+.tie{ position:relative; min-height:clamp(84px,13vh,160px); border-radius:var(--r); background:linear-gradient(180deg, rgba(22,46,112,.94), rgba(11,26,69,.94)); border:1px solid rgba(201,211,232,.22); box-shadow:0 10px 26px rgba(0,0,0,.32); display:grid; align-items:center }
 .tie.same{ border-color:rgba(242,193,78,.42) }
 .tie-no{ position:absolute; top:-10px; inset-inline-start:14px; min-width:26px; height:22px; padding:1px 7px 0; display:grid; place-items:center; border-radius:99px; background:#0b1a45; border:1px solid rgba(242,193,78,.55); color:var(--gold); font-family:var(--f-num); font-size:1.05rem; line-height:1; z-index:2 }
 .tie-tag{ position:absolute; top:-10px; inset-inline-end:14px; font-size:.68rem; font-weight:600; padding:0 8px; border-radius:99px; background:#0b1a45; border:1px solid rgba(242,193,78,.5); color:var(--gold); white-space:nowrap; line-height:1.6; z-index:2 }
-.tie-in{ grid-area:1 / 1; display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); align-items:center; gap:10px; padding:clamp(8px,1.3vh,16px) clamp(10px,1.1vw,18px) }
+.tie-in{ grid-area:1 / 1; display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); align-items:center; gap:8px; padding:clamp(8px,1.3vh,16px) clamp(8px,.9vw,16px) }
 .tie-vs{ font-family:var(--f-num); font-size:clamp(1.2rem,1.6vw,1.8rem); color:var(--gold); letter-spacing:.06em; line-height:1 }
 .ts{ display:flex; align-items:center; gap:clamp(8px,.8vw,14px); min-width:0 }
 .ts.b{ flex-direction:row-reverse; text-align:end }
-.ts svg{ width:clamp(36px,min(3.4vw,6vh),60px); height:auto; flex:none }
+.ts svg{ width:clamp(32px,min(2.9vw,5.4vh),58px); height:auto; flex:none }
 .ts-t{ display:flex; flex-direction:column; gap:2px; min-width:0 }
 .ts.b .ts-t{ align-items:flex-end }
-.tl{ font-weight:700; font-size:clamp(15px,min(1.3vw,2.4vh),24px); line-height:1.25; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100% }
+.tl{ font-weight:700; font-size:clamp(15px,min(1.2vw,2.3vh),24px); line-height:1.25; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100% }
 .tl-c{ color:var(--cc) }
-.mem{ display:flex; flex-wrap:wrap; gap:0 10px; font-size:clamp(12px,min(.95vw,1.75vh),17px); color:var(--silver); line-height:1.45; min-width:0 }
+.mem{ display:flex; flex-wrap:wrap; gap:0 10px; font-size:clamp(12px,min(.9vw,1.7vh),17px); color:var(--silver); line-height:1.45; min-width:0 }
 .mem bdi{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100% }
 .ts.b .mem{ justify-content:flex-end }
 .mem.col{ flex-direction:column; flex-wrap:nowrap }
@@ -351,8 +350,6 @@ bdi{ unicode-bidi:isolate }
 .tbl-wrap{ overflow-x:auto; border-radius:var(--r-l); border:1px solid var(--line); background:var(--glass); -webkit-overflow-scrolling:touch }
 .tm-in{ display:flex; align-items:center; gap:10px }
 .tm-in svg{ width:30px; height:auto }
-.fp{ display:inline-grid; place-items:center; width:26px; height:26px; border-radius:50%; font-family:var(--f-ui); font-size:.78rem; font-weight:700; line-height:1 }
-.fW{ background:var(--good); color:#032012 } .fp .ic{ width:14px; height:14px; stroke-width:3 }
 .legend{ display:flex; gap:10px 24px; flex-wrap:wrap; margin-top:12px; color:var(--muted); font-size:.85rem }
 .legend span{ display:inline-flex; align-items:center; gap:8px }
 .locked{ text-align:center; padding:40px 20px; display:flex; flex-direction:column; align-items:center; gap:8px }
@@ -434,7 +431,6 @@ bdi{ unicode-bidi:isolate }
 .split-resume p .ic{ display:inline; width:18px; height:18px; vertical-align:-3px }
 
 /* ============ match (broadcast) — every box has a FIXED size: nothing grows, shrinks or moves between turns ============ */
-html.in-match{ scrollbar-gutter:auto }
 html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .v-match{ position:relative; isolation:isolate; height:100vh; height:100dvh; display:grid; grid-template-rows:auto minmax(0,1fr) auto; overflow:hidden;
   --sbh:clamp(70px,11vh,124px); --subh:clamp(26px,4vh,42px); --toolh:62px; --qph:clamp(54px,8.6vh,96px) }
@@ -450,29 +446,30 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .v-match[data-turn="a"] .turn-glow{ opacity:1; background:linear-gradient(270deg, color-mix(in srgb, var(--ta) 30%, transparent), transparent 38%) }
 .v-match[data-turn="b"] .turn-glow{ opacity:1; background:linear-gradient(90deg, color-mix(in srgb, var(--tb) 30%, transparent), transparent 38%) }
 .sb-wrap{ padding:10px var(--gutter) 0; display:flex; flex-direction:column; align-items:center; gap:6px }
-.sb{ display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); width:min(1180px,100%); height:var(--sbh); border-radius:14px; overflow:hidden; background:linear-gradient(180deg,#1a3480,#0b1a45 70%); border:1px solid rgba(201,211,232,.26); box-shadow:0 14px 40px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.15) }
-.sb-side{ position:relative; display:flex; align-items:center; gap:clamp(8px,1vw,14px); padding:0 16px; min-width:0; height:100%; transition:background-color .35s, opacity .35s, filter .35s }
+.sb{ display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); width:min(1180px,100%); height:var(--sbh); border-radius:14px; overflow:hidden; background:#081230; border:1px solid rgba(201,211,232,.26); box-shadow:0 14px 40px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.15) }
+.sb-side{ position:relative; display:flex; align-items:center; gap:clamp(8px,1vw,14px); padding:0 16px; min-width:0; height:100%; background:linear-gradient(180deg,#18306f,#0c1b48); transition:opacity .35s, filter .35s }
 .sb-side::before{ content:''; position:absolute; top:0; bottom:0; width:7px; background:var(--tc) }
 .sb-side.a::before{ inset-inline-start:0 }
 .sb-side.b::before{ inset-inline-end:0 }
 .sb-side.a{ padding-inline-start:20px }
 .sb-side.b{ padding-inline-end:20px }
-.sb-side.on{ background:linear-gradient(0deg, color-mix(in srgb, var(--tc) 52%, #0b1a45), color-mix(in srgb, var(--tc) 26%, #13296a)); box-shadow:inset 0 0 0 2px var(--tc) }
+.sb-side.on{ background:linear-gradient(180deg, color-mix(in srgb, var(--tc) 72%, #1a3480), color-mix(in srgb, var(--tc) 44%, #0b1a45)); box-shadow:inset 0 0 0 3px var(--tc), inset 0 0 40px rgba(255,255,255,.08) }
 .sb-side.on::after{ content:''; position:absolute; inset-inline:0; bottom:0; height:4px; background:var(--tc); box-shadow:0 0 18px var(--tc) }
-.sb-side.off{ opacity:.45; filter:saturate(.3) }
+.sb-side.off{ opacity:.45; filter:saturate(.25) brightness(.8) }
 .sb-crest svg{ width:clamp(34px,min(3.1vw,5.6vh),64px); height:auto; filter:drop-shadow(0 3px 6px rgba(0,0,0,.4)) }
 .sb-id{ display:flex; flex-direction:column; justify-content:center; gap:1px; min-width:0; flex:1 }
 .sb-side.b .sb-id{ align-items:flex-end; text-align:end }
 .sb-top{ display:flex; align-items:center; gap:8px; min-width:0; height:clamp(18px,2.8vh,30px) }
 .sb-side.b .sb-top{ flex-direction:row-reverse }
 .sb-lbl{ font-weight:700; font-size:clamp(12px,min(1.1vw,2.1vh),19px); letter-spacing:.02em; color:var(--silver); white-space:nowrap }
-.sb-side.on .sb-lbl{ color:var(--white) }
+.sb-side.on .sb-lbl{ color:#fff; text-shadow:0 1px 3px rgba(0,0,0,.4) }
+.sb-side.on .sb-name .tl-c{ color:#fff }
 .sb-now{ visibility:hidden; display:inline-flex; align-items:center; gap:4px; padding:0 9px; border-radius:99px; background:var(--white); color:#0b1a45; font-weight:700; font-size:clamp(11px,min(1vw,1.9vh),17px); line-height:1.55; white-space:nowrap; box-shadow:0 0 16px color-mix(in srgb, var(--tc) 80%, transparent) }
 .sb-now i{ font-style:normal; color:var(--tc); font-size:.9em }
 .sb-side.on .sb-now{ visibility:visible; animation:nowPulse 1.6s ease-in-out infinite }
 .sb-name{ font-weight:700; font-size:clamp(16px,min(1.8vw,3.3vh),36px); line-height:1.2; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; max-width:100% }
 .sb-name .tl-c{ color:var(--cc) }
-.sb-score{ font-family:var(--f-num); font-weight:600; font-size:clamp(38px,min(4.2vw,7.6vh),88px); line-height:1; min-width:1.35em; text-align:center; padding:.1em .22em 0; border-radius:10px; background:rgba(6,13,36,.55); font-variant-numeric:tabular-nums; flex:none; transition:color .3s, box-shadow .3s }
+.sb-score{ font-family:var(--f-num); font-weight:600; font-size:clamp(38px,min(4.2vw,7.6vh),88px); line-height:1; min-width:1.35em; text-align:center; padding:.1em .22em 0; border-radius:10px; background:rgba(4,9,26,.62); font-variant-numeric:tabular-nums; flex:none; transition:color .3s, box-shadow .3s }
 .sb-score.hit{ color:var(--gold); box-shadow:0 0 0 2px rgba(242,193,78,.7), 0 0 26px rgba(242,193,78,.55) }
 .sb-clock{ display:flex; flex-direction:column; align-items:center; justify-content:center; padding:4px 18px; background:#050b1f; width:clamp(104px,10vw,170px); border-inline:1px solid rgba(201,211,232,.2) }
 .sb-min{ font-family:var(--f-num); font-weight:500; font-size:clamp(28px,min(3vw,5.4vh),62px); line-height:1; color:var(--gold); padding-top:4px; font-variant-numeric:tabular-nums }
@@ -511,6 +508,7 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .ring.low .ring-fg{ stroke:var(--bad) }
 .ring.low b{ color:var(--bad); animation:pulse 1s infinite }
 .ring.off b{ font-size:1.6rem; color:var(--muted); padding-top:0 }
+.idle-t{ text-align:center; font-family:var(--f-disp); font-size:clamp(22px,3vw,40px); color:var(--muted) }
 .qp-body{ min-height:0; display:flex; flex-direction:column; justify-content:center; gap:clamp(10px,2vh,24px); overflow:hidden }
 .prompt{ display:flex; align-items:center; justify-content:center; gap:16px; min-height:clamp(78px,15vh,170px); text-align:center; flex-wrap:wrap }
 .prompt.sm{ min-height:clamp(56px,9vh,110px) }
@@ -608,7 +606,7 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .tc-m bdi{ padding:2px 14px; border-radius:99px; background:rgba(255,255,255,.14); color:#fff; font-weight:600; font-size:clamp(14px,min(1.5vw,2.6vh),26px); white-space:nowrap }
 .tc-hint{ color:rgba(255,255,255,.72); font-size:clamp(12px,1vw,15px) }
 .tc-bar{ position:absolute; inset-inline:0; bottom:0; height:6px; background:rgba(255,255,255,.18) }
-.tc-bar i{ display:block; height:100%; background:#fff; transform-origin:right; animation:tcBar var(--tcd,1.3s) linear both }
+.tc-bar i{ display:block; height:100%; background:#fff; animation:tcBar var(--tcd,1.3s) linear both }
 /* toolbar */
 .tools{ display:flex; align-items:center; justify-content:center; gap:6px; height:calc(var(--toolh) + env(safe-area-inset-bottom)); padding:0 var(--gutter) env(safe-area-inset-bottom); background:linear-gradient(0deg, rgba(5,11,31,.96), rgba(5,11,31,.72)); border-top:1px solid var(--line); overflow-x:auto; overflow-y:hidden; scrollbar-width:none; flex-wrap:nowrap }
 .tools::-webkit-scrollbar{ display:none }
@@ -655,9 +653,10 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .lp{ display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); gap:12px; align-items:center; padding:3px 10px; border-radius:10px; background:rgba(255,255,255,.04) }
 .lp .lw{ font-size:clamp(17px,min(1.5vw,2.7vh),26px); text-align:left; overflow-wrap:anywhere; min-width:0 }
 .lp .la{ font-size:clamp(16px,min(1.4vw,2.5vh),24px); text-align:start; overflow-wrap:anywhere; min-width:0 }
-.ht-score{ display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap; margin:6px 0 14px }
+.ht-score{ display:grid; grid-template-columns:minmax(0,1fr) auto minmax(0,1fr); align-items:center; gap:14px; margin:6px 0 14px }
+.ht-t{ display:flex; flex-direction:column; align-items:center; gap:6px; min-width:0 }
 .ht-score svg{ width:56px; height:auto }
-.ht-score .tl{ font-size:1.25rem }
+.ht-score .tl{ font-size:1.15rem; text-align:center; max-width:100% }
 .sp.big{ font-size:4rem; font-weight:600; padding:0 10px }
 .ht-stats{ display:grid; grid-template-columns:1fr 1fr; gap:12px; text-align:start }
 .hts{ position:relative; padding:12px 14px 10px; border-radius:14px; background:rgba(6,13,36,.55); border:1px solid var(--line); display:flex; flex-direction:column; gap:4px }
@@ -698,7 +697,6 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .warn-bar > .ic{ color:var(--warn) }
 .warn-bar .btn{ min-height:38px; padding:.3em .9em; font-size:.88rem }
 html.in-match .warn-bar{ display:none }
-.kbd-hint kbd{ font-size:.92em; padding:0 6px }
 /* toasts */
 #toasts{ position:fixed; bottom:calc(92px + env(safe-area-inset-bottom)); left:50%; transform:translateX(-50%); z-index:95; display:flex; flex-direction:column; gap:8px; align-items:center; pointer-events:none; width:min(560px, calc(100% - 32px)) }
 .toast{ padding:10px 18px; border-radius:14px; background:rgba(11,26,69,.97); border:1px solid var(--line); box-shadow:var(--shadow); animation:fadeIn .3s ease both; font-weight:500; text-align:center; transition:opacity .3s }
@@ -725,7 +723,6 @@ html.in-match .warn-bar{ display:none }
 .ft-chain span{ display:inline-flex; align-items:center; gap:6px; padding:2px 12px; border-radius:99px; background:rgba(6,13,36,.55); border:1px solid var(--line) }
 .ft-chain span.cur{ border-color:rgba(242,193,78,.6); color:var(--white) }
 .ft-chain .sp{ font-size:1.3rem; color:var(--white) }
-.ft-note{ max-width:680px; color:var(--silver); font-size:.95rem; line-height:1.75; margin-top:6px }
 .ft-result{ display:flex; flex-direction:column; align-items:center; gap:6px; transition:opacity .5s }
 .ft-result.pending, .ft-tbl.pending{ opacity:0; pointer-events:none }
 .rl{ display:inline-flex; align-items:center; gap:8px; font-family:var(--f-disp); font-size:clamp(22px,2.4vw,32px); font-weight:600 }
@@ -739,6 +736,7 @@ html.in-match .warn-bar{ display:none }
 .tie-card .kicker{ color:var(--gold) }
 .tie-card h2{ display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; font-size:clamp(24px,2.6vw,36px); line-height:1.35 }
 .tie-card h2 .ic{ color:var(--gold); width:32px; height:32px }
+.tie-card h2 .sp{ font-size:1.25em; color:var(--white); padding-top:.12em }
 .tie-card p{ color:var(--silver); max-width:720px; line-height:1.7 }
 .tie-card p b{ color:var(--white) }
 .ft-tbl{ width:min(860px,100%); transition:opacity .5s }
@@ -1025,7 +1023,7 @@ button.bkm:hover{ border-color:var(--flood) }
 @keyframes glowGold{ 0%,100%{text-shadow:0 8px 40px rgba(242,193,78,.45)} 50%{text-shadow:0 0 60px rgba(255,224,138,.95), 0 8px 40px rgba(242,193,78,.6)} }
 @keyframes blink{ 0%,100%{border-color:var(--flood)} 50%{border-color:rgba(124,196,255,.3)} }
 @keyframes float{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-@keyframes tcBar{ from{transform:scaleX(1)} to{transform:scaleX(0)} }
+@keyframes tcBar{ from{clip-path:inset(0 0 0 0)} to{clip-path:inset(0 0 0 100%)} }
 @keyframes coinUp{ 0%{translate:0 0} 45%{translate:0 -46px} 100%{translate:0 0} }
 @keyframes rise{ from{opacity:0; transform:translateY(40px)} to{opacity:1; transform:none} }
 @keyframes spin{ to{ rotate:360deg } }
@@ -1089,9 +1087,13 @@ button.bkm:hover{ border-color:var(--flood) }
   .fo .fo-t, .fo.b .fo-t{ align-items:center; text-align:center }
   .fo .mem, .fo.b .mem{ justify-content:center; flex-direction:column; align-items:center }
   .fo-vs span{ width:46px; height:46px; font-size:1.4rem }
-  .tl-l{ display:none } .tl-s{ display:inline }
+  .tl-l, .tn-l{ display:none } .tl-s, .tn-s{ display:inline }
   .cls-stats dd{ font-size:1.6rem }
-  .ts svg{ width:30px }
+  .ts svg{ width:34px }
+  .tie-in{ grid-template-columns:minmax(0,1fr); gap:4px; padding:14px 12px 10px }
+  .ts.b{ flex-direction:row; text-align:start } .ts.b .ts-t, .ts.b .mem.col{ align-items:flex-start } .ts.b .mem{ justify-content:flex-start }
+  .tie-vs{ font-size:1rem; text-align:center; opacity:.8 }
+  .draw-head h1{ font-size:26px }
   .pot{ padding:3px 7px } .pc svg{ width:20px }
   .opts{ grid-template-columns:1fr }
   .opt{ min-height:50px; font-size:19px }
@@ -1112,9 +1114,12 @@ button.bkm:hover{ border-color:var(--flood) }
   .sb-clock{ width:62px; padding:4px 6px }
   .sb-min{ font-size:26px }
   .sb-stage{ display:none }
-  .turn{ width:auto; min-width:0; font-size:13px; padding:0 12px }
-  .dot{ width:11px; height:11px }
-  .dots{ gap:3px }
+  .sb-sub{ grid-template-columns:minmax(0,1fr) 56% minmax(0,1fr); gap:8px }
+  .turn{ width:100%; min-width:0; font-size:13px; padding:0 10px }
+  .dot{ width:8px; height:8px; border-width:1.5px }
+  .dot.x::before, .dot.x::after{ width:6px; height:1.5px }
+  .dot.cur{ box-shadow:0 0 0 2px color-mix(in srgb, var(--tc) 35%, transparent) }
+  .dots{ gap:2px }
   .qp{ padding:10px 12px; border-top-width:5px }
   .qp-h{ display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-rows:auto auto; align-content:center; gap:6px 8px }
   .qp-who{ grid-column:1; grid-row:1; max-width:100%; font-size:15px; padding:3px 12px 3px 5px; justify-self:start }
@@ -1142,6 +1147,7 @@ button.bkm:hover{ border-color:var(--flood) }
   .setup-foot .btn-xl{ flex:1 }
   .ft-rounds small{ display:none }
   .ht-stats{ grid-template-columns:1fr }
+  .ht-score{ gap:8px } .ht-score .tl{ font-size:14px } .sp.big{ font-size:3rem; padding:0 4px }
   .res-t{ font-size:38px }
   .ft-score{ gap:8px }
   .ft-team, .ft-team.b{ flex-direction:column; gap:6px }
@@ -1150,7 +1156,8 @@ button.bkm:hover{ border-color:var(--flood) }
   .ft-nums{ padding:6px 12px 0; gap:6px }
   .ft-nums .n{ font-size:54px }
   .podium{ gap:6px }
-  .pod-who .mem{ flex-direction:column; align-items:center }
+  .pod-who .mem{ flex-direction:column; align-items:center; font-size:11px; line-height:1.35 } .pod-who .mem bdi{ white-space:normal; text-align:center; overflow-wrap:anywhere }
+  .pod-who .tl{ font-size:15px } .pod.p0 .pod-who .tl{ font-size:17px }
   .pod-step em{ display:none }
   .bar-row{ grid-template-columns:96px 1fr 40px }
   .bar-row small{ display:none }
@@ -1165,7 +1172,7 @@ button.bkm:hover{ border-color:var(--flood) }
 }
 /* projectors / big screens: the broadcast graphics grow with the screen */
 @media (min-width: 1500px){
-  .v-hub.page{ max-width:1660px }
+  .v-hub.page{ max-width:1660px } .v-draw.page{ max-width:1780px }
   .bkt{ --gap:32px } .bk-cells{ min-height:calc(var(--rows) * 124px) }
   .bk-r .tn{ font-size:.95rem } .bk-r svg{ width:26px } .bk-s{ font-size:1.6rem }
   .sb, .sb-sub, .qp{ width:min(84vw,1600px) }
@@ -1307,9 +1314,9 @@ const SIDE_AR = ['الفريق الأول', 'الفريق الثاني'];
 const PLACE_AR = ['الأول', 'الثاني', 'الثالث'];
 const UNIT2_LINE = 'موعدنا مع مسابقة جديدة مماثلة قرب نهاية الوحدة الثانية';
 const DRAW_MODES = [
-  { v: 'random', ar: 'عشوائية بالكامل' },
-  { v: 'protect', ar: 'حماية الشعبة' },
-  { v: 'same', ar: 'مواجهات داخل الشعبة أولاً' },
+  { v: 'random', ar: 'عشوائية بالكامل', desc: 'أي فريق يمكن أن يواجه أي فريق في دور الـ16.' },
+  { v: 'protect', ar: 'حماية الشعبة', desc: 'لا يلتقي فريقان من الشعبة نفسها في دور الـ16 — مثل حماية الدولة في قرعة دوري الأبطال.' },
+  { v: 'same', ar: 'مواجهات داخل الشعبة أولاً', desc: 'تُسحب مواجهات فرق الشعبة الواحدة أولًا (تُلعب مباشرة في حصة الشعبة)، ثم تُقرن الفرق المتبقية من شعب مختلفة.' },
 ];
 /* knockout rounds by the number of groups still in them */
 const KO_ROUNDS = {
@@ -1508,7 +1515,7 @@ const PREFS = Object.assign({ muted: false, setup: null }, (() => { const r = jG
 function savePrefs() { sSet(KEYS.p, JSON.stringify(PREFS)); }
 
 let T = null;           // the tournament (persisted)
-let LOAD_WARN = '';
+let LOAD_WARN = '', LOAD_NOTE = '';
 let LEGACY = null;      // raw JSON of a first-version save found on this device (kept until the teacher decides)
 /* storage health: ok = localStorage usable (probed at start); failing = a save of the tournament did not persist */
 const STORE = { ok: true, failing: false, warned: false, conflict: false };
@@ -1660,6 +1667,7 @@ function loadT() {
   if (!r.val) return null;
   if (isLegacyT(r.val)) { LEGACY = sGet(KEYS.t); return null; } // the teacher is asked what to do with it (legacyNotice)
   const t = migrate(r.val);
+  if (r.val.v === 2 && t !== r.val) LOAD_NOTE = 'حُدّثت البطولة المحفوظة إلى النظام الجديد: التعادل يُحسم بمباراة إعادة (بدل ركلات الترجيح)، وأُضيفت مباراة المركز الثالث عند الحاجة.';
   if (!validT(t)) { LOAD_WARN = 'البطولة المحفوظة غير صالحة — ابدأ بطولة جديدة (يمكنك استعادة نسخة احتياطية من الرئيسية).'; return null; }
   try { return repairT(t); } catch (e) { LOAD_WARN = 'تعذّر إصلاح البطولة المحفوظة — ابدأ بطولة جديدة (يمكنك استعادة نسخة احتياطية من الرئيسية).'; return null; }
 }
@@ -2430,7 +2438,7 @@ function tLine(t, cls) {
 function nameHTML(t, cls) {
   const c = teamClass(t), full = esc(tName(t));
   if (!c) return `<span class="tn solo${cls ? ' ' + cls : ''}" title="${full}"><b class="tn-g">${bd(t.name || '—')}</b></span>`;
-  return `<span class="tn${cls ? ' ' + cls : ''}" title="${full}"><small class="tn-c" style="--cc:${classColor(t)}">${bd(c.name)}</small><b class="tn-g">${bd(groupLabel(t))}</b></span>`;
+  return `<span class="tn${cls ? ' ' + cls : ''}" title="${full}"><small class="tn-c" style="--cc:${classColor(t)}">${bd(c.name)}</small><b class="tn-g"><span class="tn-l">${esc(groupLabel(t))}</span><span class="tn-s">${esc(groupLabel(t, true))}</span></b></span>`;
 }
 const membersOf = (t) => (t && Array.isArray(t.members) ? t.members : []);
 function membersHTML(t, cls) {
@@ -2748,7 +2756,7 @@ function tieCard(x, k) {
   const B = T.bracket;
   if (x.bye) { const t = teamById(x.bye); return `<div class="tie bye" data-k="${k}" data-a="${esc(t.id)}"><span class="tie-no">${icon('flag')}</span><div class="tie-cap" aria-hidden="true"><i></i><i></i></div><div class="tie-in">${tieSideHTML(t, 'a')}<span class="tie-bye">تأهل مباشر<small>إلى ${esc(koRound(B.P, 1).ar)}</small></span></div></div>`; }
   const m = recById(x.m), A = teamById(m.a), Bt = teamById(m.b), same = A.classId === Bt.classId;
-  return `<div class="tie${same ? ' same' : ''}" data-k="${k}" data-a="${esc(m.a)}" data-b="${esc(m.b)}" aria-label="المباراة ${m.no}: ${esc(tName(A))} ضد ${esc(tName(Bt))}"><span class="tie-no" dir="ltr">${m.no}</span>${same ? '<span class="tie-tag">داخل الشعبة</span>' : ''}<div class="tie-cap" aria-hidden="true"><i></i><i></i></div>
+  return `<div class="tie${same ? ' same' : ''}" data-k="${k}" data-a="${esc(m.a)}" data-b="${esc(m.b)}" aria-label="المباراة ${m.no}: ${esc(tName(A))} ضد ${esc(tName(Bt))}"><span class="tie-no">${m.no}</span>${same ? '<span class="tie-tag">داخل الشعبة</span>' : ''}<div class="tie-cap" aria-hidden="true"><i></i><i></i></div>
   <div class="tie-in">${tieSideHTML(A, 'a')}<span class="tie-vs" dir="ltr" lang="en">VS</span>${tieSideHTML(Bt, 'b')}</div></div>`;
 }
 VIEWS.draw = () => {
@@ -3010,7 +3018,7 @@ const shortStage = (m) => (m.demo ? 'تجربة' : m.rep ? `${koShort(rootOf(m))
 function scoreboardHTML(m) {
   const A = teamById(m.a), B = teamById(m.b), v = visibleScore(m), turn = Q && Q.m === m ? Q.team : null;
   const mn = Math.max(1, minuteOf(m, m.step));
-  const half = m.mode === 'split' ? (m.step >= m.R && (m.s2 || m.step > m.R) ? 'الحصة 2' : 'الحصة 1') : (halfStep(m) > 0 ? (m.step < halfStep(m) || (m.step === halfStep(m) && !m.half) ? 'الشوط 1' : 'الشوط 2') : '');
+  const half = m.mode === 'split' ? (m.step >= m.R && (m.s2 || m.step > m.R) ? 'الحصة 2' : 'الحصة 1') : '';
   const side = (t, s, i) => { const id = s === 'a' ? m.a : m.b, st = turn ? (turn === id ? ' on' : ' off') : '';
     const inner = [`<span class="sb-crest">${crestSVG(t, 42)}</span>`, `<span class="sb-id"><span class="sb-top"><small class="sb-lbl">${SIDE_AR[i]}</small><span class="sb-now" aria-hidden="${turn !== id}"><i>▶</i> يجيب الآن</span></span><span class="sb-name">${tLine(t)}</span></span>`, `<span class="sb-score" id="sc-${s}">${esc(v[i])}</span>`];
     return `<div class="sb-side ${s}${st}" style="--tc:${t.color}">${inner.join('')}</div>`; };
@@ -3124,7 +3132,7 @@ function resultOverlay(m, st) {
 function halftimeHTML(m) {
   const [a, b] = score(m), A = teamById(m.a), B = teamById(m.b);
   return `<div class="ovl-card ht" role="dialog" aria-modal="true" aria-labelledby="ht-t"><p class="kicker" dir="ltr" lang="en">HALF TIME · 45'</p><h2 id="ht-t" class="disp">نهاية الشوط الأول</h2>
-  <div class="ht-score">${crestSVG(A, 56)}${tLine(A)}${scorePair(a, b, 'big')}${tLine(B)}${crestSVG(B, 56)}</div>
+  <div class="ht-score"><span class="ht-t">${crestSVG(A, 56)}${tLine(A)}</span>${scorePair(a, b, 'big')}<span class="ht-t">${crestSVG(B, 56)}${tLine(B)}</span></div>
   <div class="ht-stats">${[m.a, m.b].map((id) => { const steps = m.seq.slice(0, m.step).filter((s) => s.t === id), g = steps.filter((s) => s.ok).length; return `<div class="hts" style="--tc:${teamById(id).color}"><b>${bd(sideAr(m, id))} · ${bd(teamName(id))}</b><span>${g} من ${steps.length} إجابات صحيحة</span><div class="bar"><i style="width:${steps.length ? (g / steps.length) * 100 : 0}%"></i></div></div>`; }).join('')}</div>
   <div class="ovl-actions"><button class="btn btn-gold btn-xl" data-act="second-half" id="btn-next">${icon('whistle')}<span>بداية الشوط الثاني</span></button></div></div>`;
 }
@@ -3154,11 +3162,11 @@ VIEWS.ft = () => {
   let result = '', points = '', tie = '';
   if (m.demo) result = m.winner ? `<span class="rl win">${icon('trophy')} فوز ${bd(teamName(m.winner))}</span>` : '<span class="rl">تعادل</span>';
   else if (m.status === 'tie') {
-    tie = `<section class="tie-card"><p class="kicker" dir="ltr" lang="en">LEVEL · REPLAY</p><h2 class="disp">${icon('replay')} تعادل ${esc(a)}–${esc(b)} — مباراة إعادة</h2><p>«ستعاد المباراة حتى يتقدّم أحد الفريقين»: <b>مباراة الإعادة ${nx ? nx.rep : m.rep + 1 || 1}</b> بأسئلة جديدة، ${num(T.settings.replay)} أسئلة لكل فريق — مباشرة أو على حصتين${modeSuggest(m) === 'split' ? ' (الفريقان من شعبتين: يمكن لعبها في الحصة القادمة)' : ''}.</p>
+    tie = `<section class="tie-card"><p class="kicker" dir="ltr" lang="en">LEVEL · REPLAY</p><h2 class="disp">${icon('replay')} تعادل ${scorePair(a, b)} — مباراة إعادة</h2><p>«ستعاد المباراة حتى يتقدّم أحد الفريقين»: <b>مباراة الإعادة ${nx ? nx.rep : m.rep + 1 || 1}</b> بأسئلة جديدة، ${num(T.settings.replay)} أسئلة لكل فريق — مباشرة أو على حصتين${modeSuggest(m) === 'split' ? ' (الفريقان من شعبتين: يمكن لعبها في الحصة القادمة)' : ''}.</p>
     ${nx ? `<button class="btn btn-gold btn-xl" data-act="open-match" data-id="${esc(nx.id)}" id="btn-next">${icon('replay')}<span>ابدأ مباراة الإعادة ${nx.rep}</span></button>` : ''}</section>`;
   } else if (m.winner) {
     const decided = root.status === 'done' && root.winner === m.winner;
-    result = `<span class="rl win" style="--tc:${teamById(m.winner).color}">${icon('trophy')} فوز ${bd(sideAr(m, m.winner))}: ${bd(teamName(m.winner))}${m.rep ? ` في الإعادة ${m.rep}` : ''}</span>`;
+    result = `<span class="rl win" style="--tc:${teamById(m.winner).color}">${icon('trophy')} فوز ${bd(sideAr(m, m.winner))} — ${bd(teamName(m.winner))}${m.rep ? ` في الإعادة ${m.rep}` : ''}</span>`;
     if (decided) {
       if (isKoFinal(root)) points = `<p class="ft-points gold">${icon('trophy')} ${bd(teamName(m.winner))} بطل دوري أبطال المفردات!</p>`;
       else if (root.third) points = `<p class="ft-points gold">${icon('medal')} ${bd(teamName(m.winner))} في المركز الثالث</p>`;
@@ -3429,11 +3437,13 @@ function flow() {
   hideLayer('res'); unpauseView();
   if (finished(m)) { finishMatch(m); return; }
   if (m.status === 'wait' || (halfStep(m) > 0 && m.step === halfStep(m) && !m.half)) S.resumePaused = false; // the card itself is the pause after a reload
-  if (m.status === 'wait') { Q = null; refreshBoard(m); $('#qzone').innerHTML = ''; updateToolbar(); showLayer('split', splitEndHTML(m)); SFX.whistle(true); return; }
+  if (m.status === 'wait') { Q = null; refreshBoard(m); idlePanel('نهاية الحصة الأولى'); updateToolbar(); showLayer('split', splitEndHTML(m)); SFX.whistle(true); return; }
   const H = halfStep(m);
-  if (H > 0 && m.step === H && !m.half) { Q = null; refreshBoard(m); $('#qzone').innerHTML = ''; updateToolbar(); showLayer('half', halftimeHTML(m)); SFX.whistle(true); return; }
+  if (H > 0 && m.step === H && !m.half) { Q = null; refreshBoard(m); idlePanel('بين الشوطين'); updateToolbar(); showLayer('half', halftimeHTML(m)); SFX.whistle(true); return; }
   ask(m);
 }
+/* between halves / sessions the question panel stays in place (the last question, or an empty panel of the same size) */
+function idlePanel(text) { if (!$('#qp')) $('#qzone').innerHTML = `<article class="qp idle" id="qp" style="--tc:#7c88ad;--cc:#7c88ad"><header class="qp-h"></header><div class="qp-body" id="qp-body"><p class="idle-t">${esc(text)}</p></div></article>`; }
 /* every question starts with the turn card («الآن دور الفريق الأول/الثاني»); the question and its timer follow */
 function ask(m) {
   const st = m.seq[m.step], q = st.q;
@@ -3444,7 +3454,7 @@ function ask(m) {
   timerStop();
   $('#qzone').innerHTML = questionHTML(q, { label, secs: Q.secs, team: st.t, compact: window.innerWidth < 700, card: turnCardHTML(m, st.t) });
   fitQuestion();
-  updateToolbar();
+  updateToolbar(); UI_AT = performance.now(); // the second click of a double click on «التالي» never skips the turn card
   SFX.turn();
   announce(`الآن دور ${sideAr(m, st.t)}: ${teamName(st.t)}`);
   if (S.resumePaused) { S.resumePaused = false; pauseGame(true); }
@@ -4112,7 +4122,7 @@ function init() {
     else if (m && finished(m)) { T.cur = null; saveT(); S.matchId = m.id; go('ft'); }
     else { T.cur = null; saveT(); go('home'); }
   } else go('home');
-  if (LOAD_WARN) toast(LOAD_WARN, 'bad');
+  if (LOAD_WARN) toast(LOAD_WARN, 'bad'); else if (LOAD_NOTE && T) toast(LOAD_NOTE, 'good');
   if (LEGACY) legacyNotice();
   if (SPEECH_OK) { try { window.speechSynthesis.getVoices(); } catch (e) { /* warm up voices */ } }
 }
@@ -4165,10 +4175,10 @@ window.VCL = {
     /* finishes the record that is next in a tie without the UI (same engine calls): ga / gb correct answers for a / b */
     sim(id, ga, gb) {
       let m = recById(id); if (!m) return false; if (!m.root && m.status !== 'upcoming') m = activeRec(m) || m;
-      if (!playable(m) || m.seq) return false;
-      m.R = roundsFor(m); if (!kickoff(m, 'live', null)) return false;
-      m.seq.filter((x) => x.t === m.a).forEach((x, i) => { x.ok = i < ga; }); m.seq.filter((x) => x.t === m.b).forEach((x, i) => { x.ok = i < gb; });
-      m.step = m.seq.length; m.last = m.step - 1; m.half = true; refreshStatus(m); saveT();
+      if (!playable(m) || finished(m)) return false;
+      if (!m.seq) { m.R = roundsFor(m); if (!kickoff(m, 'live', null)) return false; }
+      let ia = 0, ib = 0; m.seq.forEach((x) => { if (x.ok == null) x.ok = x.t === m.a ? ia++ < ga : ib++ < gb; }); // a started record keeps its answers
+      m.step = m.seq.length; m.last = m.step - 1; m.half = true; m.s2 = true; m.revealed = true; if (T.cur === m.id) T.cur = null; refreshStatus(m); saveT();
       return m.status;
     },
     /* the record a test should play next in a tie (root or replay) */
