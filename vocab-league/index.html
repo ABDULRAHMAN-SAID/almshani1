@@ -1558,7 +1558,7 @@ function repairT(t) {
     m.label = typeof m.label === 'string' ? m.label : '';
     if (!isInt(m.R, 0, 8) || (m.seq && m.R < 1)) m.R = m.seq ? Math.max(1, m.seq.length / 2) : 0;
     if (typeof m.revealed !== 'boolean') m.revealed = !(m.mode === 'split' && m.status !== 'done' && m.status !== 'pens');
-    const fixQ = (q) => { q.cat = TYPES[q.type].cat; if (!['n', 'v', 'adj', 'adv'].includes(q.pos)) q.pos = ''; if (![1, 2, 3].includes(q.lvl)) q.lvl = 2; };
+    const fixQ = (q) => { if (q.cat !== TYPES[q.type].cat) q.cat = TYPES[q.type].cat; if (q.pos != null && !['', 'n', 'v', 'adj', 'adv'].includes(q.pos)) q.pos = ''; if (q.lvl != null && ![1, 2, 3].includes(q.lvl)) q.lvl = 2; };
     if (m.seq) m.seq.forEach((st) => fixQ(st.q));
     if (m.pre) m.pre.forEach((rd) => rd.qs.forEach(fixQ));
     if (m.pens) m.pens.kicks.forEach((k) => fixQ(k.q));
