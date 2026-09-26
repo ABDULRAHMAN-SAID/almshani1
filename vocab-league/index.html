@@ -189,6 +189,10 @@ bdi{ unicode-bidi:isolate }
 .dm.on{ border-color:var(--flood); background:rgba(124,196,255,.13); box-shadow:0 0 0 3px rgba(124,196,255,.14) }
 .dm.on b::before{ content:'✓ '; color:var(--flood) }
 .dm[disabled]{ opacity:.4; cursor:not-allowed }
+.format-line{ display:flex; gap:10px; align-items:flex-start; padding:10px 12px; margin-bottom:16px; border-radius:12px; background:rgba(242,193,78,.07); border:1px solid rgba(242,193,78,.3); font-size:.92rem; line-height:1.65; color:var(--silver) }
+.format-line .ic{ color:var(--gold); width:18px; height:18px; margin-top:4px; flex:none }
+.format-line b{ color:var(--white) }
+.gt-path{ flex-basis:100%; font-size:.84rem; color:var(--muted) }
 .mode-note{ display:flex; gap:8px; align-items:flex-start; line-height:1.65; margin:-2px 0 4px }
 .mode-note .ic{ width:16px; height:16px; margin-top:4px; color:var(--flood); flex:none }
 .mode-note b{ color:var(--white) }
@@ -787,7 +791,8 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 .dp-t .tn-g{ font-size:1.02rem } .dp-t .tn-c{ font-size:.76rem }
 .tm-in .tn-g{ font-size:1.04rem } .tm-in .tn-c{ font-size:.76rem }
 .ht-score .tn-g{ font-size:1.3rem } .ht-score .tn-c{ font-size:.85rem }
-.res-team .tn{ align-items:center } .res-team .tn-g{ font-size:clamp(20px,min(1.5vw,2.7vh),28px) } .res-team .tn-c{ font-size:clamp(13px,min(1vw,1.8vh),17px) }
+.res-name{ font-size:clamp(20px,min(1.6vw,2.9vh),30px); font-weight:700 }
+.is-ok .res-name{ color:var(--white) }
 .sc header .tn{ flex:1 } .sc header .tn-g{ font-size:1.12rem }
 .bk-champ .tn-g{ font-size:.9rem } .bk-champ .tn-c{ font-size:.68rem }
 
@@ -1057,6 +1062,10 @@ button.bkm:hover{ border-color:var(--flood); transform:translateY(-1px) }
   .cls-stats dd{ font-size:1.6rem }
   .dp-t svg{ width:26px }
   .pot{ padding:4px 8px } .pc svg{ width:22px }
+  .gp-row{ flex:1; min-width:0 } .gp-row svg{ width:24px }
+  .road li{ display:grid; grid-template-columns:minmax(0,1fr) auto auto; gap:4px 10px }
+  .road li .rd-stage{ grid-column:1 / -1; min-width:0 }
+  .road li small{ grid-column:1 / -1 }
   .type-groups{ grid-template-columns:1fr }
   .intro-grid, .intro-grid.no-toss{ grid-template-columns:1fr }
   .fo{ flex-direction:column; gap:8px }
@@ -1115,6 +1124,9 @@ button.bkm:hover{ border-color:var(--flood); transform:translateY(-1px) }
 }
 /* projectors / big screens: let the broadcast graphics grow with the screen instead of stopping at laptop size */
 @media (min-width: 1500px){
+  .v-hub.page, .v-draw.page{ max-width:1660px }
+  .bk{ --gap:32px } .bk-cells{ min-height:calc(var(--rows) * 124px) }
+  .bk-r .tn{ font-size:.95rem } .bk-r svg{ width:26px } .bk-s{ font-size:1.6rem }
   .sb, .sb-sub, .qp{ width:min(80vw,1560px) }
   .ovl-card{ width:min(1000px,100%) }
   .ovl-card.pz, .ovl-card.se, .ovl-card.ht{ width:min(760px,100%) }
@@ -1650,7 +1662,7 @@ const IC = {
 function icon(name, cls) { return `<svg class="ic${cls ? ' ' + cls : ''}" viewBox="0 0 24 24" aria-hidden="true" focusable="false" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${IC[name] || ''}</svg>`; }
 
 function starPts(cx, cy, R, r) { const p = []; for (let i = 0; i < 10; i++) { const rad = i % 2 ? r : R; const a = (-90 + i * 36) * Math.PI / 180; p.push((cx + rad * Math.cos(a)).toFixed(2) + ',' + (cy + rad * Math.sin(a)).toFixed(2)); } return p.join(' '); }
-/* ---- the school seal: the school name IS the emblem (no ball anywhere on the page) ---- */
+/* ---- the school seal: the school name IS the emblem ---- */
 function starRing(cx, cy, r, n, R0, r0, fill, rot) { let s = ''; for (let i = 0; i < n; i++) { const a = ((rot || -90) + (i * 360) / n) * Math.PI / 180; s += `<polygon points="${starPts(cx + r * Math.cos(a), cy + r * Math.sin(a), R0, r0)}" fill="${fill}"/>`; } return s; }
 /* full seal: «حطين» in the centre (silver, gold edge), ring text «مدرسة حطين للبنين» / «الصف العاشر · ENGLISH», 10 stars (Grade 10) */
 function sealSVG(id, cls) {
@@ -2427,7 +2439,7 @@ function matchFits(types, pool, R) {
   }
   res.need = need; return res;
 }
-/* ============================ 11. TOURNAMENT / STANDINGS ============================ */
+/* ============================ 11. TOURNAMENT: CLASSES → GROUPS, KNOCKOUT DRAW & BRACKET ============================ */
 function newMatch(id, a, b) {
   return { id, stage: 'ko', label: '', a, b, status: 'upcoming', plan: null, R: 0, mode: null, first: null, present: null, s2: false, seq: null, step: 0, half: false, last: null, doneAt: null, winner: null, pens: null };
 }
@@ -2811,7 +2823,7 @@ function wordsTotalHTML() {
   if (n >= 30 && w.fit) {
     const block = blockReason(s, w);
     if (block) extra = `<p class="budget bad">${icon('x')} <span>${esc(block)}</span></p>`;
-    else if (n < w.need) extra = `<p class="budget note">${icon('help')} <span>ستتكرر الكلمات بين المباريات لأن البطولة تعتمد على كلمات الوحدة الأولى فقط (${num(n)} كلمة لـ${num(w.nm)} مباراة ≈ ${num(w.need)} سؤالًا). تعود الكلمات الأقدم استخدامًا أولًا، ولا تتكرر كلمة داخل المباراة الواحدة أو ركلات الترجيح.</span></p>`;
+    else if (n < w.need) extra = `<p class="budget note">${icon('help')} <span>ستتكرر الكلمات بين المباريات لأن البطولة تعتمد على كلمات الوحدة الأولى فقط (${num(n)} كلمة، والبطولة تستخدم نحو ${num(w.need)} كلمة في ${num(w.nm)} مباراة). تعود الكلمات الأقدم استخدامًا أولًا، ولا تتكرر كلمة داخل المباراة الواحدة أو ركلات الترجيح.</span></p>`;
     else extra = `<p class="budget good">${icon('check')} <span>تكفي لكل مباريات البطولة (${num(w.nm)} مباراة ≈ ${num(w.need)} كلمة) دون تكرار.</span></p>`;
   }
   return `<b>${n}</b> كلمة مختارة ${n < 30 ? '<span class="bad">— يلزم 30 كلمة على الأقل</span>' : ''}${extra}`;
@@ -2854,9 +2866,9 @@ VIEWS.setup = () => {
 function drawNote() {
   const d = T.draw; if (!d) return '';
   const cls = T.classes.length;
-  if (d.mode === 'protect') return d.same ? `<p class="draw-note warn">${icon('help')} حماية الشعبة: تعذّر رياضيًا تجنّب ${num(d.same)} ${d.same === 1 ? 'مواجهة' : 'مواجهات'} بين مجموعتين من الشعبة نفسها (شعبة لديها أكثر من نصف المجموعات) — وهذا أقل عدد ممكن.</p>` : `<p class="draw-note good">${icon('check')} حماية الشعبة: لا تلتقي مجموعتان من الشعبة نفسها في ${esc(koRound(T.bracket.P, 0).ar)}.</p>`;
-  if (d.mode === 'same') return `<p class="draw-note">${icon('users')} مواجهات داخل الشعبة أولاً: ${num(d.same)} ${d.same === 1 ? 'مواجهة' : 'مواجهات'} داخل الشعبة (تُلعب مباشرة في حصة الشعبة) + ${num(d.ties - d.same)} بين شعبتين.</p>`;
-  return cls > 1 ? `<p class="draw-note">${icon('shuffle')} قرعة عشوائية بالكامل: ${num(d.same)} ${d.same === 1 ? 'مواجهة' : 'مواجهات'} داخل الشعبة الواحدة و${num(d.ties - d.same)} بين شعبتين.</p>` : '';
+  if (d.mode === 'protect') return d.same ? `<p class="draw-note warn">${icon('help')}<span>حماية الشعبة: تعذّر رياضيًا تجنّب ${num(d.same)} ${d.same === 1 ? 'مواجهة' : 'مواجهات'} بين مجموعتين من الشعبة نفسها (شعبة لديها أكثر من نصف المجموعات) — وهذا أقل عدد ممكن.</span></p>` : `<p class="draw-note good">${icon('check')}<span>حماية الشعبة: لا تلتقي مجموعتان من الشعبة نفسها في ${esc(koRound(T.bracket.P, 0).ar)}.</span></p>`;
+  if (d.mode === 'same') return `<p class="draw-note">${icon('users')}<span>مواجهات داخل الشعبة أولاً: ${num(d.same)} ${d.same === 1 ? 'مواجهة' : 'مواجهات'} داخل الشعبة (تُلعب مباشرة في حصة الشعبة) + ${num(d.ties - d.same)} بين شعبتين.</span></p>`;
+  return cls > 1 ? `<p class="draw-note">${icon('shuffle')}<span>قرعة عشوائية بالكامل: ${num(d.same)} ${d.same === 1 ? 'مواجهة' : 'مواجهات'} داخل الشعبة الواحدة و${num(d.ties - d.same)} بين شعبتين.</span></p>` : '';
 }
 function drawKOView() {
   const B = T.bracket, ri = koRound(B.P, 0), mode = DRAW_MODES.find((x) => x.v === T.settings.draw) || DRAW_MODES[0];
@@ -3200,7 +3212,7 @@ function resultOverlay(m, st, ctx) {
   return `<div class="ovl-card res ${ok ? 'is-ok' : 'is-no'}" role="dialog" aria-modal="true" aria-labelledby="res-t" style="--tc:${t.color}">
   <div class="res-fx" aria-hidden="true">${ok ? '<i class="burst"></i><i class="sweep"></i>' : ''}</div>
   <div class="res-top"><div class="res-crest" aria-hidden="true">${sparks}${crestSVG(t, 92)}</div><div class="res-head"><p class="kicker" dir="ltr" lang="en">${kick}${minute ? ' · ' + minute : ''}</p><h2 class="res-t" id="res-t">${title}</h2>
-  <div class="res-team">${ok ? `<span class="plus-tag">${pens ? 'ركلة ناجحة' : '+1 نقطة'}</span><span class="res-for">لـ</span>` : ''}${nameHTML(t, 'res-n')}${st.var ? `<span class="var-tag">${icon('var')} قرار الفار</span>` : ''}</div></div></div>
+  <div class="res-team">${ok ? `<span class="plus-tag">${pens ? 'ركلة ناجحة' : '<bdi dir="ltr">+1</bdi> نقطة'}</span><span class="res-for">لـ</span>` : ''}<b class="res-name">${bd(tName(t))}</b>${st.var ? `<span class="var-tag">${icon('var')} قرار الفار</span>` : ''}</div></div></div>
   <div class="res-score">${crestSVG(A, 30)}<span class="rs-n">${bd(teamShort(m.a))}</span>${sc}<span class="rs-n">${bd(teamShort(m.b))}</span>${crestSVG(B, 30)}</div>
   ${!ok && q.type !== 'match5' ? `<p class="res-ans">الإجابة الصحيحة: ${answerHTML(q)}</p>` : ''}
   ${learnCard(q)}
@@ -4015,7 +4027,7 @@ function restoreFrom(text) {
   let msg;
   if (t) {
     const done = t.matches.filter((m) => m.status === 'done').length;
-    const what = `بطولة ${num(t.teams.length)} مجموعة من الشعب ${t.classes.map((x) => bd(x.name)).join('، ')} (${t.settings.format === 'ko' ? 'خروج المغلوب' : 'دوري'}) — ${num(done)} من ${num(t.matches.length)} مباريات انتهت${typeof t.createdAt === 'number' ? ` · أُنشئت ${esc(fmtDate(t.createdAt))}` : ''}`;
+    const what = `بطولة ${num(t.teams.length)} مجموعة من الشعب ${t.classes.map((x) => bd(x.name)).join('، ')} — ${num(done)} من ${num(t.matches.length)} مباريات انتهت${typeof t.createdAt === 'number' ? ` · أُنشئت ${esc(fmtDate(t.createdAt))}` : ''}`;
     msg = `<b>ستُستعاد:</b> ${what}.<br>${T ? '<b class="bad">ستُحذف البطولة الحالية ونتائجها من هذا الجهاز.</b><br>' : ''}${words}`;
   } else msg = `${words}<br>البطولة الحالية لن تتغير.`;
   confirmModal(msg + '<br>متابعة؟', t ? 'استعادة' : 'إضافة الكلمات', () => {
