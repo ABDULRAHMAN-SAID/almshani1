@@ -715,7 +715,7 @@ html.in-match .warn-bar{ display:none }
 .ft-rounds th{ padding:10px; font-weight:500; color:var(--silver); font-size:.88rem; border-bottom:1px solid var(--line); background:rgba(6,13,36,.35) }
 .ft-rounds td{ padding:8px 10px; border-bottom:1px solid var(--line) }
 .ft-rounds tr:last-child td{ border-bottom:0 }
-.ft-rounds td.rn{ font-family:var(--f-num); font-size:1.3rem; color:var(--muted); width:40px }
+.ft-rounds td.rno{ font-family:var(--f-num); font-size:1.3rem; color:var(--muted); width:40px }
 .ft-rounds td.rt{ text-align:start; white-space:nowrap }
 .cat-dot{ display:inline-block; width:10px; height:10px; border-radius:50%; background:var(--cc); margin-inline-end:8px }
 .ft-rounds td.ok, .ft-rounds td.no{ white-space:nowrap }
@@ -2906,7 +2906,7 @@ VIEWS.match = () => {
 function roundsTable(m) {
   const sh = shortNames(m.players);
   const rows = Array.from({ length: m.R }, (_, r) => { const rs = m.seq.filter((x) => x.r === r); const t = rs[0] ? rs[0].q.type : 'mean_en_ar';
-    return `<tr><td class="rn">${r + 1}</td><td class="rt"><span class="cat-dot" style="--cc:${CATS[TYPES[t].cat].color}"></span>${TYPES[t].short}</td>${m.players.map((id) => { const s = rs.find((x) => x.p === id); if (!s || s.ok === null || s.ok === undefined) return '<td class="muted">—</td>'; return `<td class="${s.ok ? 'ok' : 'no'}"><span class="rc">${s.ok ? icon('check') : icon('x')}</span>${s.q.type === 'match5' ? '<small>5 كلمات</small>' : en(s.q.w, 'rw')}${s.tr ? '<small class="rev-s">المعلم</small>' : ''}</td>`; }).join('')}</tr>`; }).join('');
+    return `<tr><td class="rno">${r + 1}</td><td class="rt"><span class="cat-dot" style="--cc:${CATS[TYPES[t].cat].color}"></span>${TYPES[t].short}</td>${m.players.map((id) => { const s = rs.find((x) => x.p === id); if (!s || s.ok === null || s.ok === undefined) return '<td class="muted">—</td>'; return `<td class="${s.ok ? 'ok' : 'no'}"><span class="rc">${s.ok ? icon('check') : icon('x')}</span>${s.q.type === 'match5' ? '<small>5 كلمات</small>' : en(s.q.w, 'rw')}${s.tr ? '<small class="rev-s">المعلم</small>' : ''}</td>`; }).join('')}</tr>`; }).join('');
   return `<div class="tbl-wrap ft-tbl"><table class="ft-rounds"><caption class="sr-only">نتيجة كل سؤال</caption><thead><tr><th>#</th><th>نوع السؤال</th>${m.players.map((id, i) => `<th><bdi dir="auto" title="${esc(pName(id))}">${esc(sh[i])}</bdi></th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 /* students as chips (avatar + name) for the big cards */
