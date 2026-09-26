@@ -1853,14 +1853,15 @@ function blankClass(e) {
   if (ADJ_W.has(prev)) return 'adj';
   if (e.pos) return e.pos;
   const g = guessPos(e.w);
-  if (g === 'n' && prev && DET_W.has(next)) return 'v'; // "Factories ___ the river."
+  if (g === 'n' && prev && (DET_W.has(next) || (/[a-z]s$/.test(prev) && !/ss$/.test(prev)))) return 'v'; // "Factories ___ the river." / "Ice caps ___ because of heat."
   return g;
 }
 function genGapSentence(e, pools) {
   const q = baseQ('gap_sentence', e);
   let ds = uniq(e.gd.filter((x) => x !== e.w)).slice(0, 3);
   if (ds.length < 3) {
-    const cls = blankClass(e), fit = CANNOT_FIT[cls] || CANNOT_FIT.n, bank = allEntries().filter((x) => x.u !== 'custom');
+    const mine = new Set(CUSTOM.map((c) => c.w).concat(T && Array.isArray(T.custom) ? T.custom.map((c) => c.w) : []));
+    const cls = blankClass(e), fit = CANNOT_FIT[cls] || CANNOT_FIT.n, bank = allEntries().filter((x) => x.u !== 'custom' && !mine.has(x.w));
     const base = (x) => x.w !== e.w && !ds.includes(x.w) && !nearSame(e, x) && !/[ -]/.test(x.w);
     const dual = cls === 'n' ? NOUNISH_V : cls === 'v' ? VERBISH_N : new Set();
     const tries = [
