@@ -2143,21 +2143,21 @@ function setAccountName(n) {
 }
 /* competitions saved on this device by the earlier version (before accounts): the teacher chooses which are theirs */
 function importCandidates() {
-  const names = {}, keys = [[KEYS.t, '']]; const r = jGet(KEYS.u);
+  const keys = [[KEYS.t, '']]; const r = jGet(KEYS.u);
   if (r.ok && r.val && Array.isArray(r.val.list)) r.val.list.forEach((u) => { if (u && typeof u.id === 'string' && ID_RE.test(u.id)) { keys.push([`vcl.u.${u.id}.contest.v3`, isStr(u.name, 200) ? cleanName(u.name) : '']); } });
   const out = [];
   keys.forEach(([k, who]) => {
     if (sGet('tahseel.imported.' + k) || sGet(`tahseel.skip.${ACC.uid}.${k}`)) return;
     const raw = jGet(k); if (!raw.ok || !raw.val) return;
     const t = parseT(raw.val); if (!t || IDX.comps.some((c) => c.id === t.id) || out.some((x) => x.t.id === t.id)) return;
-    out.push({ k, who, t });
+    out.push({ k, who, t, users: keys.length - 1 });
   });
   return out;
 }
 function offerImport() {
   if (!ACC || MODAL.open || S.view === 'match') return;
   const list = importCandidates(); if (!list.length) return;
-  const who = list.filter((x) => x.who).length, mine = (x) => !x.who || who === 1 || (ACC.name && cleanText(x.who, UNAME_MAX) === ACC.name); // the unnamed save, the only user, or the teacher's own name
+  const mine = (x) => !x.who || x.users === 1 || (ACC.name && cleanText(x.who, UNAME_MAX) === ACC.name); // the unnamed save, the only user of the old version on this device, or the teacher's own name
   const rows = list.map((x, i) => `<label class="imp-r"><input type="checkbox" data-i="${i}"${mine(x) ? ' checked' : ''}><span><b dir="auto">${esc(compName(x.t.name || DEF_NAME))}</b><small>${x.who ? `المستخدم في النسخة السابقة: <bdi dir="auto">${esc(x.who)}</bdi> · ` : ''}${num(x.t.matches.filter((m) => m.status === 'done').length)} مباراة منتهية</small></span></label>`).join('');
   openModal({
     title: `${icon('save')} مسابقات محفوظة على هذا الجهاز`, dismissable: false,
