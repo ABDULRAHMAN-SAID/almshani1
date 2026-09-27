@@ -1532,6 +1532,15 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 .pod.tie .pm{ display:flex; flex-direction:column; align-items:center; gap:4px; min-width:0; max-width:150px }
 .pod.tie .pm b{ font-size:16px; line-height:1.3; text-align:center; overflow-wrap:anywhere }
 .pm-more{ align-self:center; font-weight:700; color:var(--silver) }
+/* sign in: «تحقّق من بريدك» and «كلمة مرور جديدة» */
+.lg-h:has(> .ic){ display:flex; align-items:center; gap:10px } .lg-h .ic{ width:24px; height:24px; color:var(--gold); flex:none }
+.lg-steps{ margin:4px 0 6px; padding:0; list-style:none; counter-reset:st; display:grid; gap:10px }
+.lg-steps li{ counter-increment:st; position:relative; padding:10px 14px 10px 12px; padding-inline-start:46px; border-radius:12px; background:var(--green-t); line-height:1.7; font-size:16px }
+.lg-steps li::before{ content:counter(st); position:absolute; inset-inline-start:12px; top:10px; width:24px; height:24px; border-radius:50%; background:var(--green); color:#fff; display:grid; place-items:center; font-weight:700; font-size:14px; font-family:var(--f-num) }
+.lg-alert.bad{ background:#fdecea; color:#a3342e; border-color:#f3c5c1 }
+.lg-wait{ display:flex; align-items:center; gap:10px }
+.lg-wait .spin{ width:20px; height:20px }
+.lg-link[disabled]{ opacity:.55; cursor:default }
 /* ceremony tabs, the certificate list, help */
 .cer-tabs{ margin:0 auto 6px }
 .cer-tabs .seg-b{ display:inline-flex; align-items:center; gap:8px }
@@ -2126,6 +2135,9 @@ function fmtClock(ts) { const d = new Date(ts), now = new Date(), t = `${pad2(d.
 
 /* ---------- authentication ---------- */
 const AUTH_ERR = {
+  EXPIRED_OOB_CODE: 'انتهت صلاحية هذا الرابط — اطلب رابطًا جديدًا.',
+  INVALID_OOB_CODE: 'هذا الرابط غير صالح أو استُخدم من قبل — اطلب رابطًا جديدًا.',
+  WEAK_PASSWORD: 'كلمة المرور ضعيفة — 6 أحرف أو أكثر.',
   EMAIL_EXISTS: 'هذا البريد مسجَّل من قبل — اختر «دخول».',
   INVALID_LOGIN_CREDENTIALS: 'البريد الإلكتروني أو كلمة المرور غير صحيحة.',
   INVALID_PASSWORD: 'البريد الإلكتروني أو كلمة المرور غير صحيحة.',
@@ -2182,6 +2194,9 @@ async function signUp(name, email, pass) {
   try { const u = await fbPost(`${FB_AUTH}update?key=${FB.apiKey}`, { idToken: ACC.idToken, displayName: ACC.name, returnSecureToken: true }); if (u.idToken) setSession(u, ACC.name, ACC.email); } catch (e) { /* the name is kept in the profile anyway */ }
 }
 const sendReset = (email) => fbPost(`${FB_AUTH}sendOobCode?key=${FB.apiKey}`, { requestType: 'PASSWORD_RESET', email }, { locale: 'ar' });
+/* the link of the reset email, opened in the platform (?mode=resetPassword&oobCode=…): check it, then set the new password */
+const checkReset = (oobCode) => fbPost(`${FB_AUTH}resetPassword?key=${FB.apiKey}`, { oobCode });
+const doReset = (oobCode, newPassword) => fbPost(`${FB_AUTH}resetPassword?key=${FB.apiKey}`, { oobCode, newPassword });
 /* a valid ID token (refreshed a minute before it expires); a refused refresh token ends the session */
 const DEAD_RT = ['TOKEN_EXPIRED', 'INVALID_REFRESH_TOKEN', 'USER_DISABLED', 'USER_NOT_FOUND', 'INVALID_GRANT_TYPE', 'MISSING_REFRESH_TOKEN', 'PROJECT_NUMBER_MISMATCH'];
 async function idToken() {
@@ -3848,10 +3863,10 @@ function progressText() {
   return G.ready ? 'أبطال الشعب جاهزون — النهائي الكبير' : `${num(done)} مباراة انتهت · أبطال الشعب: ${num(champs)} من ${num(T.classes.length)}`;
 }
 /* ---------- Sign in: «منصة تحصيل» — the teacher's account ---------- */
-const AUTH_T = { in: 'دخول', up: 'حساب معلم جديد', reset: 'استعادة كلمة المرور' };
+const AUTH_T = { in: 'دخول', up: 'حساب معلم جديد', reset: 'استعادة كلمة المرور', sent: 'تحقّق من بريدك', newpw: 'كلمة مرور جديدة' };
 VIEWS.login = () => {
   const a = S.auth || (S.auth = { mode: 'in' }), m = a.mode || 'in', mail = esc(a.email || '');
-  const go = m === 'up' ? 'إنشاء الحساب والدخول' : m === 'reset' ? 'إرسال رابط الاستعادة' : 'دخول';
+  const go = m === 'up' ? 'إنشاء الحساب والدخول' : m === 'reset' ? 'إرسال رابط الاستعادة' : m === 'sent' ? 'العودة إلى الدخول' : m === 'newpw' ? 'حفظ كلمة المرور والدخول' : 'دخول';
   return `<section class="v-login">
   <div class="beams" aria-hidden="true"><i class="beam b1"></i><i class="beam b2"></i></div>
   <div class="lg-wrap">
@@ -3862,7 +3877,19 @@ VIEWS.login = () => {
       <p class="lg-tag">منصة المسابقات التعليمية للمعلمين — مسابقات الصف ونتائجها وشهاداتها في حساب واحد.</p>
     </header>
     <form class="lg-card" id="auth-form" novalidate>
-      ${a.note && m === 'in' ? `<p class="lg-alert" role="status">${icon('reset')}<span>${esc(a.note)}</span></p>` : ''}
+      ${m === 'sent' ? `<h2 class="lg-h">${icon('mail')}${AUTH_T.sent}</h2><p class="lg-note">أرسلنا رابط تعيين كلمة مرور جديدة إلى <b dir="ltr">${mail}</b></p>
+      <ol class="lg-steps"><li>افتح بريدك وابحث عن رسالة <b>«إعادة تعيين كلمة المرور»</b>.</li><li>لم تجدها خلال دقيقتين؟ افتح مجلد <b>الرسائل غير المرغوب فيها</b> (Spam أو Junk)، واضغط <b>«ليست رسالة غير مرغوب فيها»</b> — فتصلك الرسائل القادمة في البريد الوارد.</li><li>اضغط الرابط في الرسالة، واكتب كلمة المرور الجديدة، ثم ادخل بها.</li></ol>
+      <p class="lg-err" id="auth-err" role="alert"></p>
+      <button type="submit" class="btn btn-gold btn-lg lg-go" id="auth-go">${icon('back')}<span>${go}</span></button>
+      <button type="button" class="link lg-link" data-act="auth-resend" id="auth-resend"${resendWait() ? ' disabled' : ''}>${icon('send')}<span>${resendWait() ? `إعادة الإرسال بعد ${num(resendWait())} ثانية` : 'لم تصل الرسالة؟ أعد الإرسال'}</span></button>`
+      : m === 'newpw' ? `<h2 class="lg-h">${icon('lock')}${AUTH_T.newpw}</h2>${a.npErr ? `<p class="lg-alert bad" role="alert">${icon('x')}<span>${esc(a.npErr)}</span></p><button type="button" class="btn btn-gold btn-lg lg-go" data-act="auth-mode" data-m="reset">${icon('send')}<span>اطلب رابطًا جديدًا</span></button><button type="button" class="link lg-link" data-act="auth-mode" data-m="in">${icon('back')}<span>العودة إلى الدخول</span></button>`
+        : !a.npEmail ? `<p class="lg-note lg-wait" role="status"><span class="spin" aria-hidden="true"></span>جارٍ التحقق من الرابط…</p>`
+        : `<p class="lg-note">للحساب <b dir="ltr">${esc(a.npEmail)}</b></p>
+      <label class="fld"><span>كلمة المرور الجديدة <small>(6 أحرف أو أكثر)</small></span><span class="pw"><input id="au-pass" type="password" autocomplete="new-password" dir="ltr" autofocus><button type="button" class="icon-btn sm" data-act="pw-toggle" aria-pressed="false" aria-label="إظهار كلمة المرور">${icon('eye')}</button></span></label>
+      <label class="fld"><span>أعد كتابتها للتأكيد</span><input id="au-pass2" type="password" autocomplete="new-password" dir="ltr"></label>
+      <p class="lg-err" id="auth-err" role="alert"></p>
+      <button type="submit" class="btn btn-gold btn-lg lg-go" id="auth-go">${icon('check')}<span>${go}</span></button>`}`
+      : `      ${a.note && m === 'in' ? `<p class="lg-alert" role="status">${icon('reset')}<span>${esc(a.note)}</span></p>` : ''}
       ${m === 'reset' ? `<h2 class="lg-h">${AUTH_T.reset}</h2><p class="lg-note">اكتب بريدك، ونرسل لك رابطًا لتعيين كلمة مرور جديدة.</p>`
         : `<div class="lg-tabs" role="tablist" aria-label="نوع الدخول"><button type="button" role="tab" class="lg-tab${m === 'in' ? ' on' : ''}" aria-selected="${m === 'in'}" data-act="auth-mode" data-m="in">${AUTH_T.in}</button><button type="button" role="tab" class="lg-tab${m === 'up' ? ' on' : ''}" aria-selected="${m === 'up'}" data-act="auth-mode" data-m="up">${AUTH_T.up}</button></div>`}
       ${m === 'up' ? `<label class="fld"><span>اسم المعلم (يظهر على الشهادات)</span><input id="au-name" type="text" autocomplete="name" maxlength="${UNAME_MAX}" dir="auto" placeholder="مثال: أ. محمد بن سعيد المعشني" value="${esc(a.name || '')}"></label>` : ''}
@@ -3872,15 +3899,43 @@ VIEWS.login = () => {
       <button type="submit" class="btn btn-gold btn-lg lg-go" id="auth-go">${icon(m === 'reset' ? 'send' : 'play')}<span>${go}</span></button>
       ${m === 'in' ? '<button type="button" class="link lg-link" data-act="auth-mode" data-m="reset">نسيت كلمة المرور؟</button>' : ''}
       ${m === 'reset' ? `<button type="button" class="link lg-link" data-act="auth-mode" data-m="in">${icon('back')}<span>العودة إلى الدخول</span></button>` : ''}
+      `}
     </form>
     <p class="lg-foot">${icon('check')}<span>مسابقاتك وطلابك محفوظة في حسابك — ادخل من أي جهاز وتجدها كما تركتها.</span></p>
   </div>
 </section>`;
 };
+/* «أعد الإرسال» waits a minute after each email */
+const resendWait = () => { const a = S.auth; return a && a.sentAt ? Math.max(0, Math.ceil((a.sentAt + 60000 - Date.now()) / 1000)) : 0; };
+function resendTick() {
+  clearTimeout(resendTick.t); const b = $('#auth-resend'); if (!b || !S.auth || S.auth.mode !== 'sent') return;
+  const w = resendWait(); b.disabled = w > 0; const sp = $('span', b); if (sp) sp.innerHTML = w > 0 ? `إعادة الإرسال بعد ${num(w)} ثانية` : 'لم تصل الرسالة؟ أعد الإرسال';
+  if (w > 0) resendTick.t = setTimeout(resendTick, 1000);
+}
+/* the link of the email: its account is checked first («جارٍ التحقق من الرابط…») */
+AFTER.login = () => {
+  const a = S.auth; if (!a) return;
+  if (a.mode === 'sent') resendTick();
+  if (a.mode !== 'newpw' || a.npEmail || a.npErr || a.npBusy) return;
+  a.npBusy = true;
+  checkReset(a.oob).then((b) => { a.npEmail = String((b && b.email) || '').toLowerCase(); if (!a.npEmail) a.npErr = AUTH_ERR.INVALID_OOB_CODE; }, (e) => { a.npErr = e.net ? 'تعذّر الاتصال بالإنترنت — تحقّق من الشبكة ثم أعد فتح الرابط.' : authMsg(e); })
+    .then(() => { a.npBusy = false; if (S.view === 'login' && S.auth === a) go('login', 'replace'); });
+};
 async function doAuth() {
   const a = S.auth || (S.auth = { mode: 'in' }), val = (id) => (($('#' + id) || {}).value || '').trim();
   const email = val('au-email').toLowerCase(), pass = ($('#au-pass') || {}).value || '', name = cleanText(val('au-name'), UNAME_MAX);
   const errEl = $('#auth-err'), btn = $('#auth-go'), fail = (m, id) => { if (errEl) errEl.textContent = m; const f = id && $('#' + id); if (f) f.focus(); };
+  if (a.mode === 'sent') { a.mode = 'in'; go('login', 'replace'); const f = $('#au-pass'); if (f) f.focus(); return; }
+  if (a.mode === 'newpw') {
+    const p2 = ($('#au-pass2') || {}).value || '';
+    if (!a.npEmail) return;
+    if (pass.length < 6) return fail('كلمة المرور قصيرة — 6 أحرف أو أكثر.', 'au-pass');
+    if (pass !== p2) return fail('كلمتا المرور غير متطابقتين — اكتبها مرة أخرى للتأكيد.', 'au-pass2');
+    if (btn) { btn.disabled = true; btn.classList.add('is-busy'); }
+    try { await doReset(a.oob, pass); await signIn(a.npEmail, pass); await afterLogin(false); toast('تم تعيين كلمة المرور الجديدة', 'good'); }
+    catch (e) { if (btn) { btn.disabled = false; btn.classList.remove('is-busy'); } if (/OOB_CODE/.test(e.message || '')) { a.npErr = authMsg(e); go('login', 'replace'); return; } fail(authMsg(e)); }
+    return;
+  }
   a.email = email; a.name = name;
   if (a.mode === 'up' && name.length < 3) return fail('اكتب اسم المعلم كما يظهر على الشهادات.', 'au-name');
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) return fail('اكتب بريدًا إلكترونيًا صحيحًا.', 'au-email');
@@ -3889,7 +3944,7 @@ async function doAuth() {
   if (btn) { btn.disabled = true; btn.classList.add('is-busy'); }
   if (errEl) errEl.textContent = '';
   try {
-    if (a.mode === 'reset') { await sendReset(email); a.mode = 'in'; go('login', 'replace'); toast('أرسلنا رابط تعيين كلمة المرور إلى بريدك — تحقّق من صندوق الوارد (وأحيانًا البريد غير المرغوب).', 'good'); return; }
+    if (a.mode === 'reset') { await sendReset(email); a.mode = 'sent'; a.sentAt = Date.now(); go('login', 'replace'); resendTick(); return; }
     if (a.mode === 'up') await signUp(name, email, pass); else await signIn(email, pass);
     await afterLogin(a.mode === 'up');
   } catch (e) {
@@ -5643,6 +5698,12 @@ const ACT = {
   umenu: () => toggleUserMenu(),
   logout: () => confirmLogout(),
   rename: () => { SFX.click(); askName(false); },
+  'auth-resend': async (el) => {
+    const a = S.auth; if (!a || a.mode !== 'sent' || resendWait() || !a.email) return;
+    el.disabled = true; SFX.click();
+    try { await sendReset(a.email); a.sentAt = Date.now(); resendTick(); toast('أُرسلت الرسالة مرة أخرى', 'good'); }
+    catch (e) { el.disabled = false; toast(e.net ? 'تعذّر الاتصال بالإنترنت — حاول مرة أخرى.' : authMsg(e), 'bad'); }
+  },
   'auth-mode': (el) => { const a = S.auth || (S.auth = {}); a.email = (($('#au-email') || {}).value || a.email || '').trim(); a.mode = el.dataset.m; SFX.click(); go('login', 'replace'); const f = $(a.mode === 'up' ? '#au-name' : '#au-email'); if (f) f.focus(); },
   'pw-toggle': (el) => { const i = $('#au-pass'); if (!i) return; const show = i.type === 'password'; i.type = show ? 'text' : 'password'; el.setAttribute('aria-pressed', String(show)); el.setAttribute('aria-label', show ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور'); i.focus(); },
   'open-comp': (el) => { SFX.click(); openComp(el.dataset.id); },
@@ -5948,6 +6009,9 @@ async function init() {
   sDel(OLD_CUSTOM_KEY); // custom words no longer exist: a saved list is ignored and removed
   drawSky();
   if (SPEECH_OK) { try { window.speechSynthesis.getVoices(); } catch (e) { /* warm up voices */ } }
+  const qs = (() => { try { return new URLSearchParams(window.location.search); } catch (e) { return null; } })(), oob = qs && qs.get('mode') === 'resetPassword' ? qs.get('oobCode') || '' : '';
+  if (qs && qs.get('mode')) { try { window.history.replaceState(window.history.state, '', window.location.pathname + window.location.hash); } catch (e) { /* the address keeps it */ } }
+  if (/^[A-Za-z0-9_-]{10,400}$/.test(oob)) { S.auth = { mode: 'newpw', oob }; go('login', 'init'); histInit(); return; } // «كلمة مرور جديدة» from the email
   ACC = restoreSession();
   if (!ACC) { S.auth = { mode: 'in' }; go('login', 'init'); histInit(); return; }
   /* signed in on this device: this device's copy shows at once (even offline), the account refreshes it right after */
