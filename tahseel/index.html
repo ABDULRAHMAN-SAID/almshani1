@@ -1506,6 +1506,17 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 @media (min-width:700px){ .tabs{ flex-wrap:wrap; overflow-x:visible } }
 .av.tm{ font-family:var(--f-ui); font-size:1.05em }
 .av.xl.tm, .av.xxl.tm{ font-size:1.5em }
+/* the dots under ي stay inside the name box */
+.chip-n{ padding-bottom:.28em } .sb-chips.many .chip-n{ padding-bottom:.3em }
+.congrats{ flex-wrap:nowrap } .congrats > span{ min-width:0 }
+.cmp-champ .nw{ display:inline-block; max-width:100%; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; vertical-align:bottom }
+.v-draw.anim .dw-stage{ position:sticky; top:0; z-index:3 }
+.av.tm .ic{ width:58%; height:58%; color:#fff }
+/* students sharing a podium place stand on one step */
+.pod.tie .pod-many{ display:flex; flex-wrap:wrap; justify-content:center; gap:6px 12px; max-width:100% }
+.pod.tie .pm{ display:flex; flex-direction:column; align-items:center; gap:4px; min-width:0; max-width:150px }
+.pod.tie .pm b{ font-size:16px; line-height:1.3; text-align:center; overflow-wrap:anywhere }
+.pm-more{ align-self:center; font-weight:700; color:var(--silver) }
 /* ceremony tabs, the certificate list, help */
 .cer-tabs{ margin:0 auto 6px }
 .cer-tabs .seg-b{ display:inline-flex; align-items:center; gap:8px }
@@ -1535,7 +1546,7 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
   .sb-chips.many{ display:flex; overflow-x:auto; scrollbar-width:none; gap:6px; min-width:0; width:100% }
   .v-match .sb-wrap, .v-match .sb{ min-width:0; max-width:100% }
   .sb-chips.many::-webkit-scrollbar{ display:none }
-  .sb-chips.many .chip{ flex:0 0 calc((100% - 12px) / 3); height:42px }
+  .sb-chips.many .chip{ flex:0 0 auto; min-width:calc((100% - 12px) / 3); height:42px }
   .v-match .qp-body{ overflow-y:auto }
   .cls-count .seg-b{ min-width:40px; padding-inline:8px }
   .gm-pod .pod-list li b{ white-space:normal; overflow-wrap:anywhere }
@@ -2487,7 +2498,7 @@ function compNotice(id, forked, gone) {
 function sessionEnded() {
   if (!ACC) return;
   CLOUD.state = 'auth'; clearTimeout(CLOUD.timer); clearTimeout(CLOUD.listTimer); paintSave();
-  if (S.view === 'match' || (S.view === 'ladder' && T && gameOf(T) === 'ladder' && liveRun())) { if (!CLOUD.authWarned) { CLOUD.authWarned = true; toast('انتهت جلسة الدخول — أكمل المباراة؛ تقدّمك محفوظ على هذا الجهاز، وسجّل الدخول بعدها ليُرفع إلى حسابك', 'bad'); } return; }
+  if (S.view === 'match' || (S.view === 'ladder' && T && gameOf(T) === 'ladder' && liveRun())) { if (!CLOUD.authWarned) { CLOUD.authWarned = true; toast(S.view === 'ladder' ? 'انتهت جلسة الدخول — أكمل محاولة الطالب؛ تقدّمك محفوظ على هذا الجهاز، وسجّل الدخول بعدها ليُرفع إلى حسابك' : 'انتهت جلسة الدخول — أكمل المباراة؛ تقدّمك محفوظ على هذا الجهاز، وسجّل الدخول بعدها ليُرفع إلى حسابك', 'bad'); } return; }
   relogin();
 }
 function relogin() {
@@ -2638,7 +2649,7 @@ function saveT(force) {
 }
 /* the teacher's class lists and question counts: the defaults of every new competition (kept in the account) */
 function saveSetupDefaults(s) {
-  const lists = s.classes.concat((s.spare || []).filter((x) => !s.classes.some((c) => cleanName(c.name) === cleanName(x.name)))).slice(0, CLASS_MAX);
+  const lists = s.classes.concat((s.spare || []).filter((x) => String(x.text || '').trim() && !s.classes.some((c) => cleanName(c.name) === cleanName(x.name)))).slice(0, CLASS_MAX);
   const st = { v: SCHEMA, game: s.game, team: Object.assign({}, s.team), race: Object.assign({}, s.race), ladder: Object.assign({}, s.ladder), name: s.name, teachers: cleanTeachers(s.teachers), classes: lists.map((c) => ({ name: c.name, color: c.color, text: c.text, absent: c.absent.slice() })), n: s.classes.length, rounds: Object.assign({}, s.rounds), second: s.second, timer: s.timer };
   if (JSON.stringify(st) === JSON.stringify(IDX.setup)) return; // unchanged: nothing is written over lists saved on another device
   IDX.setup = st; IDX.setupDirty = true; saveIdx(); queueSync();
@@ -3235,12 +3246,12 @@ function manyNames(ids) {
   return tag.map((t, i) => (tag.indexOf(t) === tag.lastIndexOf(t) ? t : cp.indexOf(cp[i]) === cp.lastIndexOf(cp[i]) ? cp[i] : full[i]));
 }
 function shortNames(ids) { const full = ids.map(pName), sh = full.map(compactName); return sh.map((s, i) => (sh.indexOf(s) !== sh.lastIndexOf(s) ? full[i] : s)); }
-const avatar = (id, cls) => { const p = person(id); return `<span class="av${cls ? ' ' + cls : ''}${p.team ? ' tm' : ''}" style="--ac:${safeColor(p.color)}" aria-hidden="true">${esc(p.team ? teamMark(id) : initials(p.name))}</span>`; };
+const avatar = (id, cls) => { const p = person(id), mk = p.team ? teamMark(id) : ''; return `<span class="av${cls ? ' ' + cls : ''}${p.team ? ' tm' : ''}" style="--ac:${safeColor(p.color)}" aria-hidden="true">${p.team ? (mk ? esc(mk) : icon('users')) : esc(initials(p.name))}</span>`; };
 /* the mark of a team in its avatar: its class's own part («10/1» → «1», «العاشر أ» → «أ»), or its number */
 function teamMark(id) {
   const q = T && T.squads ? T.squads.find((x) => x.id === id) : null; if (!q) return '?';
   if (T.settings.team.src === 'classes') { const last = cleanName(q.name).split(/[\s/\\\-]+/).filter(Boolean).pop() || ''; if (last && [...last].length <= 3 && T.squads.every((x) => x === q || cleanName(x.name).split(/[\s/\\\-]+/).filter(Boolean).pop() !== last)) return last; }
-  return String(T.squads.indexOf(q) + 1);
+  return ''; // random teams: the team icon (a number would clash with the places)
 }
 /* a name as a bidi-isolated run (Latin names read left to right inside Arabic text) */
 const nm = (id, cls) => `<bdi class="nm${cls ? ' ' + cls : ''}" dir="auto" title="${esc(pName(id))}">${esc(pName(id))}</bdi>`;
@@ -3894,7 +3905,7 @@ function compCard(c) {
     <span class="cmp-top"><span class="pill cmp-st">${st}</span><span class="cmp-game t-${GAMES[c.game] ? GAMES[c.game].tint : 'gold'}">${icon(GAMES[c.game] ? GAMES[c.game].icon : 'trophy')}${esc(GAMES[c.game] ? GAMES[c.game].ar : GAMES.league.ar)}</span>${up ? `<span class="cmp-up" title="تُرفع إلى حسابك عند توفر الاتصال">${icon('reset')} بانتظار الرفع</span>` : ''}</span>
     <b class="cmp-name"><bdi dir="auto">${esc(c.name)}</bdi></b>
     <span class="cmp-meta"><span>${icon('users')} <bdi dir="ltr">${esc(c.classes || '')}</bdi></span><span>${icon('calendar')} ${esc(fmtDate(c.createdAt || Date.now()))}</span></span>
-    ${c.champion ? `<span class="cmp-champ">${icon('trophy')} ${String(c.champion).includes('،') ? 'الأبطال' : 'البطل'}: <bdi dir="auto">${esc(c.champion)}</bdi></span>` : `<span class="cmp-bar" role="img" aria-label="التقدم ${Math.round(c.progress || 0)}٪"><i style="width:${Math.max(3, Math.min(100, c.progress || 0))}%"></i></span>`}
+    ${c.champion ? `<span class="cmp-champ">${icon('trophy')} ${String(c.champion).includes('،') ? 'الأبطال' : 'البطل'}: ${String(c.champion).split('، ').map((x) => `<bdi class="nw" dir="auto">${esc(x)}</bdi>`).join('، ')}</span>` : `<span class="cmp-bar" role="img" aria-label="التقدم ${Math.round(c.progress || 0)}٪"><i style="width:${Math.max(3, Math.min(100, c.progress || 0))}%"></i></span>`}
     <span class="cmp-go">${c.status === 'done' ? 'عرض النتائج' : 'متابعة'} ${icon('next')}</span>
   </button>
   <button class="icon-btn sm cmp-del" data-act="del-comp" data-id="${esc(c.id)}" aria-label="حذف مسابقة ${esc(c.name)}" title="حذف المسابقة">${icon('trash')}</button>
@@ -3963,7 +3974,7 @@ function rosterNames(text) {
   return { names, dup, over };
 }
 /* «الشعب والطلاب»: every list saved in the account (also those a game with fewer classes kept aside) */
-function listsSetup() { const s = defaultSetup(); s.classes = s.classes.concat(s.spare.filter((x) => !s.classes.some((c) => cleanName(c.name) === cleanName(x.name)))).slice(0, CLASS_MAX); s.spare = []; return s; }
+function listsSetup() { const s = defaultSetup(); s.classes = s.classes.concat(s.spare.filter((x) => String(x.text || '').trim() && !s.classes.some((c) => cleanName(c.name) === cleanName(x.name)))).slice(0, CLASS_MAX); s.spare = []; return s; }
 function defaultSetup() {
   const s = { game: 'league', name: DEF_NAME, teachers: [teacherName()].filter(Boolean), classes: DEF_CLASSES.map((c) => ({ name: c.name, color: c.color, text: '', absent: [] })), rounds: {}, second: 'four', timer: 1,
     team: { src: 'classes', count: 2, R: 5 }, race: { R: 3 }, ladder: { life: true }, spare: [] };
@@ -3974,7 +3985,8 @@ function defaultSetup() {
     if (isStr(p.name, 120) && compName(p.name)) s.name = compName(p.name);
     if (Array.isArray(p.teachers) && cleanTeachers(p.teachers).length) s.teachers = cleanTeachers(p.teachers);
     if (Array.isArray(p.classes) && p.classes.length >= 1 && p.classes.length <= CLASS_MAX && p.classes.every((c) => c && typeof c === 'object')) {
-      const all = p.classes.map((c, i) => ({ name: isStr(c.name, 40) && cleanName(c.name) ? cleanName(c.name).slice(0, CNAME_MAX) : defClassName(i), color: CLASS_COLORS.includes(c.color) ? c.color : CLASS_COLORS[i % CLASS_MAX], text: isStr(c.text, 4000) ? c.text : '', absent: Array.isArray(c.absent) ? c.absent.filter((x) => isStr(x, NAME_MAX)) : [] }));
+      const OLD = { '#f4a300': '#a86a00', '#00b3b3': '#0b8585' }, taken = new Set();
+      const all = p.classes.map((c, i) => ({ name: isStr(c.name, 40) && cleanName(c.name) ? cleanName(c.name).slice(0, CNAME_MAX) : defClassName(i), color: (() => { let x = OLD[c.color] || c.color; if (!CLASS_COLORS.includes(x) || taken.has(x)) x = CLASS_COLORS.find((y) => !taken.has(y)) || CLASS_COLORS[i % CLASS_MAX]; taken.add(x); return x; })(), text: isStr(c.text, 4000) ? c.text : '', absent: Array.isArray(c.absent) ? c.absent.filter((x) => isStr(x, NAME_MAX)) : [] }));
       const n = isInt(p.n, 1, all.length) ? p.n : all.length;
       s.classes = all.slice(0, n); s.spare = all.slice(n); // lists kept aside come back when the teacher adds classes
     }
@@ -4326,7 +4338,7 @@ function dwFitCap(cap) {
 }
 function drawDone() {
   clearLater(); if (!S.drawAnim) return;
-  S.drawAnim = false; const y = window.scrollY; go('draw'); window.scrollTo(0, y);
+  S.drawAnim = false; const y = T && T.classes.length > 3 ? 0 : window.scrollY; go('draw'); window.scrollTo(0, y);
   const b = $('#btn-next'); if (b) b.focus({ preventScroll: true });
 }
 AFTER.draw = () => {
@@ -4369,7 +4381,7 @@ function dotsHTML(m, id) {
 /* the broadcast scoreboard: stage · «الآن دور: …» · question counter, then one chip per student. The student on turn is
    lit in the class colour with «▶ يجيب الآن», every other chip is dimmed — colour and opacity only, never size. */
 function scoreboardHTML(m) {
-  const n = m.players.length, pts = ptsOf(m), many = n > 4, sh = many ? manyNames(m.players) : shortNames(m.players), multi = m.stage === 'grand';
+  const n = m.players.length, pts = ptsOf(m), many = n > 4, sh = many && m.stage !== 'team' ? manyNames(m.players) : shortNames(m.players), multi = m.stage === 'grand';
   const cur = Q && Q.m === m ? Q.st : m.step < m.seq.length ? m.seq[m.step] : null; // until «التالي», the student who just answered stays lit
   const inSd = cur ? !!cur.sd : !m.demo && m.status !== 'done' && regDone(m);
   const chips = m.players.map((id, i) => {
@@ -4616,14 +4628,19 @@ function ceremonyData() {
       congrats: `مبروك لأبطال سباق الشعبة <b dir="auto">${esc(cn(c.name))}</b>`, cert: `r0-${c.id}`, say: 'بطل سباق الشعبة ' + cn(c.name) + ': ' + win.name };
   }
   const P = ladderPodium(), lv = (id) => runScore(P.find((x) => x.r.s === id).r), win = person(pod[0]), tops = P.filter((x) => x.place === 0).map((x) => x.r.s);
-  return { pod, places: P.slice(0, 3).map((x) => x.place), sub: (id) => `المستوى ${num(lv(id))} من ${num(LADDER_N)}`, tag: (id) => `<span class="pod-c" dir="auto">${esc(person(id).cls)}</span>`, first: 'المركز الأول', cc: win.color,
-    congrats: `مبروك لـ${tops.map((id) => `<b dir="auto">${esc(pName(id))}</b>`).join(' و')} — ${tops.length > 1 ? 'وصلوا' : 'وصل'} إلى المستوى ${num(lv(pod[0]))} من ${num(LADDER_N)}`, cert: 'l0', say: 'المركز الأول: ' + tops.map(pName).join(' و') };
+  const groups = []; P.forEach((x) => { const g = groups.find((y) => y.place === x.place); if (g) g.ids.push(x.r.s); else groups.push({ place: x.place, ids: [x.r.s] }); });
+  return { pod, groups, sub: (id) => `المستوى ${num(lv(id))} من ${num(LADDER_N)}`, tag: (id) => `<span class="pod-c" dir="auto">${esc(person(id).cls)}</span>`, first: 'المركز الأول', cc: win.color,
+    congrats: `مبروك لـ${tops.map((id) => `<b dir="auto">${esc(tops.length > 1 ? compactName(pName(id)) : pName(id))}</b>`).join(' و')} — ${tops.length > 1 ? 'وصلوا' : 'وصل'} إلى المستوى ${num(lv(pod[0]))} من ${num(LADDER_N)}`, cert: 'l0', say: 'المركز الأول: ' + tops.map(pName).join(' و') };
 }
 VIEWS.ceremony = () => {
   const D = T ? ceremonyData() : null; if (!D) return T ? VIEWS[compHome()]() : VIEWS.home();
   const g = gameOf(T), pod = D.pod, win = person(pod[0]);
-  const order = [1, 0, 2].filter((i) => pod[i]);
-  const cols = order.map((i) => { const id = pod[i], p = person(id), pl = D.places ? D.places[i] : i; return `<li class="pod p${i}" style="--tc:${safeColor(p.color)}"><div class="pod-who">${medalSVG(pl, 'md' + i)}${avatar(id, i ? 'xl' : 'xxl')}<b>${nm(id)}</b>${D.tag(id)}<small>${D.sub(id)}</small></div><div class="pod-step"><span class="pod-n" dir="ltr">${pl + 1}</span><em>${pl === 0 ? D.first : `المركز ${placeAr(pl)}`}</em></div></li>`; }).join('');
+  const groups = D.groups || pod.map((id, i) => ({ place: i, ids: [id] })), order = [1, 0, 2].filter((i) => groups[i]);
+  const cols = order.map((i) => {
+    const g = groups[i], pl = g.place, id = g.ids[0], p = person(id), shown = g.ids.slice(0, 6), more = g.ids.length - shown.length;
+    const who = g.ids.length > 1 ? `<div class="pod-many">${shown.map((x) => `<span class="pm">${avatar(x, 'lg')}<b>${nm(x)}</b></span>`).join('')}${more > 0 ? `<span class="pm-more">و${num(more)} ${more === 1 ? 'آخر' : 'آخرون'}</span>` : ''}</div>` : `${avatar(id, pl ? 'xl' : 'xxl')}<b>${nm(id)}</b>${D.tag(id)}`;
+    return `<li class="pod p${pl}${g.ids.length > 1 ? ' tie' : ''}" style="--tc:${safeColor(p.color)}"><div class="pod-who">${medalSVG(pl, 'md' + i)}${who}<small>${D.sub(id)}${g.ids.length > 1 ? ` · ${studentsAr(g.ids.length)}` : ''}</small></div><div class="pod-step"><span class="pod-n" dir="ltr">${pl + 1}</span><em>${pl === 0 ? D.first : `المركز ${placeAr(pl)}`}</em></div></li>`;
+  }).join('');
   /* «سباق الصف»: one ceremony per class — a tab for each finished race */
   const fin = g === 'race' ? T.classes.filter((c) => { const m = raceOf(c); return m && m.status === 'done'; }) : [];
   const tabs = fin.length > 1 ? `<div class="cer-tabs seg" role="tablist" aria-label="الشعبة">${fin.map((c) => `<button class="seg-b${c === D.cls ? ' on' : ''}" role="tab" aria-selected="${c === D.cls}" data-act="go" data-to="ceremony" data-tab="${c.id}" style="--cc:${safeColor(c.color)}"><i class="tab-sw"></i><span dir="auto">${esc(c.name)}</span></button>`).join('')}</div>` : '';
@@ -4707,7 +4724,7 @@ function gameHead(g, sum, line) {
 }
 /* the podium row of a finished game: the three first, the ceremony and the certificates */
 function gamePodHTML(ids, sub, tab, certK, places) {
-  return `<section class="gm-pod"><h3>${icon('trophy')} المراكز الأولى</h3><ol class="pod-list">${ids.slice(0, 3).map((id, i) => { const pl = places ? places[i] : i; return `<li class="p${pl}">${medalSVG(pl)}${avatar(id)}<b>${nm(id)}</b><small>${sub(id)}</small></li>`; }).join('')}</ol>
+  return `<section class="gm-pod"><h3>${icon('trophy')} المراكز الأولى</h3><ol class="pod-list">${(places ? ids : ids.slice(0, 3)).map((id, i) => { const pl = places ? places[i] : i; return `<li class="p${pl}">${medalSVG(pl)}${avatar(id)}<b>${nm(id)}</b><small>${sub(id)}</small></li>`; }).join('')}</ol>
 <div class="row"><button class="btn btn-gold" data-act="go" data-to="ceremony"${tab ? ` data-tab="${esc(tab)}"` : ''}>${icon('trophy')}<span>حفل التتويج</span></button>${certK ? `<button class="btn btn-ghost" data-act="cert-open" data-k="${esc(certK)}">${icon('print')}<span>الشهادات</span></button>` : ''}</div></section>`;
 }
 function teamsBody() {
@@ -4813,15 +4830,16 @@ AFTER.ladder = () => {
   if (cur.ok !== null) { S.ladPaused = false; revealMarks(cur.q, cur.ok, cur.g); if (cur.ok) { const b = $('#btn-next'); if (b) b.focus({ preventScroll: true }); } return; }
   const secs = qSeconds(cur.q, T.settings.timer);
   if (secs) timerStart(secs, () => ladAnswer(-1, true));
-  const left = cur.fr ? Math.ceil((cur.fr - Date.now()) / 1000) : 0; // «استشارة زميل» still running when the screen was drawn again
+  const left = isInt(cur.frLeft, 1, 30) ? cur.frLeft : isNum(cur.fr) ? Math.ceil((cur.fr - Date.now()) / 1000) : 0; // «استشارة زميل» still running when the screen was drawn again
   if (left > 0 && left <= 30) ladFriend(left);
   if (S.ladPaused) ladPause(true);
 };
 function ladPause(reopened) {
   const cur = ladLive(); if (!cur || LAD.paused) return;
   timerPause(); LAD.paused = true;
+  if (LAD.friend > 0) { cur.frLeft = LAD.friend; delete cur.fr; saveT(); } // the friend's seconds wait with the card (also over a reload)
   const r = runOf(S.run), qp = $('#qp'); if (qp) qp.classList.add('lad-hidden');
-  showLayer('lpause', `<div class="ovl-card pz" role="dialog" aria-modal="true" aria-labelledby="lp-t"><h2 id="lp-t" class="disp">${reopened ? 'متابعة السلّم' : 'متوقف مؤقتًا'}</h2><p class="muted"><b>${nm(r.s)}</b> — السؤال ${num(r.qs.length)} من ${num(LADDER_N)}. المؤقت متوقف والسؤال مخفي عن الطلاب.</p>
+  showLayer('lpause', `<div class="ovl-card pz" role="dialog" aria-modal="true" aria-labelledby="lp-t"><h2 id="lp-t" class="disp">${reopened ? 'متابعة السلّم' : 'متوقف مؤقتًا'}</h2><p class="muted"><b>${nm(r.s)}</b> — السؤال ${num(r.qs.length)} من ${num(LADDER_N)}. ${T.settings.timer ? 'المؤقت متوقف والسؤال مخفي عن الطلاب.' : 'السؤال مخفي عن الطلاب.'}</p>
 <div class="ovl-actions"><button class="btn btn-ghost" data-act="up" data-to="game">${icon(GAMES.ladder.icon)}<span>${GAMES.ladder.ar}</span></button><button class="btn btn-gold btn-xl" data-act="lad-resume" id="btn-next">${icon('play')}<span>متابعة</span><kbd>Enter</kbd></button></div></div>`);
 }
 function ladResume() {
@@ -4829,7 +4847,8 @@ function ladResume() {
   if (!LAD.paused) return;
   LAD.paused = false; LAD.armAt = performance.now() + dur(ARM_MS); UI_AT = performance.now();
   const qp = $('#qp'); if (qp) qp.classList.remove('lad-hidden');
-  if (ladLive() && !LAD.friend && !MODAL.open) timerResume();
+  const cur = ladLive(); if (cur && LAD.friend > 0) { cur.fr = Date.now() + LAD.friend * 1000; delete cur.frLeft; saveT(); }
+  if (cur && !LAD.friend && !MODAL.open) timerResume();
 }
 /* a dialog over the ladder holds the question timer (openModal / closeModal) */
 function ladModalOpen() { if (S.view === 'ladder' && TM.running) { timerPause(); MODAL.ladHeld = true; } }
@@ -4841,7 +4860,7 @@ function ladModalClosed() {
 function ladAnswer(i, timedOut) {
   const r = runOf(S.run), cur = ladCur(r); if (!cur || cur.ok !== null) return;
   if (!timedOut && (performance.now() < LAD.armAt || LAD.paused || MODAL.open || i < 0 || i >= cur.q.opts.length || (cur.off || []).includes(i))) return;
-  timerStop(); clearLater(); LAD.friend = 0; delete cur.fr;
+  timerStop(); clearLater(); LAD.friend = 0; delete cur.fr; delete cur.frLeft;
   const ok = !timedOut && i === cur.q.ans; cur.ok = ok; cur.g = timedOut ? null : i;
   if (ok) { r.lvl++; if (r.lvl >= LADDER_N) { r.status = 'done'; r.end = 'won'; } }
   else { r.status = 'done'; r.end = 'lost'; }
@@ -5656,17 +5675,20 @@ const ACT = {
   'cls-count': (el) => {
     const s = S.setup, n = Math.max(1, Math.min(CLASS_MAX, +el.dataset.n || 1)); if (!s || n === s.classes.length) return;
     s.spare = s.spare || [];
-    const kept = s.classes.slice(n).filter((c) => String(c.text || '').trim());
-    if (n < s.classes.length) { s.spare = s.classes.slice(n).concat(s.spare); s.classes.length = n; }
-    while (s.classes.length < n) {
-      const k = s.spare.findIndex((x) => !s.classes.some((c) => cleanName(c.name) === cleanName(x.name))), used = new Set(s.classes.map((c) => c.color));
-      const c = k >= 0 ? s.spare.splice(k, 1)[0] : { name: defClassName(s.classes.length, s.classes), color: '', text: '', absent: [] };
-      if (!c.color || used.has(c.color)) c.color = CLASS_COLORS.find((x) => !used.has(x)) || CLASS_COLORS[s.classes.length % CLASS_MAX];
-      s.classes.push(c);
-    }
-    if (s.open) s.open = {};
-    SFX.click(); const y = window.scrollY; go(S.view, 'replace'); window.scrollTo(0, y);
-    if (kept.length) toast(`${kept.length === 1 ? 'قائمة الشعبة' : 'قوائم الشعب'} ${kept.map((c) => `«${c.name}»`).join('، ')} ${kept.length === 1 ? 'تبقى محفوظة وتعود' : 'تبقى محفوظة وتعود'} إذا زدت عدد الشعب`, 'good');
+    const lists = S.view === 'classes', kept = s.classes.slice(n).filter((c) => String(c.text || '').trim());
+    const apply = () => {
+      if (n < s.classes.length) { if (!lists) s.spare = kept.concat(s.spare); s.classes.length = n; } // «الشعب والطلاب»: removed from the account when saved
+      while (s.classes.length < n) {
+        const k = s.spare.findIndex((x) => !s.classes.some((c) => cleanName(c.name) === cleanName(x.name))), used = new Set(s.classes.map((c) => c.color));
+        const c = k >= 0 ? s.spare.splice(k, 1)[0] : { name: defClassName(s.classes.length, s.classes), color: '', text: '', absent: [] };
+        if (!c.color || used.has(c.color)) c.color = CLASS_COLORS.find((x) => !used.has(x)) || CLASS_COLORS[s.classes.length % CLASS_MAX];
+        s.classes.push(c);
+      }
+      if (s.open) s.open = {};
+      SFX.click(); const y = window.scrollY; go(S.view, 'replace'); window.scrollTo(0, y);
+      if (kept.length && !lists) toast(`${kept.length === 1 ? 'قائمة الشعبة' : 'قوائم الشعب'} ${kept.map((c) => `«${c.name}»`).join('، ')} تبقى محفوظة في حسابك وتعود إذا زدت عدد الشعب`, 'good');
+    };
+    if (lists && kept.length && n < s.classes.length) confirmModal(`ستُحذف ${kept.length === 1 ? 'قائمة الشعبة' : 'قوائم الشعب'} ${kept.map((c) => `«${esc(c.name)}»`).join('، ')} من حسابك عند الحفظ. متابعة؟`, 'حذف', apply, 'btn-danger'); else apply();
   },
   'cls-color': (el) => { const s = S.setup, c = s && s.classes[+el.dataset.i]; if (!c || !CLASS_COLORS.includes(el.dataset.c)) return; const o = s.classes.find((x) => x !== c && x.color === el.dataset.c); if (o) o.color = c.color; c.color = el.dataset.c; SFX.click(); const y = window.scrollY; go(S.view, 'replace'); window.scrollTo(0, y); },
   'game-opt': (el) => {
@@ -5880,7 +5902,9 @@ window.addEventListener('storage', (e) => {
   if (!T || (e.key !== tKey() && e.key !== null) || STORE.conflict) return;
   if (S.view === 'match' && S.matchId !== 'demo') { staleTab(); return; }
   if (S.view === 'ladder' && ladCur(runOf(S.run))) { staleTab(); return; } // a student is climbing here
-  T = loadT(T.id); LOAD_WARN = ''; S.drawAnim = false;
+  const shown = () => (S.view === 'ceremony' || S.view === 'cert' ? JSON.stringify([gamePodium(), certList().map((x) => [x.k, x.id, x.place])]) : ''), was = shown();
+  T = loadT(T.id);
+  if (was && T && was === shown()) { LOAD_WARN = ''; return; } LOAD_WARN = ''; S.drawAnim = false;
   if (MODAL.open) return;
   if (['hub', 'home', 'draw', 'intro', 'result', 'game', 'ladder', 'ceremony', 'cert'].includes(S.view)) { const y = window.scrollY; go(T ? (S.view === 'intro' && !(curMatch() && !curMatch().seq) ? 'hub' : S.view) : 'home'); window.scrollTo(0, y); }
 });
