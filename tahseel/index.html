@@ -306,6 +306,7 @@ bdi{ unicode-bidi:isolate }
 
 /* «مسابقة جديدة» steps, the class lists page, the backup note */
 .step-n{ display:inline-grid; place-items:center; width:32px; height:32px; border-radius:50%; background:var(--green); color:#fff; font-family:var(--f-ui); font-weight:700; font-size:17px; margin-inline-end:4px; flex:none }
+.lg-note b[dir="ltr"]{ overflow-wrap:anywhere; word-break:break-all }
 .unit-line{ display:flex; align-items:center; gap:8px; margin-top:10px; color:var(--silver); font-size:15px }
 .unit-line b{ color:var(--ink) }
 .unit-line .ic{ color:var(--green); width:18px; height:18px }
@@ -338,6 +339,7 @@ bdi{ unicode-bidi:isolate }
 .budget{ display:flex; gap:8px; align-items:flex-start; margin-top:8px; font-size:.95rem; line-height:1.65; padding:8px 10px; border-radius:10px }
 .budget .ic{ width:16px; height:16px; margin-top:4px; flex:none }
 .budget.warn{ background:#fdf6e7; color:#6b4304; border:1px solid #efd6a4 } .budget.warn .ic{ color:#b07008 }
+.budget.warn{ background:#fdf8ea; color:var(--gold-ink); border:1px solid #efdcaa } .budget.warn .ic{ color:var(--gold-ink) }
 .budget.bad{ background:#fdf0ef; color:#9b2a26; border:1px solid #f0c2bf } .budget.bad .ic{ color:var(--bad) }
 .budget.good{ color:var(--silver); padding-inline:0 } .budget.good .ic{ color:var(--green) }
 .fld{ display:flex; flex-direction:column; gap:4px; min-width:0 }
@@ -1331,12 +1333,15 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 .game-card.on{ border:2px solid var(--green); background:var(--green-t); padding:15.5px 17.5px }
 .gc-on{ position:absolute; top:10px; inset-inline-end:10px; display:grid; place-items:center; width:28px; height:28px; border-radius:50%; background:var(--green); color:#fff }
 .gc-on .ic{ width:16px; height:16px }
+.grade-pick{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px; margin-bottom:16px }
+.grade-pick .seg-b{ min-width:46px; font-size:1.05rem; font-weight:700 } .grade-pick small{ flex-basis:100%; font-size:15px }
 /* «إضافة شعبة» after the class cards; «حذف الشعبة» on each card */
-.ro-h{ grid-template-columns:auto minmax(0,1fr) auto }
-.ro-h .icon-btn.ro-del{ grid-row:1; grid-column:3; align-self:end; width:auto; height:44px; padding:0 12px; gap:6px; display:inline-flex; align-items:center; font-size:15px; font-weight:600; color:#a3342e; border-color:#f0d3d0; background:#fff }
+.ro-h .icon-btn.ro-del{ width:auto; height:44px; padding:0 12px; gap:6px; display:inline-flex; align-items:center; font-size:15px; font-weight:600; color:#a3342e; border-color:#f0d3d0; background:#fff }
 .ro-h .icon-btn.ro-del:not([disabled]):hover{ background:#fdecea; color:var(--bad); border-color:#f3c5c1 }
 .ro-h .icon-btn.ro-del[disabled]{ color:var(--muted); border-color:var(--line) }
-@media (max-width:520px){ .ro-h{ grid-template-columns:auto minmax(0,1fr) } .ro-h .icon-btn.ro-del{ grid-row:2; grid-column:2; justify-self:end; height:38px; align-self:center } .ro-h .ro-n{ grid-row:2; grid-column:1 } }
+.ro-h{ grid-template-columns:auto minmax(0,1fr) } .ro-h .icon-btn.ro-del{ grid-row:2; grid-column:2; justify-self:end; height:38px; align-self:center } .ro-h .ro-n{ grid-row:2; grid-column:1 }
+.ro-h .ro-chip{ max-width:11rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap } .ro-h .ro-chip.long{ font-family:var(--f-ui); font-size:1.2rem; font-weight:700 }
+.ro-h .fld.ro-name input{ min-width:7rem }
 .cls-add{ display:flex; flex-direction:column; gap:12px; margin-top:14px }
 .cls-add-b{ display:flex; align-items:center; justify-content:center; gap:10px; min-height:64px; width:100%; border:2px dashed #b9cfc3; border-radius:var(--r); background:var(--green-t); color:var(--green); font-size:1.15rem; font-weight:700; transition:background-color .15s, border-color .15s }
 .cls-add-b:hover{ background:#dcece3; border-color:var(--green) }
@@ -1565,7 +1570,7 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 .gd-sec > h2::after{ content:''; flex:none; width:40px; height:3px; border-radius:2px; background:var(--gold); margin-inline-start:6px }
 .gd-sec h3{ display:flex; align-items:center; gap:8px; margin:0 0 10px; font-size:1.1rem; color:var(--ink) }
 .gd-sec h3 .ic{ width:19px; height:19px; color:var(--gold) }
-.gd-start{ list-style:none; margin:0 0 16px; padding:0; counter-reset:gs; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px }
+.gd-start{ list-style:none; margin:0 0 16px; padding:0; counter-reset:gs; display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:12px }
 .gd-start li{ counter-increment:gs; position:relative; display:flex; flex-direction:column; gap:4px; padding:14px 16px; padding-inline-start:56px; border-radius:var(--r-s); background:#f7f9f7; border:1px solid var(--line); min-height:88px }
 .gd-start li::before{ content:counter(gs); position:absolute; inset-inline-start:14px; top:14px; width:30px; height:30px; border-radius:50%; background:var(--green); color:#fff; display:grid; place-items:center; font-family:var(--f-num); font-weight:700 }
 .gd-start b{ color:var(--green); font-size:1.05rem }
@@ -1635,6 +1640,51 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
   .gd-tbl{ font-size:15px } .gd-tbl th, .gd-tbl td{ padding:6px 8px }
 }
 @media print{ .v-guide .gd-nav, .v-guide .gd-foot .row{ display:none } }
+/* ======== «المفردات»: lists, the setup step, the editor ======== */
+.vc-ic{ flex:none; display:inline-grid; place-items:center; width:44px; height:44px; border-radius:50%; background:var(--green-t); color:var(--green) }
+.vc-ic .ic{ width:22px; height:22px }
+.vcs{ display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:12px }
+.vc{ position:relative; display:grid; grid-template-columns:auto minmax(0,1fr); column-gap:12px; row-gap:2px; align-items:center; padding:14px 16px; border-radius:var(--r); border:1.5px solid var(--line); background:var(--paper); color:var(--ink); text-align:start; box-shadow:var(--shadow) }
+.vc .vc-ic{ grid-row:1 / span 3 }
+.vc b{ font-size:1.08rem; color:var(--green); min-width:0; overflow-wrap:anywhere }
+.vc small{ font-size:15px; color:var(--silver) }
+.vc .vc-st{ color:var(--gold-ink); font-weight:600 }
+.vc.on{ border:2px solid var(--green); background:var(--green-t); padding:13.5px 15.5px }
+.vc.off{ opacity:.7; cursor:not-allowed }
+.vc-add{ border-style:dashed; border-color:#b9cfc3; background:#f7fbf8; box-shadow:none }
+.vc-add .vc-ic{ background:var(--green); color:#fff }
+.vc-add:hover{ border-color:var(--green) }
+.vlists{ margin-bottom:18px }
+.vl-h{ display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:space-between; gap:12px 20px; margin-bottom:14px }
+.vl-h h2{ margin:0 0 4px } .vl-h p{ margin:0; font-size:15px; line-height:1.7 }
+.vls{ display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:12px }
+.vl{ display:flex; flex-direction:column; gap:8px; padding:12px; border-radius:var(--r); border:1.5px solid var(--line); background:var(--paper) }
+.vl.on{ border-color:var(--green); background:var(--green-t) }
+.vl-open{ display:grid; grid-template-columns:auto minmax(0,1fr); column-gap:12px; row-gap:2px; align-items:center; padding:0; border:0; background:none; text-align:start; color:var(--ink) }
+.vl-open .vc-ic{ grid-row:1 / span 3 } .vl-open b{ font-size:1.05rem; color:var(--green); overflow-wrap:anywhere } .vl-open small{ font-size:15px; color:var(--silver) }
+.vl-st{ font-size:15px; font-weight:600 } .vl-st.ok{ color:var(--good) } .vl-st.no{ color:var(--gold-ink) } .vl-st .ic{ width:15px; height:15px; display:inline-block; vertical-align:-2px }
+.vl-acts{ display:flex; gap:8px; justify-content:flex-end }
+.vl-note{ margin:0; font-size:15px; color:var(--muted) }
+.v-vocab{ display:flex; flex-direction:column; gap:16px; padding-bottom:30px }
+.vv-paste textarea{ width:100%; min-height:120px; margin:8px 0 10px; padding:10px 12px; border-radius:12px; border:1px solid var(--line); background:#fff; font:inherit; font-size:16px; line-height:1.7 }
+.vr{ display:grid; grid-template-columns:34px minmax(120px,1fr) minmax(120px,1fr) minmax(200px,2fr) 110px 40px; gap:8px; align-items:center; padding:6px 8px; border-radius:12px; border:1px solid transparent }
+.vr + .vr{ margin-top:4px } .vr-2{ display:contents }
+.vr input, .vr select{ min-height:42px; padding:6px 10px; border-radius:10px; border:1px solid var(--line); background:#fff; font:inherit; font-size:16px; color:var(--ink); min-width:0; width:100% }
+.vr input:focus, .vr select:focus{ outline:2px solid var(--flood); outline-offset:0; border-color:transparent }
+.vr-n{ font-family:var(--f-num); color:var(--muted); text-align:center }
+.vr-head{ font-size:15px; font-weight:600; color:var(--silver); padding-top:0; padding-bottom:0 }
+.vr-msg{ grid-column:2 / -1; font-size:15px; min-height:0 } .vr-msg:empty{ display:none }
+.vr.ok{ background:#f6fbf8 } .vr.bad{ background:#fdf1f0; border-color:#f3c5c1 } .vr.bad .vr-msg{ color:#a3342e } .vr.warn{ background:#fdf8ea; border-color:#efdcaa } .vr.warn .vr-msg{ color:var(--gold-ink) }
+.vv-add{ margin-top:12px; min-height:52px }
+.vv-foot{ flex-wrap:wrap }
+.vv-sum{ flex:1 1 320px; display:flex; flex-direction:column; gap:2px; margin:0; font-size:15px }
+.vs-n b{ font-family:var(--f-num); font-size:1.2em } .vs-r.ok{ color:var(--good); font-weight:700 } .vs-r.no{ color:var(--gold-ink); font-weight:700 } .vs-r .ic{ width:16px; height:16px; display:inline-block; vertical-align:-3px }
+@media (max-width:820px){
+  .vr{ grid-template-columns:28px minmax(0,1fr) minmax(0,1fr) 40px; }
+  .vr .vr-w{ grid-column:2; grid-row:1 } .vr .vr-a{ grid-column:3; grid-row:1 } .vr .vr-del{ grid-column:4; grid-row:1 }
+  .vr-2{ display:flex; gap:8px; grid-column:2 / 5; grid-row:2; min-width:0 } .vr-2 .vr-s{ flex:1 1 auto } .vr-2 .vr-p{ flex:0 0 104px; width:104px; padding-inline:8px }
+  .vr-msg{ grid-column:2 / -1; grid-row:3 } .vr-head{ display:none }
+}
 /* ceremony tabs, the certificate list, help */
 .cer-tabs{ margin:0 auto 6px }
 .cer-tabs .seg-b{ display:inline-flex; align-items:center; gap:8px }
@@ -1792,6 +1842,10 @@ const MONTHS_AR = ['يناير', 'فبراير', 'مارس', 'أبريل', 'ما
 const POS_AR = { n: 'اسم', v: 'فعل', adj: 'صفة', adv: 'ظرف', phr: 'فعل مركّب', '': '—' };
 const POS_IDS = ['n', 'v', 'adj', 'adv', 'phr'];
 /* the people: three Grade-10 classes and their students (the teacher's rosters; editable in setup) */
+/* the grade of a competition (5–12): on the certificates, and the names of new classes (7/1, 7/2 …) */
+const GRADES = [5, 6, 7, 8, 9, 10, 11, 12], GRADE_AR = { 5: 'الخامس', 6: 'السادس', 7: 'السابع', 8: 'الثامن', 9: 'التاسع', 10: 'العاشر', 11: 'الحادي عشر', 12: 'الثاني عشر' };
+const gradeOf = (x) => (x && GRADES.includes(x.grade) ? x.grade : 10);
+const gradeAr = (g) => `الصف ${GRADE_AR[g] || GRADE_AR[10]}`;
 const DEF_CLASSES = [{ name: '10/1', color: '#e63946' }, { name: '10/2', color: '#1d6fe0' }, { name: '10/3', color: '#10a36b' }];
 const DEF_ROSTERS = {
   '10/1': ['Awab Kamal Faki', 'Salim Abdullah Al Masoudi', 'Abdulhameed Mohammed Saad', 'Abdullah Salim Al Maashani', 'Omar Sami Al Bousaidi', 'Abdullah Tariq Al Jameel', 'Mohammed Hatim Al Shahri', 'Mohammed Ahmed Al Mashikhi'],
@@ -1808,7 +1862,7 @@ const GAMES = {
 };
 const GAME_IDS = ['league', 'teams', 'ladder', 'race'];
 const gameOf = (t) => (t && GAMES[t.game] ? t.game : 'league');
-const CLASS_MAX = 10, CLASS_COLORS = ['#e63946', '#1d6fe0', '#10a36b', '#a86a00', '#8a4dff', '#0b8585', '#c2410c', '#be185d', '#4d7c0f', '#475569']; // white text stays readable on each
+const CLASS_MAX = 10, LISTS_MAX = 30, CLASS_COLORS = ['#e63946', '#1d6fe0', '#10a36b', '#a86a00', '#8a4dff', '#0b8585', '#c2410c', '#be185d', '#4d7c0f', '#475569']; // white text stays readable on each
 /* the teams of «تحدي الفرق» when they are drawn from the students */
 const TEAM_NAMES = ['الفريق الأحمر', 'الفريق الأزرق', 'الفريق الأخضر', 'الفريق الذهبي'], TEAM_COLORS = ['#e63946', '#1d6fe0', '#10a36b', '#a86a00'];
 /* «من سيربح المفردات»: 10 steps of rising level, two safe steps (a wrong answer falls back to the last one passed) */
@@ -2094,6 +2148,8 @@ function validT(t) {
   if (!(t && typeof t === 'object' && t.v === SCHEMA && Array.isArray(t.classes) && Array.isArray(t.matches))) return false;
   if ((t.id != null && !(typeof t.id === 'string' && ID_RE.test(t.id))) || (t.name != null && !isStr(t.name, 120))) return false;
   if (t.classes.length < 1 || t.classes.length > CLASS_MAX) return false;
+  if (t.grade != null && !GRADES.includes(t.grade)) return false;
+  if (t.vocab != null && !(t.vocab && typeof t.vocab === 'object' && Array.isArray(t.vocab.words) && t.vocab.words.length <= VW_MAX * 2 && t.vocab.words.every((x) => x && isStr(x.w, 80) && isStr(x.ar, 200) && (x.s == null || isStr(x.s, 400))) && cleanVocab(t.vocab) && cleanVocab(t.vocab).words.length >= 2)) return false; // its own word list
   const cids = new Set(), sids = new Set();
   for (const c of t.classes) {
     if (!c || typeof c.id !== 'string' || !ID_RE.test(c.id) || cids.has(c.id) || !isStr(c.name, 40)) return false;
@@ -2165,6 +2221,7 @@ function repairT(t) {
   });
   t.tosses = t.tosses && typeof t.tosses === 'object' ? t.tosses : {};
   t.used = Array.isArray(t.used) ? t.used.filter((x) => typeof x === 'string') : [];
+  if (t.vocab != null) { const v = cleanVocab(t.vocab); if (v) t.vocab = { id: v.id, name: v.name, words: v.words }; else delete t.vocab; }
   delete t.custom;
   t.drawOk = t.drawOk !== false; // a saved competition whose draw was never confirmed shows its board once more
   ['createdAt', 'finishedAt'].forEach((k) => { if (!isNum(t[k])) t[k] = k === 'createdAt' ? Date.now() : null; });
@@ -2196,7 +2253,7 @@ const FB_DOCS = `https://firestore.googleapis.com/v1/projects/${FB.projectId}/da
 const FB_ROOT = 'tahseel';                 // tahseel/{uid} = the teacher's profile; tahseel/{uid}/comps/{id} = a competition
 const SK = 'tahseel.session.v1';           // the signed-in teacher on this device (refresh token only)
 let ACC = null;                            // { uid, email, name, idToken, refreshToken, exp }
-const IDX = { comps: [], dirty: [], del: [], delBase: {}, last: '', place: null, setup: null, setupDirty: false, nameDirty: false, savedAt: 0, base: {}, bwork: {}, cplace: {} };
+const IDX = { comps: [], dirty: [], del: [], delBase: {}, last: '', place: null, setup: null, setupDirty: false, vocab: null, vocabDirty: false, vocabBase: [], vocabAt: 0, vocabDel: [], nameDirty: false, savedAt: 0, base: {}, bwork: {}, cplace: {} };
 /* IDX.base[id] = the account's version (rev) this device's copy continues from, IDX.bwork[id] = the answers in that version:
    an upload over a version written by another device in the meantime is refused, so two devices never erase each other */
 const CLOUD = { state: 'idle', lastOk: 0, timer: 0, busy: null, retry: 0, again: false, listed: false, listing: false, listTimer: 0, listTry: 0, epoch: 0, chain: Promise.resolve(), authWarned: false, reopening: false, bootAsk: false }; /* listed: the account's list of competitions has been read in this visit */
@@ -2366,12 +2423,13 @@ function loadIdx() {
   IDX.last = typeof v.last === 'string' && ID_RE.test(v.last) ? v.last : '';
   IDX.place = validPlace(v.place); IDX.cplace = {}; if (v.cplace && typeof v.cplace === 'object') Object.keys(v.cplace).forEach((k) => { const q = validPlace(v.cplace[k]); if (ID_RE.test(k) && q && q.cid === k && COMP_VIEWS.includes(q.v)) IDX.cplace[k] = q; });
   IDX.setup = v.setup && typeof v.setup === 'object' ? v.setup : null; IDX.setupDirty = v.setupDirty === true; IDX.nameDirty = v.nameDirty === true;
+  IDX.vocab = Array.isArray(v.vocab) ? v.vocab : null; IDX.vocabDirty = v.vocabDirty === true; IDX.vocabBase = ids(v.vocabBase); IDX.vocabDel = ids(v.vocabDel); IDX.vocabAt = isNum(v.vocabAt) ? v.vocabAt : 0;
   IDX.savedAt = isNum(v.savedAt) ? v.savedAt : 0;
   IDX.base = {}; if (v.base && typeof v.base === 'object') Object.keys(v.base).forEach((k) => { if (ID_RE.test(k) && isInt(v.base[k], 0, 1e9)) IDX.base[k] = v.base[k]; });
   IDX.bwork = {}; if (v.bwork && typeof v.bwork === 'object') Object.keys(v.bwork).forEach((k) => { if (ID_RE.test(k) && isInt(v.bwork[k], 0, 1e9)) IDX.bwork[k] = v.bwork[k]; });
   IDX.delBase = {}; if (v.delBase && typeof v.delBase === 'object') Object.keys(v.delBase).forEach((k) => { if (ID_RE.test(k) && isInt(v.delBase[k], -1, 1e9)) IDX.delBase[k] = v.delBase[k]; });
 }
-function saveIdx() { if (ACC) sSet(ik(), JSON.stringify({ v: 1, comps: IDX.comps, dirty: IDX.dirty, del: IDX.del, delBase: IDX.delBase, last: IDX.last, place: IDX.place, cplace: IDX.cplace, setup: IDX.setup, setupDirty: IDX.setupDirty, nameDirty: IDX.nameDirty, savedAt: IDX.savedAt, base: IDX.base, bwork: IDX.bwork })); }
+function saveIdx() { if (ACC) sSet(ik(), JSON.stringify({ v: 1, comps: IDX.comps, dirty: IDX.dirty, del: IDX.del, delBase: IDX.delBase, last: IDX.last, place: IDX.place, cplace: IDX.cplace, setup: IDX.setup, setupDirty: IDX.setupDirty, vocab: IDX.vocab, vocabDirty: IDX.vocabDirty, vocabBase: IDX.vocabBase, vocabAt: IDX.vocabAt, vocabDel: IDX.vocabDel, nameDirty: IDX.nameDirty, savedAt: IDX.savedAt, base: IDX.base, bwork: IDX.bwork })); }
 /* how far a competition has come: matches played out of the matches its path will need */
 function compSummary(t) {
   const gs = gameSummary(t);
@@ -2394,7 +2452,7 @@ function upsertSum(sum) { const i = IDX.comps.findIndex((c) => c.id === sum.id);
      answer was lost is recognised as this device's own, and two devices can never write over each other;
    • when another device saved newer results, the account's version is kept and what this device played on top of its
      older copy is kept too, as a separate competition «… (نسخة هذا الجهاز)» — nothing played is ever thrown away. */
-const pending = () => IDX.dirty.length + IDX.del.length + (IDX.setupDirty ? 1 : 0) + (IDX.nameDirty ? 1 : 0);
+const pending = () => IDX.dirty.length + IDX.del.length + (IDX.setupDirty ? 1 : 0) + (IDX.vocabDirty ? 1 : 0) + (IDX.nameDirty ? 1 : 0);
 /* the answers played in a competition (and its confirmed draw): how two copies of it are compared */
 const workOf = (t) => (t && Array.isArray(t.matches) ? t.matches.reduce((a, m) => a + (isInt(m.step, 0, 1e6) ? m.step : 0), 0) : 0) + (t && t.drawOk ? 1 : 0) + (t && isInt(t.edits, 0, 1e9) ? t.edits : 0)
   + (t && t.ladder && Array.isArray(t.ladder.runs) ? t.ladder.runs.reduce((a, r) => a + (Array.isArray(r.qs) ? r.qs.filter((x) => x && x.ok !== null && x.ok !== undefined).length : 0), 0) : 0);
@@ -2432,6 +2490,13 @@ async function doFlush(ep) {
     const mask = (...f) => '?' + f.map((x) => 'updateMask.fieldPaths=' + x).join('&');
     if (IDX.nameDirty) { await fsReq('PATCH', fsPath(), fsFields({ name: ACC.name, email: ACC.email, updatedAt: Date.now() }), mask('name', 'email', 'updatedAt')); live(ep); IDX.nameDirty = false; saveIdx(); }
     if (IDX.setupDirty) { const st = IDX.setup; await fsReq('PATCH', fsPath(), fsFields({ setup: JSON.stringify(st || null), email: ACC.email, updatedAt: Date.now() }), mask('setup', 'email', 'updatedAt')); live(ep); if (IDX.setup === st) IDX.setupDirty = false; saveIdx(); }
+    if (IDX.vocabDirty) { // the account's lists are read first: a list saved on another device meanwhile is kept, never overwritten
+      const vv = IDX.vocab, prof = await fsGet(fsPath()); live(ep);
+      const merged = mergeVocab(vv || [], prof ? vocabOf(fsObj(prof)) : []);
+      await fsReq('PATCH', fsPath(), fsFields({ vocab: JSON.stringify(merged), email: ACC.email, updatedAt: Date.now() }), mask('vocab', 'email', 'updatedAt')); live(ep);
+      if (IDX.vocab === vv) { const more = JSON.stringify(merged) !== JSON.stringify(vv || []); IDX.vocab = merged; IDX.vocabDirty = false; IDX.vocabDel = []; IDX.vocabBase = merged.map((x) => x.id); IDX.vocabAt = Date.now(); if (more) setTimeout(accountShown, 0); }
+      saveIdx();
+    }
     CLOUD.state = 'ok'; CLOUD.lastOk = Date.now(); CLOUD.retry = 0;
   } catch (e) {
     if (e.stale || ep !== CLOUD.epoch || !ACC) return; // an answer meant for a teacher who has signed out
@@ -2491,7 +2556,8 @@ function bootstrap() {
         const p = fsObj(prof);
         if (!IDX.nameDirty) { const n = isStr(p.name, 200) ? cleanText(p.name, UNAME_MAX) : ''; if (n && n !== ACC.name) { ACC.name = n; saveSession(); } } // renamed on another device
         if (!IDX.setupDirty && isStr(p.setup, 200000)) { try { const st = JSON.parse(p.setup); if (st && typeof st === 'object') IDX.setup = st; } catch (e) { /* keep this device's copy */ } }
-      } else { IDX.nameDirty = true; if (IDX.setup) IDX.setupDirty = true; } // a new account: its profile is written with the first upload
+        if (!IDX.vocabDirty && isStr(p.vocab, 900000)) { const vv = vocabOf(p); IDX.vocab = vv; IDX.vocabBase = vv.map((x) => x.id); IDX.vocabAt = Date.now(); } // word lists added on another device
+      } else { IDX.nameDirty = true; if (IDX.setup) IDX.setupDirty = true; if (IDX.vocab) IDX.vocabDirty = true; } // a new account: its profile is written with the first upload
       const b0 = Object.assign({}, IDX.base); // an upload of another tab while the list is read is recognised below
       const q = '?pageSize=300&' + HEAD_KEYS.map((k) => 'mask.fieldPaths=' + k).join('&');
       let docs = [], tok = '', pages = 0;
@@ -2515,7 +2581,7 @@ async function refreshList() {
   try { r = await bootstrap(); } catch (e) { CLOUD.listing = false; if (e.auth) sessionEnded(); else paintSave(); return; }
   CLOUD.listing = false;
   if (!ACC || r === 'stale') return;
-  if (S.view === 'home' && !MODAL.open) go('home', 'replace'); else paintSave();
+  if (S.view === 'home' && !MODAL.open) go('home', 'replace'); else { paintSave(); accountShown(); }
   if (!CLOUD.listed) listLater(); else afterBoot();
 }
 /* a competition's copy on this device, read without side effects (null when missing or unreadable) */
@@ -2687,7 +2753,7 @@ function offerImport() {
           const t = x.t; t.updatedAt = t.updatedAt || Date.now();
           sSet(ck(t.id), JSON.stringify(t)); upsertSum(sumOf(t)); if (!IDX.dirty.includes(t.id)) IDX.dirty.push(t.id); n++;
         });
-        saveIdx(); if (n) { queueSync(200); toast(n === 1 ? 'أُضيفت المسابقة إلى حسابك' : `أُضيفت ${num(n)} مسابقات إلى حسابك`, 'good'); }
+        saveIdx(); if (n) { queueSync(200); toast(n === 1 ? 'أُضيفت المسابقة إلى حسابك' : n === 2 ? 'أُضيفت مسابقتان إلى حسابك' : `أُضيفت ${n} ${n <= 10 ? 'مسابقات' : 'مسابقة'} إلى حسابك`, 'good'); }
         if (S.view === 'home') go('home', 'replace');
       } }],
   });
@@ -2773,9 +2839,29 @@ function saveT(force) {
   return true;
 }
 /* the teacher's class lists and question counts: the defaults of every new competition (kept in the account) */
+function saveVocab(lists) {
+  const clean = lists.map(cleanVocab).filter(Boolean).slice(0, VOCAB_MAX), gone = vocabLists().filter((x) => !clean.some((y) => y.id === x.id)).map((x) => x.id);
+  IDX.vocabDel = uniq((IDX.vocabDel || []).concat(gone)).slice(-200); // deleted here: never brought back from the account's older copy
+  IDX.vocab = clean; IDX.vocabDirty = true; saveIdx(); queueSync();
+}
+/* the lists of the account's profile (field «vocab») */
+function vocabOf(p) { try { const x = isStr(p && p.vocab, 900000) ? JSON.parse(p.vocab) : []; return Array.isArray(x) ? x.map(cleanVocab).filter(Boolean).slice(0, VOCAB_MAX) : []; } catch (e) { return []; } }
+/* this device's lists + the account's: a list on both → the newer copy; only in the account → added on another device
+   (unless deleted here); only here → new here (unless it was in the account before and is gone: deleted on another device,
+   and not edited here since) */
+function mergeVocab(local, remote) {
+  const base = new Set(IDX.vocabBase || []), del = new Set(IDX.vocabDel || []), out = [], seen = new Set();
+  local.forEach((l) => { seen.add(l.id); const r = remote.find((x) => x.id === l.id); if (r) out.push((r.at || 0) > (l.at || 0) ? r : l); else if (!base.has(l.id) || (l.at || 0) > (IDX.vocabAt || 0)) out.push(l); });
+  remote.forEach((r) => { if (!seen.has(r.id) && !del.has(r.id)) out.push(r); });
+  return out.map(cleanVocab).filter(Boolean).slice(0, VOCAB_MAX);
+}
 function saveSetupDefaults(s) {
-  const lists = s.classes.concat((s.spare || []).filter((x) => String(x.text || '').trim() && !s.classes.some((c) => cleanName(c.name) === cleanName(x.name)))).slice(0, CLASS_MAX);
-  const st = { v: SCHEMA, game: s.game, team: Object.assign({}, s.team), race: Object.assign({}, s.race), ladder: Object.assign({}, s.ladder), name: s.name, teachers: cleanTeachers(s.teachers), classes: lists.map((c) => ({ name: c.name, color: c.color, text: c.text, absent: c.absent.slice() })), n: s.classes.length, rounds: Object.assign({}, s.rounds), second: s.second, timer: s.timer };
+  /* the classes of this competition first (n of them), then the lists set aside — up to LISTS_MAX, never dropped quietly
+     («إضافة شعبة» refuses a new list beyond it). On «الشعب والطلاب» every list is shown: the ones in use stay in use. */
+  const aside = (s.spare || []).filter((x) => String(x.text || '').trim() && !s.classes.some((c) => cleanName(c.name) === cleanName(x.name)));
+  const inUse = s.lists ? s.classes.filter((c) => c.use !== false) : s.classes, rest = (s.lists ? s.classes.filter((c) => c.use === false) : []).concat(aside);
+  const lists = inUse.concat(rest).slice(0, LISTS_MAX), n = Math.max(1, Math.min(inUse.length, CLASS_MAX, lists.length));
+  const st = { v: SCHEMA, vocab: s.vocab || BUILTIN(), grade: gradeOf(s), game: s.game, team: Object.assign({}, s.team), race: Object.assign({}, s.race), ladder: Object.assign({}, s.ladder), name: s.name, teachers: cleanTeachers(s.teachers), classes: lists.map((c) => ({ name: c.name, color: c.color, text: c.text, absent: c.absent.slice() })), n, rounds: Object.assign({}, s.rounds), second: s.second, timer: s.timer };
   if (JSON.stringify(st) === JSON.stringify(IDX.setup)) return; // unchanged: nothing is written over lists saved on another device
   IDX.setup = st; IDX.setupDirty = true; saveIdx(); queueSync();
 }
@@ -2784,10 +2870,11 @@ function saveSetupDefaults(s) {
 function signOut() {
   cleanupView(); clearTimeout(CLOUD.timer); clearTimeout(CLOUD.listTimer); closeModal(true); busyOff();
   CLOUD.epoch++; CLOUD.chain = Promise.resolve();
-  sDel(SK); ACC = null; T = null; Object.assign(IDX, { comps: [], dirty: [], del: [], delBase: {}, last: '', place: null, setup: null, setupDirty: false, nameDirty: false, savedAt: 0, base: {}, bwork: {}, cplace: {} });
+  const stored = restoreSession(); if (!stored || !ACC || (stored.uid === ACC.uid && stored.refreshToken === ACC.refreshToken)) sDel(SK); // never the newer session of another tab
+  ACC = null; T = null; Object.assign(IDX, { comps: [], dirty: [], del: [], delBase: {}, last: '', place: null, setup: null, setupDirty: false, vocab: null, vocabDirty: false, vocabBase: [], vocabAt: 0, vocabDel: [], nameDirty: false, savedAt: 0, base: {}, bwork: {}, cplace: {} });
   Object.assign(CLOUD, { state: 'idle', lastOk: 0, busy: null, retry: 0, again: false, listed: false, listing: false, listTry: 0, authWarned: false, reopening: false, bootAsk: false });
   Object.assign(STORE, { conflict: false, failing: false, warned: false });
-  Object.assign(S, { tab: '', matchId: null, setup: null, drawAnim: false, swapSel: null, cert: '', demo: null, resumePaused: false, introErr: '', toss: null, sdAck: '', run: null, auth: { mode: 'in' } });
+  Object.assign(S, { tab: '', matchId: null, setup: null, draft: null, vedit: null, vlist: '', drawAnim: false, swapSel: null, cert: '', demo: null, resumePaused: false, introErr: '', toss: null, sdAck: '', run: null, auth: { mode: 'in' } });
   go('login', 'replace');
 }
 
@@ -2890,11 +2977,65 @@ function unitEntries(u) {
 }
 let ALL = null;
 function allEntries() { if (!ALL) { const seen = new Set(); ALL = []; for (const u of unitList()) for (const e of unitEntries(u)) if (!seen.has(e.w)) { seen.add(e.w); ALL.push(e); } } return ALL; }
-/* the pool of every competition and of the quick try: exactly the unit's words */
-const tPool = () => allEntries();
-function bankWords() { if (!BANK_WORDS) BANK_WORDS = new Set(allEntries().map((e) => e.w)); return BANK_WORDS; }
-let ENTRY_MAP = null;
-function entryOf(w) { if (!ENTRY_MAP) { ENTRY_MAP = new Map(); allEntries().forEach((x) => { if (!ENTRY_MAP.has(x.w)) ENTRY_MAP.set(x.w, x); }); } return ENTRY_MAP.get(w) || null; }
+/* ---- the teacher's own word lists («المفردات»): each word in English, its Arabic meaning, and (optional) an example
+   sentence and its word class. A competition keeps a copy of its list (T.vocab): every game and every kind of question
+   is made from that list only — nothing else is ever added. ---- */
+const BUILTIN = () => (unitList()[0] || { id: 'media' }).id;
+const BUILTIN_NAME = () => `${(unitList()[0] || {}).ar || 'الوحدة الأولى'} — الصف العاشر`; // the unit of this file (ready to use)
+/* Arabic counting: «كلمة واحدة · كلمتان · 3 كلمات · 11 كلمة»; plain digits (toasts are text) or num() markup */
+const wordsAr = (n, html) => (n === 1 ? 'كلمة واحدة' : n === 2 ? 'كلمتان' : `${html === false ? n : num(n)} ${n >= 3 && n <= 10 ? 'كلمات' : 'كلمة'}`);
+const moreWordsAr = (n, html) => (n === 1 ? 'كلمة واحدة أخرى' : n === 2 ? 'كلمتين أخريين' : `${html === false ? n : num(n)} ${n >= 3 && n <= 10 ? 'كلمات' : 'كلمة'} أخرى`);
+const VOCAB_MAX = 30, VW_MAX = 300, VW_MIN = 8, VNAME_MAX = 40, VAR_MAX = 80, VS_MAX = 240;
+/* the level of a teacher's word (the questions go from easy to hard): short words 1, long words and phrases 3 */
+function autoLvl(w) { const L = letters(w).length + (/[ -]/.test(w) ? 3 : 0); return L <= 5 ? 1 : L <= 8 ? 2 : 3; }
+/* an example sentence → the sentence with a blank where the word is («I write a blog.» → «I write a ___.»); '' when the word is not in it */
+function toGap(sent, w) {
+  const x = String(sent || '').replace(/\s+/g, ' ').trim().slice(0, VS_MAX); if (!x) return '';
+  if (/_{3,}/.test(x)) { const g = x.replace(/_{3,}/g, '___'); return g.split('___').length === 2 ? g : ''; }
+  const re = new RegExp('(^|[^A-Za-z])(' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/[ -]/g, '[ -]') + ')(?![A-Za-z])', 'i'), mm = re.exec(x);
+  if (!mm) return '';
+  const at = mm.index + mm[1].length, g = x.slice(0, at) + '___' + x.slice(at + mm[2].length);
+  return g.split('___').length === 2 ? g : '';
+}
+const normW = (w) => String(w || '').toLowerCase().replace(/[’']/g, '').replace(/\s+/g, ' ').trim();
+/* one word of a teacher's list, cleaned (null: not a usable word) */
+function cleanWord(x) {
+  if (!x || typeof x !== 'object') return null;
+  const w = normW(x.w); if (!WORD_RE.test(w) || w.length < 2 || w.length > 40) return null;
+  const ar = cleanText(String(x.ar || ''), VAR_MAX); if (!ar || !/[\u0600-\u06FF]/.test(ar)) return null;
+  const s = toGap(x.s, w), pos = POS_IDS.includes(x.pos) ? x.pos : '';
+  return Object.assign({ w, ar }, s ? { s } : {}, pos ? { pos } : {});
+}
+function cleanVocab(v) {
+  if (!v || typeof v !== 'object' || typeof v.id !== 'string' || !ID_RE.test(v.id) || !Array.isArray(v.words)) return null;
+  const seen = new Set(), words = [];
+  for (const x of v.words.slice(0, VW_MAX * 2)) { const c = cleanWord(x); if (c && !seen.has(c.w)) { seen.add(c.w); words.push(c); if (words.length >= VW_MAX) break; } }
+  return { id: v.id, name: cleanText(String(v.name || ''), VNAME_MAX) || 'مفرداتي', at: isNum(v.at) ? v.at : 0, words };
+}
+/* the lists saved in the teacher's account */
+function vocabLists() { return (Array.isArray(IDX.vocab) ? IDX.vocab : []).map(cleanVocab).filter(Boolean).slice(0, VOCAB_MAX); }
+const vocabById = (id) => vocabLists().find((v) => v.id === id) || null;
+/* a list → question entries (cached per list object) */
+const VCACHE = new WeakMap();
+function listEntries(v) {
+  if (!v || !Array.isArray(v.words)) return [];
+  let r = VCACHE.get(v); if (r) return r;
+  const seen = new Set(); r = [];
+  for (const x of v.words) { const e = normEntry(Object.assign({}, x, { lvl: autoLvl(normW(x.w)) }), 'v:' + v.id); if (e && !seen.has(e.w)) { if (!e.pos) e.pos = guessPos(e.w); seen.add(e.w); r.push(e); } }
+  VCACHE.set(v, r); return r;
+}
+/* the words of a new competition's setup, and of the open competition (the unit of this file when none was chosen) */
+function setupVocab(s) { return s && s.vocab && s.vocab !== BUILTIN() ? vocabById(s.vocab) : null; }
+const setupPool = (s) => { const v = setupVocab(s); return v ? listEntries(v) : allEntries(); };
+let BUILTIN_ONLY = 0; // the quick try is always made from the unit of the file, never from the list of the competition last opened
+const tPool = () => (T && T.vocab && !BUILTIN_ONLY ? listEntries(T.vocab) : allEntries());
+function withBuiltin(f) { BUILTIN_ONLY++; try { return f(); } finally { BUILTIN_ONLY--; } }
+const vocabName = (t) => (t && t.vocab ? t.vocab.name : BUILTIN_NAME());
+/* the known words: the unit's and those of the list in use (a made-up misspelling is never one of them) */
+const BW = new WeakMap();
+function bankWords() { const p = tPool(); let b = BW.get(p); if (!b) { b = new Set(allEntries().map((e) => e.w)); p.forEach((e) => b.add(e.w)); BW.set(p, b); } return b; }
+const EM = new WeakMap();
+function entryOf(w) { const p = tPool(); let m = EM.get(p); if (!m) { m = new Map(); p.concat(allEntries()).forEach((x) => { if (!m.has(x.w)) m.set(x.w, x); }); EM.set(p, m); } return m.get(w) || null; }
 let COMMON = null;
 function commonWords() {
   if (COMMON) return COMMON;
@@ -3052,7 +3193,7 @@ function genGapSentence(e, pools) {
   let ds = [];
   uniq(e.gd.filter((x) => x !== e.w && bankWords().has(x))).forEach((w) => { if (ds.length < 3 && !clash(w, ds)) ds.push(w); }); // only words of the list
   if (ds.length < 3) { // teacher words without gd (or gd dropped): words of the list whose word class cannot fill the blank
-    const cls = blankClass(e), fit = CANNOT_FIT[cls] || CANNOT_FIT.n, bank = allEntries();
+    const cls = blankClass(e), fit = CANNOT_FIT[cls] || CANNOT_FIT.n, bank = tPool();
     const apart = (x, chosen) => !ds.some((c) => { const y = entryOf(c); return !!y && confusable(x, y); }) && chosen.every((c) => !confusable(c, x));
     const base = (x) => x.w !== e.w && !ds.includes(x.w) && !confusable(e, x);
     const tries = [
@@ -3277,7 +3418,7 @@ function makePicker(pool, used, exclude) {
 function buildRounds(plan, R, pool, used, types, n) {
   n = n || 2;
   const allowed = uniq((types && types.length ? types : plan).filter((t) => TYPES[t]));
-  const pools = [pool, allEntries()], P = makePicker(pool, used), rounds = new Array(R);
+  const pools = pool.length && String(pool[0].u).startsWith('v:') ? [pool] : [pool, allEntries()], P = makePicker(pool, used), rounds = new Array(R); // a teacher's list: its own words only
   const make = (t, lvl) => {
     if (t === 'match5') { const g = P.five(lvl, n); return g ? g.map((x) => genMatch5(x)) : null; }
     const g = P.group(t, lvl, n); return g ? g.map((e) => genQuestion(t, e, pools)) : null;
@@ -3334,6 +3475,10 @@ function matchFits(types, pool, R, n, cap) {
    distinct words): the most «صِل» rounds that fit the pool, keeping ~10% slack so the matching sets can avoid
    confusable meanings → { ok, cap (null = no limit), m5, natural, need, reduced } */
 const BUDGET_CACHE = new Map();
+/* the most students one round can serve from a list: n students of a round need n different words of one kind */
+function roundCap(pool) { let k = 0; TYPE_IDS.forEach((t) => { if (t !== 'match5') k = Math.max(k, pool.filter((e) => eligible(t, e)).length); }); return k; }
+/* a match the list can make: without repeats (budget ok), or with some words coming back (a short list) */
+const canMake = (b, pool, n) => !!b && (b.ok || roundCap(pool) >= n);
 function matchBudget(types, pool, R, n) {
   const key = [types.join(), pool.length, pool.length ? pool[0].k + pool[pool.length - 1].k : '', R, n].join('|');
   if (BUDGET_CACHE.has(key)) return BUDGET_CACHE.get(key);
@@ -3617,6 +3762,7 @@ function ensureMatch(spec) {
    never a word already asked in this match); who answers first rotates from round to round */
 const SD_TYPES = ['mean_en_ar', 'mean_ar_en', 'spell_choice', 'gap_sentence', 'gap_letters', 'spell_build'];
 function addSdRound(m, need) {
+  if (m.demo && !BUILTIN_ONLY) return withBuiltin(() => addSdRound(m, need));
   const j = m.sdr.length + 1, n = need.set.length, rot = (j - 1) % n, order = need.set.slice(rot).concat(need.set.slice(0, rot));
   const pool = tPool(), pools = [pool], used = new Set(T && !m.demo ? T.used : []);
   const asked = [].concat(...m.seq.map((s) => (s.q.type === 'match5' ? (s.q.items || []).map((x) => x.w) : [s.q.w])));
@@ -3650,11 +3796,13 @@ function createCompetition(cfg) {
     v: SCHEMA, app: 'vcl', id: uid(), rev: 0, createdAt: Date.now(), name: compName(cfg.name) || DEF_NAME, teachers: cleanTeachers(cfg.teachers), game: GAMES[cfg.game] ? cfg.game : 'league',
     settings: { rounds: Object.assign({}, cfg.rounds), second: cfg.second, timer: cfg.timer, team: Object.assign({}, cfg.team), race: Object.assign({}, cfg.race) },
     classes, matches: [], tosses: {}, used: [], finishedAt: null, cur: null, drawOk: false, drawAt: null,
+    grade: GRADES.includes(cfg.grade) ? cfg.grade : 10,
+    ...(cfg.vocab ? { vocab: { id: cfg.vocab.id, name: cfg.vocab.name, words: cfg.vocab.words.map((x) => Object.assign({}, x)) } } : {}),
   };
 }
 /* the budget of every stage: the largest match of each stage × its questions (sudden-death rounds are never larger) */
 function stageSizes(sizes, second) {
-  const out = { group: 0, second: 0, final: 2, grand: Math.max(2, sizes.length) };
+  const out = { group: 0, second: 0, final: 2, grand: sizes.length > 1 ? sizes.length : 0 }; // one class: no Grand Final
   sizes.forEach((n) => { const sp = splitSizes(n); if (sp) { out.group = Math.max(out.group, sp[0] >= 3 ? sp[0] : 0); out.second = Math.max(out.second, second === 'pairs' ? 2 : 4); } else if (n === 3) out.second = Math.max(out.second, 3); });
   return out;
 }
@@ -3696,9 +3844,9 @@ function raceMatch(c) {
 }
 const raceOf = (c) => T.matches.find((m) => m.id === 'race-' + c.id) || null;
 /* ---- «من سيربح المفردات» ---- */
-function ladderPlan() { // the same ladder for everyone: rising level, a different kind of question at each step
-  const lv = [1, 1, 1, 2, 2, 2, 2, 3, 3, 3], types = [];
-  while (types.length < LADDER_N) shuffle(LADDER_TYPES).forEach((x) => { if (types.length < LADDER_N && x !== types[types.length - 1]) types.push(x); });
+function ladderPlan() { // the same ladder for everyone: rising level, a different kind of question at each step (only kinds the list can make: «أكمل الجملة» needs example sentences)
+  const lv = [1, 1, 1, 2, 2, 2, 2, 3, 3, 3], can = feasibleTypes(LADDER_TYPES, tPool()), from = can.length ? can : ['mean_en_ar'], types = [];
+  while (types.length < LADDER_N) shuffle(from).forEach((x) => { if (types.length < LADDER_N && (x !== types[types.length - 1] || from.length < 2)) types.push(x); });
   return lv.map((l, i) => ({ type: types[i], lvl: l }));
 }
 const runOf = (id) => (T && T.ladder ? T.ladder.runs.find((r) => r.id === id) : null) || null;
@@ -3720,7 +3868,10 @@ function ladderQuestion(run, step, avoid) {
   const plan = T.ladder.steps[step], pool = tPool(), used = new Set(T.used);
   const asked = run.qs.map((x) => x.q.w).concat(avoid || []);
   let q = null;
-  for (const ex of [asked, []]) { const P = makePicker(pool, used, ex); const g = P.group(plan.type, plan.lvl, 1); if (g) { q = genQuestion(plan.type, g[0], [pool]); break; } }
+  for (const t of [plan.type].concat(shuffle(LADDER_TYPES.filter((x) => x !== plan.type)))) { // the step's kind; another kind if the list cannot make it
+    for (const ex of [asked, []]) { const P = makePicker(pool, used, ex); const g = P.group(t, plan.lvl, 1); if (g) { q = genQuestion(t, g[0], [pool]); break; } }
+    if (q) break;
+  }
   if (!q) throw new Error('POOL_TOO_SMALL');
   T.used = Array.from(used);
   return q;
@@ -3787,7 +3938,7 @@ function gameCerts() {
 }
 
 /* ============================ 12. UI PRIMITIVES ============================ */
-const S = { view: 'home', tab: '', gdAt: '', run: null, ladPaused: false, matchId: null, setup: null, drawAnim: false, swapSel: null, cert: '', bankQ: '', demo: null, resumePaused: false, introErr: '', toss: null, sdAck: '' };
+const S = { view: 'home', tab: '', gdAt: '', draft: null, setupSnap: '', setupBase: '', vsig: '', vlist: '', vedit: null, vret: '', run: null, ladPaused: false, matchId: null, setup: null, drawAnim: false, swapSel: null, cert: '', bankQ: '', demo: null, resumePaused: false, introErr: '', toss: null, sdAck: '' };
 const FS_OK = (() => { try { return !!(document.fullscreenEnabled || document.webkitFullscreenEnabled); } catch (e) { return false; } })();
 IC.wave = '<path d="M2 10v4M6 7v10M10 4v16M14 8v8M18 5v14M22 10v4"/>';
 IC.send = '<path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/>';
@@ -3978,8 +4129,8 @@ VIEWS.login = () => {
       <ol class="lg-steps"><li>افتح بريدك وابحث عن رسالة <b>«إعادة تعيين كلمة المرور»</b>.</li><li>لم تجدها خلال دقيقتين؟ افتح مجلد <b>الرسائل غير المرغوب فيها</b> (Spam أو Junk)، واضغط <b>«ليست رسالة غير مرغوب فيها»</b> — فتصلك الرسائل القادمة في البريد الوارد.</li><li>اضغط الرابط في الرسالة، واكتب كلمة المرور الجديدة، ثم ادخل بها.</li></ol>
       <p class="lg-err" id="auth-err" role="alert"></p>
       <button type="submit" class="btn btn-gold btn-lg lg-go" id="auth-go">${icon('back')}<span>${go}</span></button>
-      <button type="button" class="link lg-link" data-act="auth-resend" id="auth-resend"${resendWait() ? ' disabled' : ''}>${icon('send')}<span>${resendWait() ? `إعادة الإرسال بعد ${num(resendWait())} ثانية` : 'لم تصل الرسالة؟ أعد الإرسال'}</span></button>`
-      : m === 'newpw' ? `<h2 class="lg-h">${icon('lock')}${AUTH_T.newpw}</h2>${a.npErr ? `<p class="lg-alert bad" role="alert">${icon('x')}<span>${esc(a.npErr)}</span></p><button type="button" class="btn btn-gold btn-lg lg-go" data-act="auth-mode" data-m="reset">${icon('send')}<span>اطلب رابطًا جديدًا</span></button><button type="button" class="link lg-link" data-act="auth-mode" data-m="in">${icon('back')}<span>العودة إلى الدخول</span></button>`
+      <button type="button" class="link lg-link" data-act="auth-resend" id="auth-resend"${resendWait() ? ' disabled' : ''}>${icon('send')}<span>${resendWait() ? `إعادة الإرسال بعد ${secondsAr(resendWait())}` : 'لم تصل الرسالة؟ أعد الإرسال'}</span></button>`
+      : m === 'newpw' ? `<h2 class="lg-h">${icon('lock')}${AUTH_T.newpw}</h2>${a.npErr ? `<p class="lg-alert bad" role="alert">${icon('x')}<span>${esc(a.npErr)}</span></p>${a.npNet ? `<button type="button" class="btn btn-gold btn-lg lg-go" data-act="np-retry">${icon('reset')}<span>أعد المحاولة</span></button>` : `<button type="button" class="btn btn-gold btn-lg lg-go" data-act="auth-mode" data-m="reset">${icon('send')}<span>اطلب رابطًا جديدًا</span></button>`}<button type="button" class="link lg-link" data-act="auth-mode" data-m="in">${icon('back')}<span>العودة إلى الدخول</span></button>`
         : !a.npEmail ? `<p class="lg-note lg-wait" role="status"><span class="spin" aria-hidden="true"></span>جارٍ التحقق من الرابط…</p>`
         : `<p class="lg-note">للحساب <b dir="ltr">${esc(a.npEmail)}</b></p>
       <label class="fld"><span>كلمة المرور الجديدة <small>(6 أحرف أو أكثر)</small></span><span class="pw"><input id="au-pass" type="password" autocomplete="new-password" dir="ltr" autofocus><button type="button" class="icon-btn sm" data-act="pw-toggle" aria-pressed="false" aria-label="إظهار كلمة المرور">${icon('eye')}</button></span></label>
@@ -4003,10 +4154,11 @@ VIEWS.login = () => {
 </section>`;
 };
 /* «أعد الإرسال» waits a minute after each email */
+const secondsAr = (n) => (n === 1 ? 'ثانية واحدة' : n === 2 ? 'ثانيتين' : `${num(n)} ${n >= 3 && n <= 10 ? 'ثوانٍ' : 'ثانية'}`);
 const resendWait = () => { const a = S.auth; return a && a.sentAt ? Math.max(0, Math.ceil((a.sentAt + 60000 - Date.now()) / 1000)) : 0; };
 function resendTick() {
   clearTimeout(resendTick.t); const b = $('#auth-resend'); if (!b || !S.auth || S.auth.mode !== 'sent') return;
-  const w = resendWait(); b.disabled = w > 0; const sp = $('span', b); if (sp) sp.innerHTML = w > 0 ? `إعادة الإرسال بعد ${num(w)} ثانية` : 'لم تصل الرسالة؟ أعد الإرسال';
+  const w = resendWait(); b.disabled = w > 0; const sp = $('span', b); if (sp) sp.innerHTML = w > 0 ? `إعادة الإرسال بعد ${secondsAr(w)}` : 'لم تصل الرسالة؟ أعد الإرسال';
   if (w > 0) resendTick.t = setTimeout(resendTick, 1000);
 }
 /* the link of the email: its account is checked first («جارٍ التحقق من الرابط…») */
@@ -4015,9 +4167,19 @@ AFTER.login = () => {
   if (a.mode === 'sent') resendTick();
   if (a.mode !== 'newpw' || a.npEmail || a.npErr || a.npBusy) return;
   a.npBusy = true;
-  checkReset(a.oob).then((b) => { a.npEmail = String((b && b.email) || '').toLowerCase(); if (!a.npEmail) a.npErr = AUTH_ERR.INVALID_OOB_CODE; }, (e) => { a.npErr = e.net ? 'تعذّر الاتصال بالإنترنت — تحقّق من الشبكة ثم أعد فتح الرابط.' : authMsg(e); })
-    .then(() => { a.npBusy = false; if (S.view === 'login' && S.auth === a) go('login', 'replace'); });
+  a.npNet = false;
+  checkReset(a.oob).then((b) => { a.npEmail = String((b && b.email) || '').toLowerCase(); if (!a.npEmail) a.npErr = AUTH_ERR.INVALID_OOB_CODE; }, (e) => { a.npNet = !!e.net; a.npErr = e.net ? 'تعذّر الاتصال بالإنترنت — تحقّق من الشبكة ثم أعد المحاولة.' : authMsg(e); })
+    .then(() => {
+      a.npBusy = false; if (a.npErr && !a.npNet) resetCode(''); // a used or expired link is forgotten; a network error keeps it for «أعد المحاولة»
+      if (S.view !== 'login' || S.auth !== a) return;
+      go('login', 'replace'); const f = a.npEmail && !a.npErr && $('#au-pass'); if (f) f.focus({ preventScroll: true });
+    });
 };
+/* the code of the email link lives in this tab only (sessionStorage): a reload of «كلمة مرور جديدة» reopens it */
+const RK = 'tahseel.reset.v1';
+function resetCode(v) { try { if (v) window.sessionStorage.setItem(RK, v); else window.sessionStorage.removeItem(RK); } catch (e) { /* private mode: the link is opened again */ } }
+function savedResetCode() { try { const v = window.sessionStorage.getItem(RK) || ''; return /^[A-Za-z0-9_-]{10,400}$/.test(v) ? v : ''; } catch (e) { return ''; } }
+window.addEventListener('online', () => { const a = S.auth; if (S.view === 'login' && a && a.mode === 'newpw' && a.npNet && a.npErr && !a.npBusy) { a.npErr = ''; a.npNet = false; go('login', 'replace'); } });
 async function doAuth() {
   const a = S.auth || (S.auth = { mode: 'in' }), val = (id) => (($('#' + id) || {}).value || '').trim();
   const email = val('au-email').toLowerCase(), pass = ($('#au-pass') || {}).value || '', name = cleanText(val('au-name'), UNAME_MAX);
@@ -4029,8 +4191,19 @@ async function doAuth() {
     if (pass.length < 6) return fail('كلمة المرور قصيرة — 6 أحرف أو أكثر.', 'au-pass');
     if (pass !== p2) return fail('كلمتا المرور غير متطابقتين — اكتبها مرة أخرى للتأكيد.', 'au-pass2');
     if (btn) { btn.disabled = true; btn.classList.add('is-busy'); }
-    try { await doReset(a.oob, pass); await signIn(a.npEmail, pass); await afterLogin(false); toast('تم تعيين كلمة المرور الجديدة', 'good'); }
-    catch (e) { if (btn) { btn.disabled = false; btn.classList.remove('is-busy'); } if (/OOB_CODE/.test(e.message || '')) { a.npErr = authMsg(e); go('login', 'replace'); return; } fail(authMsg(e)); }
+    try {
+      if (!a.npSet) {
+        try { await doReset(a.oob, pass); } catch (e) { if (!(a.npLost && /OOB_CODE/.test(e.message || ''))) throw e; } // an earlier try lost its reply: the sign-in tells whether it was set
+        a.npSet = pass; // set: a retry after a network error only signs in (the code is used now)
+      }
+      await signIn(a.npEmail, a.npSet); resetCode(''); await afterLogin(false); toast('تم تعيين كلمة المرور الجديدة', 'good');
+    } catch (e) {
+      if (btn) { btn.disabled = false; btn.classList.remove('is-busy'); }
+      if (e.net && !a.npSet) a.npLost = true;
+      const oob = /OOB_CODE/.test(e.message || ''), wrong = a.npLost && a.npSet && /INVALID_PASSWORD|INVALID_LOGIN_CREDENTIALS/.test(e.message || '');
+      if (oob || wrong) { a.npErr = wrong ? AUTH_ERR.INVALID_OOB_CODE : authMsg(e); a.npSet = ''; a.npNet = false; resetCode(''); go('login', 'replace'); return; }
+      fail(authMsg(e));
+    }
     return;
   }
   a.email = email; a.name = name;
@@ -4100,7 +4273,7 @@ VIEWS.home = () => {
   </section>
   <nav class="dash-quick" aria-label="أدوات">
     <button class="qk" data-act="go" data-to="classes">${icon('users')}<b>الشعب والطلاب</b><small>قوائم شعبك وأسماء الطلاب</small></button>
-    <button class="qk" data-act="go" data-to="bank">${icon('book')}<b>بنك الكلمات</b><small>كلمات الوحدة الأولى (${num(tPool().length)})</small></button>
+    <button class="qk" data-act="go" data-to="bank">${icon('book')}<b>المفردات</b><small>كلمات الوحدة وقوائمك — «إضافة مفردات»</small></button>
     <button class="qk" data-act="demo">${icon('sparkle')}<b>تجربة سريعة</b><small>سؤال من كل نوع</small></button>
     <button class="qk" data-act="go" data-to="help">${icon('book')}<b>دليل الألعاب</b><small>شرح ومثال لكل لعبة</small></button>
   </nav>
@@ -4109,16 +4282,17 @@ VIEWS.home = () => {
 };
 /* ---------- the class lists of the account (the defaults of every new competition) ---------- */
 VIEWS.classes = () => {
-  if (!S.setup) S.setup = defaultSetup();
+  if (!S.setup) S.setup = freshSetup('classes');
+  S.vsig = vocabSig();
   return `${topbar('الشعب والطلاب')}<section class="v-setup v-classes page">
 <p class="page-lead">${icon('users')}<span>هذه قوائم شعبك في حسابك. كل مسابقة جديدة تبدأ منها، ويمكنك تعديلها لأي مسابقة قبل القرعة.</span></p>
-<section class="panel st-rosters">${fillBar()}<div class="rosters n${S.setup.classes.length}">${S.setup.classes.map(rosterCard).join('')}</div>${classAddHTML(S.setup)}</section>
+<section class="panel st-rosters">${gradeHTML(S.setup)}${fillBar()}<div class="rosters n${S.setup.classes.length}">${S.setup.classes.map(rosterCard).join('')}</div>${classAddHTML(S.setup)}</section>
 <div class="setup-foot"><button class="btn btn-gold btn-xl" data-act="save-classes" id="btn-save-classes">${icon('check')}<span>حفظ في حسابي</span></button></div>
 </section>`;
 };
 /* a new competition: the setup (or the saved defaults) → straight into the draw ceremony of the three classes */
 function newGame(s, sbx) {
-  T = createCompetition({ game: s.game, name: s.name, teachers: s.teachers && s.teachers.length ? s.teachers : [teacherName()], classes: s.classes.map((c) => ({ name: c.name, color: c.color, names: rosterNames(c.text).names, absent: c.absent })), rounds: s.rounds, second: s.second, timer: s.timer, team: s.team, race: s.race });
+  T = createCompetition({ vocab: setupVocab(s), grade: gradeOf(s), game: s.game, name: s.name, teachers: s.teachers && s.teachers.length ? s.teachers : [teacherName()], classes: s.classes.map((c) => ({ name: c.name, color: c.color, names: rosterNames(c.text).names, absent: c.absent })), rounds: s.rounds, second: s.second, timer: s.timer, team: s.team, race: s.race });
   T.drawOk = true; if (sbx) T.sandbox = true;
   if (s.game === 'teams') { const mix = s.team.src === 'mix' || T.classes.length < 2; T.settings.team.src = mix ? 'mix' : 'classes'; T.squads = makeSquads(T, T.settings.team.src, s.team.count); }
   if (s.game === 'ladder') T.ladder = { steps: ladderPlan(), life: s.ladder.life !== false, runs: [] };
@@ -4127,7 +4301,7 @@ function newGame(s, sbx) {
 }
 function newCompetition(s, sbx) {
   s = s || defaultSetup();
-  T = createCompetition({ name: s.name, teachers: s.teachers && s.teachers.length ? s.teachers : [teacherName()], classes: s.classes.map((c) => ({ name: c.name, color: c.color, names: rosterNames(c.text).names, absent: c.absent })), rounds: s.rounds, second: s.second, timer: s.timer });
+  T = createCompetition({ vocab: setupVocab(s), grade: gradeOf(s), name: s.name, teachers: s.teachers && s.teachers.length ? s.teachers : [teacherName()], classes: s.classes.map((c) => ({ name: c.name, color: c.color, names: rosterNames(c.text).names, absent: c.absent })), rounds: s.rounds, second: s.second, timer: s.timer });
   if (sbx) T.sandbox = true;
   drawAll();
   STORE.conflict = false; saveT(true); S.tab = ''; S.swapSel = null; S.drawAnim = true; S.sdAck = '';
@@ -4142,20 +4316,42 @@ function rosterNames(text) {
   return { names, dup, over };
 }
 /* «الشعب والطلاب»: every list saved in the account (also those a game with fewer classes kept aside) */
-function listsSetup() { const s = defaultSetup(); s.classes = s.classes.concat(s.spare.filter((x) => String(x.text || '').trim() && !s.classes.some((c) => cleanName(c.name) === cleanName(x.name)))).slice(0, CLASS_MAX); s.spare = []; return s; }
+/* «مسابقة جديدة» left for the guide: its draft (classes, students typed) is waiting when the teacher comes back */
+function takeDraft() { const d = S.draft; S.draft = null; if (!d || !d.s || d.s.lists) return null; S.setupSnap = d.snap; S.setupBase = d.base; toast('عدنا إلى مسابقتك الجديدة كما تركتها'); return d.s; }
+/* a fresh draft of «مسابقة جديدة» (kind 'setup') or of «الشعب والطلاب» ('classes'): it remembers the account copy it was
+   built from and its own first state, so a newer copy from another device can replace it while it is untouched */
+const setupJSON = (s) => JSON.stringify(s, (k, v) => (k === 'open' ? undefined : v)); // without the cards opened on screen
+function freshSetup(kind) { const s = kind === 'classes' ? listsSetup() : defaultSetup(); S.setupSnap = setupJSON(s); S.setupBase = JSON.stringify(IDX.setup || null); return s; }
+const setupEdited = () => !!S.setup && setupJSON(S.setup) !== S.setupSnap;
+const setupStale = () => S.setupBase !== JSON.stringify(IDX.setup || null);
+/* newer lists arrived from the account: a page built from the older copy is shown again (an untouched draft is rebuilt;
+   one the teacher changed is kept, and «حفظ» asks before replacing the newer lists) */
+function accountShown() {
+  if (!ACC || MODAL.open) return;
+  const v = S.view, y = window.scrollY, ae = document.activeElement, typing = !!ae && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName) && !!ae.closest('#view');
+  if (typing) return;
+  if (v === 'bank' && S.vsig !== vocabSig()) { go('bank', 'replace'); window.scrollTo(0, y); return; }
+  if (v !== 'setup' && v !== 'classes') return;
+  const rebuild = setupStale() && !setupEdited();
+  if (!rebuild && S.vsig === vocabSig()) return;
+  if (rebuild) { const g = S.setup && S.setup.game; S.setup = freshSetup(v); if (v === 'setup' && g && GAMES[g]) { S.setup.game = g; S.setupSnap = setupJSON(S.setup); } toast('حُدّثت قوائم الشعب من حسابك'); }
+  go(v, 'replace'); window.scrollTo(0, y);
+}
+const vocabSig = () => JSON.stringify(IDX.vocab || null);
+function listsSetup() { const s = defaultSetup(); s.classes.forEach((c) => { c.use = true; }); s.classes = s.classes.concat(s.spare.filter((x) => String(x.text || '').trim() && !s.classes.some((c) => cleanName(c.name) === cleanName(x.name))).map((c) => Object.assign(c, { use: false }))).slice(0, LISTS_MAX); s.spare = []; s.lists = true; return s; }
 function defaultSetup() {
   const s = { game: 'league', name: DEF_NAME, teachers: [teacherName()].filter(Boolean), classes: DEF_CLASSES.map((c) => ({ name: c.name, color: c.color, text: '', absent: [] })), rounds: {}, second: 'four', timer: 1,
-    team: { src: 'classes', count: 2, R: 5 }, race: { R: 3 }, ladder: { life: true }, spare: [] };
+    team: { src: 'classes', count: 2, R: 5 }, race: { R: 3 }, ladder: { life: true }, spare: [], vocab: BUILTIN(), grade: 10 };
   STAGE_IDS.forEach((k) => { s.rounds[k] = STAGES[k].def; });
   const p = IDX.setup;
   if (p && typeof p === 'object' && p.v === SCHEMA) {
     if (GAME_IDS.includes(p.game)) s.game = p.game;
     if (isStr(p.name, 120) && compName(p.name)) s.name = compName(p.name);
     if (Array.isArray(p.teachers) && cleanTeachers(p.teachers).length) s.teachers = cleanTeachers(p.teachers);
-    if (Array.isArray(p.classes) && p.classes.length >= 1 && p.classes.length <= CLASS_MAX && p.classes.every((c) => c && typeof c === 'object')) {
+    if (Array.isArray(p.classes) && p.classes.length >= 1 && p.classes.length <= LISTS_MAX && p.classes.every((c) => c && typeof c === 'object')) {
       const OLD = { '#f4a300': '#a86a00', '#00b3b3': '#0b8585' }, taken = new Set();
       const all = p.classes.map((c, i) => ({ name: isStr(c.name, 40) && cleanName(c.name) ? cleanName(c.name).slice(0, CNAME_MAX) : defClassName(i), color: (() => { let x = OLD[c.color] || c.color; if (!CLASS_COLORS.includes(x) || taken.has(x)) x = CLASS_COLORS.find((y) => !taken.has(y)) || CLASS_COLORS[i % CLASS_MAX]; taken.add(x); return x; })(), text: isStr(c.text, 4000) ? c.text : '', absent: Array.isArray(c.absent) ? c.absent.filter((x) => isStr(x, NAME_MAX)) : [] }));
-      const n = isInt(p.n, 1, all.length) ? p.n : all.length;
+      const n = isInt(p.n, 1, Math.min(all.length, CLASS_MAX)) ? p.n : Math.min(all.length, CLASS_MAX);
       s.classes = all.slice(0, n); s.spare = all.slice(n); // lists kept aside come back when the teacher adds classes
     }
     if (p.rounds && typeof p.rounds === 'object') STAGE_IDS.forEach((k) => { if (STAGES[k].opts.includes(p.rounds[k])) s.rounds[k] = p.rounds[k]; });
@@ -4164,12 +4360,15 @@ function defaultSetup() {
     if (p.team && typeof p.team === 'object') { if (['classes', 'mix'].includes(p.team.src)) s.team.src = p.team.src; if (TEAM_N_OPTS.includes(p.team.count)) s.team.count = p.team.count; if (TEAM_R_OPTS.includes(p.team.R)) s.team.R = p.team.R; }
     if (p.race && RACE_OPTS.includes(p.race.R)) s.race.R = p.race.R;
     if (p.ladder && typeof p.ladder === 'object') s.ladder.life = p.ladder.life !== false;
+    if (typeof p.vocab === 'string' && (p.vocab === BUILTIN() || vocabById(p.vocab))) s.vocab = p.vocab;
+    if (GRADES.includes(p.grade)) s.grade = p.grade;
   }
   return s;
 }
 /* the name a new class gets: the next number after the last class («10/3» → «10/4»), else «الشعبة 4» */
-function defClassName(i, list) {
+function defClassName(i, list, grade) {
   if (DEF_CLASSES[i] && !list) return DEF_CLASSES[i].name;
+  if (list && GRADES.includes(grade) && !list.some((c) => /^\d+\/\S+$/.test(cleanName(c.name)))) { const taken = new Set(list.map((c) => cleanName(c.name))); for (let k = i + 1; k < i + 40; k++) if (!taken.has(`${grade}/${k}`)) return `${grade}/${k}`; } // «7/1»
   const taken = new Set((list || []).map((c) => cleanName(c.name))), prev = list && list[i - 1] ? cleanName(list[i - 1].name) : '', m = /^(.*?)(\d+)$/.exec(prev);
   if (m) for (let k = +m[2] + 1; k < +m[2] + 40; k++) { const x = (m[1] + k).slice(0, CNAME_MAX); if (!taken.has(x)) return x; }
   for (let k = i + 1; ; k++) if (!taken.has(`الشعبة ${k}`)) return `الشعبة ${k}`;
@@ -4227,7 +4426,7 @@ function rosterCard(c, i) {
   const taken = new Set(S.setup.classes.filter((x, j) => j !== i).map((x) => x.color));
   const colors = `<div class="ro-colors" role="radiogroup" aria-label="لون الشعبة ${esc(cn(c.name))}">${CLASS_COLORS.map((col) => `<button class="sw${c.color === col ? ' on' : ''}" style="--sw:${col}" role="radio" aria-checked="${c.color === col}" data-act="cls-color" data-i="${i}" data-c="${col}" aria-label="${taken.has(col) ? 'لون شعبة أخرى — يتبادلان' : 'لون'}"${taken.has(col) ? ' title="لون شعبة أخرى — يتبادل اللونان"' : ''}></button>`).join('')}</div>`;
   return `<article class="roster" style="--cc:${c.color}">
-  <header class="ro-h"><span class="ro-chip" dir="auto">${esc(c.name || '—')}</span><label class="fld ro-name"><span>اسم الشعبة</span><input type="text" data-in="cls-name" data-i="${i}" value="${esc(c.name)}" maxlength="${CNAME_MAX}" autocomplete="off" dir="auto"></label><span class="ro-n" id="ro-n-${i}">${rosterCount(c)}</span><button type="button" class="icon-btn sm ro-del" data-act="cls-del" data-i="${i}"${S.setup.classes.length < 2 ? ' disabled' : ''} aria-label="حذف الشعبة ${esc(c.name)}" title="${S.setup.classes.length < 2 ? 'تبقى شعبة واحدة على الأقل' : 'حذف الشعبة'}">${icon('trash')}<span>حذف</span></button></header>
+  <header class="ro-h"><span class="ro-chip${[...String(c.name || '')].length > 6 ? ' long' : ''}" dir="auto" title="${esc(c.name)}">${esc(c.name || '—')}</span><label class="fld ro-name"><span>اسم الشعبة</span><input type="text" data-in="cls-name" data-i="${i}" value="${esc(c.name)}" maxlength="${CNAME_MAX}" autocomplete="off" dir="auto"></label><span class="ro-n" id="ro-n-${i}">${rosterCount(c)}</span><button type="button" class="icon-btn sm ro-del" data-act="cls-del" data-i="${i}"${S.setup.classes.length < 2 ? ' disabled' : ''} aria-label="حذف الشعبة ${esc(c.name)}" title="${S.setup.classes.length < 2 ? 'تبقى شعبة واحدة على الأقل' : 'حذف الشعبة'}">${icon('trash')}<span>حذف</span></button></header>
   <div class="ro-att"><span class="field-h">الحضور: اضغط على اسم الطالب الغائب — القرعة بين الحاضرين فقط</span><div class="att-list" id="ro-att-${i}">${attChips(c, i)}</div></div>
   <details class="ro-edit"${(S.setup.open && S.setup.open[i]) || !String(c.text || '').trim() ? ' open' : ''} data-i="${i}"><summary>${icon('spell')}<span>تعديل قائمة الطلاب</span><small>اسم في كل سطر</small>${icon('chev', 'chev')}</summary><textarea data-in="roster" data-i="${i}" rows="9" dir="auto" spellcheck="false" autocomplete="off" aria-label="أسماء طلاب الشعبة ${esc(cn(c.name))} — اسم في كل سطر">${esc(c.text)}</textarea></details>
   <p class="ro-plan" id="ro-plan-${i}">${rosterPlan(c)}</p>${colors}
@@ -4238,14 +4437,15 @@ function segField(label, key, opts, val, hint, sub) {
 }
 /* the word budget of every stage for these rosters and settings (all 7 types, the unit's words) */
 function budgetRows(s) {
-  const pool = tPool(), feas = feasibleTypes(TYPE_IDS, pool);
+  const pool = setupPool(s), feas = feasibleTypes(TYPE_IDS, pool);
   const sizes = s.classes.map((c) => rosterNames(c.text).names.length), st = stageSizes(sizes, s.second);
   return { pool, feas, rows: STAGE_IDS.map((k) => { const n = st[k]; return { k, n, R: s.rounds[k], b: n && feas.length ? matchBudget(feas, pool, s.rounds[k], n) : null }; }) };
 }
 function wordsHTML() {
-  const B = budgetRows(S.setup), block = B.rows.find((r) => r.n && r.b && !r.b.ok);
-  return `<p class="budget note">${icon('book')}<span>كل الأسئلة من <b>كلمات الوحدة الأولى فقط</b> (${num(B.pool.length)} كلمة وعبارة)، وتتنوّع تلقائيًا بين المعنى والإملاء والإكمال والتوصيل. لا تتكرر كلمة داخل المباراة الواحدة.</span></p>
-${block ? `<p class="budget bad">${icon('x')}<span>الكلمات لا تكفي لمباراة ${STAGES[block.k].ar} (${num(block.n)} طلاب × ${num(block.R)} أسئلة) — قلّل عدد الأسئلة.</span></p>` : ''}`;
+  const B = budgetRows(S.setup), block = B.rows.find((r) => r.n && r.b && !canMake(r.b, B.pool, r.n)), short = !block && B.rows.some((r) => r.n && r.b && !r.b.ok);
+  const vn = setupVocab(S.setup) ? setupVocab(S.setup).name : BUILTIN_NAME();
+  return `<p class="budget note">${icon('book')}<span>كل الأسئلة من <b>«<bdi dir="auto">${esc(vn)}</bdi>» فقط</b> (${num(B.pool.length)} كلمة وعبارة)، وتتنوّع تلقائيًا بين المعنى والإملاء والإكمال والتوصيل. ${short ? '' : 'لا تتكرر كلمة داخل المباراة الواحدة.'}</span></p>
+${block ? `<p class="budget bad">${icon('x')}<span>القائمة لا تكفي لمباراة ${STAGES[block.k].ar} (${num(block.n)} طلاب في الجولة الواحدة) — أضف كلمات أو اختر قائمة أخرى.</span></p>` : short ? `<p class="budget warn">${icon('book')}<span>القائمة قصيرة لهذا العدد من الأسئلة: قد تتكرر بعض الكلمات داخل المباراة الواحدة (لا تتكرر في الجولة الواحدة). لأسئلة بلا تكرار أضف كلمات أو قلّل الأسئلة.</span></p>` : ''}`;
 }
 function rulesHTML() {
   const s = S.setup;
@@ -4261,12 +4461,35 @@ function gameCards(s) {
     return `<button class="game-card${on ? ' on' : ''}" role="radio" aria-checked="${on}" data-act="setup-game" data-v="${g}"><span class="gc-ic ${G.tint}">${icon(G.icon)}</span><b>${G.ar}</b><small>${G.desc}</small>${on ? `<span class="gc-on">${icon('check')}</span>` : ''}</button>`; }).join('')}</div>`;
 }
 /* step 3: how many classes (each with its own name, colour and students) */
+/* step 2: the word list of the competition — the unit of this file, or one of the teacher's lists */
+function vocabPickHTML(s) {
+  const B = BUILTIN(), cur = setupVocab(s) ? s.vocab : B, lists = vocabLists();
+  const card = (id, name, n, sn, own) => { const ok = n >= VW_MIN, on = cur === id;
+    return `<button type="button" class="vc${on ? ' on' : ''}${ok ? '' : ' off'}" role="radio" aria-checked="${on}" data-act="setup-vocab" data-v="${esc(id)}"${ok ? '' : ' disabled'}><span class="vc-ic">${icon(own ? 'spell' : 'book')}</span><b dir="auto">${esc(name)}</b><small>${wordsAr(n)}${sn ? ` · ${num(sn)} بجملة مثال` : ''}</small><small class="vc-st">${ok ? (own ? 'قائمتك' : 'كلمات الوحدة') : `أضف ${moreWordsAr(VW_MIN - n)} لتصبح جاهزة`}</small>${on ? `<span class="gc-on">${icon('check')}</span>` : ''}</button>`; };
+  const bi = allEntries();
+  return `<div class="vcs" role="radiogroup" aria-label="قائمة المفردات">${card(B, BUILTIN_NAME(), bi.length, bi.filter((e) => e.s).length, false)}${lists.map((v) => card(v.id, v.name, v.words.length, v.words.filter((x) => x.s).length, true)).join('')}
+<button type="button" class="vc vc-add" data-act="vocab-new" data-ret="setup"><span class="vc-ic">${icon('plus')}</span><b>إضافة مفردات</b><small>قائمة جديدة: الكلمة، معناها، وجملة مثال — وتجهز كل الألعاب منها تلقائيًا</small></button></div>`;
+}
+function gradeHTML(s) {
+  const g = gradeOf(s);
+  return `<div class="grade-pick"><span class="field-l" id="gr-l">الصف</span><div class="seg" role="radiogroup" aria-labelledby="gr-l">${GRADES.map((x) => `<button type="button" class="seg-b${x === g ? ' on' : ''}" role="radio" aria-checked="${x === g}" data-act="setup-grade" data-g="${x}" aria-label="${gradeAr(x)}">${x}</button>`).join('')}</div><small class="muted">${gradeAr(g)} — يظهر على الشهادات، وتُسمّى به الشعب الجديدة (${g}/1، ${g}/2 …)</small></div>`;
+}
+const spareLists = (s) => (s.spare || []).map((x, k) => ({ x, k })).filter(({ x }) => String(x.text || '').trim() && !s.classes.some((c) => cleanName(c.name) === cleanName(x.name)));
 function classAddHTML(s) {
-  const n = s.classes.length, saved = (s.spare || []).filter((x) => String(x.text || '').trim() && !s.classes.some((c) => cleanName(c.name) === cleanName(x.name)));
-  if (n >= CLASS_MAX) return `<div class="cls-add full"><p class="muted">${icon('check')} ${num(CLASS_MAX)} شعب — الحد الأعلى.</p></div>`;
-  return `<div class="cls-add"><button type="button" class="cls-add-b" data-act="cls-add" id="btn-cls-add">${icon('plus')}<span>إضافة شعبة</span><small>${num(n)} من ${num(CLASS_MAX)}</small></button>${saved.length ? `<div class="cls-saved"><span class="field-h">أو أعد شعبة من قوائمك المحفوظة:</span>${saved.map((x) => `<button type="button" class="chip-btn" data-act="cls-add" data-name="${esc(x.name)}" style="--cc:${safeColor(x.color)}">${icon('plus')}<bdi dir="auto">${esc(x.name)}</bdi><small>${studentsAr(rosterNames(x.text).names.length)}</small></button>`).join('')}</div>` : ''}</div>`;
+  const n = s.classes.length, max = s.lists ? LISTS_MAX : CLASS_MAX, saved = spareLists(s);
+  if (n >= max) return `<div class="cls-add full"><p class="muted">${icon('check')} ${s.lists ? `${num(max)} قائمة — الحد الأعلى في حسابك.` : `${num(max)} شعب — الحد الأعلى في المسابقة.`}</p></div>`;
+  return `<div class="cls-add"><button type="button" class="cls-add-b" data-act="cls-add" id="btn-cls-add">${icon('plus')}<span>إضافة شعبة</span><small>${num(n)} من ${num(max)}</small></button>${saved.length ? `<div class="cls-saved"><span class="field-h">أو أعد شعبة من قوائمك المحفوظة:</span>${saved.map(({ x, k }) => `<button type="button" class="chip-btn" data-act="cls-add" data-k="${k}" data-name="${esc(x.name)}" style="--cc:${safeColor(x.color)}">${icon('plus')}<bdi dir="auto">${esc(x.name)}</bdi><small>${studentsAr(rosterNames(x.text).names.length)}</small></button>`).join('')}</div>` : ''}</div>`;
 }
 /* step 4: the options of the chosen game */
+/* «تحدي الفرق» and «سباق الصف»: what the chosen list gives for these options (repeats, or not enough words) */
+function listNote(s) {
+  const P = setupPool(s), present = s.classes.map((c) => { const r = rosterNames(c.text), abs = new Set(c.absent); return r.names.filter((x) => !abs.has(x)).length; });
+  const n = s.game === 'race' ? Math.max(2, ...present) : s.team.src === 'mix' || s.classes.length < 2 ? s.team.count : s.classes.length, R = s.game === 'race' ? s.race.R : s.team.R;
+  const b = matchBudget(feasibleTypes(TYPE_IDS, P), P, R, n);
+  if (b.ok) return '';
+  if (!canMake(b, P, n)) return `<p class="budget bad">${icon('x')}<span>${s.game === 'race' ? `سباق الصف يحتاج كلمة مختلفة لكل طالب في الجولة: القائمة تكفي ${studentsAr(roundCap(P))}، وفي الشعبة ${studentsAr(n)} حاضرون — أضف كلمات أو اختر لعبة أخرى.` : 'القائمة لا تكفي لهذا العدد من الفرق — أضف كلمات أو اختر قائمة أخرى.'}</span></p>`;
+  return `<p class="budget warn">${icon('book')}<span>القائمة قصيرة لهذا العدد من الأسئلة: قد تتكرر بعض الكلمات داخل ${s.game === 'race' ? 'السباق' : 'التحدي'} (لا تتكرر في الجولة الواحدة).</span></p>`;
+}
 function gameOptsHTML(s) {
   const timer = segField('المؤقت', 'timer', TIMER_OPTS, s.timer, s.timer === 0 ? (s.game === 'ladder' ? 'بدون مؤقت: يجيب الطالب حين يكون جاهزًا، أو ينسحب.' : 'بدون مؤقت: يضغط المعلم «كشف الإجابة» عند انتهاء الوقت.') : '');
   const opt = (label, g, k, opts, val, hint) => `<div class="field"><span class="field-l">${label}</span><div class="seg" role="radiogroup" aria-label="${label}">${opts.map((o) => `<button class="seg-b${o.v === val ? ' on' : ''}" role="radio" aria-checked="${o.v === val}" data-act="game-opt" data-g="${g}" data-k="${k}" data-v="${o.v}">${o.ar}</button>`).join('')}</div>${hint ? `<small class="field-h">${hint}</small>` : ''}</div>`;
@@ -4274,26 +4497,29 @@ function gameOptsHTML(s) {
     const T0 = s.team, few = s.classes.length < 2;
     return `${opt('تكوين الفرق', 'team', 'src', [{ v: 'classes', ar: 'كل شعبة فريق' }, { v: 'mix', ar: 'فرق عشوائية من الطلاب' }], few ? 'mix' : T0.src, few ? 'شعبة واحدة: يتوزع طلابها على فرق عشوائية.' : T0.src === 'classes' ? 'تتنافس الشعب فرقًا، ويجيب طلاب كل شعبة بالدور.' : 'يتوزع الطلاب بالقرعة على فرق متوازنة من كل الشعب.')}
 ${few || T0.src === 'mix' ? opt('عدد الفرق', 'team', 'count', TEAM_N_OPTS.map((v) => ({ v, ar: String(v) })), T0.count) : ''}
-${opt('الأسئلة لكل فريق', 'team', 'R', TEAM_R_OPTS.map((v) => ({ v, ar: String(v) })), T0.R, 'في كل جولة يحصل كل فريق على سؤال من النوع والمستوى نفسيهما بكلمة مختلفة، والتعادل يُحسم بسؤال حاسم.')}${timer}`;
+${opt('الأسئلة لكل فريق', 'team', 'R', TEAM_R_OPTS.map((v) => ({ v, ar: String(v) })), T0.R, 'في كل جولة يحصل كل فريق على سؤال من النوع والمستوى نفسيهما بكلمة مختلفة، والتعادل يُحسم بسؤال حاسم.')}<div id="list-note">${listNote(s)}</div>${timer}`;
   }
-  if (s.game === 'race') return `${opt('الأسئلة لكل طالب', 'race', 'R', RACE_OPTS.map((v) => ({ v, ar: String(v) })), s.race.R, 'كل طلاب الشعبة يجيبون بالدور في كل جولة — ولوحة صدارة حيّة، والتعادل على المراكز الثلاثة الأولى يُحسم بسؤال حاسم.')}${timer}`;
+  if (s.game === 'race') return `${opt('الأسئلة لكل طالب', 'race', 'R', RACE_OPTS.map((v) => ({ v, ar: String(v) })), s.race.R, 'كل طلاب الشعبة يجيبون بالدور في كل جولة — ولوحة صدارة حيّة، والتعادل على المراكز الثلاثة الأولى يُحسم بسؤال حاسم.')}<div id="list-note">${listNote(s)}</div>${timer}`;
   if (s.game === 'ladder') return `<p class="ladder-rules">${icon('star')}<span>${LADDER_N} أسئلة تزداد صعوبة لكل طالب، ونقطتا أمان عند السؤال ${LADDER_SAFE[0]} والسؤال ${LADDER_SAFE[1]}: الإجابة الخاطئة تُرجع الطالب إلى آخر نقطة أمان تجاوزها، ويمكنه الانسحاب في أي وقت بما وصل إليه.</span></p>
-${opt('وسائل المساعدة', 'ladder', 'life', [{ v: true, ar: 'حذف إجابتين · تغيير السؤال · اسأل زميلًا' }, { v: false, ar: 'بدون' }], s.ladder.life)}${timer}`;
+${opt('وسائل المساعدة', 'ladder', 'life', [{ v: true, ar: 'حذف إجابتين · تغيير السؤال · استشارة زميل' }, { v: false, ar: 'بدون' }], s.ladder.life)}${timer}`;
   return rulesHTML();
 }
 VIEWS.setup = () => {
-  if (!S.setup) S.setup = defaultSetup();
+  if (!S.setup) S.setup = freshSetup('setup');
+  S.vsig = vocabSig();
   const s = S.setup, G = GAMES[s.game];
   return `${topbar('مسابقة جديدة')}<section class="v-setup page">
 <section class="panel st-game"><h2><span class="step-n">1</span> اختر اللعبة</h2>${gameCards(s)}<p class="st-guide">${icon('book')}<span>لا تعرف أي لعبة تناسبك؟</span><button type="button" class="link" data-act="gd-open" data-g="${s.game}">اقرأ شرح «${esc(G.ar)}» وجرّب مثالًا</button></p></section>
-<section class="panel st-name"><h2><span class="step-n">2</span> اسم المسابقة ومعلموها</h2><label class="fld"><span>اسم المسابقة (يظهر في لوحة المعلم وعلى الشهادات)</span><input type="text" data-in="comp-name" value="${esc(s.name)}" maxlength="80" autocomplete="off" dir="auto"></label><div class="fld tch"><span>معلمو المسابقة <small>(تظهر أسماؤهم كلها على الشهادات — أضف زملاءك المشاركين)</small></span><div id="tch-box">${tchBox(s.teachers || (s.teachers = []))}</div></div><p class="unit-line">${icon('book')}<span>الوحدة: <b>الوحدة الأولى: <span dir="ltr" lang="en">New Media</span></b> · ${num(tPool().length)} كلمة وعبارة</span></p></section>
-<section class="panel st-rosters"><h2><span class="step-n">3</span> الشعب والطلاب <span class="cnt-b">${clsCount(s.classes.length)}</span> <small>(من ${ROSTER_MIN} إلى ${ROSTER_MAX} طالبًا في كل شعبة)</small></h2>${fillBar()}<div class="rosters n${S.setup.classes.length}">${s.classes.map(rosterCard).join('')}</div>${classAddHTML(s)}</section>
-<section class="panel st-rules"><h2><span class="step-n">4</span> خيارات ${G.ar}</h2><div id="rules">${gameOptsHTML(s)}</div></section>
+<section class="panel st-vocab"><h2><span class="step-n">2</span> المفردات <small>(كل الأسئلة من القائمة التي تختارها فقط)</small></h2>${vocabPickHTML(s)}</section>
+<section class="panel st-name"><h2><span class="step-n">3</span> اسم المسابقة ومعلموها</h2><label class="fld"><span>اسم المسابقة (يظهر في لوحة المعلم وعلى الشهادات)</span><input type="text" data-in="comp-name" value="${esc(s.name)}" maxlength="80" autocomplete="off" dir="auto"></label><div class="fld tch"><span>معلمو المسابقة <small>(تظهر أسماؤهم كلها على الشهادات — أضف زملاءك المشاركين)</small></span><div id="tch-box">${tchBox(s.teachers || (s.teachers = []))}</div></div><p class="unit-line">${icon('book')}<span>المفردات: <b dir="auto">${esc(setupVocab(s) ? setupVocab(s).name : BUILTIN_NAME())}</b> · ${wordsAr(setupPool(s).length)}</span></p></section>
+<section class="panel st-rosters"><h2><span class="step-n">4</span> الشعب والطلاب <span class="cnt-b">${clsCount(s.classes.length)}</span> <small>(من ${ROSTER_MIN} إلى ${ROSTER_MAX} طالبًا في كل شعبة)</small></h2>${gradeHTML(s)}${fillBar()}<div class="rosters n${S.setup.classes.length}">${s.classes.map(rosterCard).join('')}</div>${classAddHTML(s)}</section>
+<section class="panel st-rules"><h2><span class="step-n">5</span> خيارات ${G.ar}</h2><div id="rules">${gameOptsHTML(s)}</div></section>
 <div class="setup-foot"><p class="setup-err" id="setup-err" role="alert"></p><button class="btn btn-gold btn-xl" data-act="create">${icon(s.game === 'league' ? 'shuffle' : G.icon)}<span>${G.go}</span></button></div>
 </section>`;
 };
 function setupErrors(s) {
   const err = [], names = s.classes.map((c) => cleanName(c.name));
+  if (setupPool(s).length < VW_MIN) err.push(`قائمة المفردات فيها أقل من ${VW_MIN} كلمات — أضف كلمات أو اختر قائمة أخرى.`);
   if (names.some((x) => !x)) err.push('اكتب اسم كل شعبة.');
   if (new Set(names).size !== names.length) err.push('أسماء الشعب يجب أن تكون مختلفة.');
   s.classes.forEach((c) => {
@@ -4305,23 +4531,24 @@ function setupErrors(s) {
   if (s.game === 'teams') {
     const mix = s.team.src === 'mix' || s.classes.length < 2, n = mix ? s.team.count : s.classes.length, tot = present.reduce((a, x) => a + x, 0);
     if (mix && tot < n) err.push(`يلزم ${n} طلاب حاضرون على الأقل لتكوين ${n} فرق.`);
-    const b = matchBudget(feasibleTypes(TYPE_IDS, tPool()), tPool(), s.team.R, n); if (!b.ok) err.push('الكلمات لا تكفي لهذا العدد من الأسئلة — قلّل الأسئلة لكل فريق.');
+    const P = setupPool(s), b = matchBudget(feasibleTypes(TYPE_IDS, P), P, s.team.R, n); if (!canMake(b, P, n)) err.push(`القائمة لا تكفي لـ${n} فرق — أضف كلمات أو اختر قائمة أخرى.`);
     return { err, B: null };
   }
   if (s.game === 'race') {
-    const big = Math.max(...present); const b = matchBudget(feasibleTypes(TYPE_IDS, tPool()), tPool(), s.race.R, Math.max(2, big));
-    if (!b.ok) err.push(`الكلمات لا تكفي لسباق من ${big} طالبًا × ${s.race.R} ${s.race.R === 1 ? 'سؤال' : 'أسئلة'} — قلّل عدد الأسئلة.`);
+    const big = Math.max(...present), P = setupPool(s), b = matchBudget(feasibleTypes(TYPE_IDS, P), P, s.race.R, Math.max(2, big));
+    if (!canMake(b, P, Math.max(2, big))) err.push(`سباق الصف يحتاج كلمة مختلفة لكل طالب في الجولة: في الشعبة ${studentsAr(big)} حاضرون، والقائمة تكفي ${studentsAr(roundCap(P))} — أضف ${moreWordsAr(Math.max(2, big) - roundCap(P))}، أو اختر لعبة أخرى.`);
     return { err, B: null };
   }
   if (s.game === 'ladder') return { err, B: null };
-  const B = budgetRows(s), bad = B.rows.find((r) => r.n && r.b && !r.b.ok);
-  if (bad) err.push(`الكلمات لا تكفي لمباراة ${STAGES[bad.k].ar} (${bad.n} طلاب × ${bad.R} أسئلة) — قلّل عدد الأسئلة.`);
+  const B = budgetRows(s), bad = B.rows.find((r) => r.n && r.b && !canMake(r.b, B.pool, r.n));
+  if (bad) err.push(`القائمة لا تكفي لمباراة ${STAGES[bad.k].ar} (${bad.n} طلاب في الجولة الواحدة) — أضف كلمات أو اختر قائمة أخرى.`);
   return { err, B };
 }
 function refreshSetupBits(i) {
   const s = S.setup, c = s.classes[i];
   if (c) { const a = $('#ro-att-' + i), n = $('#ro-n-' + i), p = $('#ro-plan-' + i); if (a) a.innerHTML = attChips(c, i); if (n) n.innerHTML = rosterCount(c); if (p) p.innerHTML = rosterPlan(c); }
   const w = $('#words'); if (w) w.innerHTML = wordsHTML();
+  const ln = $('#list-note'); if (ln && (s.game === 'race' || s.game === 'teams')) ln.innerHTML = listNote(s);
 }
 
 /* ---------- Hub: «مركز المسابقة» ---------- */
@@ -4429,7 +4656,7 @@ ${historyHTML(c.id)}`;
 function grandSection(G) {
   const st = G.step;
   const waiting = T.classes.map((c, i) => `<li style="--cc:${c.color}">${G.champs[i] ? `${avatar(G.champs[i])}${nm(G.champs[i])}` : `<span class="av q" style="--ac:${c.color}" aria-hidden="true">?</span><span class="muted">بانتظار بطل الشعبة</span>`}<small dir="auto">${esc(c.name)}</small></li>`).join('');
-  const card = G.ready ? stepCard(null, st, `${STAGES.grand.ar} — ${num(T.settings.rounds.grand)} أسئلة لكل طالب`) : `<section class="scard st-locked"><header><h4>${STAGES.grand.ar}</h4><span class="pill p-locked">بانتظار أبطال الشعب</span></header><ul class="plain-list gf-wait">${waiting}</ul></section>`;
+  const card = G.ready ? stepCard(null, st, `${STAGES.grand.ar} — ${T.settings.rounds.grand} أسئلة لكل طالب`) : `<section class="scard st-locked"><header><h4>${STAGES.grand.ar}</h4><span class="pill p-locked">بانتظار أبطال الشعب</span></header><ul class="plain-list gf-wait">${waiting}</ul></section>`;
   const pod = G.podium ? `<section class="scard champ-card"><header><h4>${icon('trophy')} منصة التتويج</h4><button class="btn btn-sm btn-gold" data-act="go" data-to="ceremony">${icon('trophy')}<span>حفل التتويج</span></button><button class="btn btn-sm btn-ghost" data-act="cert-open" data-k="p0">${icon('print')}<span>الشهادات</span></button></header><ol class="pod-list">${G.podium.map((id, i) => `<li class="p${i}">${medalSVG(i, 'pl' + i + uid())}${avatar(id)}<b>${nm(id)}</b><small dir="auto">${esc(person(id).cls)}</small></li>`).join('')}</ol></section>` : '';
   return `<section class="csec gsec"><header class="csec-h"><div class="csec-t"><span class="gf-cup">${icon('trophy')}</span><div><h2>${STAGES.grand.ar}</h2><p class="muted">أبطال ${T.classes.length === 2 ? 'الشعبتين' : 'الشعب'} · ${num(T.settings.rounds.grand)} أسئلة لكل طالب · ${T.classes.length === 2 ? 'المركزان الأول والثاني' : 'المراكز الأول والثاني والثالث'}</p></div></div>${G.next ? `<button class="btn btn-gold btn-xl" data-act="next" data-cls="gf">${icon(nextIcon(G.next))}<span>${esc(nextText(G.next))}</span></button>` : ''}</header><div class="cards2">${card}${pod}</div>${historyHTML(null)}</section>`;
 }
@@ -4443,7 +4670,7 @@ VIEWS.hub = () => {
   const banner = G.podium ? `<div class="champ-banner">${icon('trophy')}${avatar(G.podium[0], 'lg')}<div><small>بطل دوري أبطال المفردات — الجائزة الكبرى</small><b>${nm(G.podium[0])} <span class="muted" dir="auto">${esc(person(G.podium[0]).cls)}</span></b></div><button class="btn btn-gold" data-act="go" data-to="ceremony">${icon('trophy')}<span>حفل التتويج</span></button></div>` : '';
   const acts = `<button class="btn btn-ghost btn-sm" data-act="draw-open">${icon('shuffle')}<span>نتيجة القرعة</span></button><button class="btn btn-danger btn-sm" data-act="reset-t">${icon('reset')}<span>إعادة ضبط</span></button>`;
   return `${topbar('مركز المسابقة', acts)}<section class="v-hub page">
-${banner}${roadHTML(G, `<div class="hub-head"><h3 class="hub-name"><bdi>${esc(T.name)}</bdi></h3><div class="hub-meta"><span>${icon('users')} ${studentsAr(T.classes.reduce((n, c) => n + c.students.length, 0))} · ${clsCount(T.classes.length)}</span><span class="hm-done">${icon('check')} مباريات منتهية: ${num(done)}</span></div></div>`)}
+${banner}${roadHTML(G, `<div class="hub-head"><h3 class="hub-name"><bdi>${esc(T.name)}</bdi></h3><div class="hub-meta"><span>${icon('users')} ${studentsAr(T.classes.reduce((n, c) => n + c.students.length, 0))} · ${clsCount(T.classes.length)} · ${gradeAr(gradeOf(T))}</span><span>${icon('book')} <bdi dir="auto">${esc(vocabName(T))}</bdi></span><span class="hm-done">${icon('check')} مباريات منتهية: ${num(done)}</span></div></div>`)}
 <div class="tabs" role="tablist" aria-label="أقسام المسابقة">${tabs.map((t) => `<button class="tab${S.tab === t.id ? ' on' : ''}" role="tab" id="tab-${t.id}" aria-selected="${S.tab === t.id}" data-act="tab" data-tab="${t.id}" style="--cc:${t.color}">${t.id === 'gf' ? icon('trophy') : '<i class="tab-sw"></i>'}<span${t.id === 'gf' ? '' : ' dir="auto"'}>${esc(t.label)}</span>${t.dot ? `<i class="tab-dot ${t.dot}" aria-hidden="true"></i>` : ''}</button>`).join('')}</div>
 <div class="tab-body" id="tab-body" role="tabpanel" aria-labelledby="tab-${S.tab}">${S.tab === 'gf' ? grandSection(G) : classSection(F)}</div></section>`;
 };
@@ -4528,8 +4755,8 @@ AFTER.draw = () => {
 VIEWS.intro = () => {
   const m = curMatch(); if (!m || m.seq || !T) return VIEWS.hub();
   const n = m.players.length;
-  const many = n > 4 && m.stage !== 'grand', sub = (p) => (p.team ? studentsAr((T.squads.find((q) => q.id === p.id) || { members: [] }).members.length) : `الشعبة <span dir="auto">${esc(cn(p.cls))}</span>`);
-  const players = m.players.map((id) => { const p = person(id); return `<li class="ip" style="--tc:${safeColor(p.color)}">${avatar(id, many ? 'lg' : 'xl')}<b>${nm(id)}</b>${many ? '' : `<small>${sub(p)}</small>`}</li>`; }).join('');
+  const many = n > 4 && (m.stage !== 'grand' || n > 8), sub = (p) => (p.team ? studentsAr((T.squads.find((q) => q.id === p.id) || { members: [] }).members.length) : `الشعبة <span dir="auto">${esc(cn(p.cls))}</span>`);
+  const players = m.players.map((id) => { const p = person(id); return `<li class="ip" style="--tc:${safeColor(p.color)}">${avatar(id, many ? 'lg' : 'xl')}<b>${nm(id)}</b>${many && m.stage !== 'grand' ? '' : `<small>${sub(p)}</small>`}</li>`; }).join(''); // the Grand Final keeps each champion's class
   return `${topbar('')}<section class="v-intro page-narrow">
 <div class="intro-head"><h1 class="disp">${esc(matchLabel(m))}</h1><p>${num(m.R)} ${m.R === 1 ? 'سؤال' : m.R <= 10 ? 'أسئلة' : 'سؤالًا'} لكل ${m.stage === 'team' ? 'فريق' : 'طالب'}${many ? ` · ${m.stage === 'team' ? teamsAr(n) : studentsAr(n)}` : ''} · تتنوّع الأسئلة تلقائيًا${n > 2 ? ' · يتبدّل من يبدأ في كل جولة' : ''}</p></div>
 <ol class="ips n${Math.min(n, 4)}${many ? ' many' : ''}" aria-label="المتسابقون">${players}</ol>
@@ -4821,7 +5048,7 @@ VIEWS.ceremony = () => {
   ${tabs}
   <ol class="podium n${order.length}" aria-label="منصة التتويج">${cols}</ol>
   <p class="congrats" style="--cc:${safeColor(D.cc)}">${icon('star')}<span>${D.congrats}</span>${icon('star')}</p>
-  <p class="promise">${UNIT2_LINE}</p>
+  ${T && !T.vocab && gradeOf(T) === 10 ? `<p class="promise">${UNIT2_LINE}</p>` : ''}
   <div class="champ-actions">${D.cert ? `<button class="btn btn-gold btn-xl" data-act="cert-open" data-k="${esc(D.cert)}">${icon('print')}<span>شهادات التكريم</span></button>` : ''}${up}<button class="btn btn-ghost" data-act="new-t">${icon('plus')}<span>مسابقة جديدة</span></button></div>
 </div></section>`;
 };
@@ -4871,7 +5098,7 @@ ${list.length > 6 ? `<label class="cert-sel">${icon('medal')}<span>الشهاد�
   <div class="cert-frame" aria-hidden="true"></div><i class="cc c1"></i><i class="cc c2"></i><i class="cc c3"></i><i class="cc c4"></i>
   <div class="cert-wm" aria-hidden="true">${sealSVG('cw')}</div>
   <div class="cert-in">
-    <div class="cert-top"><div class="cert-side"><b>${SCHOOL}</b><span>الصف العاشر</span></div><div class="cert-seal">${sealSVG('ce')}</div><div class="cert-side"><b>اللغة الإنجليزية</b><span>${isLeague() ? TITLE : esc(GAMES[gameOf(T)].ar)}</span></div></div>
+    <div class="cert-top"><div class="cert-side"><b>${SCHOOL}</b><span>${gradeAr(gradeOf(T))}</span></div><div class="cert-seal">${sealSVG('ce')}</div><div class="cert-side"><b>اللغة الإنجليزية</b><span>${isLeague() ? TITLE : esc(GAMES[gameOf(T)].ar)}</span></div></div>
     <p class="cert-kicker" dir="ltr" lang="en">CERTIFICATE OF HONOUR · ${GAMES[gameOf(T)].en}</p>
     <h2 class="cert-title">شهادة تكريم</h2>
     <p class="cert-head">${head} <span class="cert-comp">(<bdi>${comp}</bdi>)</span></p>
@@ -4889,7 +5116,7 @@ const clsCount = (n) => (n === 1 ? 'شعبة واحدة' : n === 2 ? 'شعبتا
 const studentsAr = (n) => (n === 1 ? 'طالب واحد' : n === 2 ? 'طالبان' : `${num(n)} ${n >= 3 && n <= 10 ? 'طلاب' : 'طالبًا'}`);
 function gameHead(g, sum, line) {
   const nS = T.classes.reduce((n, c) => n + presentOf(c).length, 0);
-  return `<header class="gm-head"><span class="gc-ic t-${GAMES[g].tint}">${icon(GAMES[g].icon)}</span><div class="gm-t"><small>${esc(GAMES[g].ar)}</small><h2><bdi dir="auto">${esc(T.name)}</bdi></h2><p class="gm-meta"><span>${icon('users')} ${studentsAr(nS)} · ${clsCount(T.classes.length)}</span>${line ? `<span>${line}</span>` : ''}</p></div>
+  return `<header class="gm-head"><span class="gc-ic t-${GAMES[g].tint}">${icon(GAMES[g].icon)}</span><div class="gm-t"><small>${esc(GAMES[g].ar)}</small><h2><bdi dir="auto">${esc(T.name)}</bdi></h2><p class="gm-meta"><span>${icon('users')} ${studentsAr(nS)} · ${clsCount(T.classes.length)} · ${gradeAr(gradeOf(T))}</span><span>${icon('book')} <bdi dir="auto">${esc(vocabName(T))}</bdi> (${num(tPool().length)} كلمة)</span>${line ? `<span>${line}</span>` : ''}</p></div>
 <div class="gm-prog"><span class="cmp-bar" role="img" aria-label="التقدم ${sum.progress}٪"><i style="width:${Math.max(3, sum.progress)}%"></i></span><small>${sum.status === 'done' ? `${icon('check')} انتهت` : `التقدم ${num(sum.progress)}٪`}</small></div></header>`;
 }
 /* the podium row of a finished game: the three first, the ceremony and the certificates */
@@ -5070,12 +5297,115 @@ function ladStart(sid) {
 }
 
 /* ---------- Word bank: exactly the unit's 66 words (read-only) ---------- */
+/* ---------- «المفردات»: the unit of this file and the teacher's own lists — every game is made from them ---------- */
+function vocabCard(id, name, words, own, on) {
+  const n = words.length, sn = words.filter((x) => x.s).length, ok = n >= VW_MIN;
+  return `<article class="vl${on ? ' on' : ''}"><button type="button" class="vl-open" data-act="vocab-view" data-v="${esc(id)}" aria-pressed="${on}"><span class="vc-ic">${icon(own ? 'spell' : 'book')}</span><b dir="auto">${esc(name)}</b><small>${wordsAr(n)}${sn ? ` · ${num(sn)} بجملة مثال` : ''}</small>
+<span class="vl-st ${ok ? 'ok' : 'no'}">${ok ? `${icon('check')} جاهزة لكل الألعاب` : `أضف ${moreWordsAr(VW_MIN - n)}`}</span></button>
+${own ? `<div class="vl-acts"><button type="button" class="btn btn-sm btn-ghost" data-act="vocab-edit" data-v="${esc(id)}">${icon('spell')}<span>تعديل</span></button><button type="button" class="icon-btn sm" data-act="vocab-del" data-v="${esc(id)}" aria-label="حذف قائمة ${esc(name)}" title="حذف القائمة">${icon('trash')}</button></div>` : '<p class="vl-note">جاهزة دائمًا — كلمات الوحدة الأولى كما في الملف</p>'}</article>`;
+}
 VIEWS.bank = () => {
-  const es = allEntries();
-  return `${topbar('بنك الكلمات')}<section class="v-bank page">
-<div class="bank-bar"><div class="bank-t"><b>الوحدة الأولى: <span dir="ltr" lang="en">New Media</span></b><span>كل أسئلة المسابقة من هذه الكلمات فقط · <span class="bank-count"><b id="bank-n">${es.length}</b> كلمة وعبارة</span></span></div><label class="search">${icon('search')}<input type="search" id="bank-q" data-in="bank-q" placeholder="ابحث بالإنجليزية أو بالعربية…" value="${esc(S.bankQ)}" aria-label="بحث في الكلمات" autocomplete="off"></label></div>
+  S.vsig = vocabSig();
+  const B = BUILTIN(), lists = vocabLists(), sel = S.vlist && vocabById(S.vlist) ? S.vlist : B, v = sel === B ? null : vocabById(sel);
+  const es = v ? listEntries(v) : allEntries(), name = v ? v.name : BUILTIN_NAME();
+  return `${topbar('المفردات')}<section class="v-bank page">
+<section class="panel vlists"><header class="vl-h"><div><h2>${icon('book')} قوائم المفردات</h2><p class="muted">كل مسابقة تختار قائمة واحدة عند «مسابقة جديدة»، وكل الألعاب وأنواع الأسئلة تُصنع منها تلقائيًا — من كلماتها فقط.</p></div><button class="btn btn-gold" data-act="vocab-new" id="btn-vocab-new">${icon('plus')}<span>إضافة مفردات</span></button></header>
+<div class="vls">${vocabCard(B, BUILTIN_NAME(), allEntries(), false, sel === B)}${lists.map((x) => vocabCard(x.id, x.name, x.words, true, sel === x.id)).join('')}</div></section>
+<div class="bank-bar"><div class="bank-t"><b dir="auto">${esc(name)}</b><span>${v ? 'قائمتك' : 'كلمات الوحدة'} · <span class="bank-count"><b id="bank-n">${es.length}</b> كلمة وعبارة</span></span></div><label class="search">${icon('search')}<input type="search" id="bank-q" data-in="bank-q" placeholder="ابحث بالإنجليزية أو بالعربية…" value="${esc(S.bankQ)}" aria-label="بحث في الكلمات" autocomplete="off"></label></div>
 <div class="tbl-wrap"><table class="words" id="bank-words"><thead><tr><th>الكلمة</th><th>المعنى</th><th>النوع</th><th class="lvc">المستوى</th><th class="ex">مثال</th><th><span class="sr-only">نطق</span></th></tr></thead><tbody>${es.map((e) => `<tr data-q="${esc(e.w + ' ' + normAr(e.ar))}"><td class="w">${en(e.w)}</td><td class="a">${esc(e.ar)}</td><td>${POS_AR[e.pos] || '—'}</td><td class="lvc">${lvlDots(e.lvl)}</td><td class="ex">${e.s ? `<span dir="ltr" lang="en">${esc(e.s)}</span>` : '<span class="muted">—</span>'}</td><td>${SPEECH_OK ? `<button class="icon-btn sm" data-act="say-word" data-w="${esc(e.w)}" aria-label="نطق ${esc(e.w)}">${icon('wave')}</button>` : ''}</td></tr>`).join('')}</tbody></table></div></section>`;
 };
+/* ---- the editor of one list: rows (English · Arabic · example sentence · word class), a paste box, live checks ---- */
+const vRow = () => ({ w: '', ar: '', s: '', pos: '' });
+function vocabDraft(v) { return { id: v ? v.id : '', name: v ? v.name : '', rows: v ? v.words.map((x) => ({ w: x.w, ar: x.ar, s: x.s ? x.s.replace('___', x.w) : '', pos: x.pos || '' })).concat([vRow()]) : [vRow(), vRow(), vRow()] }; }
+/* the state of one row: '' empty · ok · warn (usable, a remark) · bad (not usable yet) — and its message */
+function vRowState(r, i, rows) {
+  const w = normW(r.w), any = w || String(r.ar || '').trim() || String(r.s || '').trim();
+  if (!any) return { st: '', msg: '' };
+  if (!w) return { st: 'bad', msg: 'اكتب الكلمة بالإنجليزية' };
+  if (!WORD_RE.test(w) || w.length > 40) return { st: 'bad', msg: 'الكلمة بحروف إنجليزية فقط (ويمكن مسافة أو -)' };
+  if (rows.some((x, j) => j < i && normW(x.w) === w)) return { st: 'bad', msg: 'مكررة — موجودة في سطر سابق' };
+  const ar = String(r.ar || '').trim();
+  if (!ar) return { st: 'bad', msg: 'اكتب المعنى بالعربية' };
+  if (!/[؀-ۿ]/.test(ar)) return { st: 'bad', msg: 'المعنى بالعربية' };
+  if (String(r.s || '').trim() && !toGap(r.s, w)) return { st: 'warn', msg: 'الجملة لا تحتوي الكلمة — لن تُستخدم في «أكمل الجملة»' };
+  return { st: 'ok', msg: '' };
+}
+function vocabSummary(d) {
+  const sts = d.rows.map((r, i) => vRowState(r, i, d.rows)), ok = sts.filter((x) => x.st === 'ok' || x.st === 'warn').length, bad = sts.filter((x) => x.st === 'bad').length;
+  const sn = d.rows.filter((r, i) => (sts[i].st === 'ok') && String(r.s || '').trim()).length;
+  const ready = ok >= 20 ? `${icon('check')} جاهزة لكل الألعاب` : ok >= VW_MIN ? `${icon('check')} جاهزة — مع قائمة قصيرة اختر أسئلة أقل في المباريات الكبيرة` : `أضف ${moreWordsAr(VW_MIN - ok)} لتصبح جاهزة (${num(VW_MIN)} على الأقل)`;
+  return `<span class="vs-n">${ok === 1 ? 'كلمة واحدة صالحة' : ok === 2 ? 'كلمتان صالحتان' : ok === 0 ? 'لا كلمات صالحة بعد' : `<b>${num(ok)}</b> ${ok >= 3 && ok <= 10 ? 'كلمات صالحة' : 'كلمة صالحة'}`}${sn ? ` · ${num(sn)} بجملة مثال` : ''}${bad ? ` · <span class="bad">${num(bad)} تحتاج تصحيحًا</span>` : ''}</span><span class="vs-r ${ok >= VW_MIN ? 'ok' : 'no'}">${ready}</span>`;
+}
+function vRowHTML(r, i, rows) {
+  const s = vRowState(r, i, rows);
+  return `<div class="vr${s.st ? ' ' + s.st : ''}" data-i="${i}"><span class="vr-n" aria-hidden="true">${num(i + 1)}</span>
+<input class="vr-w" data-in="vw" data-i="${i}" data-f="w" value="${esc(r.w)}" dir="ltr" lang="en" autocomplete="off" spellcheck="false" placeholder="${i ? '' : 'blog'}" aria-label="الكلمة بالإنجليزية ${i + 1}">
+<input class="vr-a" data-in="vw" data-i="${i}" data-f="ar" value="${esc(r.ar)}" dir="rtl" autocomplete="off" placeholder="${i ? '' : 'مدونة'}" aria-label="المعنى بالعربية ${i + 1}">
+<div class="vr-2"><input class="vr-s" data-in="vw" data-i="${i}" data-f="s" value="${esc(r.s)}" dir="ltr" lang="en" autocomplete="off" placeholder="${i ? '(اختياري)' : 'She writes a weekly blog. (اختياري)'}" aria-label="جملة مثال ${i + 1} (اختياري)">
+<select class="vr-p" data-in="vw" data-i="${i}" data-f="pos" aria-label="نوع الكلمة ${i + 1}"><option value="">تلقائي</option>${POS_IDS.map((p) => `<option value="${p}"${r.pos === p ? ' selected' : ''}>${POS_AR[p]}</option>`).join('')}</select></div>
+<button type="button" class="icon-btn sm vr-del" data-act="v-del-row" data-i="${i}" aria-label="حذف السطر ${i + 1}" title="حذف">${icon('trash')}</button>
+<small class="vr-msg" id="vr-msg-${i}">${esc(s.msg)}</small></div>`;
+}
+VIEWS.vocab = () => {
+  const d = S.vedit; if (!d) return VIEWS.bank();
+  return `${topbar(d.id ? 'تعديل قائمة مفردات' : 'إضافة مفردات')}<section class="v-vocab page">
+<section class="panel"><h2>${icon('book')} اسم القائمة</h2><label class="fld"><span>مثال: الوحدة الثانية — يظهر عند اختيار المفردات للمسابقة</span><input type="text" id="v-name" data-in="v-name" value="${esc(d.name)}" maxlength="${VNAME_MAX}" dir="auto" placeholder="الوحدة الثانية" autocomplete="off"></label></section>
+<section class="panel vv-paste"><h2>${icon('copy')} لصق سريع <small>(اختياري)</small></h2><p class="muted">الصق كلماتك دفعة واحدة: كلمة في كل سطر — الكلمة الإنجليزية، ثم معناها بالعربية، ثم جملة مثال إن أردت، مفصولة بشرطة « - » أو بعلامة Tab (كما تُنسخ من جدول Word أو Excel).</p>
+<textarea id="v-paste" rows="5" dir="auto" spellcheck="false" placeholder="blog - مدونة - She writes a weekly blog about technology.&#10;podcast - بودكاست&#10;website - موقع إلكتروني - Visit our school website."></textarea>
+<div class="row"><button type="button" class="btn btn-ghost" data-act="v-paste">${icon('plus')}<span>أضف هذه الكلمات إلى القائمة</span></button></div></section>
+<section class="panel vv-list"><h2>${icon('list')} الكلمات <span class="cnt-b" id="vv-count">${num(d.rows.filter((r) => normW(r.w)).length)}</span></h2>
+<p class="muted">الجملة اختيارية: إذا كتبتها وفيها الكلمة، تُستخدم في «أكمل الجملة» (تُخفى الكلمة تلقائيًا). نوع الكلمة اختياري أيضًا («تلقائي»).</p>
+<div class="vr vr-head" aria-hidden="true"><span></span><span>الكلمة (إنجليزي)</span><span>المعنى (عربي)</span><span>جملة مثال (اختياري)</span><span>النوع</span><span></span></div>
+<div id="vv-rows">${d.rows.map((r, i) => vRowHTML(r, i, d.rows)).join('')}</div>
+<button type="button" class="cls-add-b vv-add" data-act="v-add-row" id="btn-v-add">${icon('plus')}<span>إضافة كلمة</span></button></section>
+<div class="setup-foot vv-foot"><p class="vv-sum" id="vv-sum" role="status">${vocabSummary(d)}</p><button type="button" class="btn btn-ghost" data-act="v-cancel">${icon('x')}<span>إلغاء</span></button><button type="button" class="btn btn-gold btn-xl" data-act="v-save" id="btn-v-save">${icon('check')}<span>حفظ في حسابي</span></button></div>
+</section>`;
+};
+/* a line of the paste box: «english - arabic - sentence» (also Tab, «|», «=»; an Arabic-first line is turned around) */
+function parseVocabLines(text) {
+  const out = [];
+  String(text || '').split(/\r?\n/).forEach((line) => {
+    const t = line.trim(); if (!t) return;
+    let parts = t.split(/\t|\s[-–—=|:]\s|\s*[|=]\s*/).map((x) => x.trim()).filter(Boolean);
+    if (parts.length < 2) { const m = /^([A-Za-z][A-Za-z '\-]*?)\s+([؀-ۿ].*)$/.exec(t) || /^([؀-ۿ][^A-Za-z]*?)\s+([A-Za-z].*)$/.exec(t); if (m) parts = [m[1].trim(), m[2].trim()]; }
+    if (parts.length < 2) return;
+    if (/[؀-ۿ]/.test(parts[0]) && !/[؀-ۿ]/.test(parts[1])) parts = [parts[1], parts[0]].concat(parts.slice(2));
+    out.push({ w: parts[0], ar: parts[1], s: parts.slice(2).join(' - '), pos: '' });
+  });
+  return out;
+}
+function vRefresh(i) {
+  const d = S.vedit; if (!d) return;
+  const rowsEl = $$('#vv-rows .vr');
+  d.rows.forEach((r, j) => { const el = rowsEl[j]; if (!el) return; const st = vRowState(r, j, d.rows); el.className = 'vr' + (st.st ? ' ' + st.st : ''); const m = $('#vr-msg-' + j); if (m) m.textContent = st.msg; });
+  const sum = $('#vv-sum'); if (sum) sum.innerHTML = vocabSummary(d);
+  const c = $('#vv-count'); if (c) c.innerHTML = num(d.rows.filter((r) => normW(r.w)).length);
+}
+function vocabSave() {
+  const d = S.vedit; if (!d) return;
+  const sts = d.rows.map((r, i) => vRowState(r, i, d.rows));
+  const bad = sts.findIndex((x) => x.st === 'bad');
+  if (bad >= 0) { toast('صحّح الأسطر المعلّمة بالأحمر أو احذفها', 'bad'); const f = $(`#vv-rows .vr[data-i="${bad}"] input`); if (f) { f.focus(); f.scrollIntoView({ block: 'center' }); } return; }
+  const words = d.rows.filter((r, i) => sts[i].st === 'ok' || sts[i].st === 'warn').map((r) => cleanWord(r)).filter(Boolean);
+  if (!words.length) { toast('أضف كلمة واحدة على الأقل', 'bad'); return; }
+  const name = cleanText(d.name, VNAME_MAX);
+  if (!name) { toast('اكتب اسم القائمة', 'bad'); const f = $('#v-name'); if (f) f.focus(); return; }
+  const lists = vocabLists();
+  if (lists.some((x) => x.id !== d.id && x.name === name) || name === ((unitList()[0] || {}).ar || '')) { toast('يوجد قائمة بهذا الاسم — اختر اسمًا آخر', 'bad'); return; }
+  if (!d.id && lists.length >= VOCAB_MAX) { toast(`الحد الأعلى ${VOCAB_MAX} قائمة — احذف قائمة لا تحتاجها`, 'bad'); return; }
+  const v = { id: d.id || uid(), name, at: Date.now(), words };
+  saveVocab(d.id ? lists.map((x) => (x.id === d.id ? v : x)) : lists.concat([v]));
+  SFX.click();
+  const ret = S.vret; S.vedit = null; S.vret = ''; S.vlist = v.id;
+  toast(`حُفظت «${name}» في حسابك — ${wordsAr(words.length, false)}${words.length >= VW_MIN ? '، وكل الألعاب جاهزة منها' : ` (أضف ${moreWordsAr(VW_MIN - words.length, false)} لتصبح جاهزة)`}`, words.length >= VW_MIN ? 'good' : '');
+  if (ret === 'setup' && S.setup) { if (words.length >= VW_MIN) vocabChoose(S.setup, v.id); navUp('setup'); } else navUp('bank');
+}
+/* choosing a list in the setup: a competition name still set to the previous list's name follows the new one */
+function vocabChoose(s, id) {
+  const prevName = setupVocab(s) ? setupVocab(s).name : DEF_NAME, v = id === BUILTIN() ? null : vocabById(id);
+  s.vocab = v ? v.id : BUILTIN();
+  if (!compName(s.name) || compName(s.name) === compName(prevName) || compName(s.name) === compName(DEF_NAME)) s.name = v ? v.name : DEF_NAME;
+}
 function bankFilter() {
   const q = S.bankQ.trim().toLowerCase(), nq = normAr(q); let n = 0;
   $$('#bank-words tbody tr').forEach((tr) => { const hit = !q || tr.dataset.q.includes(q) || (nq && tr.dataset.q.includes(nq)); tr.hidden = !hit; if (hit) n++; });
@@ -5128,17 +5458,17 @@ function gdLadderEx() {
   return `<div class="gd-lad"><ol class="gd-steps" aria-label="السلّم">${steps}</ol><div class="gd-climbs">
 ${who('سالم', path([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]), 'أجاب عن الأسئلة العشرة (استعمل «حذف إجابتين» في السؤال 9) ← <b>أكمل السلّم</b>.', 10, CLASS_COLORS[0])}
 ${who('أحمد', path([1, 1, 1, 1, 1, 1, 1, 0]), 'أجاب 7 إجابات صحيحة، ثم أخطأ في السؤال 8 ← يرجع إلى آخر نقطة أمان تجاوزها.', 6, CLASS_COLORS[0])}
-${who('خالد', path([1, 1, 1, 1], true), 'أجاب 4 إجابات صحيحة، ثم <b>انسحب</b> قبل السؤال 5 ← يحتفظ بما وصل إليه.', 4, CLASS_COLORS[0])}
+${who('خالد', path([1, 1, 1, 1], true), 'أجاب 4 إجابات صحيحة، ثم رأى السؤال 5 و<b>انسحب</b> قبل أن يجيب ← يحتفظ بما وصل إليه.', 4, CLASS_COLORS[0])}
 <p class="gd-res">الترتيب: ${icon('trophy')} سالم (10) · أحمد (6) · خالد (4). لو أخطأ أحمد في السؤال 3 لبقي على المستوى 0 — والمستوى 0 لا يدخل التتويج.</p></div></div>`;
 }
 function gdRaceEx() {
   const rows = [['ناصر', 2, 'الأول', 'سؤال حاسم مع ماجد: ناصر ✓ ماجد ✗'], ['ماجد', 2, 'الثاني', ''], ['عادل', 1, 'الثالث', 'سؤال حاسم مع فيصل وبدر: عادل ✓ والآخران ✗'], ['فيصل', 1, '', ''], ['بدر', 1, '', ''], ['طلال', 0, '', '']];
   return `<div class="tbl-wrap"><table class="gd-tbl"><thead><tr><th>#</th><th>الطالب — ${gdName('10/2', CLASS_COLORS[1])}</th><th>النقاط <small>من 2</small></th><th>النتيجة</th></tr></thead><tbody>${rows.map((x, i) => `<tr class="${i < 3 ? 'gd-top' : ''}"><td class="gd-r">${num(i + 1)}</td><td>${gdName(x[0], CLASS_COLORS[1])}</td><td><b>${num(x[1])}</b></td><td>${x[2] ? `<span class="tag ${['t-gold', 't-silver', 't-bronze'][i]}">المركز ${x[2]}</span>` : ''}${x[3] ? `<small class="gd-sd">${icon('bolt')} ${x[3]}</small>` : ''}</td></tr>`).join('')}</tbody></table></div>
-<p class="gd-res">6 طلاب × سؤالان = 12 سؤالًا. التعادل على المركز الأول والثالث حُسم بسؤال حاسم، والتعادل الذي لا يغيّر مركزًا في التتويج (فيصل وبدر) لا يحتاج إليه.</p>`;
+<p class="gd-res">6 طلاب × سؤالان = 12 سؤالًا. التعادل على المركزين الأول والثالث حُسم بسؤال حاسم، والتعادل الذي لا يغيّر مركزًا في التتويج (فيصل وبدر) لا يحتاج إليه.</p>`;
 }
 const GD = {
   league: { who: 'فردية', time: 'على عدة حصص', best: 'مسابقة طويلة بين كل الطلاب تنتهي ببطل للمدرسة',
-    steps: ['قرعة لكل شعبة تقسم الطلاب الحاضرين إلى مجموعتين (أ) و(ب).', 'دور المجموعات: يتأهل أول طالبين من كل مجموعة.', 'الدور الثاني: مباراة رباعية يصعد منها اثنان (أو مواجهتان فرديتان حسب اختيارك).', 'نهائي الصف: واحد ضد واحد، والفائز بطل الشعبة.', 'النهائي الكبير بين أبطال الشعب، ثم حفل التتويج والشهادات.'],
+    steps: ['قرعة لكل شعبة: من 4 طلاب حاضرين فأكثر تُقسم الأسماء إلى مجموعتين (أ) و(ب)؛ الشعبة التي فيها 3 طلاب تبدأ من الدور الثاني، وطالبان يلعبان نهائي الصف مباشرة.', 'دور المجموعات: يتأهل أول طالبين من كل مجموعة، والمجموعة التي فيها طالبان يتأهلان دون مباراة.', 'الدور الثاني: مباراة رباعية يصعد منها اثنان (أو مواجهتان فرديتان حسب اختيارك).', 'نهائي الصف: واحد ضد واحد، والفائز بطل الشعبة.', 'النهائي الكبير بين أبطال الشعب، ثم حفل التتويج والشهادات.'],
     ex: gdLeagueEx, exT: 'مثال: شعبتان في كل منهما 6 طلاب',
     rules: ['في كل جولة يجيب كل طالب عن سؤال من النوع والمستوى نفسيهما (بكلمة مختلفة)، والإجابة الصحيحة نقطة.', 'تختار عدد الأسئلة لكل مرحلة: 3–6 للمجموعات والدور الثاني ونهائي الصف، و6 أو 8 أو 10 للنهائي الكبير.', 'التعادل الذي يحدد التأهل أو الفوز أو مركزًا في التتويج يُحسم فورًا بـ«سؤال حاسم».', 'مع «مواجهتان فرديتان»: التعادل على صدارة المجموعة يُحسم بـ«قرعة الترتيب».', 'مع شعبة واحدة فقط: بطل نهائي الصف هو بطل المسابقة (بلا نهائي كبير).'],
     tips: ['كل مباراة تُحفظ فورًا — العب مباراة أو اثنتين في الحصة وأكمل في الحصة التالية.', 'يمكنك تبديل طالبين بين المجموعتين قبل أول مباراة للشعبة.'] },
@@ -5148,11 +5478,11 @@ const GD = {
     rules: ['نقطة لكل إجابة صحيحة تُحسب للفريق.', 'التعادل على المراكز الثلاثة الأولى يُحسم بسؤال حاسم يجيب فيه طالب من كل فريق متعادل.', 'مع الفرق العشوائية تستطيع «توزيع جديد للفرق» قبل أن يبدأ التحدي.'],
     tips: ['اختر عدد أسئلة قريبًا من عدد طلاب الفريق ليجيب الجميع.', 'اطلب من الفريق أن يتشاور بصوت منخفض، والإجابة لمن عليه الدور.'] },
   ladder: { who: 'فردية', time: 'دقائق لكل طالب', best: 'مراجعة سريعة ممتعة، طالب بعد طالب أمام الصف',
-    steps: ['اختر الطالب من القائمة، أو اضغط «اختيار طالب عشوائيًا».', 'يصعد الطالب سلّمًا من 10 أسئلة تزداد صعوبة، بأنواع مختلفة.', 'بعد كل إجابة صحيحة يصعد درجة، وبعد السؤالين 3 و6 يصل إلى نقطة أمان.', 'يستطيع أن ينسحب قبل أي سؤال ويحتفظ بمستواه، أو يستعمل وسائل المساعدة.', 'لوحة الصدارة تُرتب الطلاب، وفي النهاية حفل التتويج والشهادات.'],
+    steps: ['اختر الطالب من القائمة، أو اضغط «اختيار طالب عشوائيًا».', 'يصعد الطالب سلّمًا من 10 أسئلة تزداد صعوبة، بأنواع مختلفة.', 'بعد كل إجابة صحيحة يصعد درجة، وبعد السؤالين 3 و6 يصل إلى نقطة أمان.', 'بعد أن يظهر السؤال وقبل أن يجيب يستطيع أن ينسحب ويحتفظ بمستواه، أو يستعمل وسائل المساعدة.', 'لوحة الصدارة تُرتب الطلاب، وفي النهاية حفل التتويج والشهادات.'],
     ex: gdLadderEx, exT: 'مثال: ثلاثة طلاب صعدوا السلّم',
-    rules: ['الإجابة الخاطئة تُرجع الطالب إلى آخر نقطة أمان تجاوزها (0 أو 3 أو 6).', 'ثلاث وسائل مساعدة، كل واحدة مرة: «حذف إجابتين»، «تغيير السؤال»، «استشارة زميل» (30 ثانية).', 'المؤقت اختياري، ويتوقف تلقائيًا عند أي نافذة أو عند الضغط على Esc.', 'الترتيب بالمستوى، ثم بالأقل استعمالًا لوسائل المساعدة؛ ومن يتساوون في الاثنين يتشاركون المركز نفسه.', 'كل طالب يصعد السلّم مرة واحدة.'],
+    rules: ['الإجابة الخاطئة تُرجع الطالب إلى آخر نقطة أمان تجاوزها (0 أو 3 أو 6).', 'وسائل المساعدة (اختيارية من خيارات اللعبة): ثلاث، كل واحدة مرة: «حذف إجابتين»، «تغيير السؤال»، «استشارة زميل» (30 ثانية).', 'المؤقت اختياري، ويتوقف تلقائيًا عند أي نافذة أو عند الضغط على Esc.', 'الترتيب بالمستوى، ثم — إن كانت وسائل المساعدة مفعّلة — بالأقل استعمالًا لها؛ ومن يتساوون يتشاركون المركز نفسه.', 'كل طالب يصعد السلّم مرة واحدة.'],
     tips: ['اعرض السلّم على الشاشة الكبيرة — الصف كله يتابع الطالب.', 'إن انقطعت الحصة في منتصف محاولة، تجدها في صفحة اللعبة: «أكمل» أو «إلغاء المحاولة».'] },
-  race: { who: 'فردية داخل الشعبة', time: 'حصة واحدة', best: 'أن يجيب كل طلاب الشعبة مع لوحة نتائج حيّة',
+  race: { who: 'فردية داخل الشعبة', time: 'حصة واحدة', best: 'إشراك كل طلاب الشعبة مع لوحة نتائج حيّة',
     steps: ['لكل شعبة سباق خاص بها، يبدأ بزر «ابدأ السباق».', 'كل الطلاب الحاضرين يجيبون بالدور، سؤالًا بعد سؤال.', 'تختار عدد الأسئلة لكل طالب: من 1 إلى 4.', 'لوحة النتائج على الشاشة تتحدث بعد كل إجابة.', 'في النهاية تتويج الثلاثة الأوائل في كل شعبة وشهاداتهم.'],
     ex: gdRaceEx, exT: 'مثال: سباق الشعبة 10/2 — 6 طلاب، سؤالان لكل طالب',
     rules: ['نقطة لكل إجابة صحيحة.', 'التعادل على المراكز الثلاثة الأولى يُحسم بسؤال حاسم.', 'الطالب الغائب لا يدخل السباق (اضغط اسمه في «الحضور» عند إنشاء اللعبة).'],
@@ -5181,7 +5511,7 @@ VIEWS.help = () => {
     match5: `5 كلمات إنجليزية ↔ 5 معانٍ عربية مخلوطة، تُوصل بخطوط`,
   };
   const keys = [['Enter / Space', 'التالي / تأكيد، وتخطّي بطاقة «الآن دور»'], ['1 – 4', 'اختيار الإجابة'], ['P', 'نطق الكلمة'], ['Esc', 'إيقاف مؤقت / إغلاق النافذة'], ['F', 'ملء الشاشة'], ['M', 'كتم الصوت'], ['A–Z / ⌫', 'الكتابة في «رتّب الحروف»'], ['Shift + P / M / F', 'اختصارات المعلم أثناء «رتّب الحروف»']];
-  const nav = [['g-start', 'كيف أبدأ'], ...GAME_IDS.map((g) => ['g-' + g, GAMES[g].ar]), ['g-types', 'أنواع الأسئلة'], ['g-rules', 'المباراة والتعادل'], ['g-account', 'الشعب والحفظ والشهادات'], ['g-keys', 'الاختصارات']];
+  const nav = [['g-start', 'كيف أبدأ'], ...GAME_IDS.map((g) => ['g-' + g, GAMES[g].ar]), ['g-words', 'المفردات'], ['g-types', 'أنواع الأسئلة'], ['g-rules', 'المباراة والتعادل'], ['g-account', 'الشعب والحفظ والشهادات'], ['g-keys', 'الاختصارات']];
   return `${topbar('دليل الألعاب')}<section class="v-help v-guide page">
 <header class="gd-hero"><div class="gd-hero-t"><p class="gd-kicker">${icon('book')} دليل ${APP}</p><h1>أربع ألعاب للمفردات — شرح كامل، ومثال لكل لعبة تجربه بنفسك</h1><p>كل ما تحتاجه لإدارة مسابقات المفردات في الصف: كيف تختار اللعبة، وكيف تُلعب، ومثال بالأسماء والأرقام، ثم «جرّب مثالًا الآن» لتلعبها بطلاب تجريبيين دون أن يُحفظ شيء.</p></div>
 <div class="gd-cards">${GAME_IDS.map((g) => `<button class="gd-card t-${GAMES[g].tint}" data-act="gd-jump" data-to="g-${g}"><span class="gc-ic t-${GAMES[g].tint}">${icon(GAMES[g].icon)}</span><b>${esc(GAMES[g].ar)}</b><small>${esc(GAMES[g].desc)}</small><span class="gd-go">الشرح والمثال ${icon('next')}</span></button>`).join('')}</div></header>
@@ -5190,14 +5520,27 @@ VIEWS.help = () => {
 <ol class="gd-start">
 <li><b>مسابقة جديدة</b><span>من «لوحة المعلم» اضغط «مسابقة جديدة».</span></li>
 <li><b>اختر اللعبة</b><span>واحدة من البطاقات الأربع — الشرح في هذه الصفحة.</span></li>
+<li><b>المفردات</b><span>كلمات الوحدة الأولى جاهزة، أو قائمتك من «إضافة مفردات» — كل الألعاب تُصنع منها تلقائيًا.</span></li>
 <li><b>الاسم والمعلمون</b><span>اسم المسابقة، وأضف زملاءك — أسماؤهم على الشهادات.</span></li>
-<li><b>الشعب والطلاب</b><span>«إضافة شعبة» أو «حذف»، واكتب الأسماء (اسم في كل سطر)، واضغط اسم الغائب.</span></li>
+<li><b>الصف والشعب</b><span>اختر الصف (من الخامس إلى الثاني عشر)، ثم «إضافة شعبة» أو «حذف»، واكتب الأسماء واضغط اسم الغائب.</span></li>
 <li><b>الخيارات</b><span>عدد الأسئلة والمؤقت وخيارات اللعبة، ثم زر الإنشاء.</span></li>
 <li><b>العب واحتفل</b><span>اعرض الشاشة على الطلاب، وفي النهاية حفل التتويج والشهادات.</span></li>
 </ol>
 <div class="row gd-quick"><button class="btn btn-gold" data-act="new-t">${icon('plus')}<span>مسابقة جديدة</span></button><button class="btn btn-ghost" data-act="demo">${icon('sparkle')}<span>تجربة سريعة: سؤال من كل نوع</span></button></div></section>
 ${GAME_IDS.map(gdGame).join('')}
-<section class="gd-sec" id="g-types" aria-labelledby="gh-types"><h2 id="gh-types">${icon('list')} أنواع الأسئلة السبعة</h2><p class="muted">كل الأسئلة من كلمات الوحدة فقط (${num(allEntries().length)} كلمة وعبارة)، وتتنوع تلقائيًا من السهل إلى الصعب.</p>
+<section class="gd-sec" id="g-words" aria-labelledby="gh-words"><h2 id="gh-words">${icon('book')} المفردات: الجاهزة وقوائمك</h2><div class="gd-cols">
+<div><h3>${icon('check')} جاهزة من الآن</h3><ul class="ticks">
+<li><b>«${esc(BUILTIN_NAME())}»</b> (${num(allEntries().length)} كلمة وعبارة) جاهزة دائمًا: اختر «مسابقة جديدة» والعب مباشرة.</li>
+<li>عند «مسابقة جديدة» تختار قائمة المفردات، و<b>كل الأسئلة من كلماتها فقط</b> — لا تُضاف كلمة من خارجها.</li></ul></div>
+<div><h3>${icon('plus')} «إضافة مفردات»</h3><ul class="ticks">
+<li>من «المفردات» أو من خطوة المفردات في «مسابقة جديدة»: اكتب اسم القائمة (مثل «الوحدة الثانية»)، ثم كل كلمة: <b>الكلمة الإنجليزية + معناها بالعربية</b>.</li>
+<li>أو الصقها دفعة واحدة من Word أو Excel: كلمة في كل سطر (الكلمة - المعنى - جملة مثال).</li>
+<li>الجملة اختيارية: إذا كتبتها وفيها الكلمة تُستخدم في «أكمل الجملة» (من جملتَي مثال فأكثر). بدون جمل تعمل كل الألعاب بالأنواع الأخرى. ونوع الكلمة اختياري.</li>
+<li>من ${num(VW_MIN)} كلمات فأكثر تصبح <b>كل الألعاب جاهزة منها تلقائيًا</b>: المعنى بالاتجاهين، الإملاء، رتّب الحروف، أكمل الحروف، وأكمل الجملة، و«صِل الكلمات» من 10 كلمات — والمستوى يتدرج من الكلمات القصيرة إلى الطويلة.</li>
+<li>مع قائمة قصيرة قد تتكرر الكلمة داخل المباراة الواحدة (ولا تتكرر في الجولة الواحدة)؛ ومن 20 كلمة تقريبًا لا تتكرر غالبًا. و«سباق الصف» يحتاج كلمة مختلفة لكل طالب حاضر في الجولة: شعبة من 16 طالبًا تحتاج 16 كلمة على الأقل.</li>
+<li>قوائمك محفوظة في حسابك، وكل مسابقة تحتفظ بنسخة من كلماتها — تعديل القائمة لاحقًا لا يغيّر مسابقة قائمة.</li></ul></div></div>
+<div class="row gd-quick"><button class="btn btn-gold" data-act="vocab-new">${icon('plus')}<span>إضافة مفردات</span></button><button class="btn btn-ghost" data-act="go" data-to="bank">${icon('book')}<span>قوائم المفردات</span></button></div></section>
+<section class="gd-sec" id="g-types" aria-labelledby="gh-types"><h2 id="gh-types">${icon('list')} أنواع الأسئلة السبعة</h2><p class="muted">كل الأسئلة من قائمة المفردات التي تختارها للمسابقة فقط، وتتنوع تلقائيًا من السهل إلى الصعب. الأمثلة من كلمات الوحدة الأولى:</p>
 <div class="help-types">${CAT_IDS.map((c) => `<div class="ht-cat" style="--cc:${CATS[c].color}"><h3>${icon(CATS[c].icon)} ${CATS[c].ar}</h3>${TYPE_IDS.filter((t) => TYPES[t].cat === c).map((t) => `<div class="ht-type"><b>${TYPES[t].ar}</b><span>${ex[t]}</span></div>`).join('')}</div>`).join('')}</div></section>
 <section class="gd-sec" id="g-rules" aria-labelledby="gh-rules"><h2 id="gh-rules">${icon('bolt')} المباراة والنقاط والتعادل</h2><div class="gd-cols">
 <div><h3>${icon('play')} في كل مباراة</h3><ul class="ticks">
@@ -5214,7 +5557,7 @@ ${GAME_IDS.map(gdGame).join('')}
 <li>في «من سيربح المفردات» لا يوجد سؤال حاسم: المتساوون يتشاركون المركز.</li></ul></div></div></section>
 <section class="gd-sec" id="g-account" aria-labelledby="gh-account"><h2 id="gh-account">${icon('save')} الشعب والحفظ والشهادات</h2><div class="gd-cols">
 <div><h3>${icon('users')} الشعب والطلاب</h3><ul class="ticks">
-<li>«إضافة شعبة» (حتى ${num(CLASS_MAX)} شعب) و«حذف» على كل شعبة، ولكل شعبة اسمها ولونها وقائمة طلابها (من ${num(ROSTER_MIN)} إلى ${num(ROSTER_MAX)}).</li>
+<li>الصف من <b>الخامس إلى الثاني عشر</b> (يظهر على الشهادات)، و«إضافة شعبة» (حتى ${num(CLASS_MAX)} شعب) و«حذف» على كل شعبة، ولكل شعبة اسمها ولونها وقائمة طلابها (من ${num(ROSTER_MIN)} إلى ${num(ROSTER_MAX)}).</li>
 <li>صفحة <b>«الشعب والطلاب»</b> تحفظ قوائمك في حسابك، وكل مسابقة جديدة تبدأ منها.</li>
 <li>الشعبة التي تحذفها من مسابقة جديدة تبقى قائمتها في حسابك، وتعيدها من «إضافة شعبة».</li>
 <li>اضغط اسم الطالب في «الحضور» ليُعَدّ غائبًا — لا يدخل القرعة ولا السباق.</li></ul></div>
@@ -5226,7 +5569,7 @@ ${GAME_IDS.map(gdGame).join('')}
 <li>لكل لعبة حفل تتويج للمراكز الأولى، ثم «شهادات التكريم» جاهزة للطباعة (أفقي A4).</li>
 <li>تحمل الشهادة اسم الطالب وشعبته واسم اللعبة وأسماء معلمي المسابقة («أسماء المعلمين» لتعديلها).</li></ul></div></div></section>
 <section class="gd-sec" id="g-keys" aria-labelledby="gh-keys"><h2 id="gh-keys">${icon('sparkle')} اختصارات لوحة المفاتيح</h2><table class="keys">${keys.map(([k, d]) => `<tr><td><kbd dir="ltr">${k}</kbd></td><td>${d}</td></tr>`).join('')}</table></section>
-<p class="promise gd-promise">${icon('star')} ${UNIT2_LINE}</p>
+<p class="promise gd-promise">${icon('star')} أول مرة؟ اعرض الشاشة على الطلاب، وابدأ بـ«جرّب مثالًا الآن» في أي لعبة.</p>
 </section>`;
 };
 /* the guide opens on a section when asked (a game card of the setup, the end of an example) */
@@ -5601,7 +5944,7 @@ function prepareRounds(m) {
   const pool = tPool(), feas = feasibleTypes(TYPE_IDS, pool), n = m.players.length, bud = matchBudget(feas, pool, m.R, n);
   const cap = bud.ok ? bud.cap : 0, plan = planLineup(feas, m.R, cap), used = new Set(T.used);
   try { m.pre = buildRounds(plan, m.R, pool, used, feas, n); m.plan = m.pre.map((r) => r.type); m.cap = cap; T.used = Array.from(used); S.introErr = ''; saveT(); return true; }
-  catch (e) { m.pre = null; m.plan = null; S.introErr = 'تعذّر توليد أسئلة هذه المباراة: الكلمات لا تكفي لهذا العدد من الأسئلة. أنشئ مسابقة بأسئلة أقل.'; return false; }
+  catch (e) { m.pre = null; m.plan = null; S.introErr = `تعذّر توليد أسئلة هذه المباراة: القائمة لا تكفي لـ${n} طلاب في الجولة الواحدة. أضف كلمات إلى القائمة أو أنشئ مسابقة بقائمة أطول.`; return false; }
 }
 /* the turn order of a mirrored match: round r starts with player r (mod n), so nobody always goes first */
 function turnOrder(n, R) { return Array.from({ length: R }, (_, r) => Array.from({ length: n }, (_, i) => (r + i) % n)); }
@@ -5616,11 +5959,11 @@ function startDemo(only) {
   const pool = allEntries();
   const people = [{ id: 'dA', name: 'متسابق 1', color: '#f4a300', cls: '', cid: '' }, { id: 'dB', name: 'متسابق 2', color: '#8a4dff', cls: '', cid: '' }];
   const P = makePicker(pool, new Set()), pools = [pool], seq = [], lv = [1, 1, 1, 2, 2, 2, 1];
-  TYPE_IDS.forEach((type, i) => {
+  withBuiltin(() => TYPE_IDS.forEach((type, i) => {
     let q = null;
     if (type === 'match5') { const g = P.five(lv[i], 1); if (g) q = genMatch5(g[0]); } else { const e = P.one(type, lv[i]); if (e) q = genQuestion(type, e, pools); }
     if (q) seq.push({ p: i % 2 ? 'dB' : 'dA', r: Math.floor(i / 2), q, ok: null });
-  });
+  }));
   S.demo = { id: 'demo', demo: true, stage: 'final', slot: '', cls: null, people, players: ['dA', 'dB'], cuts: [], R: Math.ceil(seq.length / 2), seq, sdr: [], step: 0, status: 'live', last: null };
   if (only) return;
   S.matchId = 'demo'; SFX.whistle(); go('match');
@@ -5674,6 +6017,7 @@ function parentOf(v) {
     case 'draw': return T && T.drawOk ? 'hub' : 'home';
     case 'cert': return T && gamePodium() ? 'ceremony' : compHome();
     case 'ladder': return compHome();
+    case 'vocab': return S.vret === 'setup' && S.setup ? 'setup' : 'bank';
     default: return 'home';
   }
 }
@@ -5692,7 +6036,8 @@ function viewFor(v) {
     case 'result': return m && m.seq && m.status === 'done' ? v : up;
     case 'ceremony': return T && gamePodium() ? v : up;
     case 'cert': return certList().length ? v : up;
-    case 'setup': case 'classes': if (!S.setup) S.setup = v === 'classes' ? listsSetup() : defaultSetup(); return v;
+    case 'vocab': return S.vedit ? v : 'bank';
+    case 'setup': case 'classes': if (!S.setup || !!S.setup.lists !== (v === 'classes')) S.setup = freshSetup(v); return v;
     default: return v;
   }
 }
@@ -5826,7 +6171,7 @@ window.addEventListener('popstate', (e) => {
   if (['intro', 'match', 'result'].includes(s.v)) S.matchId = s.m || null;
   if (s.v === 'cert' && s.c) S.cert = s.c;
   if (pend) Object.assign(S, pend.over);
-  if (s.v === 'setup' && !S.setup) S.setup = defaultSetup();
+  if (s.v === 'setup' && (!S.setup || S.setup.lists)) S.setup = freshSetup('setup');
   go(pend && viewFor(s.v) !== pend.to ? pend.to : s.v, 'pop');
 });
 AFTER.match = () => flow();
@@ -5888,7 +6233,7 @@ function swapPick(el) {
 }
 
 const ACT = {
-  go: (el) => { SFX.click(); const to = el.dataset.to; if (to === 'setup' && !S.setup) S.setup = defaultSetup(); if (to === 'classes') S.setup = listsSetup(); if (el.dataset.tab) S.tab = el.dataset.tab; go(to); },
+  go: (el) => { SFX.click(); const to = el.dataset.to; if (to === 'setup' && (!S.setup || S.setup.lists)) S.setup = freshSetup('setup'); if (to === 'classes') S.setup = freshSetup('classes'); if (el.dataset.tab) S.tab = el.dataset.tab; go(to); },
   /* «رجوع» (logical parent), an upward link, the logo (home) */
   back: () => { SFX.click(); goBack(); },
   up: (el) => { SFX.click(); navUp(el.dataset.to); },
@@ -5897,10 +6242,36 @@ const ACT = {
   umenu: () => toggleUserMenu(),
   logout: () => confirmLogout(),
   rename: () => { SFX.click(); askName(false); },
-  'gd-open': (el) => { SFX.click(); S.gdAt = GAMES[el.dataset.g] ? 'g-' + el.dataset.g : ''; go('help'); },
+  /* «المفردات» */
+  'vocab-view': (el) => { SFX.click(); S.vlist = el.dataset.v; S.bankQ = ''; const y = window.scrollY; go('bank', 'replace'); window.scrollTo(0, y); },
+  'vocab-new': (el) => { SFX.click(); S.vedit = vocabDraft(null); S.vret = el.dataset.ret || ''; go('vocab'); const f = $('#v-name'); if (f) f.focus(); },
+  'vocab-edit': (el) => { const v = vocabById(el.dataset.v); if (!v) return; SFX.click(); S.vedit = vocabDraft(v); S.vret = ''; go('vocab'); },
+  'vocab-del': (el) => { const v = vocabById(el.dataset.v); if (!v) return; confirmModal(`حذف قائمة «${esc(v.name)}» (${wordsAr(v.words.length)}) من حسابك؟ المسابقات التي أُنشئت منها تبقى كما هي بكلماتها.`, 'حذف القائمة', () => { saveVocab(vocabLists().filter((x) => x.id !== v.id)); if (S.vlist === v.id) S.vlist = ''; toast(`حُذفت «${v.name}»`, 'good'); go('bank', 'replace'); }); },
+  'v-add-row': () => { const d = S.vedit; if (!d || d.rows.length >= VW_MAX) return; SFX.click(); d.rows.push(vRow()); $('#vv-rows').insertAdjacentHTML('beforeend', vRowHTML(d.rows[d.rows.length - 1], d.rows.length - 1, d.rows)); const f = $(`#vv-rows .vr[data-i="${d.rows.length - 1}"] .vr-w`); if (f) f.focus(); },
+  'v-del-row': (el) => { const d = S.vedit, i = +el.dataset.i; if (!d || !d.rows[i]) return; SFX.click(); d.rows.splice(i, 1); if (!d.rows.length) d.rows.push(vRow()); const y = window.scrollY; go('vocab', 'replace'); window.scrollTo(0, y); },
+  'v-paste': () => {
+    const d = S.vedit, ta = $('#v-paste'); if (!d || !ta) return;
+    const add = parseVocabLines(ta.value); if (!add.length) { toast('لم أجد كلمات — اكتب في كل سطر: الكلمة - المعنى', 'bad'); return; }
+    const have = new Set(d.rows.map((r) => normW(r.w)).filter(Boolean)); let n = 0, dup = 0;
+    d.rows = d.rows.filter((r) => normW(r.w) || String(r.ar || '').trim() || String(r.s || '').trim());
+    add.forEach((r) => { const w = normW(r.w); if (have.has(w)) { dup++; return; } if (d.rows.length >= VW_MAX) return; have.add(w); d.rows.push(r); n++; });
+    d.rows.push(vRow()); SFX.click(); go('vocab', 'replace');
+    const l = $('.vv-list'); if (l) l.scrollIntoView({ block: 'start' });
+    toast(n ? `أُضيفت ${wordsAr(n, false)}${dup ? ` (وتُركت ${dup} مكررة)` : ''} — راجعها ثم احفظ` : 'كل هذه الكلمات موجودة في القائمة من قبل', n ? 'good' : '');
+  },
+  'v-save': () => vocabSave(),
+  'v-cancel': () => { const ret = S.vret; S.vedit = null; S.vret = ''; SFX.click(); navUp(ret === 'setup' && S.setup ? 'setup' : 'bank'); },
+  'setup-grade': (el) => {
+    const s = S.setup, g = +el.dataset.g; if (!s || !GRADES.includes(g) || g === gradeOf(s)) return;
+    const old = gradeOf(s), re = new RegExp('^' + old + '/(\\S+)$');
+    s.classes.concat(s.spare || []).forEach((c) => { const m = re.exec(cleanName(c.name)); if (m && !s.classes.some((x) => cleanName(x.name) === `${g}/${m[1]}`)) c.name = `${g}/${m[1]}`; }); // «10/1» → «7/1»
+    s.grade = g; SFX.click(); const y = window.scrollY; go(S.view, 'replace'); window.scrollTo(0, y);
+  },
+  'setup-vocab': (el) => { const s = S.setup; if (!s) return; vocabChoose(s, el.dataset.v); SFX.click(); const y = window.scrollY; go('setup', 'replace'); window.scrollTo(0, y); },
+  'gd-open': (el) => { SFX.click(); S.gdAt = GAMES[el.dataset.g] ? 'g-' + el.dataset.g : ''; if (S.view === 'setup' && S.setup && !S.setup.lists && setupEdited()) S.draft = { s: S.setup, snap: S.setupSnap, base: S.setupBase }; go('help'); },
   'gd-jump': (el) => { const t = document.getElementById(el.dataset.to); if (t) { SFX.click(); t.scrollIntoView({ block: 'start', behavior: reduced() ? 'auto' : 'smooth' }); } },
   'gd-try': (el) => { SFX.click(); audioInit(); startExample(el.dataset.g); },
-  'gd-new': (el) => { SFX.click(); S.setup = defaultSetup(); if (GAMES[el.dataset.g]) S.setup.game = el.dataset.g; go('setup'); },
+  'gd-new': (el) => { SFX.click(); S.setup = takeDraft() || freshSetup('setup'); if (GAMES[el.dataset.g]) S.setup.game = el.dataset.g; go('setup'); },
   'sbx-end': () => { const g = T && T.sandbox ? gameOf(T) : ''; SFX.click(); cleanupView(); T = null; S.run = null; S.matchId = null; S.gdAt = g ? 'g-' + g : ''; go('help'); },
   'auth-resend': async (el) => {
     const a = S.auth; if (!a || a.mode !== 'sent' || resendWait() || !a.email) return;
@@ -5908,7 +6279,8 @@ const ACT = {
     try { await sendReset(a.email); a.sentAt = Date.now(); resendTick(); toast('أُرسلت الرسالة مرة أخرى', 'good'); }
     catch (e) { el.disabled = false; toast(e.net ? 'تعذّر الاتصال بالإنترنت — حاول مرة أخرى.' : authMsg(e), 'bad'); }
   },
-  'auth-mode': (el) => { const a = S.auth || (S.auth = {}); a.email = (($('#au-email') || {}).value || a.email || '').trim(); a.mode = el.dataset.m; SFX.click(); go('login', 'replace'); const f = $(a.mode === 'up' ? '#au-name' : '#au-email'); if (f) f.focus(); },
+  'np-retry': () => { const a = S.auth; if (!a || a.mode !== 'newpw') return; a.npErr = ''; a.npNet = false; SFX.click(); go('login', 'replace'); },
+  'auth-mode': (el) => { const a = S.auth || (S.auth = {}); a.email = (($('#au-email') || {}).value || a.email || a.npEmail || '').trim(); if (a.mode === 'newpw' && el.dataset.m !== 'newpw') resetCode(''); a.mode = el.dataset.m; SFX.click(); go('login', 'replace'); const f = $(a.mode === 'up' ? '#au-name' : '#au-email'); if (f) f.focus(); },
   'pw-toggle': (el) => { const i = $('#au-pass'); if (!i) return; const show = i.type === 'password'; i.type = show ? 'text' : 'password'; el.setAttribute('aria-pressed', String(show)); el.setAttribute('aria-label', show ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور'); i.focus(); },
   'open-comp': (el) => { SFX.click(); openComp(el.dataset.id); },
   'retry-list': () => { SFX.click(); refreshList(); },
@@ -5938,10 +6310,18 @@ const ACT = {
     const s = S.setup, bad = s.classes.find((c) => rosterNames(c.text).names.length < ROSTER_MIN || !cleanName(c.name)), names = s.classes.map((c) => cleanName(c.name));
     if (bad) { toast('لكل شعبة: اسم، وطالبان على الأقل', 'bad'); return; }
     if (new Set(names).size !== names.length) { toast('أسماء الشعب يجب أن تكون مختلفة', 'bad'); return; }
-    saveSetupDefaults(s); SFX.click(); toast('حُفظت الشعب والطلاب في حسابك', 'good'); navUp('home');
+    const save = () => { saveSetupDefaults(s); S.draft = null; SFX.click(); toast('حُفظت الشعب والطلاب في حسابك', 'good'); navUp('home'); };
+    const btn = $('#btn-save-classes'), acc = ACC; if (btn) { btn.disabled = true; btn.classList.add('is-busy'); }
+    const check = acc && navigator.onLine !== false && !IDX.setupDirty ? fsGet(fsPath()).then((prof) => { const p = prof && fsObj(prof); if (p && isStr(p.setup, 200000) && ACC === acc && !IDX.setupDirty) { const st = JSON.parse(p.setup); if (st && typeof st === 'object' && JSON.stringify(st) !== JSON.stringify(IDX.setup)) { IDX.setup = st; saveIdx(); } } }).catch(() => { /* offline: this copy is saved, and goes up later */ }) : Promise.resolve();
+    check.then(() => {
+      if (btn) { btn.disabled = false; btn.classList.remove('is-busy'); }
+      if (ACC !== acc || S.view !== 'classes' || S.setup !== s) return;
+      if (!setupStale()) { save(); return; }
+      openModal({ title: 'تغيّرت القوائم في حسابك', body: '<p class="confirm-t">حُفظت قوائم شعب أحدث في حسابك (من جهاز آخر) بعد أن فتحت هذه الصفحة. حفظ نسختك يستبدلها.</p>', actions: [{ label: 'إلغاء' }, { label: 'عرض قوائم الحساب', cls: 'btn-ghost', fn: () => { S.setup = freshSetup('classes'); setTimeout(() => go('classes', 'replace'), 0); } }, { label: 'حفظ نسختي', cls: 'btn-gold', fn: save }] });
+    });
   },
   mute: () => setMuted(!PREFS.muted),
-  'new-t': () => { SFX.click(); S.setup = defaultSetup(); go('setup'); },
+  'new-t': () => { SFX.click(); S.setup = takeDraft() || freshSetup('setup'); go('setup'); },
   demo: () => { audioInit(); startDemo(); },
   'modal-bg': (el, e) => { if (e.target === el && MODAL.dismissable) closeModal(); },
   'modal-btn': (el) => { const g = MODAL.gen, fn = MODAL.handlers[+el.dataset.k]; const keep = fn ? fn(el) === false : false; if (!keep && MODAL.gen === g) closeModal(); },
@@ -5955,10 +6335,11 @@ const ACT = {
   /* «مسابقة جديدة»: the game, the number of classes, a class colour, an option of the game */
   'setup-game': (el) => { const s = S.setup; if (!s || !GAMES[el.dataset.v]) return; s.game = el.dataset.v; SFX.click(); const y = window.scrollY; go('setup', 'replace'); window.scrollTo(0, y); },
   'cls-add': (el) => {
-    const s = S.setup; if (!s || s.classes.length >= CLASS_MAX) return;
+    const s = S.setup; if (!s || s.classes.length >= (s.lists ? LISTS_MAX : CLASS_MAX)) return;
     s.spare = s.spare || [];
-    const want = el.dataset.name, k = want ? s.spare.findIndex((x) => cleanName(x.name) === cleanName(want)) : -1, used = new Set(s.classes.map((c) => c.color));
-    const c = k >= 0 ? s.spare.splice(k, 1)[0] : { name: defClassName(s.classes.length, s.classes.concat(s.spare)), color: '', text: '', absent: [] };
+    const kk = el.dataset.k != null && el.dataset.k !== '' ? +el.dataset.k : -1, k = kk >= 0 && kk < s.spare.length ? kk : -1, used = new Set(s.classes.map((c) => c.color));
+    if (k < 0 && s.classes.length + spareLists(s).length >= LISTS_MAX) { toast(`في حسابك ${LISTS_MAX} قائمة — أعد شعبة من قوائمك المحفوظة، أو احذف قائمة لا تحتاجها من «الشعب والطلاب»`, 'bad'); return; }
+    const c = k >= 0 ? s.spare.splice(k, 1)[0] : { name: defClassName(s.classes.length, s.classes.concat(s.spare), gradeOf(s)), color: '', text: '', absent: [], use: true };
     if (!c.color || used.has(c.color)) c.color = CLASS_COLORS.find((x) => !used.has(x)) || CLASS_COLORS[s.classes.length % CLASS_MAX];
     s.classes.push(c); if (s.open) s.open = {};
     SFX.click(); go(S.view, 'replace');
@@ -5971,7 +6352,7 @@ const ACT = {
     const lists = S.view === 'classes', has = !!String(c.text || '').trim(), n = rosterNames(c.text).names.length;
     const apply = () => {
       s.classes.splice(i, 1); if (s.open) s.open = {};
-      if (has && !lists) s.spare = [c].concat((s.spare || []).filter((x) => cleanName(x.name) !== cleanName(c.name))); // kept in the account: «إضافة شعبة» brings it back
+      if (has && !lists) { if (!cleanName(c.name)) c.name = defClassName(s.classes.length, s.classes.concat(s.spare || []), gradeOf(s)); s.spare = [c].concat((s.spare || []).filter((x) => cleanName(x.name) !== cleanName(c.name))); } // kept in the account: «إضافة شعبة» brings it back
       SFX.click(); const y = window.scrollY; go(S.view, 'replace'); window.scrollTo(0, y);
       toast(lists ? `حُذفت الشعبة «${c.name}» — اضغط «حفظ في حسابي» لتثبيت الحذف` : has ? `حُذفت الشعبة «${c.name}» من هذه المسابقة — قائمتها باقية في حسابك وتعود من «إضافة شعبة»` : `حُذفت الشعبة «${c.name}»`, 'good');
     };
@@ -5987,7 +6368,7 @@ const ACT = {
     const s = S.setup, { err } = setupErrors(s), box = $('#setup-err');
     if (err.length) { if (box) box.textContent = err.join(' '); toast(err[0].length > 90 ? 'تعذّر إنشاء المسابقة — السبب مكتوب أسفل الصفحة' : err[0], 'bad'); return; }
     if (box) box.textContent = '';
-    saveSetupDefaults(s); if (s.game === 'league') newCompetition(s); else newGame(s);
+    saveSetupDefaults(s); S.draft = null; if (s.game === 'league') newCompetition(s); else newGame(s);
   },
   /* hub */
   tab: (el) => { S.tab = el.dataset.tab; SFX.click(); const y = window.scrollY; go('hub'); window.scrollTo(0, y); const t = $(`#tab-${S.tab}`); if (t) t.focus({ preventScroll: true }); },
@@ -6090,7 +6471,14 @@ const ACT = {
 };
 const INP = {
   'comp-name': (el) => { S.setup.name = el.value; },
-  'cls-name': (el) => { const i = +el.dataset.i, c = S.setup.classes[i]; if (!c) return; c.name = el.value.slice(0, CNAME_MAX); const ch = el.closest('.roster') && el.closest('.roster').querySelector('.ro-chip'); if (ch) ch.textContent = c.name || '—'; const f = $('.ro-fill'), h = fillBar(); if (f) f.outerHTML = h; else if (h) { const r = $('.st-rosters .rosters'); if (r) r.insertAdjacentHTML('beforebegin', h); } },
+  'v-name': (el) => { if (S.vedit) S.vedit.name = el.value; },
+  vw: (el) => {
+    const d = S.vedit, i = +el.dataset.i, f = el.dataset.f; if (!d || !d.rows[i] || !['w', 'ar', 's', 'pos'].includes(f)) return;
+    d.rows[i][f] = el.value;
+    if (i === d.rows.length - 1 && f !== 'pos' && el.value.trim() && d.rows.length < VW_MAX) { d.rows.push(vRow()); $('#vv-rows').insertAdjacentHTML('beforeend', vRowHTML(d.rows[d.rows.length - 1], d.rows.length - 1, d.rows)); } // a new empty line keeps coming
+    clearTimeout(INP._vt); INP._vt = setTimeout(() => vRefresh(i), 120);
+  },
+  'cls-name': (el) => { const i = +el.dataset.i, c = S.setup.classes[i]; if (!c) return; c.name = el.value.slice(0, CNAME_MAX); const ch = el.closest('.roster') && el.closest('.roster').querySelector('.ro-chip'); if (ch) { ch.textContent = c.name || '—'; ch.title = c.name; ch.classList.toggle('long', [...c.name].length > 6); } const f = $('.ro-fill'), h = fillBar(); if (f) f.outerHTML = h; else if (h) { const r = $('.st-rosters .rosters'); if (r) r.insertAdjacentHTML('beforebegin', h); } },
   roster: (el) => { const i = +el.dataset.i, c = S.setup.classes[i]; if (!c) return; c.text = el.value; const names = new Set(rosterNames(c.text).names); c.absent = c.absent.filter((n) => names.has(n)); clearTimeout(INP._rt); INP._rt = setTimeout(() => refreshSetupBits(i), 150); },
   'bank-q': (el) => { S.bankQ = el.value; clearTimeout(INP._bt); INP._bt = setTimeout(bankFilter, 120); },
 };
@@ -6161,6 +6549,7 @@ document.addEventListener('keydown', (e) => {
   }
   if (S.view === 'ladder') {
     if (k === 'Escape' && ladLive()) { e.preventDefault(); ladPause(); return; }
+    if (shortcut('p')) { const b = $('.v-lad #qp button.say'); if (b && !b.disabled) b.click(); return; } // «نطق» of the question on screen
     if (/^[1-9]$/.test(dk)) { const b = $$('#opts .opt')[+dk - 1]; if (b && !b.disabled) { e.preventDefault(); b.click(); } return; }
     if (enter && !onBtn) { const b = $('#btn-next'); if (b) { e.preventDefault(); b.click(); return; } }
   }
@@ -6171,7 +6560,7 @@ document.addEventListener('keydown', (e) => {
 /* another tab (same file opened twice) saved: follow it when idle; never let a stale copy overwrite it mid-match */
 window.addEventListener('storage', (e) => {
   if (!ACC) return;
-  if (e.key === SK) { const r = restoreSession(); if (!r || r.uid !== ACC.uid) { signOut(); } return; } // signed out / another account in another tab
+  if (e.key === SK) { const r = restoreSession(); if (!r || r.uid !== ACC.uid) { signOut(); } else if (r.refreshToken !== ACC.refreshToken) { ACC.refreshToken = r.refreshToken; ACC.idToken = ''; ACC.exp = 0; } return; } // signed out / another account in another tab / a newer sign-in of the same account (a new password)
   if (e.key === ik()) {
     const keep = { dirty: IDX.dirty.slice(), comps: IDX.comps.slice() }; loadIdx();
     keep.dirty.forEach((id) => { if (!IDX.dirty.includes(id) && sGet(ck(id)) != null) IDX.dirty.push(id); });
@@ -6215,7 +6604,9 @@ async function init() {
   if (SPEECH_OK) { try { window.speechSynthesis.getVoices(); } catch (e) { /* warm up voices */ } }
   const qs = (() => { try { return new URLSearchParams(window.location.search); } catch (e) { return null; } })(), oob = qs && qs.get('mode') === 'resetPassword' ? qs.get('oobCode') || '' : '';
   if (qs && qs.get('mode')) { try { window.history.replaceState(window.history.state, '', window.location.pathname + window.location.hash); } catch (e) { /* the address keeps it */ } }
-  if (/^[A-Za-z0-9_-]{10,400}$/.test(oob)) { S.auth = { mode: 'newpw', oob }; go('login', 'init'); histInit(); return; } // «كلمة مرور جديدة» from the email
+  const isReset = !!qs && qs.get('mode') === 'resetPassword', code = isReset ? (/^[A-Za-z0-9_-]{10,400}$/.test(oob) ? oob : '') : savedResetCode();
+  if (code) { resetCode(code); S.auth = { mode: 'newpw', oob: code }; go('login', 'init'); histInit(); return; } // «كلمة مرور جديدة» from the email (or its reload)
+  if (isReset) { resetCode(''); S.auth = { mode: 'newpw', oob: '', npErr: AUTH_ERR.INVALID_OOB_CODE }; go('login', 'init'); histInit(); return; } // a link cut short by the mail program
   ACC = restoreSession();
   if (!ACC) { S.auth = { mode: 'in' }; go('login', 'init'); histInit(); return; }
   /* signed in on this device: this device's copy shows at once (even offline), the account refreshes it right after */
@@ -6230,7 +6621,7 @@ async function init() {
   if (!ACC || r === 'stale') return;
   if (!CLOUD.listed) { listLater(); if (S.view === 'home' && !MODAL.open) go('home', 'replace'); else paintSave(); return; } // offline: this device's copy for now
   if (lost && IDX.comps.some((c) => c.id === lost) && S.view === 'home' && !MODAL.open) { openComp(lost); return; }
-  if (S.view === 'home' && !MODAL.open) go('home', 'replace'); else paintSave();
+  if (S.view === 'home' && !MODAL.open) go('home', 'replace'); else { paintSave(); accountShown(); }
   afterBoot();
 }
 const byName = (n) => { if (!T) return null; for (const c of T.classes) { const s = c.students.find((x) => x.name === n || x.id === n); if (s) return s.id; } return null; };
@@ -6294,6 +6685,7 @@ window.VCL = {
     /* the questions of the quick try (one of each type) */
     demoQuestions() { startDemo(true); const qs = S.demo ? S.demo.seq.map((x) => x.q) : []; S.demo = null; return JSON.parse(JSON.stringify(qs)); },
     speed(k) { TS.k = k > 0 ? k : 1; return TS.k; },
+    setupState: () => ({ edited: setupEdited(), stale: setupStale(), n: S.setup ? S.setup.classes.length : 0, lists: !!(S.setup && S.setup.lists), diff: S.setup ? (() => { const x = setupJSON(S.setup), y = String(S.setupSnap); let i = 0; while (i < x.length && x[i] === y[i]) i++; return [x.slice(Math.max(0, i - 60), i + 80), y.slice(Math.max(0, i - 60), i + 80)]; })() : null }),
     saveKey: (id) => tKey(id),
     userInitials: (n) => userInitials(n),
     /* a competition straight from a setup-like object (defaults = the teacher's three classes), drawn and confirmed
