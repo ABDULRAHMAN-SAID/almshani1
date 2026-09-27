@@ -1541,6 +1541,100 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 .lg-wait{ display:flex; align-items:center; gap:10px }
 .lg-wait .spin{ width:20px; height:20px }
 .lg-link[disabled]{ opacity:.55; cursor:default }
+/* ======== «دليل الألعاب» ======== */
+.v-guide{ display:flex; flex-direction:column; gap:22px; padding-bottom:48px }
+.gd-hero{ position:relative; overflow:hidden; padding:30px 30px 26px; border-radius:var(--r-l); background:radial-gradient(120% 140% at 100% 0%, #e3f1e9 0%, #f4f8f4 45%, #fbf6e8 100%); border:1px solid #d9e7de; box-shadow:var(--shadow) }
+.gd-hero::after{ content:''; position:absolute; inset-inline-start:-40px; bottom:-60px; width:220px; height:220px; border-radius:50%; border:2px dashed #e6d4a4; opacity:.7; pointer-events:none }
+.gd-hero-t{ position:relative; z-index:1; max-width:880px }
+.gd-kicker{ display:inline-flex; align-items:center; gap:8px; margin:0 0 8px; padding:4px 14px; border-radius:99px; background:var(--gold-t); color:var(--gold-ink); font-weight:700; font-size:15px }
+.gd-kicker .ic{ width:17px; height:17px }
+.gd-hero h1{ margin:0 0 10px; font-family:var(--f-disp); font-size:clamp(1.6rem,3vw,2.4rem); line-height:1.35; color:var(--green) }
+.gd-hero-t > p:last-child{ margin:0; font-size:17px; line-height:1.8; color:var(--silver) }
+.gd-cards{ position:relative; z-index:1; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:14px; margin-top:22px }
+.gd-card{ display:flex; flex-direction:column; align-items:flex-start; gap:8px; padding:16px; border-radius:var(--r); background:var(--paper); border:1px solid var(--line); box-shadow:var(--shadow); text-align:start; color:var(--ink); transition:border-color .15s, transform .15s }
+.gd-card:hover{ border-color:var(--green) }
+.gd-card b{ font-size:1.15rem; color:var(--green) }
+.gd-card small{ font-size:15px; line-height:1.6; color:var(--silver); flex:1 }
+.gd-go{ display:inline-flex; align-items:center; gap:6px; font-weight:700; font-size:15px; color:var(--green) }
+.gd-go .ic{ width:16px; height:16px; transform:scaleX(-1) }
+.gd-nav{ position:sticky; top:0; z-index:5; display:flex; gap:8px; flex-wrap:wrap; padding:10px 12px; border-radius:var(--r); background:rgba(255,255,255,.96); border:1px solid var(--line); box-shadow:var(--shadow) }
+.gd-chip{ min-height:40px; padding:6px 14px; border-radius:99px; border:1px solid var(--line); background:var(--paper); color:var(--ink); font-weight:600; font-size:15px }
+.gd-chip:hover{ border-color:var(--green); color:var(--green); background:var(--green-t) }
+.gd-sec{ scroll-margin-top:90px; padding:24px 26px; border-radius:var(--r-l); background:var(--paper); border:1px solid var(--line); box-shadow:var(--shadow) }
+.gd-sec > h2{ display:flex; align-items:center; gap:10px; margin:0 0 14px; font-size:1.45rem; color:var(--green) }
+.gd-sec > h2::after{ content:''; flex:none; width:40px; height:3px; border-radius:2px; background:var(--gold); margin-inline-start:6px }
+.gd-sec h3{ display:flex; align-items:center; gap:8px; margin:0 0 10px; font-size:1.1rem; color:var(--ink) }
+.gd-sec h3 .ic{ width:19px; height:19px; color:var(--gold) }
+.gd-start{ list-style:none; margin:0 0 16px; padding:0; counter-reset:gs; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px }
+.gd-start li{ counter-increment:gs; position:relative; display:flex; flex-direction:column; gap:4px; padding:14px 16px; padding-inline-start:56px; border-radius:var(--r-s); background:#f7f9f7; border:1px solid var(--line); min-height:88px }
+.gd-start li::before{ content:counter(gs); position:absolute; inset-inline-start:14px; top:14px; width:30px; height:30px; border-radius:50%; background:var(--green); color:#fff; display:grid; place-items:center; font-family:var(--f-num); font-weight:700 }
+.gd-start b{ color:var(--green); font-size:1.05rem }
+.gd-start span{ font-size:15px; line-height:1.65; color:var(--silver) }
+.gd-game{ border-top:6px solid var(--green) }
+.gd-game.t-gold{ border-top-color:var(--gold) }
+.gd-gh{ display:flex; gap:16px; align-items:flex-start; margin-bottom:18px }
+.gd-gh .gc-ic{ width:64px; height:64px } .gd-gh .gc-ic .ic{ width:32px; height:32px }
+.gd-gh h2{ margin:0 0 4px; font-size:1.7rem; color:var(--green) }
+.gd-gh p{ margin:0; font-size:16px; line-height:1.7; color:var(--silver) }
+.gd-meta{ display:flex; flex-wrap:wrap; gap:6px 16px; margin-top:8px !important }
+.gd-meta span{ display:inline-flex; align-items:center; gap:6px; padding:3px 12px; border-radius:99px; background:#f3f6f3; color:var(--ink); font-size:15px }
+.gd-meta .ic{ width:15px; height:15px; color:var(--green) }
+.gd-cols{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:18px 26px }
+.gd-ol{ margin:0; padding:0; list-style:none; counter-reset:go; display:grid; gap:8px }
+.gd-ol li{ counter-increment:go; position:relative; padding-inline-start:36px; line-height:1.75; font-size:16px }
+.gd-ol li::before{ content:counter(go); position:absolute; inset-inline-start:0; top:2px; width:26px; height:26px; border-radius:50%; background:var(--green-t); color:var(--green); display:grid; place-items:center; font-weight:700; font-size:15px; font-family:var(--f-num) }
+.gd-ex{ margin-top:20px; padding:18px 20px; border-radius:var(--r); background:linear-gradient(180deg,#fbf7ea,#fffdf7); border:1px solid #efdcaa }
+.gd-ex > h3{ color:var(--gold-ink) }
+.gd-res{ margin:12px 0 0; padding:10px 14px; border-radius:12px; background:#fff; border:1px solid #efdcaa; line-height:1.8; font-size:16px }
+.gd-res .ic{ width:17px; height:17px; color:var(--gold); vertical-align:-3px }
+.v-guide .gd-res .ic, .v-guide .gd-tbl td .ic, .v-guide .gd-sd .ic, .v-guide .gd-stage p .ic{ display:inline-block; vertical-align:-3px }
+.gd-nm{ display:inline-block; margin:2px 3px; padding:1px 10px; border-radius:99px; background:color-mix(in srgb, var(--cc) 12%, #fff); border:1px solid color-mix(in srgb, var(--cc) 35%, #fff); color:color-mix(in srgb, var(--cc) 70%, #16312a); font-weight:700; font-size:15px; white-space:nowrap }
+.gd-mk{ display:inline-grid; place-items:center; width:22px; height:22px; border-radius:50%; margin-inline-start:4px; vertical-align:middle; color:#fff }
+.gd-mk .ic{ width:14px; height:14px } .gd-mk.ok{ background:var(--good) } .gd-mk.no{ background:var(--bad) } .gd-mk.stop{ background:var(--gold-ink) }
+.gd-flow{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px }
+.gd-stage{ position:relative; display:flex; flex-direction:column; gap:6px; padding:14px; border-radius:var(--r-s); background:#fff; border:1px solid var(--line); font-size:15px; line-height:1.7 }
+.gd-stage > div > b{ display:block; font-size:1.05rem; color:var(--green); margin-bottom:4px }
+.gd-stage p{ margin:0 0 6px }
+.gd-stage .gd-res{ margin:6px 0 0; padding:6px 10px; font-size:15px }
+.gd-sn{ display:grid; place-items:center; width:30px; height:30px; border-radius:50%; background:var(--gold); color:#fff; font-weight:700; font-family:var(--f-num) }
+.gd-line{ display:flex; flex-wrap:wrap; align-items:center; gap:2px } .gd-line small{ color:var(--silver); margin-inline-end:6px }
+.gd-tbl{ width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; font-size:16px }
+.gd-tbl th, .gd-tbl td{ padding:8px 12px; border-bottom:1px solid var(--line); text-align:start; vertical-align:middle }
+.gd-tbl th{ background:#f3f6f3; font-weight:600; color:var(--silver); font-size:15px }
+.gd-tbl tfoot td{ font-size:1.05rem; background:#fbf7ea; border-bottom:0 }
+.gd-tbl .gd-r{ width:56px; font-family:var(--f-num); color:var(--muted) } .gd-tbl .gd-ty{ color:var(--silver) }
+.gd-tbl tr.gd-top td{ background:#fffcf2 }
+.gd-sd{ display:block; margin-top:4px; color:var(--gold-ink); font-size:15px } .gd-sd .ic{ width:14px; height:14px; vertical-align:-2px }
+.gd-lad{ display:grid; grid-template-columns:160px minmax(0,1fr); gap:18px; align-items:start }
+.gd-steps{ list-style:none; margin:0; padding:8px; display:grid; gap:4px; border-radius:var(--r-s); background:#fff; border:1px solid var(--line) }
+.gd-steps li{ display:flex; align-items:center; gap:8px; padding:3px 10px; border-radius:8px; font-family:var(--f-num); font-weight:700; color:var(--ink) }
+.gd-steps li.safe{ background:var(--gold-t); color:var(--gold-ink) }
+.gd-steps small{ font-family:var(--f-ui); font-size:15px; display:inline-flex; align-items:center; gap:4px } .gd-steps .ic{ width:13px; height:13px }
+.gd-climbs{ display:grid; gap:10px }
+.gd-climb{ display:grid; grid-template-columns:auto minmax(0,1fr) auto; grid-template-areas:'n p l' 't t t'; align-items:center; gap:6px 12px; padding:12px 14px; border-radius:var(--r-s); background:#fff; border:1px solid var(--line) }
+.gd-climb > b{ grid-area:n } .gd-path{ grid-area:p; display:flex; flex-wrap:wrap; gap:2px } .gd-climb p{ grid-area:t; margin:0; font-size:15px; line-height:1.7; color:var(--silver) }
+.gd-lv{ grid-area:l; padding:3px 12px; border-radius:99px; background:var(--green-t); color:var(--green); font-weight:700; font-size:15px } .gd-lv b{ font-family:var(--f-num); font-size:1.15em }
+.gd-foot{ display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:14px 24px; margin-top:20px }
+.gd-tips{ list-style:none; margin:0; padding:0; display:grid; gap:8px; flex:1 1 380px }
+.gd-tips li{ display:flex; gap:8px; align-items:flex-start; font-size:15px; line-height:1.7; color:var(--silver) } .gd-tips .ic{ flex:none; width:18px; height:18px; margin-top:3px; color:var(--gold) }
+.gd-foot .btn small{ display:block; font-size:15px; font-weight:500; opacity:.85 }
+.gd-quick{ margin-top:4px }
+.gd-promise{ text-align:center } .gd-promise .ic{ display:inline-block; vertical-align:-3px; color:var(--gold) }
+.st-guide{ display:flex; flex-wrap:wrap; align-items:center; gap:6px 10px; margin:14px 0 0; padding:10px 14px; border-radius:12px; background:var(--gold-t); color:var(--gold-ink); font-size:15px }
+.st-guide .ic{ width:18px; height:18px } .st-guide .link{ font-weight:700; color:var(--green) }
+/* the example bar (sample competitions from the guide) */
+.sbx-bar{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; margin:10px 0 0; padding:10px 14px; border-radius:12px; background:var(--gold-t); border:1px solid #efdcaa; color:var(--ink); font-size:15px }
+.sbx-bar > .ic{ width:18px; height:18px; color:var(--gold-ink) } .sbx-bar > span{ flex:1 1 260px } .sbx-bar b{ color:var(--gold-ink) }
+@media (max-width:1100px){ .gd-cards{ grid-template-columns:repeat(2,minmax(0,1fr)) } .gd-flow{ grid-template-columns:repeat(2,minmax(0,1fr)) } .gd-start{ grid-template-columns:repeat(2,minmax(0,1fr)) } }
+@media (max-width:640px){
+  .gd-hero{ padding:22px 16px 18px } .gd-sec{ padding:18px 14px }
+  .gd-cards, .gd-flow, .gd-start{ grid-template-columns:minmax(0,1fr) }
+  .gd-lad{ grid-template-columns:minmax(0,1fr) }
+  .gd-steps{ grid-template-columns:repeat(5,minmax(0,1fr)); direction:ltr } .gd-steps small{ display:none }
+  .gd-gh{ flex-direction:column } .gd-nav{ flex-wrap:nowrap; overflow-x:auto; scrollbar-width:none } .gd-chip{ flex:none }
+  .gd-tbl{ font-size:15px } .gd-tbl th, .gd-tbl td{ padding:6px 8px }
+}
+@media print{ .v-guide .gd-nav, .v-guide .gd-foot .row{ display:none } }
 /* ceremony tabs, the certificate list, help */
 .cer-tabs{ margin:0 auto 6px }
 .cer-tabs .seg-b{ display:inline-flex; align-items:center; gap:8px }
@@ -2662,6 +2756,7 @@ function compactT() {
    copy never overwrites newer results (force = intentional replace). */
 function saveT(force) {
   if (!T || !ACC) return true;
+  if (T.sandbox) { T.rev = (T.rev || 0) + 1; return true; } // «مثال» from the guide: in memory only (never on the device or in the account)
   if (STORE.conflict && !force) return false; // a newer copy is being opened: nothing is written over it
   if (!force && STORE.ok) {
     const r = jGet(ck(T.id)), cur = r.ok && r.val && typeof r.val === 'object' ? r.val : null;
@@ -3692,7 +3787,7 @@ function gameCerts() {
 }
 
 /* ============================ 12. UI PRIMITIVES ============================ */
-const S = { view: 'home', tab: '', run: null, ladPaused: false, matchId: null, setup: null, drawAnim: false, swapSel: null, cert: '', bankQ: '', demo: null, resumePaused: false, introErr: '', toss: null, sdAck: '' };
+const S = { view: 'home', tab: '', gdAt: '', run: null, ladPaused: false, matchId: null, setup: null, drawAnim: false, swapSel: null, cert: '', bankQ: '', demo: null, resumePaused: false, introErr: '', toss: null, sdAck: '' };
 const FS_OK = (() => { try { return !!(document.fullscreenEnabled || document.webkitFullscreenEnabled); } catch (e) { return false; } })();
 IC.wave = '<path d="M2 10v4M6 7v10M10 4v16M14 8v8M18 5v14M22 10v4"/>';
 IC.send = '<path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/>';
@@ -3774,6 +3869,7 @@ function soundBtn() { return `<button class="icon-btn" data-act="mute" aria-labe
 function noteSaved() { IDX.savedAt = Date.now(); saveIdx(); paintSave(); }
 function saveStatus() {
   if (!ACC) return { ok: true, short: '', long: '' };
+  if (T && T.sandbox && COMP_VIEWS.includes(S.view)) return { ok: true, short: 'مثال · لا يُحفظ', long: 'مثال للتجربة — لا يُحفظ منه شيء' };
   const n = pending();
   if (CLOUD.state === 'auth') return { ok: false, short: 'سجّل الدخول', long: 'انتهت جلسة الدخول — سجّل الدخول مرة أخرى ليُرفع التقدم إلى حسابك' };
   if (n && CLOUD.state === 'offline') return { ok: false, warn: true, short: 'بلا اتصال', long: 'بلا اتصال بالإنترنت — التقدم محفوظ مؤقتًا ويُرفع إلى حسابك تلقائيًا' };
@@ -3844,7 +3940,8 @@ function confirmLogout() {
 const PARENT_AR = { home: 'لوحة المعلم', hub: 'مركز المسابقة', ceremony: 'حفل التتويج' };
 function backBtn() { const to = parentOf(S.view); return `<button class="btn btn-ghost btn-sm tb-back" data-act="back" id="btn-back" aria-label="رجوع إلى ${PARENT_AR[to] || 'الصفحة السابقة'}" title="رجوع إلى ${PARENT_AR[to] || 'الصفحة السابقة'}">${icon('back')}<span>رجوع</span></button>`; }
 function topbar(title, actions) {
-  return `<div class="tb-wrap"><header class="topbar">${backBtn()}<button class="brand" data-act="home" aria-label="لوحة المعلم — ${APP}">${sealMini()}<span class="brand-t"><b>${APP}</b><small>${SCHOOL}</small></span></button>${userMenu()}<h1 class="tb-title">${title || ''}</h1><nav class="tb-act" aria-label="إجراءات">${actions || ''}${soundBtn()}</nav></header></div>`;
+  const sbx = T && T.sandbox && COMP_VIEWS.includes(S.view) ? `<div class="sbx-bar" role="note">${icon('sparkle')}<span><b>مثال للتجربة</b> — بطلاب تجريبيين، ولا يُحفظ منه شيء ولا يظهر في «مسابقاتي».</span><button class="btn btn-sm btn-ghost" data-act="sbx-end">${icon('back')}<span>إنهاء المثال والعودة إلى الدليل</span></button></div>` : '';
+  return `<div class="tb-wrap">${sbx}<header class="topbar">${backBtn()}<button class="brand" data-act="home" aria-label="لوحة المعلم — ${APP}">${sealMini()}<span class="brand-t"><b>${APP}</b><small>${SCHOOL}</small></span></button>${userMenu()}<h1 class="tb-title">${title || ''}</h1><nav class="tb-act" aria-label="إجراءات">${actions || ''}${soundBtn()}</nav></header></div>`;
 }
 const lvlDots = (l) => `<span class="lv" aria-label="المستوى ${l}" title="المستوى ${l}">${[1, 2, 3].map((i) => `<i class="${i <= l ? 'on' : ''}"></i>`).join('')}</span>`;
 const sayBtn = (w, cls) => (SPEECH_OK ? `<button class="say${cls ? ' ' + cls : ''}" data-act="say-word" data-w="${esc(w)}" aria-label="استمع إلى نطق الكلمة" title="نطق">${icon('wave')}</button>` : '');
@@ -4005,7 +4102,7 @@ VIEWS.home = () => {
     <button class="qk" data-act="go" data-to="classes">${icon('users')}<b>الشعب والطلاب</b><small>قوائم شعبك وأسماء الطلاب</small></button>
     <button class="qk" data-act="go" data-to="bank">${icon('book')}<b>بنك الكلمات</b><small>كلمات الوحدة الأولى (${num(tPool().length)})</small></button>
     <button class="qk" data-act="demo">${icon('sparkle')}<b>تجربة سريعة</b><small>سؤال من كل نوع</small></button>
-    <button class="qk" data-act="go" data-to="help">${icon('help')}<b>طريقة اللعب</b><small>المراحل والقواعد</small></button>
+    <button class="qk" data-act="go" data-to="help">${icon('book')}<b>دليل الألعاب</b><small>شرح ومثال لكل لعبة</small></button>
   </nav>
   <p class="dash-foot">${SCHOOL} · ${APP}</p>
 </section>`;
@@ -4020,17 +4117,18 @@ VIEWS.classes = () => {
 </section>`;
 };
 /* a new competition: the setup (or the saved defaults) → straight into the draw ceremony of the three classes */
-function newGame(s) {
+function newGame(s, sbx) {
   T = createCompetition({ game: s.game, name: s.name, teachers: s.teachers && s.teachers.length ? s.teachers : [teacherName()], classes: s.classes.map((c) => ({ name: c.name, color: c.color, names: rosterNames(c.text).names, absent: c.absent })), rounds: s.rounds, second: s.second, timer: s.timer, team: s.team, race: s.race });
-  T.drawOk = true;
+  T.drawOk = true; if (sbx) T.sandbox = true;
   if (s.game === 'teams') { const mix = s.team.src === 'mix' || T.classes.length < 2; T.settings.team.src = mix ? 'mix' : 'classes'; T.squads = makeSquads(T, T.settings.team.src, s.team.count); }
   if (s.game === 'ladder') T.ladder = { steps: ladderPlan(), life: s.ladder.life !== false, runs: [] };
   STORE.conflict = false; saveT(true); Object.assign(S, { tab: '', swapSel: null, sdAck: '', run: null });
   go('game');
 }
-function newCompetition(s) {
+function newCompetition(s, sbx) {
   s = s || defaultSetup();
   T = createCompetition({ name: s.name, teachers: s.teachers && s.teachers.length ? s.teachers : [teacherName()], classes: s.classes.map((c) => ({ name: c.name, color: c.color, names: rosterNames(c.text).names, absent: c.absent })), rounds: s.rounds, second: s.second, timer: s.timer });
+  if (sbx) T.sandbox = true;
   drawAll();
   STORE.conflict = false; saveT(true); S.tab = ''; S.swapSel = null; S.drawAnim = true; S.sdAck = '';
   go('draw');
@@ -4187,7 +4285,7 @@ VIEWS.setup = () => {
   if (!S.setup) S.setup = defaultSetup();
   const s = S.setup, G = GAMES[s.game];
   return `${topbar('مسابقة جديدة')}<section class="v-setup page">
-<section class="panel st-game"><h2><span class="step-n">1</span> اختر اللعبة</h2>${gameCards(s)}</section>
+<section class="panel st-game"><h2><span class="step-n">1</span> اختر اللعبة</h2>${gameCards(s)}<p class="st-guide">${icon('book')}<span>لا تعرف أي لعبة تناسبك؟</span><button type="button" class="link" data-act="gd-open" data-g="${s.game}">اقرأ شرح «${esc(G.ar)}» وجرّب مثالًا</button></p></section>
 <section class="panel st-name"><h2><span class="step-n">2</span> اسم المسابقة ومعلموها</h2><label class="fld"><span>اسم المسابقة (يظهر في لوحة المعلم وعلى الشهادات)</span><input type="text" data-in="comp-name" value="${esc(s.name)}" maxlength="80" autocomplete="off" dir="auto"></label><div class="fld tch"><span>معلمو المسابقة <small>(تظهر أسماؤهم كلها على الشهادات — أضف زملاءك المشاركين)</small></span><div id="tch-box">${tchBox(s.teachers || (s.teachers = []))}</div></div><p class="unit-line">${icon('book')}<span>الوحدة: <b>الوحدة الأولى: <span dir="ltr" lang="en">New Media</span></b> · ${num(tPool().length)} كلمة وعبارة</span></p></section>
 <section class="panel st-rosters"><h2><span class="step-n">3</span> الشعب والطلاب <span class="cnt-b">${clsCount(s.classes.length)}</span> <small>(من ${ROSTER_MIN} إلى ${ROSTER_MAX} طالبًا في كل شعبة)</small></h2>${fillBar()}<div class="rosters n${S.setup.classes.length}">${s.classes.map(rosterCard).join('')}</div>${classAddHTML(s)}</section>
 <section class="panel st-rules"><h2><span class="step-n">4</span> خيارات ${G.ar}</h2><div id="rules">${gameOptsHTML(s)}</div></section>
@@ -4471,7 +4569,7 @@ function tool(act, ic, label, key, disabled) {
 }
 /* the match screen has no topbar: its toolbar shows the autosave itself («✓ محفوظ 10:42», the time of the last save).
    Not in the quick try (it is never saved), and not when saving fails (the «الحفظ غير متاح» tool shows instead). */
-function toolSaveOff() { return storageBad() || S.matchId === 'demo'; }
+function toolSaveOff() { return storageBad() || S.matchId === 'demo' || !!(T && T.sandbox); }
 function toolSaveHTML() {
   const st = saveStatus(); if (!st.ok) return `${icon('x')}<span class="tsv-w">${esc(st.short)}</span>`; // offline / retrying: saved on this device, uploaded later
   const u = curUser(), d = u && u.saved ? new Date(u.saved) : null, today = !!d && d.toDateString() === new Date().toDateString();
@@ -4986,6 +5084,92 @@ function bankFilter() {
 AFTER.bank = () => { if (S.bankQ) bankFilter(); };
 
 /* ---------- Help ---------- */
+/* ---------- «دليل الألعاب»: every game explained, with a worked example and a live example to try (never saved) ---------- */
+const EX_CLASSES = [
+  { name: '10/1', names: ['أحمد سالم', 'خالد ناصر', 'سالم علي', 'يوسف حمد', 'حمد سعيد', 'سعيد راشد'] },
+  { name: '10/2', names: ['ماجد هلال', 'ناصر عامر', 'فيصل جمعة', 'عادل حمدان', 'بدر مسلم', 'طلال محمد'] },
+];
+/* «جرّب مثالًا»: the real game with two sample classes — in memory only (T.sandbox), ended when its screens are left */
+function startExample(g) {
+  if (!GAMES[g]) return;
+  const s = defaultSetup();
+  Object.assign(s, { game: g, name: `مثال — ${GAMES[g].ar}`, teachers: [teacherName() || 'معلم المادة'], second: 'four', timer: 1, spare: [],
+    rounds: { group: 3, second: 3, final: 3, grand: 6 }, team: { src: 'classes', count: 2, R: 5 }, race: { R: 2 }, ladder: { life: true } });
+  s.classes = EX_CLASSES.map((c, i) => ({ name: c.name, color: CLASS_COLORS[i], text: c.names.join('\n'), absent: [] }));
+  cleanupView(); S.run = null; S.matchId = null; S.cert = ''; S.tab = '';
+  if (g === 'league') newCompetition(s, true); else newGame(s, true);
+  toast('مثال للتجربة — العب كما تشاء، لا يُحفظ منه شيء', 'good');
+}
+const gdCheck = (ok) => `<i class="gd-mk ${ok ? 'ok' : 'no'}" aria-label="${ok ? 'صحيحة' : 'خاطئة'}">${icon(ok ? 'check' : 'x')}</i>`;
+const gdName = (n, c) => `<span class="gd-nm" style="--cc:${c}"><bdi dir="auto">${esc(n)}</bdi></span>`;
+function gdLeagueEx() {
+  const [r, b] = [CLASS_COLORS[0], CLASS_COLORS[1]];
+  const st = (n, t, body) => `<li class="gd-stage"><span class="gd-sn">${num(n)}</span><div><b>${t}</b>${body}</div></li>`;
+  return `<ol class="gd-flow">
+${st(1, 'القرعة', `<p>الشعبة ${gdName('10/1', r)} فيها 6 طلاب ← تُسحب الأسماء إلى مجموعتين:</p><p class="gd-line"><small>المجموعة (أ)</small>${gdName('أحمد', r)}${gdName('خالد', r)}${gdName('سالم', r)}</p><p class="gd-line"><small>المجموعة (ب)</small>${gdName('يوسف', r)}${gdName('حمد', r)}${gdName('سعيد', r)}</p>`)}
+${st(2, 'دور المجموعات', `<p>مباراة المجموعة (أ)، 3 أسئلة لكل طالب: أحمد <b>3</b> · خالد <b>2</b> · سالم <b>2</b></p><p>خالد وسالم متعادلان على المركز الثاني (مركز التأهل) ← <b>سؤال حاسم</b>: خالد ${gdCheck(true)} سالم ${gdCheck(false)}</p><p class="gd-res">يتأهل <b>أحمد وخالد</b> (ومن المجموعة (ب): يوسف وحمد)</p>`)}
+${st(3, 'الدور الثاني', `<p>مباراة رباعية: أحمد · خالد · يوسف · حمد</p><p class="gd-res">يصعد صاحبا أعلى النقاط: <b>يوسف وأحمد</b></p>`)}
+${st(4, 'نهائي الصف', `<p>يوسف <b>3</b> × أحمد <b>2</b></p><p class="gd-res">${icon('crown')} <b>يوسف بطل الشعبة 10/1</b> — ومثله بطل كل شعبة</p>`)}
+${st(5, 'النهائي الكبير', `<p>أبطال الشعب: ${gdName('يوسف · 10/1', r)}${gdName('ماجد · 10/2', b)} — 6 أسئلة لكل طالب</p><p class="gd-res">${icon('trophy')} الأول ينال <b>الجائزة الكبرى</b>، ثم حفل التتويج والشهادات</p>`)}
+</ol>`;
+}
+function gdTeamsEx() {
+  const A = ['أحمد', 'خالد', 'سالم', 'يوسف', 'حمد'], B = ['ماجد', 'ناصر', 'فيصل', 'عادل', 'بدر'];
+  const a = [1, 0, 1, 1, 0], b = [1, 1, 0, 1, 1], ty = ['ما معنى الكلمة؟', 'اختر الكتابة الصحيحة', 'أكمل الجملة', 'رتّب الحروف', 'صِل الكلمات'];
+  const row = (i) => `<tr><td class="gd-r">${num(i + 1)}</td><td class="gd-ty">${ty[i]}</td><td>${gdName(A[i], CLASS_COLORS[0])}${gdCheck(a[i])}</td><td>${gdName(B[i], CLASS_COLORS[1])}${gdCheck(b[i])}</td></tr>`;
+  return `<div class="tbl-wrap"><table class="gd-tbl"><thead><tr><th>الجولة</th><th>نوع السؤال (نفسه للفريقين)</th><th>${gdName('فريق 10/1', CLASS_COLORS[0])}</th><th>${gdName('فريق 10/2', CLASS_COLORS[1])}</th></tr></thead>
+<tbody>${A.map((_, i) => row(i)).join('')}</tbody><tfoot><tr><td colspan="2">المجموع</td><td><b>${ptsAr(3)}</b></td><td><b>${ptsAr(4)}</b> ${icon('trophy')}</td></tr></tfoot></table></div>
+<p class="gd-res">فاز <b>فريق 10/2</b>، وينال كل طالب فيه شهادة «المركز الأول في تحدي الفرق». كل طالب يجيب مرة بدوره، واسمه يظهر على الشاشة قبل السؤال.</p>`;
+}
+function gdLadderEx() {
+  const steps = Array.from({ length: LADDER_N }, (_, i) => LADDER_N - i).map((n) => `<li class="${LADDER_SAFE.includes(n) ? 'safe' : ''}"><span dir="ltr">${n}</span>${LADDER_SAFE.includes(n) ? `<small>${icon('lock')} نقطة أمان</small>` : ''}</li>`).join('');
+  const path = (ok, stop) => ok.map((x) => gdCheck(x)).join('') + (stop ? `<i class="gd-mk stop">${icon('exit')}</i>` : '');
+  const who = (n, p, txt, lv, c) => `<div class="gd-climb"><b>${gdName(n, c)}</b><span class="gd-path">${p}</span><p>${txt}</p><span class="gd-lv">المستوى <b dir="ltr">${lv}</b></span></div>`;
+  return `<div class="gd-lad"><ol class="gd-steps" aria-label="السلّم">${steps}</ol><div class="gd-climbs">
+${who('سالم', path([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]), 'أجاب عن الأسئلة العشرة (استعمل «حذف إجابتين» في السؤال 9) ← <b>أكمل السلّم</b>.', 10, CLASS_COLORS[0])}
+${who('أحمد', path([1, 1, 1, 1, 1, 1, 1, 0]), 'أجاب 7 إجابات صحيحة، ثم أخطأ في السؤال 8 ← يرجع إلى آخر نقطة أمان تجاوزها.', 6, CLASS_COLORS[0])}
+${who('خالد', path([1, 1, 1, 1], true), 'أجاب 4 إجابات صحيحة، ثم <b>انسحب</b> قبل السؤال 5 ← يحتفظ بما وصل إليه.', 4, CLASS_COLORS[0])}
+<p class="gd-res">الترتيب: ${icon('trophy')} سالم (10) · أحمد (6) · خالد (4). لو أخطأ أحمد في السؤال 3 لبقي على المستوى 0 — والمستوى 0 لا يدخل التتويج.</p></div></div>`;
+}
+function gdRaceEx() {
+  const rows = [['ناصر', 2, 'الأول', 'سؤال حاسم مع ماجد: ناصر ✓ ماجد ✗'], ['ماجد', 2, 'الثاني', ''], ['عادل', 1, 'الثالث', 'سؤال حاسم مع فيصل وبدر: عادل ✓ والآخران ✗'], ['فيصل', 1, '', ''], ['بدر', 1, '', ''], ['طلال', 0, '', '']];
+  return `<div class="tbl-wrap"><table class="gd-tbl"><thead><tr><th>#</th><th>الطالب — ${gdName('10/2', CLASS_COLORS[1])}</th><th>النقاط <small>من 2</small></th><th>النتيجة</th></tr></thead><tbody>${rows.map((x, i) => `<tr class="${i < 3 ? 'gd-top' : ''}"><td class="gd-r">${num(i + 1)}</td><td>${gdName(x[0], CLASS_COLORS[1])}</td><td><b>${num(x[1])}</b></td><td>${x[2] ? `<span class="tag ${['t-gold', 't-silver', 't-bronze'][i]}">المركز ${x[2]}</span>` : ''}${x[3] ? `<small class="gd-sd">${icon('bolt')} ${x[3]}</small>` : ''}</td></tr>`).join('')}</tbody></table></div>
+<p class="gd-res">6 طلاب × سؤالان = 12 سؤالًا. التعادل على المركز الأول والثالث حُسم بسؤال حاسم، والتعادل الذي لا يغيّر مركزًا في التتويج (فيصل وبدر) لا يحتاج إليه.</p>`;
+}
+const GD = {
+  league: { who: 'فردية', time: 'على عدة حصص', best: 'مسابقة طويلة بين كل الطلاب تنتهي ببطل للمدرسة',
+    steps: ['قرعة لكل شعبة تقسم الطلاب الحاضرين إلى مجموعتين (أ) و(ب).', 'دور المجموعات: يتأهل أول طالبين من كل مجموعة.', 'الدور الثاني: مباراة رباعية يصعد منها اثنان (أو مواجهتان فرديتان حسب اختيارك).', 'نهائي الصف: واحد ضد واحد، والفائز بطل الشعبة.', 'النهائي الكبير بين أبطال الشعب، ثم حفل التتويج والشهادات.'],
+    ex: gdLeagueEx, exT: 'مثال: شعبتان في كل منهما 6 طلاب',
+    rules: ['في كل جولة يجيب كل طالب عن سؤال من النوع والمستوى نفسيهما (بكلمة مختلفة)، والإجابة الصحيحة نقطة.', 'تختار عدد الأسئلة لكل مرحلة: 3–6 للمجموعات والدور الثاني ونهائي الصف، و6 أو 8 أو 10 للنهائي الكبير.', 'التعادل الذي يحدد التأهل أو الفوز أو مركزًا في التتويج يُحسم فورًا بـ«سؤال حاسم».', 'مع «مواجهتان فرديتان»: التعادل على صدارة المجموعة يُحسم بـ«قرعة الترتيب».', 'مع شعبة واحدة فقط: بطل نهائي الصف هو بطل المسابقة (بلا نهائي كبير).'],
+    tips: ['كل مباراة تُحفظ فورًا — العب مباراة أو اثنتين في الحصة وأكمل في الحصة التالية.', 'يمكنك تبديل طالبين بين المجموعتين قبل أول مباراة للشعبة.'] },
+  teams: { who: 'جماعية', time: 'حصة واحدة', best: 'منافسة بين الشعب أو بين فرق داخل الشعبة، يشارك فيها الجميع',
+    steps: ['اختر: كل شعبة فريق، أو فرق عشوائية (2–4) يُخلط فيها طلاب كل الشعب.', 'اختر عدد الأسئلة لكل فريق: 5 أو 8 أو 10.', 'في كل جولة يحصل كل فريق على سؤال من النوع والمستوى نفسيهما، ويجيب عنه طالب من الفريق بالدور.', 'يظهر على الشاشة اسم الفريق والطالب الذي يجيب قبل كل سؤال.', 'في النهاية ترتيب الفرق، وحفل التتويج، وشهادة لكل طالب في الفرق الثلاثة الأولى.'],
+    ex: gdTeamsEx, exT: 'مثال: فريق 10/1 ضد فريق 10/2 — 5 أسئلة لكل فريق',
+    rules: ['نقطة لكل إجابة صحيحة تُحسب للفريق.', 'التعادل على المراكز الثلاثة الأولى يُحسم بسؤال حاسم يجيب فيه طالب من كل فريق متعادل.', 'مع الفرق العشوائية تستطيع «توزيع جديد للفرق» قبل أن يبدأ التحدي.'],
+    tips: ['اختر عدد أسئلة قريبًا من عدد طلاب الفريق ليجيب الجميع.', 'اطلب من الفريق أن يتشاور بصوت منخفض، والإجابة لمن عليه الدور.'] },
+  ladder: { who: 'فردية', time: 'دقائق لكل طالب', best: 'مراجعة سريعة ممتعة، طالب بعد طالب أمام الصف',
+    steps: ['اختر الطالب من القائمة، أو اضغط «اختيار طالب عشوائيًا».', 'يصعد الطالب سلّمًا من 10 أسئلة تزداد صعوبة، بأنواع مختلفة.', 'بعد كل إجابة صحيحة يصعد درجة، وبعد السؤالين 3 و6 يصل إلى نقطة أمان.', 'يستطيع أن ينسحب قبل أي سؤال ويحتفظ بمستواه، أو يستعمل وسائل المساعدة.', 'لوحة الصدارة تُرتب الطلاب، وفي النهاية حفل التتويج والشهادات.'],
+    ex: gdLadderEx, exT: 'مثال: ثلاثة طلاب صعدوا السلّم',
+    rules: ['الإجابة الخاطئة تُرجع الطالب إلى آخر نقطة أمان تجاوزها (0 أو 3 أو 6).', 'ثلاث وسائل مساعدة، كل واحدة مرة: «حذف إجابتين»، «تغيير السؤال»، «استشارة زميل» (30 ثانية).', 'المؤقت اختياري، ويتوقف تلقائيًا عند أي نافذة أو عند الضغط على Esc.', 'الترتيب بالمستوى، ثم بالأقل استعمالًا لوسائل المساعدة؛ ومن يتساوون في الاثنين يتشاركون المركز نفسه.', 'كل طالب يصعد السلّم مرة واحدة.'],
+    tips: ['اعرض السلّم على الشاشة الكبيرة — الصف كله يتابع الطالب.', 'إن انقطعت الحصة في منتصف محاولة، تجدها في صفحة اللعبة: «أكمل» أو «إلغاء المحاولة».'] },
+  race: { who: 'فردية داخل الشعبة', time: 'حصة واحدة', best: 'أن يجيب كل طلاب الشعبة مع لوحة نتائج حيّة',
+    steps: ['لكل شعبة سباق خاص بها، يبدأ بزر «ابدأ السباق».', 'كل الطلاب الحاضرين يجيبون بالدور، سؤالًا بعد سؤال.', 'تختار عدد الأسئلة لكل طالب: من 1 إلى 4.', 'لوحة النتائج على الشاشة تتحدث بعد كل إجابة.', 'في النهاية تتويج الثلاثة الأوائل في كل شعبة وشهاداتهم.'],
+    ex: gdRaceEx, exT: 'مثال: سباق الشعبة 10/2 — 6 طلاب، سؤالان لكل طالب',
+    rules: ['نقطة لكل إجابة صحيحة.', 'التعادل على المراكز الثلاثة الأولى يُحسم بسؤال حاسم.', 'الطالب الغائب لا يدخل السباق (اضغط اسمه في «الحضور» عند إنشاء اللعبة).'],
+    tips: ['مع شعبة كبيرة اختر سؤالًا أو سؤالين لكل طالب.', 'على الهاتف تتحرك لوحة النتائج لتُظهر الطالب الذي عليه الدور.'] },
+};
+function gdGame(g) {
+  const G = GAMES[g], d = GD[g];
+  return `<section class="gd-sec gd-game t-${G.tint}" id="g-${g}" aria-labelledby="gh-${g}">
+<header class="gd-gh"><span class="gc-ic t-${G.tint}">${icon(G.icon)}</span><div><h2 id="gh-${g}">${esc(G.ar)}</h2><p>${esc(G.desc)}</p>
+<p class="gd-meta"><span>${icon('users')} ${d.who}</span><span>${icon('calendar')} ${d.time}</span><span>${icon('star')} مناسبة لـ${d.best}</span></p></div></header>
+<div class="gd-cols"><div class="gd-how"><h3>${icon('list')} كيف تُلعب</h3><ol class="gd-ol">${d.steps.map((x) => `<li>${x}</li>`).join('')}</ol></div>
+<div class="gd-rules"><h3>${icon('sliders')} القواعد</h3><ul class="ticks">${d.rules.map((x) => `<li>${x}</li>`).join('')}</ul></div></div>
+<div class="gd-ex"><h3>${icon('sparkle')} ${d.exT}</h3>${d.ex()}</div>
+<div class="gd-foot"><ul class="gd-tips">${d.tips.map((x) => `<li>${icon('help')}<span>${x}</span></li>`).join('')}</ul>
+<div class="row"><button class="btn btn-gold btn-lg" data-act="gd-try" data-g="${g}">${icon('play')}<span>جرّب مثالًا الآن<small>بطلاب تجريبيين — لا يُحفظ</small></span></button><button class="btn btn-ghost" data-act="gd-new" data-g="${g}">${icon('plus')}<span>ابدأ «${esc(G.ar)}» بطلابك</span></button></div></div>
+</section>`;
+}
 VIEWS.help = () => {
   const ex = {
     mean_en_ar: `${en('screen')} ← شاشة / مدونة / ملخّص / صحيفة`,
@@ -4997,42 +5181,56 @@ VIEWS.help = () => {
     match5: `5 كلمات إنجليزية ↔ 5 معانٍ عربية مخلوطة، تُوصل بخطوط`,
   };
   const keys = [['Enter / Space', 'التالي / تأكيد، وتخطّي بطاقة «الآن دور»'], ['1 – 4', 'اختيار الإجابة'], ['P', 'نطق الكلمة'], ['Esc', 'إيقاف مؤقت / إغلاق النافذة'], ['F', 'ملء الشاشة'], ['M', 'كتم الصوت'], ['A–Z / ⌫', 'الكتابة في «رتّب الحروف»'], ['Shift + P / M / F', 'اختصارات المعلم أثناء «رتّب الحروف»']];
-  return `${topbar('طريقة اللعب')}<section class="v-help page">
-<div class="help-grid">
-<article class="panel wide help-games"><h2>${icon('sparkle')} أربع ألعاب — تختارها عند «مسابقة جديدة»</h2><div class="hg">${GAME_IDS.map((g) => `<div class="hg-i"><span class="gc-ic t-${GAMES[g].tint}">${icon(GAMES[g].icon)}</span><p><b>${esc(GAMES[g].ar)}</b>${esc(GAMES[g].desc)}</p></div>`).join('')}</div>
-<p class="muted">في كل لعبة: تضيف الشعب التي تريدها بزر «إضافة شعبة» (حتى ${num(CLASS_MAX)} شعب) وتحذف ما لا تحتاجه، وتكتب أسماءها وأسماء طلابها، والأسئلة من كلمات الوحدة فقط، والتعادل المؤثر في المباريات يُحسم بسؤال حاسم (وفي «من سيربح المفردات» يتشارك المتساوون المركز نفسه)، وللفائزين حفل تتويج وشهادات.</p></article>
-<article class="panel wide help-path"><h2>${icon('road')} دوري الأبطال: من القرعة إلى النهائي الكبير</h2><ol class="hp">
-<li><b>${icon('shuffle')} القرعة</b><p>كل مسابقة جديدة تبدأ بـ<b>قرعة واحدة لكل الشعب</b> (الشعبة الأولى ثم الثانية ثم …): تُسحب الأسماء واحدًا واحدًا إلى <b>المجموعة (أ)</b> و<b>المجموعة (ب)</b>، ثم تظهر لوحة القرعة: من مع من، وترتيب اللعب.</p></li>
-<li><b>${icon('users')} دور المجموعات</b><p>كل مجموعة (4 طلاب) تلعب مباراة واحدة، ويتأهل <b>أول طالبين</b>. يمكن تبديل طالبين بين المجموعتين قبل أول مباراة للشعبة.</p></li>
-<li><b>${icon('swap')} الدور الثاني ثم نهائي الصف</b><p>المتأهلون الأربعة في مباراة واحدة يصعد منها اثنان، ثم <b>نهائي الصف</b> واحد ضد واحد، والفائز <b>بطل الصف</b>.</p></li>
-<li><b>${icon('trophy')} النهائي الكبير</b><p>أبطال الشعب <b>بأسئلة أكثر</b> (8 لكل طالب). الأول ينال <b>الجائزة الكبرى</b>، ويُتوَّج الثاني والثالث، وتُهنّأ شعبة البطل.</p></li></ol></article>
-<article class="panel"><h2>${icon('bolt')} التعادل: «سؤال حاسم»</h2><ul class="ticks">
-<li>إذا حدد التعادل <b>التأهل أو الفوز أو مركزًا في التتويج</b> يُحسم فورًا على الشاشة نفسها: يجيب كل متعادل عن <b>سؤال واحد</b> (النوع والمستوى نفسيهما، بكلمة مختلفة)، جولةً بعد جولة حتى يُحسم.</li>
-<li>من يصيب ومنافسه يخطئ يتقدّم عليه. إذا أصاب الجميع أو أخطأ الجميع يأتي سؤال حاسم آخر.</li>
-<li>ثلاثة متعادلون على مكان واحد: من يخطئ يخرج، ويستمر الباقون. في النهائي الكبير يُحسم المركز الأول أولًا ثم الثاني والثالث.</li>
-<li>نقاط السؤال الحاسم <b>لا تُضاف</b> إلى نقاط المباراة، وتظهر منفصلة في النتيجة وسجل المباريات.</li>
-<li>التعادل الذي <b>لا يغيّر شيئًا</b> (مثل تعادل المتأهلَين على صدارة المجموعة) لا يحتاج سؤالًا حاسمًا.</li></ul></article>
-<article class="panel"><h2>${icon('play')} المباراة</h2><ul class="ticks">
-<li>قبل كل سؤال تظهر بطاقة <b>«الآن دور:»</b> باسم الطالب كاملًا، ويضيء اسمه في لوحة النتيجة («يجيب الآن») وتخفت الأسماء الأخرى.</li>
-<li>في كل جولة يحصل <b>كل طالب</b> على سؤال من <b>النوع والمستوى نفسيهما</b> بكلمة مختلفة، ومن يبدأ يتبدّل كل جولة.</li>
-<li>الإجابة الصحيحة = <b>نقطة</b>. كل الأسئلة من <b>كلمات الوحدة الأولى فقط</b> (${num(allEntries().length)} كلمة وعبارة)، وتتنوّع تلقائيًا.</li>
-<li><b>مراجعة المعلم:</b> احتساب النقطة أو إلغاؤها لآخر سؤال (إذا قال الطالب الإجابة شفهيًا أو أخطأ في الضغط).</li>
-<li>يمكن الخروج في أي وقت: التقدم محفوظ والمباراة تُستأنف من السؤال نفسه.</li></ul></article>
-<article class="panel wide"><h2>${icon('list')} أنواع الأسئلة</h2><div class="help-types">${CAT_IDS.map((c) => `<div class="ht-cat" style="--cc:${CATS[c].color}"><h3>${icon(CATS[c].icon)} ${CATS[c].ar}</h3>${TYPE_IDS.filter((t) => TYPES[t].cat === c).map((t) => `<div class="ht-type"><b>${TYPES[t].ar}</b><span>${ex[t]}</span></div>`).join('')}</div>`).join('')}</div></article>
-<article class="panel"><h2>${icon('sliders')} العدالة</h2><ul class="ticks">
-<li>أنواع الأسئلة موزّعة على المباراة بالتساوي، والمستوى يتدرج من السهل إلى الصعب.</li>
-<li>لا تتكرر كلمة داخل المباراة الواحدة، وتعود الكلمات الأقدم استخدامًا أولًا بين المباريات.</li>
-<li>المعاني المتقاربة لا تظهر معًا خيارين.</li></ul></article>
-<article class="panel"><h2>${icon('sparkle')} اختصارات لوحة المفاتيح</h2><table class="keys">${keys.map(([k, d]) => `<tr><td><kbd dir="ltr">${k}</kbd></td><td>${d}</td></tr>`).join('')}</table></article>
-<article class="panel wide help-save"><h2>${icon('save')} الحساب والحفظ والرجوع</h2><ul class="ticks">
-<li><b>حساب المعلم:</b> تدخل ببريدك وكلمة المرور، وكل مسابقاتك وقوائم طلابك محفوظة في <b>حسابك</b> — ادخل من أي جهاز (الفصل، البيت، الجوال) وتجدها كما تركتها.</li>
-<li><b>الحفظ تلقائي</b> بعد كل إجابة وكل خطوة، وتراه أعلى الصفحات: «✓ محفوظ في حسابك · آخر حفظ …». وعند الدخول من جديد تعود إلى <b>المكان نفسه</b>، حتى السؤال نفسه في مباراة جارية.</li>
-<li><b>إذا انقطع الإنترنت</b> في الفصل تستمر المسابقة عاديًا: يُحفظ التقدم مؤقتًا على الجهاز، ويُرفع إلى حسابك تلقائيًا فور عودة الاتصال.</li>
-<li><b>لوحة المعلم:</b> «مسابقة جديدة»، و«مسابقاتي» (الجارية والمنتهية)، و«الشعب والطلاب» التي تبدأ منها كل مسابقة جديدة.</li>
-<li>زر <b>«رجوع»</b> أعلى كل صفحة يعود إلى الصفحة الأعلى (الشهادة ← حفل التتويج ← مركز المسابقة ← لوحة المعلم)، ويعمل زر الرجوع في المتصفح أو الهاتف أيضًا. أثناء المباراة لا يغادرها: يوقفها مؤقتًا، و«خروج» يحفظ ويعود إلى مركز المسابقة.</li></ul></article>
-<article class="panel wide promise-panel"><h2>${icon('star')} ${UNIT2_LINE}</h2></article>
-</div><p class="help-foot muted">${SCHOOL} · ${APP}</p></section>`;
+  const nav = [['g-start', 'كيف أبدأ'], ...GAME_IDS.map((g) => ['g-' + g, GAMES[g].ar]), ['g-types', 'أنواع الأسئلة'], ['g-rules', 'المباراة والتعادل'], ['g-account', 'الشعب والحفظ والشهادات'], ['g-keys', 'الاختصارات']];
+  return `${topbar('دليل الألعاب')}<section class="v-help v-guide page">
+<header class="gd-hero"><div class="gd-hero-t"><p class="gd-kicker">${icon('book')} دليل ${APP}</p><h1>أربع ألعاب للمفردات — شرح كامل، ومثال لكل لعبة تجربه بنفسك</h1><p>كل ما تحتاجه لإدارة مسابقات المفردات في الصف: كيف تختار اللعبة، وكيف تُلعب، ومثال بالأسماء والأرقام، ثم «جرّب مثالًا الآن» لتلعبها بطلاب تجريبيين دون أن يُحفظ شيء.</p></div>
+<div class="gd-cards">${GAME_IDS.map((g) => `<button class="gd-card t-${GAMES[g].tint}" data-act="gd-jump" data-to="g-${g}"><span class="gc-ic t-${GAMES[g].tint}">${icon(GAMES[g].icon)}</span><b>${esc(GAMES[g].ar)}</b><small>${esc(GAMES[g].desc)}</small><span class="gd-go">الشرح والمثال ${icon('next')}</span></button>`).join('')}</div></header>
+<nav class="gd-nav" aria-label="أقسام الدليل">${nav.map(([id, t]) => `<button class="gd-chip" data-act="gd-jump" data-to="${id}">${esc(t)}</button>`).join('')}</nav>
+<section class="gd-sec" id="g-start" aria-labelledby="gh-start"><h2 id="gh-start">${icon('road')} كيف أبدأ مسابقة؟</h2>
+<ol class="gd-start">
+<li><b>مسابقة جديدة</b><span>من «لوحة المعلم» اضغط «مسابقة جديدة».</span></li>
+<li><b>اختر اللعبة</b><span>واحدة من البطاقات الأربع — الشرح في هذه الصفحة.</span></li>
+<li><b>الاسم والمعلمون</b><span>اسم المسابقة، وأضف زملاءك — أسماؤهم على الشهادات.</span></li>
+<li><b>الشعب والطلاب</b><span>«إضافة شعبة» أو «حذف»، واكتب الأسماء (اسم في كل سطر)، واضغط اسم الغائب.</span></li>
+<li><b>الخيارات</b><span>عدد الأسئلة والمؤقت وخيارات اللعبة، ثم زر الإنشاء.</span></li>
+<li><b>العب واحتفل</b><span>اعرض الشاشة على الطلاب، وفي النهاية حفل التتويج والشهادات.</span></li>
+</ol>
+<div class="row gd-quick"><button class="btn btn-gold" data-act="new-t">${icon('plus')}<span>مسابقة جديدة</span></button><button class="btn btn-ghost" data-act="demo">${icon('sparkle')}<span>تجربة سريعة: سؤال من كل نوع</span></button></div></section>
+${GAME_IDS.map(gdGame).join('')}
+<section class="gd-sec" id="g-types" aria-labelledby="gh-types"><h2 id="gh-types">${icon('list')} أنواع الأسئلة السبعة</h2><p class="muted">كل الأسئلة من كلمات الوحدة فقط (${num(allEntries().length)} كلمة وعبارة)، وتتنوع تلقائيًا من السهل إلى الصعب.</p>
+<div class="help-types">${CAT_IDS.map((c) => `<div class="ht-cat" style="--cc:${CATS[c].color}"><h3>${icon(CATS[c].icon)} ${CATS[c].ar}</h3>${TYPE_IDS.filter((t) => TYPES[t].cat === c).map((t) => `<div class="ht-type"><b>${TYPES[t].ar}</b><span>${ex[t]}</span></div>`).join('')}</div>`).join('')}</div></section>
+<section class="gd-sec" id="g-rules" aria-labelledby="gh-rules"><h2 id="gh-rules">${icon('bolt')} المباراة والنقاط والتعادل</h2><div class="gd-cols">
+<div><h3>${icon('play')} في كل مباراة</h3><ul class="ticks">
+<li>قبل كل سؤال تظهر بطاقة <b>«الآن دور:»</b> باسم الطالب (أو الفريق والطالب)، ويضيء اسمه في لوحة النتيجة.</li>
+<li>في كل جولة يحصل كل متسابق على سؤال من <b>النوع والمستوى نفسيهما</b> بكلمة مختلفة، ومن يبدأ يتبدّل كل جولة.</li>
+<li>الإجابة الصحيحة = <b>نقطة</b>. «كشف الإجابة» عند انتهاء الوقت بلا مؤقت، و<b>«مراجعة المعلم»</b> لاحتساب آخر إجابة أو إلغائها.</li>
+<li>لا تتكرر كلمة داخل المباراة، والمعاني المتقاربة لا تظهر معًا.</li>
+<li>الخروج في أي وقت: التقدم محفوظ، والمباراة تُستأنف من السؤال نفسه.</li></ul></div>
+<div><h3>${icon('bolt')} «سؤال حاسم»</h3><ul class="ticks">
+<li>إذا حدد التعادل <b>التأهل أو الفوز أو مركزًا في التتويج</b> يُحسم فورًا: كل متعادل يجيب عن سؤال واحد، جولة بعد جولة.</li>
+<li>من يصيب ومنافسه يخطئ يتقدّم عليه؛ إذا أصاب الجميع أو أخطأ الجميع يأتي سؤال حاسم آخر.</li>
+<li>نقاط السؤال الحاسم <b>لا تُضاف</b> إلى نقاط المباراة.</li>
+<li>التعادل الذي لا يغيّر شيئًا لا يحتاج سؤالًا حاسمًا.</li>
+<li>في «من سيربح المفردات» لا يوجد سؤال حاسم: المتساوون يتشاركون المركز.</li></ul></div></div></section>
+<section class="gd-sec" id="g-account" aria-labelledby="gh-account"><h2 id="gh-account">${icon('save')} الشعب والحفظ والشهادات</h2><div class="gd-cols">
+<div><h3>${icon('users')} الشعب والطلاب</h3><ul class="ticks">
+<li>«إضافة شعبة» (حتى ${num(CLASS_MAX)} شعب) و«حذف» على كل شعبة، ولكل شعبة اسمها ولونها وقائمة طلابها (من ${num(ROSTER_MIN)} إلى ${num(ROSTER_MAX)}).</li>
+<li>صفحة <b>«الشعب والطلاب»</b> تحفظ قوائمك في حسابك، وكل مسابقة جديدة تبدأ منها.</li>
+<li>الشعبة التي تحذفها من مسابقة جديدة تبقى قائمتها في حسابك، وتعيدها من «إضافة شعبة».</li>
+<li>اضغط اسم الطالب في «الحضور» ليُعَدّ غائبًا — لا يدخل القرعة ولا السباق.</li></ul></div>
+<div><h3>${icon('check')} الحساب والحفظ</h3><ul class="ticks">
+<li>كل شيء محفوظ في <b>حسابك</b> بعد كل إجابة — ادخل من أي جهاز وتجده كما تركته.</li>
+<li>إذا انقطع الإنترنت تستمر المسابقة، ويُرفع التقدم تلقائيًا عند عودة الاتصال.</li>
+<li>نسيت كلمة المرور؟ «نسيت كلمة المرور» في صفحة الدخول يرسل رابطًا إلى بريدك (افتح «الرسائل غير المرغوب فيها» إن لم تجده).</li></ul></div>
+<div><h3>${icon('print')} التتويج والشهادات</h3><ul class="ticks">
+<li>لكل لعبة حفل تتويج للمراكز الأولى، ثم «شهادات التكريم» جاهزة للطباعة (أفقي A4).</li>
+<li>تحمل الشهادة اسم الطالب وشعبته واسم اللعبة وأسماء معلمي المسابقة («أسماء المعلمين» لتعديلها).</li></ul></div></div></section>
+<section class="gd-sec" id="g-keys" aria-labelledby="gh-keys"><h2 id="gh-keys">${icon('sparkle')} اختصارات لوحة المفاتيح</h2><table class="keys">${keys.map(([k, d]) => `<tr><td><kbd dir="ltr">${k}</kbd></td><td>${d}</td></tr>`).join('')}</table></section>
+<p class="promise gd-promise">${icon('star')} ${UNIT2_LINE}</p>
+</section>`;
 };
+/* the guide opens on a section when asked (a game card of the setup, the end of an example) */
+AFTER.help = () => { const id = S.gdAt; S.gdAt = ''; if (id) { const el = document.getElementById(id); if (el) el.scrollIntoView({ block: 'start' }); } };
 
 
 /* ============================ 14. MATCH ENGINE ============================ */
@@ -5524,7 +5722,7 @@ function histInit() {
   ['home'].concat(chain).forEach((v) => { histWrite(true, Object.assign(navEntry(v), { i, pv })); pv = v; i++; });
 }
 function rememberPlace() {
-  if (!ACC || S.view === 'login' || S.matchId === 'demo') return; // the quick try is no place of a competition
+  if (!ACC || S.view === 'login' || S.matchId === 'demo' || (T && T.sandbox)) return; // the quick try is no place of a competition
   const p = validPlace({ v: S.view, tab: S.tab || '', m: (S.view === 'ladder' ? S.run : S.matchId) || '', c: S.cert || '', cid: T ? T.id : '' });
   const own = p && T && COMP_VIEWS.includes(p.v) && JSON.stringify(p) !== JSON.stringify(IDX.cplace[T.id]);
   if (own) IDX.cplace[T.id] = p;
@@ -5554,6 +5752,7 @@ function go(view, how) {
   view = viewFor(view);
   const endOfMatch = view === 'result' && (prev === 'match' || prev === 'result'); // the match that just ended: its result first
   if (ACC && CLOUD.state === 'auth' && view !== 'match' && !endOfMatch && !(view === 'ladder' && (liveRun() || prev === 'ladder'))) { relogin(); return; } // the session ended during a match: sign in again now
+  if (T && T.sandbox && !COMP_VIEWS.includes(view)) { T = null; S.run = null; S.matchId = null; } // leaving the example ends it
   if (view !== 'match') S.resumePaused = false;
   if (view === 'ladder' && (how === 'pop' || how === 'init' || how === 'switch')) S.ladPaused = true; else if (view !== 'ladder') S.ladPaused = false;
   if (S.matchId === 'demo' && view !== 'match' && view !== 'result') { S.matchId = null; S.demo = null; } // the quick try is left
@@ -5698,6 +5897,11 @@ const ACT = {
   umenu: () => toggleUserMenu(),
   logout: () => confirmLogout(),
   rename: () => { SFX.click(); askName(false); },
+  'gd-open': (el) => { SFX.click(); S.gdAt = GAMES[el.dataset.g] ? 'g-' + el.dataset.g : ''; go('help'); },
+  'gd-jump': (el) => { const t = document.getElementById(el.dataset.to); if (t) { SFX.click(); t.scrollIntoView({ block: 'start', behavior: reduced() ? 'auto' : 'smooth' }); } },
+  'gd-try': (el) => { SFX.click(); audioInit(); startExample(el.dataset.g); },
+  'gd-new': (el) => { SFX.click(); S.setup = defaultSetup(); if (GAMES[el.dataset.g]) S.setup.game = el.dataset.g; go('setup'); },
+  'sbx-end': () => { const g = T && T.sandbox ? gameOf(T) : ''; SFX.click(); cleanupView(); T = null; S.run = null; S.matchId = null; S.gdAt = g ? 'g-' + g : ''; go('help'); },
   'auth-resend': async (el) => {
     const a = S.auth; if (!a || a.mode !== 'sent' || resendWait() || !a.email) return;
     el.disabled = true; SFX.click();
@@ -5860,7 +6064,7 @@ const ACT = {
       : cs === 'offline' || cs === 'error' ? ['التقدم محفوظ على هذا الجهاز، ويُرفع إلى حسابك عند عودة الاتصال', '']
       : ['تم حفظ التقدم في حسابك — يمكنك إكمال المباراة لاحقًا من أي جهاز', ''];
     navUp(compHome(), m ? { tab: m.cls || (m.stage === 'grand' ? 'gf' : S.tab) } : {});
-    if (unfinished) toast(msg[0], msg[1]);
+    if (unfinished && !(T && T.sandbox)) toast(msg[0], msg[1]); // an example is never saved
   },
   'ft-hub': () => { const m = curMatch(); navUp(compHome(), { tab: m && m.cls ? m.cls : m && m.stage === 'grand' ? 'gf' : S.tab }); },
   /* toss */
