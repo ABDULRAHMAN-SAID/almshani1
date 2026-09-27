@@ -1402,9 +1402,9 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 /* ladder hub */
 .lad-live{ --tc:var(--green); display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:14px 18px; border-radius:var(--r-l); background:var(--paper); border:2px solid var(--tc); box-shadow:var(--shadow) }
 .lad-live p{ flex:1; min-width:160px; margin:0; display:flex; flex-direction:column; gap:2px }
-.lad-live small{ font-size:15px; font-weight:700; color:var(--warn) }
+.lad-live p > small{ font-size:15px; font-weight:700; color:#8a5a06 }
 .lad-live b{ font-size:1.2rem }
-.lad-live span{ color:var(--silver); font-size:15px }
+.lad-live p > span{ color:var(--silver); font-size:15px }
 .lad-lead{ margin:-6px 0 0; font-size:16px }
 .lad-cols{ display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:16px }
 .lad-cls{ --cc:var(--green); background:var(--paper); border:1px solid var(--line); border-top:5px solid var(--cc); border-radius:var(--r); box-shadow:var(--shadow); padding:14px 16px 16px; min-width:0 }
@@ -1438,7 +1438,9 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 .ll.used{ background:#f1f3f1; border-color:var(--line); color:var(--muted); text-decoration:line-through; opacity:1 }
 .ll.used b{ color:var(--muted) }
 .ll[disabled]:not(.used){ opacity:.55 }
-.v-lad .qp.lad-qp{ height:auto; min-height:clamp(360px,56vh,560px); animation:none }
+.v-lad .qp.lad-qp{ width:100%; height:auto; min-height:clamp(360px,56vh,560px); animation:none }
+.v-lad .qp.lad-hidden .qp-body{ visibility:hidden }
+.ll small{ font-size:15px }
 .v-lad .qp.lad-qp .qp-body{ justify-content:flex-start; padding-top:clamp(4px,1.5vh,18px) }
 .v-lad .opt.off{ opacity:.12; pointer-events:none }
 .lad-friend{ display:inline-flex; align-items:center; gap:8px; padding:6px 14px; border-radius:99px; background:var(--gold-t); color:var(--gold-ink); font-weight:700; font-size:16px; white-space:nowrap }
@@ -1455,7 +1457,7 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 .ls-l .ic{ width:15px; height:15px }
 .ls > .ic{ width:18px; height:18px; color:var(--good) }
 .ls.safe{ background:var(--gold-t); color:var(--gold-ink); font-weight:700 }
-.ls.safe .ls-n{ background:var(--gold); color:#fff }
+.ls.safe .ls-n{ background:var(--gold-ink); color:#fff }
 .ls.passed{ color:var(--green) }
 .ls.passed .ls-n{ background:var(--green-t); color:var(--green) }
 .ls.now{ background:var(--green); color:#fff; font-weight:700 }
@@ -1475,7 +1477,8 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 .sb-chips.many .chip{ height:clamp(44px,6.4vh,62px); gap:6px; padding:0 8px 0 10px; border-radius:12px }
 .sb-chips.many .chip .av, .sb-chips.many .chip-now{ display:none }
 .sb-chips.many .chip{ grid-template-columns:minmax(0,1fr) auto }
-.sb-chips.many .chip-n{ font-size:clamp(14px,min(1.05vw,2vh),20px); -webkit-line-clamp:1; white-space:nowrap; text-overflow:ellipsis; display:block }
+.sb-chips.many .chip-n{ font-size:clamp(15px,min(1.1vw,2.1vh),21px); line-height:1.5; -webkit-line-clamp:1; white-space:nowrap; text-overflow:ellipsis; display:block }
+.sb-chips.many .chip.off{ opacity:.78 }
 .sb-chips.many .chip-l2{ display:none }
 .sb-chips.many .chip-s{ font-size:clamp(20px,min(1.7vw,3.2vh),32px) }
 .ips.many{ display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px; width:100% }
@@ -1489,6 +1492,20 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
   .road-cols.n1{ grid-template-columns:minmax(0,480px); justify-content:center } .road-cols.n2, .road-cols.n4{ grid-template-columns:repeat(2,minmax(0,1fr)) }
   .dw-board.n1{ grid-template-columns:minmax(0,480px); justify-content:center } .dw-board.n2, .dw-board.n4{ grid-template-columns:repeat(2,minmax(0,1fr)) }
 }
+/* names keep the dots under ي and the tails of ق ر ز inside their boxes */
+.chip-n{ line-height:1.35 }
+.congrats b{ line-height:1.45; padding:.05em .42em .12em }
+.qp-who > .av{ color:#fff; font-weight:700 }
+.rc-card header small, .cert-sel small{ font-size:15px }
+:root{ --muted:#5c6e66 }
+/* many tied students: compact names, and the start button always in view */
+.nchip.sm{ font-size:15px; padding:3px 10px; gap:6px } .nchip.sm .av{ display:none }
+.sd-card .ovl-actions{ position:sticky; bottom:-2px; background:var(--paper); padding-block:10px 2px; margin-top:6px }
+/* long class names wrap; the hub tabs wrap on wide screens (every tab reachable with a mouse) */
+.csec-t{ flex-wrap:wrap } .csec-t .ro-chip{ flex:0 1 auto; max-width:100%; white-space:normal; overflow-wrap:anywhere; height:auto; min-height:52px }
+@media (min-width:700px){ .tabs{ flex-wrap:wrap; overflow-x:visible } }
+.av.tm{ font-family:var(--f-ui); font-size:1.05em }
+.av.xl.tm, .av.xxl.tm{ font-size:1.5em }
 /* ceremony tabs, the certificate list, help */
 .cer-tabs{ margin:0 auto 6px }
 .cer-tabs .seg-b{ display:inline-flex; align-items:center; gap:8px }
@@ -1514,7 +1531,15 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
   .ls.now .ls-n{ background:var(--green); color:#fff }
   .v-lad .qp.lad-qp{ min-height:0 }
   .ll small{ display:none }
+  /* a class race on a phone: one row of compact chips (the student on turn is scrolled into view) — the question keeps its room */
+  .sb-chips.many{ display:flex; overflow-x:auto; scrollbar-width:none; gap:6px }
+  .sb-chips.many::-webkit-scrollbar{ display:none }
+  .sb-chips.many .chip{ flex:0 0 calc((100% - 12px) / 3); height:42px }
+  .v-match .qp-body{ overflow-y:auto }
+  .cls-count .seg-b{ min-width:40px; padding-inline:8px }
+  .gm-pod .pod-list li b{ white-space:normal; overflow-wrap:anywhere }
 }
+.v-champ:has(.cer-tabs) .cer{ gap:6px } .v-champ:has(.cer-tabs) .champ-title{ margin-bottom:0 }
 @media print{ .v-game, .v-lad{ display:none } }
 </style>
 </head>
@@ -1631,7 +1656,7 @@ const SCHOOL = 'مدرسة حطين للبنين';
 const TEACHER = 'أ. محمد بن سعيد المعشني';
 const DEF_NAME = 'الوحدة الأولى: New Media';
 const UNIT2_LINE = 'موعدنا مع مسابقة جديدة مماثلة قرب نهاية الوحدة الثانية';
-const PALETTE = ['#e63946', '#1d6fe0', '#10a36b', '#f4a300', '#8a4dff', '#00b3b3', '#ff6f3c', '#e5e7eb'];
+const PALETTE = ['#e63946', '#1d6fe0', '#10a36b', '#f4a300', '#8a4dff', '#00b3b3', '#ff6f3c', '#e5e7eb', '#a86a00', '#0b8585']; // the last two: class colours 4 and 6 (darker, for white text)
 const LINK_COLORS = ['#7cc4ff', '#f2c14e', '#c08bff', '#3fe0d0', '#ff9f5a'];
 const MONTHS_AR = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
 const POS_AR = { n: 'اسم', v: 'فعل', adj: 'صفة', adv: 'ظرف', phr: 'فعل مركّب', '': '—' };
@@ -1653,9 +1678,9 @@ const GAMES = {
 };
 const GAME_IDS = ['league', 'teams', 'ladder', 'race'];
 const gameOf = (t) => (t && GAMES[t.game] ? t.game : 'league');
-const CLASS_MAX = 6, CLASS_COLORS = ['#e63946', '#1d6fe0', '#10a36b', '#f4a300', '#8a4dff', '#00b3b3'];
+const CLASS_MAX = 6, CLASS_COLORS = ['#e63946', '#1d6fe0', '#10a36b', '#a86a00', '#8a4dff', '#0b8585']; // white text stays readable on each
 /* the teams of «تحدي الفرق» when they are drawn from the students */
-const TEAM_NAMES = ['الفريق الأحمر', 'الفريق الأزرق', 'الفريق الأخضر', 'الفريق الذهبي'], TEAM_COLORS = ['#e63946', '#1d6fe0', '#10a36b', '#f4a300'];
+const TEAM_NAMES = ['الفريق الأحمر', 'الفريق الأزرق', 'الفريق الأخضر', 'الفريق الذهبي'], TEAM_COLORS = ['#e63946', '#1d6fe0', '#10a36b', '#a86a00'];
 /* «من سيربح المفردات»: 10 steps of rising level, two safe steps (a wrong answer falls back to the last one passed) */
 const LADDER_N = 10, LADDER_SAFE = [3, 6], LADDER_TYPES = ['mean_en_ar', 'mean_ar_en', 'spell_choice', 'gap_sentence', 'gap_letters'];
 const RACE_OPTS = [1, 2, 3, 4], TEAM_R_OPTS = [5, 8, 10], TEAM_N_OPTS = [2, 3, 4];
@@ -2461,7 +2486,7 @@ function compNotice(id, forked, gone) {
 function sessionEnded() {
   if (!ACC) return;
   CLOUD.state = 'auth'; clearTimeout(CLOUD.timer); clearTimeout(CLOUD.listTimer); paintSave();
-  if (S.view === 'match') { if (!CLOUD.authWarned) { CLOUD.authWarned = true; toast('انتهت جلسة الدخول — أكمل المباراة؛ تقدّمك محفوظ على هذا الجهاز، وسجّل الدخول بعدها ليُرفع إلى حسابك', 'bad'); } return; }
+  if (S.view === 'match' || (S.view === 'ladder' && T && gameOf(T) === 'ladder' && liveRun())) { if (!CLOUD.authWarned) { CLOUD.authWarned = true; toast('انتهت جلسة الدخول — أكمل المباراة؛ تقدّمك محفوظ على هذا الجهاز، وسجّل الدخول بعدها ليُرفع إلى حسابك', 'bad'); } return; }
   relogin();
 }
 function relogin() {
@@ -2612,7 +2637,8 @@ function saveT(force) {
 }
 /* the teacher's class lists and question counts: the defaults of every new competition (kept in the account) */
 function saveSetupDefaults(s) {
-  const st = { v: SCHEMA, game: s.game, team: Object.assign({}, s.team), race: Object.assign({}, s.race), ladder: Object.assign({}, s.ladder), name: s.name, teachers: cleanTeachers(s.teachers), classes: s.classes.map((c) => ({ name: c.name, color: c.color, text: c.text, absent: c.absent.slice() })), rounds: Object.assign({}, s.rounds), second: s.second, timer: s.timer };
+  const lists = s.classes.concat((s.spare || []).filter((x) => !s.classes.some((c) => cleanName(c.name) === cleanName(x.name)))).slice(0, CLASS_MAX);
+  const st = { v: SCHEMA, game: s.game, team: Object.assign({}, s.team), race: Object.assign({}, s.race), ladder: Object.assign({}, s.ladder), name: s.name, teachers: cleanTeachers(s.teachers), classes: lists.map((c) => ({ name: c.name, color: c.color, text: c.text, absent: c.absent.slice() })), n: s.classes.length, rounds: Object.assign({}, s.rounds), second: s.second, timer: s.timer };
   if (JSON.stringify(st) === JSON.stringify(IDX.setup)) return; // unchanged: nothing is written over lists saved on another device
   IDX.setup = st; IDX.setupDirty = true; saveIdx(); queueSync();
 }
@@ -3201,8 +3227,20 @@ function person(id) {
 }
 const pName = (id) => person(id).name;
 /* compact names for one match; two students with the same compact name keep their full names */
+/* many players on one board (a class race): «M. Shahri» — the first letter and the family name, unique on the board */
+function manyNames(ids) {
+  const full = ids.map(pName), cp = full.map(compactName);
+  const tag = cp.map((c) => { const w = c.split(' '); return w.length > 1 ? `${[...w[0]][0]}. ${w.slice(1).join(' ')}` : c; });
+  return tag.map((t, i) => (tag.indexOf(t) === tag.lastIndexOf(t) ? t : cp.indexOf(cp[i]) === cp.lastIndexOf(cp[i]) ? cp[i] : full[i]));
+}
 function shortNames(ids) { const full = ids.map(pName), sh = full.map(compactName); return sh.map((s, i) => (sh.indexOf(s) !== sh.lastIndexOf(s) ? full[i] : s)); }
-const avatar = (id, cls) => { const p = person(id); return `<span class="av${cls ? ' ' + cls : ''}" style="--ac:${safeColor(p.color)}" aria-hidden="true">${esc(initials(p.name))}</span>`; };
+const avatar = (id, cls) => { const p = person(id); return `<span class="av${cls ? ' ' + cls : ''}${p.team ? ' tm' : ''}" style="--ac:${safeColor(p.color)}" aria-hidden="true">${esc(p.team ? teamMark(id) : initials(p.name))}</span>`; };
+/* the mark of a team in its avatar: its class's own part («10/1» → «1», «العاشر أ» → «أ»), or its number */
+function teamMark(id) {
+  const q = T && T.squads ? T.squads.find((x) => x.id === id) : null; if (!q) return '?';
+  if (T.settings.team.src === 'classes') { const last = cleanName(q.name).split(/[\s/\\\-]+/).filter(Boolean).pop() || ''; if (last && [...last].length <= 3 && T.squads.every((x) => x === q || cleanName(x.name).split(/[\s/\\\-]+/).filter(Boolean).pop() !== last)) return last; }
+  return String(T.squads.indexOf(q) + 1);
+}
 /* a name as a bidi-isolated run (Latin names read left to right inside Arabic text) */
 const nm = (id, cls) => `<bdi class="nm${cls ? ' ' + cls : ''}" dir="auto" title="${esc(pName(id))}">${esc(pName(id))}</bdi>`;
 const nmShort = (id, short, cls) => `<bdi class="nm${cls ? ' ' + cls : ''}" dir="auto" title="${esc(pName(id))}">${esc(short || compactName(pName(id)))}</bdi>`;
@@ -3494,10 +3532,12 @@ const compHomeAr = () => (!T || isLeague() ? 'مركز المسابقة' : GAMES
 const podiumCuts = (n) => stageCuts('grand', n);
 /* ---- «تحدي الفرق»: the classes themselves are the teams, or random teams mixed from all the students ---- */
 function makeSquads(t, src, count) {
-  if (src === 'classes' && t.classes.length >= 2) return t.classes.map((c, i) => ({ id: 't' + (i + 1), name: c.name, color: c.color, members: presentOf(c) }));
-  const all = [], n = Math.max(2, Math.min(TEAM_N_OPTS[TEAM_N_OPTS.length - 1], count || 2)), sq = Array.from({ length: n }, (_, i) => ({ id: 't' + (i + 1), name: TEAM_NAMES[i], color: TEAM_COLORS[i], members: [] }));
-  t.classes.forEach((c) => shuffle(presentOf(c)).forEach((id) => all.push(id))); // class by class: each team gets students of every class
-  let k = Math.floor(Math.random() * n); all.forEach((id) => { sq[k % n].members.push(id); k++; });
+  if (src === 'classes' && t.classes.length >= 2) return t.classes.map((c, i) => ({ id: 't' + (i + 1), name: c.name, color: c.color, members: shuffle(presentOf(c)) }));
+  const n = Math.max(2, Math.min(TEAM_N_OPTS[TEAM_N_OPTS.length - 1], count || 2)), sq = Array.from({ length: n }, (_, i) => ({ id: 't' + (i + 1), name: TEAM_NAMES[i], color: TEAM_COLORS[i], members: [] }));
+  let k = rnd(n);
+  t.classes.forEach((c) => shuffle(presentOf(c)).forEach((id) => { sq[k % n].members.push(id); k++; })); // class by class: each team gets students of every class
+  /* the turns go through the members in order: alternate the classes (1st of class A, 1st of class B, 2nd of class A …) */
+  sq.forEach((q) => { const by = t.classes.map((c) => q.members.filter((id) => c.students.some((x) => x.id === id))), out = []; for (let r = 0; out.length < q.members.length; r++) by.forEach((b) => { if (b[r]) out.push(b[r]); }); q.members = out; });
   return sq;
 }
 const teamStarted = () => !!(T && T.matches.some((m) => m.stage === 'team' && m.seq));
@@ -3532,6 +3572,13 @@ const lifeUsed = (r) => ['h', 'c', 'f'].filter((k) => r.life[k]).length;
 function ladderRank() { // best level, then fewer lifelines, then who played first
   return T.ladder.runs.filter((r) => r.status === 'done').slice().sort((a, b) => runScore(b) - runScore(a) || lifeUsed(a) - lifeUsed(b) || a.at - b.at);
 }
+/* the same level with the same number of lifelines is the same place (who played first decides nothing) */
+function ladderPlaces() {
+  const rk = ladderRank(); let place = 0;
+  return rk.map((r, i) => { if (i && (runScore(r) !== runScore(rk[i - 1]) || lifeUsed(r) !== lifeUsed(rk[i - 1]))) place = i; return { r, place }; });
+}
+/* the first three places (ties included); a student who kept level 0 is never crowned */
+const ladderPodium = () => ladderPlaces().filter((x) => x.place < 3 && runScore(x.r) > 0);
 function ladderQuestion(run, step, avoid) {
   const plan = T.ladder.steps[step], pool = tPool(), used = new Set(T.used);
   const asked = run.qs.map((x) => x.q.w).concat(avoid || []);
@@ -3565,12 +3612,12 @@ function gameSummary(t) {
     const tot = t.classes.reduce((a, c) => a + presentOf(c).length * t.settings.race.R, 0) || 1, ms = t.matches.filter((m) => m.stage === 'race');
     const fin = t.classes.every((c) => presentOf(c).length < 2 || ms.some((m) => m.cls === c.id && done(m)));
     const step = ms.reduce((a, m) => a + Math.min(m.step || 0, m.players.length * m.R), 0);
-    return { status: fin ? 'done' : 'live', progress: fin ? 100 : Math.min(97, Math.round(step / tot * 100)), champion: fin ? ms.map((m) => compactName(pName(resolve(m).order[0]))).join('، ') : '' };
+    return { status: fin ? 'done' : 'live', progress: fin ? 100 : Math.min(97, Math.round(step / tot * 100)), champion: fin ? t.classes.map((c) => { const m = ms.find((x) => x.cls === c.id && done(x)); return m ? `${c.name}: ${compactName(pName(resolve(m).order[0]))}` : ''; }).filter(Boolean).join('، ') : '' };
   }
   if (g === 'ladder') {
     const all = t.classes.reduce((a, c) => a + presentOf(c).length, 0) || 1, played = new Set(t.ladder.runs.filter((r) => r.status === 'done').map((r) => r.s)).size;
-    const fin = played >= all, best = ladderRank()[0];
-    return { status: fin ? 'done' : 'live', progress: fin ? 100 : Math.min(97, Math.round(played / all * 100)), champion: fin && best ? pName(best.s) : '' };
+    const fin = played >= all, top = ladderPodium().filter((x) => x.place === 0);
+    return { status: fin ? 'done' : 'live', progress: fin ? 100 : Math.min(97, Math.round(played / all * 100)), champion: fin ? top.map((x) => compactName(pName(x.r.s))).join('، ') : '' };
   }
   return null;
 }
@@ -3581,7 +3628,7 @@ function gamePodium() {
   if (g === 'league') return podiumOf();
   if (g === 'teams') { const m = T.matches.find((x) => x.id === 'team'); return m && m.status === 'done' ? resolve(m).order.slice(0, 3) : null; }
   if (g === 'race') { const c = raceClass(); const m = c && raceOf(c); return m && m.status === 'done' ? resolve(m).order.slice(0, 3) : null; }
-  if (g === 'ladder') { const r = ladderRank(); return r.length ? r.slice(0, 3).map((x) => x.s) : null; }
+  if (g === 'ladder') { const P = ladderPodium(); return P.length ? P.slice(0, 3).map((x) => x.r.s) : null; }
   return null;
 }
 /* the class of «سباق الصف» the ceremony shows: the chosen tab, else the first finished race */
@@ -3598,12 +3645,12 @@ function gameCerts() {
     resolve(m).order.slice(0, 3).forEach((tid, i) => { const q = T.squads.find((x) => x.id === tid); if (q) q.members.forEach((sid) => out.push({ k: `t${i}-${sid}`, id: sid, place: i, team: q.name, ar: `المركز ${placeAr(i)} · ${pName(sid)}`, head: `المركز ${placeAr(i)} في ${title} — ${q.name}`, at: m.doneAt })); });
   }
   if (g === 'race') T.classes.forEach((c) => { const m = raceOf(c); if (!m || m.status !== 'done') return; resolve(m).order.slice(0, 3).forEach((sid, i) => out.push({ k: `r${i}-${c.id}`, id: sid, place: i, ar: `${c.name} · المركز ${placeAr(i)} · ${pName(sid)}`, head: `المركز ${placeAr(i)} في ${title} — الشعبة ${cn(c.name)}`, at: m.doneAt })); });
-  if (g === 'ladder') ladderRank().slice(0, 3).forEach((r, i) => out.push({ k: `l${i}`, id: r.s, place: i, ar: `المركز ${placeAr(i)} · ${pName(r.s)}`, head: `المركز ${placeAr(i)} في ${title} — المستوى ${runScore(r)} من ${LADDER_N}`, at: r.at }));
+  if (g === 'ladder') ladderPodium().forEach((x, i) => out.push({ k: `l${i}`, id: x.r.s, place: x.place, ar: `المركز ${placeAr(x.place)} · ${pName(x.r.s)}`, head: `المركز ${placeAr(x.place)} في ${title} — المستوى ${runScore(x.r)} من ${LADDER_N}`, at: x.r.at }));
   return out;
 }
 
 /* ============================ 12. UI PRIMITIVES ============================ */
-const S = { view: 'home', tab: '', run: null, matchId: null, setup: null, drawAnim: false, swapSel: null, cert: '', bankQ: '', demo: null, resumePaused: false, introErr: '', toss: null, sdAck: '' };
+const S = { view: 'home', tab: '', run: null, ladPaused: false, matchId: null, setup: null, drawAnim: false, swapSel: null, cert: '', bankQ: '', demo: null, resumePaused: false, introErr: '', toss: null, sdAck: '' };
 const FS_OK = (() => { try { return !!(document.fullscreenEnabled || document.webkitFullscreenEnabled); } catch (e) { return false; } })();
 IC.wave = '<path d="M2 10v4M6 7v10M10 4v16M14 8v8M18 5v14M22 10v4"/>';
 IC.send = '<path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4z"/>';
@@ -3641,9 +3688,9 @@ function staleTab() {
 }
 function reloadFromStorage() { const id = T && T.id; STORE.conflict = false; T = id ? loadT(id) : null; LOAD_WARN = ''; if (S.matchId !== 'demo') S.matchId = null; go(T ? 'hub' : 'home', 'replace'); }
 
-const MODAL = { open: false, handlers: [], onClose: null, prevFocus: null, gen: 0, dismissable: true };
+const MODAL = { open: false, handlers: [], onClose: null, prevFocus: null, gen: 0, dismissable: true, ladHeld: false };
 function openModal(o) {
-  closeModal(true);
+  closeModal(true); ladModalOpen();
   MODAL.gen++; MODAL.handlers = (o.actions || []).map((a) => a.fn || null); MODAL.onClose = o.onClose || null; MODAL.dismissable = o.dismissable !== false;
   if (!MODAL.prevFocus || !document.contains(MODAL.prevFocus)) MODAL.prevFocus = document.activeElement;
   $('#modal-root').innerHTML = `<div class="modal-bg" data-act="modal-bg"><div class="modal${o.wide ? ' wide' : ''}" role="dialog" aria-modal="true" aria-labelledby="modal-t"><h3 id="modal-t">${o.title}</h3><div class="modal-body">${o.body || ''}</div>${(o.actions || []).length ? `<div class="modal-actions">${o.actions.map((a, i) => `<button class="btn ${a.cls || 'btn-ghost'}" data-act="modal-btn" data-k="${i}">${a.icon ? icon(a.icon) : ''}<span>${a.label}</span></button>`).join('')}</div>` : ''}</div></div>`;
@@ -3657,6 +3704,7 @@ function closeModal(silent) {
   const cb = MODAL.onClose; MODAL.onClose = null;
   if (cb && !silent) cb();
   if (!silent && Q && !Q.answered) armQ();
+  if (!silent) ladModalClosed();
   if (!silent && MODAL.prevFocus && document.contains(MODAL.prevFocus)) MODAL.prevFocus.focus({ preventScroll: true });
   if (!silent) MODAL.prevFocus = null;
 }
@@ -3845,7 +3893,7 @@ function compCard(c) {
     <span class="cmp-top"><span class="pill cmp-st">${st}</span><span class="cmp-game t-${GAMES[c.game] ? GAMES[c.game].tint : 'gold'}">${icon(GAMES[c.game] ? GAMES[c.game].icon : 'trophy')}${esc(GAMES[c.game] ? GAMES[c.game].ar : GAMES.league.ar)}</span>${up ? `<span class="cmp-up" title="تُرفع إلى حسابك عند توفر الاتصال">${icon('reset')} بانتظار الرفع</span>` : ''}</span>
     <b class="cmp-name"><bdi dir="auto">${esc(c.name)}</bdi></b>
     <span class="cmp-meta"><span>${icon('users')} <bdi dir="ltr">${esc(c.classes || '')}</bdi></span><span>${icon('calendar')} ${esc(fmtDate(c.createdAt || Date.now()))}</span></span>
-    ${c.champion ? `<span class="cmp-champ">${icon('trophy')} البطل: <bdi dir="auto">${esc(c.champion)}</bdi></span>` : `<span class="cmp-bar" role="img" aria-label="التقدم ${Math.round(c.progress || 0)}٪"><i style="width:${Math.max(3, Math.min(100, c.progress || 0))}%"></i></span>`}
+    ${c.champion ? `<span class="cmp-champ">${icon('trophy')} ${String(c.champion).includes('،') ? 'الأبطال' : 'البطل'}: <bdi dir="auto">${esc(c.champion)}</bdi></span>` : `<span class="cmp-bar" role="img" aria-label="التقدم ${Math.round(c.progress || 0)}٪"><i style="width:${Math.max(3, Math.min(100, c.progress || 0))}%"></i></span>`}
     <span class="cmp-go">${c.status === 'done' ? 'عرض النتائج' : 'متابعة'} ${icon('next')}</span>
   </button>
   <button class="icon-btn sm cmp-del" data-act="del-comp" data-id="${esc(c.id)}" aria-label="حذف مسابقة ${esc(c.name)}" title="حذف المسابقة">${icon('trash')}</button>
@@ -3913,9 +3961,11 @@ function rosterNames(text) {
   String(text || '').split(/\r?\n/).forEach((l) => { const n = cleanName(l); if (!n) return; const k = n.toLowerCase(); if (seen.has(k)) { dup.push(n); return; } seen.add(k); if (names.length >= ROSTER_MAX) { over = true; return; } names.push(n); });
   return { names, dup, over };
 }
+/* «الشعب والطلاب»: every list saved in the account (also those a game with fewer classes kept aside) */
+function listsSetup() { const s = defaultSetup(); s.classes = s.classes.concat(s.spare.filter((x) => !s.classes.some((c) => cleanName(c.name) === cleanName(x.name)))).slice(0, CLASS_MAX); s.spare = []; return s; }
 function defaultSetup() {
   const s = { game: 'league', name: DEF_NAME, teachers: [teacherName()].filter(Boolean), classes: DEF_CLASSES.map((c) => ({ name: c.name, color: c.color, text: '', absent: [] })), rounds: {}, second: 'four', timer: 1,
-    team: { src: 'classes', count: 2, R: 5 }, race: { R: 3 }, ladder: { life: true } };
+    team: { src: 'classes', count: 2, R: 5 }, race: { R: 3 }, ladder: { life: true }, spare: [] };
   STAGE_IDS.forEach((k) => { s.rounds[k] = STAGES[k].def; });
   const p = IDX.setup;
   if (p && typeof p === 'object' && p.v === SCHEMA) {
@@ -3923,7 +3973,9 @@ function defaultSetup() {
     if (isStr(p.name, 120) && compName(p.name)) s.name = compName(p.name);
     if (Array.isArray(p.teachers) && cleanTeachers(p.teachers).length) s.teachers = cleanTeachers(p.teachers);
     if (Array.isArray(p.classes) && p.classes.length >= 1 && p.classes.length <= CLASS_MAX && p.classes.every((c) => c && typeof c === 'object')) {
-      s.classes = p.classes.map((c, i) => ({ name: isStr(c.name, 40) && cleanName(c.name) ? cleanName(c.name).slice(0, CNAME_MAX) : defClassName(i), color: CLASS_COLORS.includes(c.color) ? c.color : CLASS_COLORS[i % CLASS_MAX], text: isStr(c.text, 4000) ? c.text : '', absent: Array.isArray(c.absent) ? c.absent.filter((x) => isStr(x, NAME_MAX)) : [] }));
+      const all = p.classes.map((c, i) => ({ name: isStr(c.name, 40) && cleanName(c.name) ? cleanName(c.name).slice(0, CNAME_MAX) : defClassName(i), color: CLASS_COLORS.includes(c.color) ? c.color : CLASS_COLORS[i % CLASS_MAX], text: isStr(c.text, 4000) ? c.text : '', absent: Array.isArray(c.absent) ? c.absent.filter((x) => isStr(x, NAME_MAX)) : [] }));
+      const n = isInt(p.n, 1, all.length) ? p.n : all.length;
+      s.classes = all.slice(0, n); s.spare = all.slice(n); // lists kept aside come back when the teacher adds classes
     }
     if (p.rounds && typeof p.rounds === 'object') STAGE_IDS.forEach((k) => { if (STAGES[k].opts.includes(p.rounds[k])) s.rounds[k] = p.rounds[k]; });
     if (SECOND_MODES.some((x) => x.v === p.second)) s.second = p.second;
@@ -3936,10 +3988,10 @@ function defaultSetup() {
 }
 /* the name a new class gets: the next number after the last class («10/3» → «10/4»), else «الشعبة 4» */
 function defClassName(i, list) {
-  const prev = list && list[i - 1] ? cleanName(list[i - 1].name) : '', m = /^(.*?)(\d+)$/.exec(prev);
   if (DEF_CLASSES[i] && !list) return DEF_CLASSES[i].name;
-  if (m) return (m[1] + (+m[2] + 1)).slice(0, CNAME_MAX);
-  return `الشعبة ${i + 1}`;
+  const taken = new Set((list || []).map((c) => cleanName(c.name))), prev = list && list[i - 1] ? cleanName(list[i - 1].name) : '', m = /^(.*?)(\d+)$/.exec(prev);
+  if (m) for (let k = +m[2] + 1; k < +m[2] + 40; k++) { const x = (m[1] + k).slice(0, CNAME_MAX); if (!taken.has(x)) return x; }
+  for (let k = i + 1; ; k++) if (!taken.has(`الشعبة ${k}`)) return `الشعبة ${k}`;
 }
 function rosterPlan(c) {
   const r = rosterNames(c.text), abs = new Set(c.absent), pres = r.names.filter((n) => !abs.has(n)).length, sp = splitSizes(pres);
@@ -3992,7 +4044,7 @@ function fillBar() {
 }
 function rosterCard(c, i) {
   const taken = new Set(S.setup.classes.filter((x, j) => j !== i).map((x) => x.color));
-  const colors = `<div class="ro-colors" role="radiogroup" aria-label="لون الشعبة ${esc(cn(c.name))}">${CLASS_COLORS.map((col) => `<button class="sw${c.color === col ? ' on' : ''}" style="--sw:${col}" role="radio" aria-checked="${c.color === col}" data-act="cls-color" data-i="${i}" data-c="${col}"${taken.has(col) ? ' disabled' : ''} aria-label="لون"></button>`).join('')}</div>`;
+  const colors = `<div class="ro-colors" role="radiogroup" aria-label="لون الشعبة ${esc(cn(c.name))}">${CLASS_COLORS.map((col) => `<button class="sw${c.color === col ? ' on' : ''}" style="--sw:${col}" role="radio" aria-checked="${c.color === col}" data-act="cls-color" data-i="${i}" data-c="${col}" aria-label="${taken.has(col) ? 'لون شعبة أخرى — يتبادلان' : 'لون'}"${taken.has(col) ? ' title="لون شعبة أخرى — يتبادل اللونان"' : ''}></button>`).join('')}</div>`;
   return `<article class="roster" style="--cc:${c.color}">
   <header class="ro-h"><span class="ro-chip" dir="auto">${esc(c.name || '—')}</span><label class="fld ro-name"><span>اسم الشعبة</span><input type="text" data-in="cls-name" data-i="${i}" value="${esc(c.name)}" maxlength="${CNAME_MAX}" autocomplete="off" dir="auto"></label><span class="ro-n" id="ro-n-${i}">${rosterCount(c)}</span></header>
   <div class="ro-att"><span class="field-h">الحضور: اضغط على اسم الطالب الغائب — القرعة بين الحاضرين فقط</span><div class="att-list" id="ro-att-${i}">${attChips(c, i)}</div></div>
@@ -4016,7 +4068,7 @@ ${block ? `<p class="budget bad">${icon('x')}<span>الكلمات لا تكفي 
 }
 function rulesHTML() {
   const s = S.setup;
-  return `<div class="rounds-grid">${STAGE_IDS.map((k) => segField(STAGES[k].ar, 'rounds', STAGES[k].opts.map((v) => ({ v, ar: String(v) })), s.rounds[k], '', k)).join('')}</div>
+  return `<div class="rounds-grid">${STAGE_IDS.filter((k) => k !== 'grand' || s.classes.length > 1).map((k) => segField(STAGES[k].ar, 'rounds', STAGES[k].opts.map((v) => ({ v, ar: String(v) })), s.rounds[k], '', k)).join('')}</div>
   <small class="field-h rounds-h">عدد الأسئلة لكل طالب في المباراة. في كل جولة يحصل كل طالب على سؤال من النوع والمستوى نفسيهما بكلمة مختلفة.</small>
   <div class="field"><span class="field-l" id="sec-l">نظام الدور الثاني</span><div class="modes" role="radiogroup" aria-labelledby="sec-l">${SECOND_MODES.map((d) => `<button class="dm${s.second === d.v ? ' on' : ''}" role="radio" aria-checked="${s.second === d.v}" data-act="setup-opt" data-k="second" data-v="${d.v}"><b>${d.ar}</b><small>${d.desc}</small></button>`).join('')}</div></div>
   ${segField('المؤقت', 'timer', TIMER_OPTS, s.timer, s.timer === 0 ? 'بدون مؤقت: يضغط المعلم «كشف الإجابة» عند انتهاء الوقت.' : 'آخر 5 ثوانٍ باللون الأحمر مع صوت تنبيه.')}
@@ -4033,7 +4085,7 @@ function classCountHTML(s) {
 }
 /* step 4: the options of the chosen game */
 function gameOptsHTML(s) {
-  const timer = segField('المؤقت', 'timer', TIMER_OPTS, s.timer, s.timer === 0 ? 'بدون مؤقت: يضغط المعلم «كشف الإجابة» عند انتهاء الوقت.' : '');
+  const timer = segField('المؤقت', 'timer', TIMER_OPTS, s.timer, s.timer === 0 ? (s.game === 'ladder' ? 'بدون مؤقت: يجيب الطالب حين يكون جاهزًا، أو ينسحب.' : 'بدون مؤقت: يضغط المعلم «كشف الإجابة» عند انتهاء الوقت.') : '');
   const opt = (label, g, k, opts, val, hint) => `<div class="field"><span class="field-l">${label}</span><div class="seg" role="radiogroup" aria-label="${label}">${opts.map((o) => `<button class="seg-b${o.v === val ? ' on' : ''}" role="radio" aria-checked="${o.v === val}" data-act="game-opt" data-g="${g}" data-k="${k}" data-v="${o.v}">${o.ar}</button>`).join('')}</div>${hint ? `<small class="field-h">${hint}</small>` : ''}</div>`;
   if (s.game === 'teams') {
     const T0 = s.team, few = s.classes.length < 2;
@@ -4069,13 +4121,13 @@ function setupErrors(s) {
   const present = s.classes.map((c) => { const r = rosterNames(c.text), abs = new Set(c.absent); return r.names.filter((n) => !abs.has(n)).length; });
   if (s.game === 'teams') {
     const mix = s.team.src === 'mix' || s.classes.length < 2, n = mix ? s.team.count : s.classes.length, tot = present.reduce((a, x) => a + x, 0);
-    if (mix && tot < n) err.push(`يلزم ${num(n)} طلاب حاضرون على الأقل لتكوين ${num(n)} فرق.`);
+    if (mix && tot < n) err.push(`يلزم ${n} طلاب حاضرون على الأقل لتكوين ${n} فرق.`);
     const b = matchBudget(feasibleTypes(TYPE_IDS, tPool()), tPool(), s.team.R, n); if (!b.ok) err.push('الكلمات لا تكفي لهذا العدد من الأسئلة — قلّل الأسئلة لكل فريق.');
     return { err, B: null };
   }
   if (s.game === 'race') {
     const big = Math.max(...present); const b = matchBudget(feasibleTypes(TYPE_IDS, tPool()), tPool(), s.race.R, Math.max(2, big));
-    if (!b.ok) err.push(`الكلمات لا تكفي لسباق من ${num(big)} طالبًا × ${num(s.race.R)} أسئلة — قلّل عدد الأسئلة.`);
+    if (!b.ok) err.push(`الكلمات لا تكفي لسباق من ${big} طالبًا × ${s.race.R} ${s.race.R === 1 ? 'سؤال' : 'أسئلة'} — قلّل عدد الأسئلة.`);
     return { err, B: null };
   }
   if (s.game === 'ladder') return { err, B: null };
@@ -4132,7 +4184,7 @@ function gfCard(G) {
   if (G.podium) act = `<button class="btn btn-gold" data-act="go" data-to="ceremony">${icon('trophy')}<span>حفل التتويج</span></button>`;
   else if (nx) act = `<button class="btn btn-gold" data-act="next" data-cls="gf">${icon(nextIcon(nx))}<span>${m && m.seq ? (regDone(m) ? 'أكمل — سؤال حاسم' : 'أكمل النهائي الكبير') : 'ابدأ النهائي الكبير'}</span></button>`;
   else act = `<p class="gf-lock">${icon('lock')} يُفتح عند معرفة أبطال الشعب</p>`;
-  return `<article class="gf-card${G.ready ? ' ready' : ''}${G.podium ? ' done' : ''}"><div class="gf-h"><span class="gf-cup">${icon('trophy')}</span><div><h3>النهائي الكبير</h3><small>أبطال الشعب · ${num(T.settings.rounds.grand)} أسئلة لكل طالب</small></div></div><div class="gf-slots">${slots}</div>${act}</article>`;
+  return `<article class="gf-card${G.ready ? ' ready' : ''}${G.podium ? ' done' : ''}"><div class="gf-h"><span class="gf-cup">${icon('trophy')}</span><div><h3>النهائي الكبير</h3><small>أبطال ${T.classes.length === 2 ? 'الشعبتين' : 'الشعب'} · ${num(T.settings.rounds.grand)} أسئلة لكل طالب</small></div></div><div class="gf-slots">${slots}</div>${act}</article>`;
 }
 function roadHTML(G, meta) {
   return `<section class="road" aria-labelledby="road-t"><header class="road-h"><h2 class="road-t" id="road-t">${icon('road')} ${G.single ? 'الطريق إلى نهائي الصف' : 'الطريق إلى النهائي الكبير'}</h2>${meta || ''}</header>
@@ -4153,7 +4205,7 @@ function standingsTable(m, opts) {
     const i = r.pending ? -1 : r.order.indexOf(x.id), f = i >= 0 ? fateOf(m, i) : null, p = person(x.id), sd = sdLine(m, x.id);
     return `<tr class="${f ? 'f-' + f.cls : ''}"><td class="rk">${x.eq ? `<span dir="ltr">=${esc(x.n)}</span>` : num(x.n)}</td><td class="who"><div class="who-in">${avatar(x.id)}<span>${nm(x.id)}${opts.cls ? `<small class="cl" style="--cc:${p.color}">${esc(p.cls)}</small>` : ''}</span></div></td><td class="pt">${num(pts[x.id])}</td><td class="fate">${f ? `<span class="tag t-${f.cls}">${esc(f.ar)}</span>` : ''}${sd ? `<small class="sd-l">${icon('bolt')}${sd}</small>` : ''}</td></tr>`;
   }).join('');
-  return `<div class="tbl-wrap"><table class="stand"><thead><tr><th>#</th><th>الطالب</th><th class="pt">النقاط <small>من ${num(m.R)}</small></th><th></th></tr></thead><tbody>${body}</tbody></table></div>`;
+  return `<div class="tbl-wrap"><table class="stand"><thead><tr><th>#</th><th>${m.stage === 'team' ? 'الفريق' : 'الطالب'}</th><th class="pt">النقاط <small>من ${num(m.R)}</small></th><th></th></tr></thead><tbody>${body}</tbody></table></div>`;
 }
 function stepCard(F, st, title) {
   const lab = title || slotLabel(st.stage, st.slot), m = st.m;
@@ -4196,7 +4248,7 @@ function grandSection(G) {
   const waiting = T.classes.map((c, i) => `<li style="--cc:${c.color}">${G.champs[i] ? `${avatar(G.champs[i])}${nm(G.champs[i])}` : `<span class="av q" style="--ac:${c.color}" aria-hidden="true">?</span><span class="muted">بانتظار بطل الشعبة</span>`}<small dir="auto">${esc(c.name)}</small></li>`).join('');
   const card = G.ready ? stepCard(null, st, `${STAGES.grand.ar} — ${num(T.settings.rounds.grand)} أسئلة لكل طالب`) : `<section class="scard st-locked"><header><h4>${STAGES.grand.ar}</h4><span class="pill p-locked">بانتظار أبطال الشعب</span></header><ul class="plain-list gf-wait">${waiting}</ul></section>`;
   const pod = G.podium ? `<section class="scard champ-card"><header><h4>${icon('trophy')} منصة التتويج</h4><button class="btn btn-sm btn-gold" data-act="go" data-to="ceremony">${icon('trophy')}<span>حفل التتويج</span></button><button class="btn btn-sm btn-ghost" data-act="cert-open" data-k="p0">${icon('print')}<span>الشهادات</span></button></header><ol class="pod-list">${G.podium.map((id, i) => `<li class="p${i}">${medalSVG(i, 'pl' + i + uid())}${avatar(id)}<b>${nm(id)}</b><small dir="auto">${esc(person(id).cls)}</small></li>`).join('')}</ol></section>` : '';
-  return `<section class="csec gsec"><header class="csec-h"><div class="csec-t"><span class="gf-cup">${icon('trophy')}</span><div><h2>${STAGES.grand.ar}</h2><p class="muted">أبطال ${T.classes.length === 2 ? 'الشعبتين' : 'الشعب'} · ${num(T.settings.rounds.grand)} أسئلة لكل طالب · المراكز الأول والثاني والثالث</p></div></div>${G.next ? `<button class="btn btn-gold btn-xl" data-act="next" data-cls="gf">${icon(nextIcon(G.next))}<span>${esc(nextText(G.next))}</span></button>` : ''}</header><div class="cards2">${card}${pod}</div>${historyHTML(null)}</section>`;
+  return `<section class="csec gsec"><header class="csec-h"><div class="csec-t"><span class="gf-cup">${icon('trophy')}</span><div><h2>${STAGES.grand.ar}</h2><p class="muted">أبطال ${T.classes.length === 2 ? 'الشعبتين' : 'الشعب'} · ${num(T.settings.rounds.grand)} أسئلة لكل طالب · ${T.classes.length === 2 ? 'المركزان الأول والثاني' : 'المراكز الأول والثاني والثالث'}</p></div></div>${G.next ? `<button class="btn btn-gold btn-xl" data-act="next" data-cls="gf">${icon(nextIcon(G.next))}<span>${esc(nextText(G.next))}</span></button>` : ''}</header><div class="cards2">${card}${pod}</div>${historyHTML(null)}</section>`;
 }
 VIEWS.hub = () => {
   if (!T) return VIEWS.home();
@@ -4208,7 +4260,7 @@ VIEWS.hub = () => {
   const banner = G.podium ? `<div class="champ-banner">${icon('trophy')}${avatar(G.podium[0], 'lg')}<div><small>بطل دوري أبطال المفردات — الجائزة الكبرى</small><b>${nm(G.podium[0])} <span class="muted" dir="auto">${esc(person(G.podium[0]).cls)}</span></b></div><button class="btn btn-gold" data-act="go" data-to="ceremony">${icon('trophy')}<span>حفل التتويج</span></button></div>` : '';
   const acts = `<button class="btn btn-ghost btn-sm" data-act="draw-open">${icon('shuffle')}<span>نتيجة القرعة</span></button><button class="btn btn-danger btn-sm" data-act="reset-t">${icon('reset')}<span>إعادة ضبط</span></button>`;
   return `${topbar('مركز المسابقة', acts)}<section class="v-hub page">
-${banner}${roadHTML(G, `<div class="hub-head"><h3 class="hub-name"><bdi>${esc(T.name)}</bdi></h3><div class="hub-meta"><span>${icon('users')} ${num(T.classes.reduce((n, c) => n + c.students.length, 0))} طالبًا · ${num(T.classes.length)} شعب</span><span class="hm-done">${icon('check')} مباريات منتهية: ${num(done)}</span></div></div>`)}
+${banner}${roadHTML(G, `<div class="hub-head"><h3 class="hub-name"><bdi>${esc(T.name)}</bdi></h3><div class="hub-meta"><span>${icon('users')} ${studentsAr(T.classes.reduce((n, c) => n + c.students.length, 0))} · ${clsCount(T.classes.length)}</span><span class="hm-done">${icon('check')} مباريات منتهية: ${num(done)}</span></div></div>`)}
 <div class="tabs" role="tablist" aria-label="أقسام المسابقة">${tabs.map((t) => `<button class="tab${S.tab === t.id ? ' on' : ''}" role="tab" id="tab-${t.id}" aria-selected="${S.tab === t.id}" data-act="tab" data-tab="${t.id}" style="--cc:${t.color}">${t.id === 'gf' ? icon('trophy') : '<i class="tab-sw"></i>'}<span${t.id === 'gf' ? '' : ' dir="auto"'}>${esc(t.label)}</span>${t.dot ? `<i class="tab-dot ${t.dot}" aria-hidden="true"></i>` : ''}</button>`).join('')}</div>
 <div class="tab-body" id="tab-body" role="tabpanel" aria-labelledby="tab-${S.tab}">${S.tab === 'gf' ? grandSection(G) : classSection(F)}</div></section>`;
 };
@@ -4254,7 +4306,7 @@ function dwClassStart(c) {
   $('#dw-cls').textContent = c.name;
   $('#dw-pot').innerHTML = drawSeq(c.draw).map((_, k) => `<i class="dw-tok" data-k="${k}"></i>`).join('');
   $('#dw-cap').innerHTML = `<span>قرعة الشعبة <b dir="auto">${esc(cn(c.name))}</b></span>`;
-  $$('.dw-col').forEach((el) => { if (el.dataset.c === c.id) el.classList.remove('wait'); });
+  $$('.dw-col').forEach((el) => { if (el.dataset.c === c.id) { el.classList.remove('wait'); if (T.classes.length > 3) el.scrollIntoView({ block: 'nearest', behavior: reduced() ? 'auto' : 'smooth' }); } });
   SFX.roll();
 }
 function dwReveal(c, id, g, k) {
@@ -4293,10 +4345,10 @@ AFTER.draw = () => {
 VIEWS.intro = () => {
   const m = curMatch(); if (!m || m.seq || !T) return VIEWS.hub();
   const n = m.players.length;
-  const many = n > 4, sub = (p) => (p.team ? studentsAr((T.squads.find((q) => q.id === p.id) || { members: [] }).members.length) : `الشعبة <span dir="auto">${esc(cn(p.cls))}</span>`);
+  const many = n > 4 && m.stage !== 'grand', sub = (p) => (p.team ? studentsAr((T.squads.find((q) => q.id === p.id) || { members: [] }).members.length) : `الشعبة <span dir="auto">${esc(cn(p.cls))}</span>`);
   const players = m.players.map((id) => { const p = person(id); return `<li class="ip" style="--tc:${safeColor(p.color)}">${avatar(id, many ? 'lg' : 'xl')}<b>${nm(id)}</b>${many ? '' : `<small>${sub(p)}</small>`}</li>`; }).join('');
   return `${topbar('')}<section class="v-intro page-narrow">
-<div class="intro-head"><h1 class="disp">${esc(matchLabel(m))}</h1><p>${num(m.R)} ${m.R === 1 ? 'سؤال' : m.R <= 10 ? 'أسئلة' : 'سؤالًا'} لكل ${m.stage === 'team' ? 'فريق' : 'طالب'}${many ? ` · ${studentsAr(n)}` : ''} · تتنوّع الأسئلة تلقائيًا${n > 2 ? ' · يتبدّل من يبدأ في كل جولة' : ''}</p></div>
+<div class="intro-head"><h1 class="disp">${esc(matchLabel(m))}</h1><p>${num(m.R)} ${m.R === 1 ? 'سؤال' : m.R <= 10 ? 'أسئلة' : 'سؤالًا'} لكل ${m.stage === 'team' ? 'فريق' : 'طالب'}${many ? ` · ${m.stage === 'team' ? teamsAr(n) : studentsAr(n)}` : ''} · تتنوّع الأسئلة تلقائيًا${n > 2 ? ' · يتبدّل من يبدأ في كل جولة' : ''}</p></div>
 <ol class="ips n${Math.min(n, 4)}${many ? ' many' : ''}" aria-label="المتسابقون">${players}</ol>
 ${S.introErr ? `<p class="bad" style="text-align:center">${esc(S.introErr)}</p>` : ''}
 <div class="intro-foot"><button class="btn btn-gold btn-xl" data-act="kickoff" id="btn-kickoff" ${S.introErr ? 'disabled' : ''}>${icon('play')}<span>ابدأ</span></button></div>
@@ -4316,7 +4368,7 @@ function dotsHTML(m, id) {
 /* the broadcast scoreboard: stage · «الآن دور: …» · question counter, then one chip per student. The student on turn is
    lit in the class colour with «▶ يجيب الآن», every other chip is dimmed — colour and opacity only, never size. */
 function scoreboardHTML(m) {
-  const n = m.players.length, pts = ptsOf(m), sh = shortNames(m.players), multi = m.stage === 'grand', many = n > 4;
+  const n = m.players.length, pts = ptsOf(m), many = n > 4, sh = many ? manyNames(m.players) : shortNames(m.players), multi = m.stage === 'grand';
   const cur = Q && Q.m === m ? Q.st : m.step < m.seq.length ? m.seq[m.step] : null; // until «التالي», the student who just answered stays lit
   const inSd = cur ? !!cur.sd : !m.demo && m.status !== 'done' && regDone(m);
   const chips = m.players.map((id, i) => {
@@ -4443,8 +4495,8 @@ function sdCardHTML(m, need) {
   return `<div class="ovl-card sd-card" role="dialog" aria-modal="true" aria-labelledby="sd-t"><h2 id="sd-t">${icon('bolt')}تعادل! سؤال حاسم${j > 1 ? ` ${num(j)}` : ''}</h2>
   <p class="sd-what">التعادل ${esc(sdWhat(m, need))}</p>
   ${after ? `<p class="sd-out">${after}</p>` : ''}
-  ${nameChips(need.set)}
-  <p class="sd-rule">يجيب كل طالب عن <b>سؤال واحد</b>: من يصيب يتقدّم على من يخطئ، وإذا تساووا فسؤال حاسم آخر. <span class="muted">(لا يُحتسب في نقاط المباراة)</span></p>
+  ${nameChips(need.set, need.set.length > 6 ? 'sm' : '')}
+  <p class="sd-rule">${m.stage === 'team' ? 'يجيب طالب من كل فريق' : 'يجيب كل طالب'} عن <b>سؤال واحد</b>: من يصيب يتقدّم على من يخطئ، وإذا تساووا فسؤال حاسم آخر. <span class="muted">(لا يُحتسب في نقاط المباراة)</span></p>
   <div class="ovl-actions"><button class="btn btn-gold btn-xl" data-act="sd-go" id="btn-next">${icon('bolt')}<span>ابدأ السؤال الحاسم</span><kbd>Enter</kbd></button></div></div>`;
 }
 /* «حُسم التعادل: … يتأهل» */
@@ -4456,8 +4508,8 @@ function sdWonHTML(m, winners, cut) {
 }
 function pauseHTML(resumed, fromBack) {
   const demo = S.matchId === 'demo'; // the quick try is never saved and ends on the home
-  const why = resumed ? (demo ? 'تابع التجربة من السؤال نفسه.' : 'تم حفظ التقدم تلقائيًا — تابع من السؤال نفسه.') : !fromBack ? 'المؤقت متوقف والسؤال مخفي عن الطلاب.' : demo ? 'زر الرجوع لا يغادر التجربة. تابع، أو أنهِ التجربة.' : 'زر الرجوع لا يغادر المباراة: التقدم محفوظ تلقائيًا. تابع، أو اخرج إلى مركز المسابقة.';
-  return `<div class="ovl-card pz" role="dialog" aria-modal="true" aria-labelledby="pz-t"><h2 id="pz-t" class="disp">${resumed ? 'استئناف المباراة' : 'متوقف مؤقتًا'}</h2><p class="muted">${why}</p><div class="ovl-actions"><button class="btn btn-ghost" data-act="exit-match">${icon('home')}<span>${demo ? 'إنهاء التجربة' : 'مركز المسابقة'}</span></button><button class="btn btn-gold btn-xl" data-act="resume" id="btn-next">${icon('play')}<span>استئناف</span></button></div></div>`;
+  const why = resumed ? (demo ? 'تابع التجربة من السؤال نفسه.' : 'تم حفظ التقدم تلقائيًا — تابع من السؤال نفسه.') : !fromBack ? 'المؤقت متوقف والسؤال مخفي عن الطلاب.' : demo ? 'زر الرجوع لا يغادر التجربة. تابع، أو أنهِ التجربة.' : `زر الرجوع لا يغادر المباراة: التقدم محفوظ تلقائيًا. تابع، أو اخرج إلى ${compHomeAr()}.`;
+  return `<div class="ovl-card pz" role="dialog" aria-modal="true" aria-labelledby="pz-t"><h2 id="pz-t" class="disp">${resumed ? 'استئناف المباراة' : 'متوقف مؤقتًا'}</h2><p class="muted">${why}</p><div class="ovl-actions"><button class="btn btn-ghost" data-act="exit-match">${icon('home')}<span>${demo ? 'إنهاء التجربة' : esc(compHomeAr())}</span></button><button class="btn btn-gold btn-xl" data-act="resume" id="btn-next">${icon('play')}<span>استئناف</span></button></div></div>`;
 }
 VIEWS.match = () => {
   const m = curMatch(); if (!m || !m.seq) return VIEWS.home();
@@ -4489,6 +4541,7 @@ function outcomeHTML(m) {
     return `<section class="out-card gold"><h2 class="disp">${icon('trophy')} ${m.stage === 'team' ? 'الفريق الفائز' : `بطل سباق الشعبة ${bd(cn(cls ? cls.name : ''))}`}</h2>${nameChips([o[0]], 'gold')}${rest ? `<p>${rest}</p>` : ''}${sdNote}</section>`;
   }
   if (m.stage === 'grand') return `<section class="out-card gold"><h2 class="disp">${icon('trophy')} بطل دوري أبطال المفردات — الجائزة الكبرى</h2>${nameChips([o[0]], 'gold')}<p>المركز الثاني: ${nm(o[1])}${o[2] ? ` · المركز الثالث: ${nm(o[2])}` : ''}</p>${sdNote}<button class="btn btn-gold btn-xl" data-act="go" data-to="ceremony" id="btn-next">${icon('trophy')}<span>حفل التتويج</span></button></section>`;
+  if (m.stage === 'final' && T.classes.length === 1) return `<section class="out-card gold"><h2 class="disp">${icon('trophy')} بطل المسابقة</h2>${nameChips([o[0]], 'gold')}<p>المركز الثاني: ${nm(o[1])}</p>${sdNote}<button class="btn btn-gold btn-xl" data-act="go" data-to="ceremony" id="btn-next">${icon('trophy')}<span>حفل التتويج</span></button></section>`;
   if (m.stage === 'final') return `<section class="out-card gold"><h2 class="disp">${icon('crown')} بطل الشعبة ${bd(cn(cls ? cls.name : ''))}</h2>${nameChips([o[0]], 'gold')}<p>يمثّل شعبته في النهائي الكبير · وصيف الصف: ${nm(o[1])}</p>${sdNote}</section>`;
   const q = m.stage === 'group' ? o.slice(0, 2) : o.slice(0, m.players.length > 2 ? 2 : 1);
   return `<section class="out-card"><h2 class="disp">${icon('check')} ${m.stage === 'group' ? `المتأهلان من ${esc(GROUP_AR[m.slot])}` : m.players.length > 2 ? 'المتأهلان إلى نهائي الصف' : 'الفائز إلى نهائي الصف'}</h2>${nameChips(q)}${sdNote}${rr.tied.some((b) => b.every((x) => q.includes(x))) ? '<p class="muted">تعادل (كلاهما متأهل) — لا يحتاج إلى سؤال حاسم.</p>' : ''}</section>`;
@@ -4502,7 +4555,7 @@ VIEWS.result = () => {
 <div class="ft-actions"><button class="btn btn-ghost" data-act="demo">${icon('sparkle')}<span>تجربة أخرى</span></button><button class="btn btn-gold btn-xl" data-act="${T ? 'go' : 'up'}" data-to="${T ? 'hub' : 'home'}" id="btn-next">${icon(T ? 'play' : 'home')}<span>${T ? 'مركز المسابقة' : 'الرئيسية'}</span></button></div>
 ${roundsTable(m)}</section>`;
   }
-  const rr = resolve(m), grand = m.stage === 'grand' || m.stage === 'team' || m.stage === 'race';
+  const rr = resolve(m), grand = m.stage === 'grand' || m.stage === 'team' || m.stage === 'race' || (m.stage === 'final' && T.classes.length === 1); // the match that decides the competition
   const cls = m.cls ? classById(m.cls) : null, F = cls && isLeague() ? classFlow(cls) : null;
   const main = rr.pending || grand, hasNext = !main && !!(F && F.next);
   const next = hasNext ? `<button class="btn btn-gold btn-xl" data-act="next" data-cls="${cls.id}" id="btn-next">${icon(nextIcon(F.next))}<span>التالي: ${esc(nextText(F.next))}</span></button>` : '';
@@ -4511,7 +4564,7 @@ ${roundsTable(m)}</section>`;
 <div class="ft-head"><h1 class="disp">نهاية المباراة</h1><p>${esc(matchLabel(m))}</p></div>
 ${outcomeHTML(m)}
 ${standingsTable(m, { cls: grand })}
-<div class="ft-actions">${next}<button class="btn ${hubMain ? 'btn-gold btn-xl' : 'btn-ghost'}" data-act="ft-hub"${hubMain ? ' id="btn-next"' : ''}>${icon('road')}<span>${rr.pending ? `لاحقًا — ${compHomeAr()}` : compHomeAr()}</span></button>${(m.stage === 'team' || m.stage === 'race') && !rr.pending ? `<button class="btn btn-ghost" data-act="go" data-to="ceremony" data-tab="${esc(m.cls || '')}">${icon('trophy')}<span>حفل التتويج</span></button>` : ''}${m.stage === 'final' && !rr.pending ? `<button class="btn btn-ghost" data-act="cert-open" data-k="${esc(m.cls)}">${icon('print')}<span>شهادة بطل الشعبة</span></button>` : ''}</div>
+<div class="ft-actions">${next}<button class="btn ${hubMain ? 'btn-gold btn-xl' : 'btn-ghost'}" data-act="ft-hub"${hubMain ? ' id="btn-next"' : ''}>${icon('road')}<span>${rr.pending ? `لاحقًا — ${compHomeAr()}` : compHomeAr()}</span></button>${(m.stage === 'team' || m.stage === 'race') && !rr.pending ? `<button class="btn btn-gold btn-xl" data-act="go" data-to="ceremony" data-tab="${esc(m.cls || '')}" id="btn-next">${icon('trophy')}<span>حفل التتويج</span></button>` : ''}${m.stage === 'final' && !rr.pending ? `<button class="btn btn-ghost" data-act="cert-open" data-k="${T.classes.length === 1 ? 'p0' : esc(m.cls)}">${icon('print')}<span>${T.classes.length === 1 ? 'الشهادات' : 'شهادة بطل الشعبة'}</span></button>` : ''}</div>
 ${roundsTable(m)}
 </section>`;
 };
@@ -4553,7 +4606,7 @@ function ceremonyData() {
   }
   if (g === 'teams') {
     const m = T.matches.find((x) => x.id === 'team'), pts = ptsOf(m), w = T.squads.find((q) => q.id === pod[0]);
-    return { pod, sub: (id) => ptsAr(pts[id]), tag: (id) => { const q = T.squads.find((x) => x.id === id); return `<span class="pod-c">${num(q ? q.members.length : 0)} طلاب</span>`; }, first: 'المركز الأول · الفريق البطل', cc: w.color,
+    return { pod, sub: (id) => ptsAr(pts[id]), tag: (id) => { const q = T.squads.find((x) => x.id === id); return `<span class="pod-c">${studentsAr(q ? q.members.length : 0)}</span>`; }, first: 'المركز الأول · الفريق البطل', cc: w.color,
       congrats: `مبروك لـ<b dir="auto">${esc(w.name)}</b> — أبطال تحدي الفرق`, cert: w.members.length ? `t0-${w.members[0]}` : '', say: 'الفريق الفائز: ' + w.name };
   }
   if (g === 'race') {
@@ -4561,15 +4614,15 @@ function ceremonyData() {
     return { pod, sub: (id) => ptsAr(pts[id]), tag: (id) => `<span class="pod-c" dir="auto">${esc(person(id).cls)}</span>`, first: 'المركز الأول', cc: c.color, cls: c,
       congrats: `مبروك لأبطال سباق الشعبة <b dir="auto">${esc(cn(c.name))}</b>`, cert: `r0-${c.id}`, say: 'بطل سباق الشعبة ' + cn(c.name) + ': ' + win.name };
   }
-  const rank = ladderRank(), lv = (id) => runScore(rank.find((r) => r.s === id)), win = person(pod[0]);
-  return { pod, sub: (id) => `المستوى ${num(lv(id))} من ${num(LADDER_N)}`, tag: (id) => `<span class="pod-c" dir="auto">${esc(person(id).cls)}</span>`, first: 'المركز الأول', cc: win.color,
-    congrats: `مبروك لـ<b dir="auto">${esc(win.name)}</b> — وصل إلى المستوى ${num(lv(pod[0]))} من ${num(LADDER_N)}`, cert: 'l0', say: 'المركز الأول: ' + win.name };
+  const P = ladderPodium(), lv = (id) => runScore(P.find((x) => x.r.s === id).r), win = person(pod[0]), tops = P.filter((x) => x.place === 0).map((x) => x.r.s);
+  return { pod, places: P.slice(0, 3).map((x) => x.place), sub: (id) => `المستوى ${num(lv(id))} من ${num(LADDER_N)}`, tag: (id) => `<span class="pod-c" dir="auto">${esc(person(id).cls)}</span>`, first: 'المركز الأول', cc: win.color,
+    congrats: `مبروك لـ${tops.map((id) => `<b dir="auto">${esc(pName(id))}</b>`).join(' و')} — ${tops.length > 1 ? 'وصلوا' : 'وصل'} إلى المستوى ${num(lv(pod[0]))} من ${num(LADDER_N)}`, cert: 'l0', say: 'المركز الأول: ' + tops.map(pName).join(' و') };
 }
 VIEWS.ceremony = () => {
   const D = T ? ceremonyData() : null; if (!D) return T ? VIEWS[compHome()]() : VIEWS.home();
   const g = gameOf(T), pod = D.pod, win = person(pod[0]);
   const order = [1, 0, 2].filter((i) => pod[i]);
-  const cols = order.map((i) => { const id = pod[i], p = person(id); return `<li class="pod p${i}" style="--tc:${safeColor(p.color)}"><div class="pod-who">${medalSVG(i, 'md' + i)}${avatar(id, i ? 'xl' : 'xxl')}<b>${nm(id)}</b>${D.tag(id)}<small>${D.sub(id)}</small></div><div class="pod-step"><span class="pod-n" dir="ltr">${i + 1}</span><em>${i === 0 ? D.first : `المركز ${placeAr(i)}`}</em></div></li>`; }).join('');
+  const cols = order.map((i) => { const id = pod[i], p = person(id), pl = D.places ? D.places[i] : i; return `<li class="pod p${i}" style="--tc:${safeColor(p.color)}"><div class="pod-who">${medalSVG(pl, 'md' + i)}${avatar(id, i ? 'xl' : 'xxl')}<b>${nm(id)}</b>${D.tag(id)}<small>${D.sub(id)}</small></div><div class="pod-step"><span class="pod-n" dir="ltr">${pl + 1}</span><em>${pl === 0 ? D.first : `المركز ${placeAr(pl)}`}</em></div></li>`; }).join('');
   /* «سباق الصف»: one ceremony per class — a tab for each finished race */
   const fin = g === 'race' ? T.classes.filter((c) => { const m = raceOf(c); return m && m.status === 'done'; }) : [];
   const tabs = fin.length > 1 ? `<div class="cer-tabs seg" role="tablist" aria-label="الشعبة">${fin.map((c) => `<button class="seg-b${c === D.cls ? ' on' : ''}" role="tab" aria-selected="${c === D.cls}" data-act="go" data-to="ceremony" data-tab="${c.id}" style="--cc:${safeColor(c.color)}"><i class="tab-sw"></i><span dir="auto">${esc(c.name)}</span></button>`).join('')}</div>` : '';
@@ -4643,6 +4696,7 @@ ${list.length > 6 ? `<label class="cert-sel">${icon('medal')}<span>الشهاد�
 };
 
 /* ---------- The other games: one screen per game («تحدي الفرق» · «سباق الصف» · «من سيربح المفردات») ---------- */
+const teamsAr = (n) => (n === 2 ? 'فريقان' : n <= 10 ? `${num(n)} فرق` : `${num(n)} فريقًا`);
 const clsCount = (n) => (n === 1 ? 'شعبة واحدة' : n === 2 ? 'شعبتان' : `${num(n)} شعب`);
 const studentsAr = (n) => (n === 1 ? 'طالب واحد' : n === 2 ? 'طالبان' : `${num(n)} ${n >= 3 && n <= 10 ? 'طلاب' : 'طالبًا'}`);
 function gameHead(g, sum, line) {
@@ -4651,8 +4705,8 @@ function gameHead(g, sum, line) {
 <div class="gm-prog"><span class="cmp-bar" role="img" aria-label="التقدم ${sum.progress}٪"><i style="width:${Math.max(3, sum.progress)}%"></i></span><small>${sum.status === 'done' ? `${icon('check')} انتهت` : `التقدم ${num(sum.progress)}٪`}</small></div></header>`;
 }
 /* the podium row of a finished game: the three first, the ceremony and the certificates */
-function gamePodHTML(ids, sub, tab, certK) {
-  return `<section class="gm-pod"><h3>${icon('trophy')} المراكز الأولى</h3><ol class="pod-list">${ids.slice(0, 3).map((id, i) => `<li class="p${i}">${medalSVG(i)}${avatar(id)}<b>${nm(id)}</b><small>${sub(id)}</small></li>`).join('')}</ol>
+function gamePodHTML(ids, sub, tab, certK, places) {
+  return `<section class="gm-pod"><h3>${icon('trophy')} المراكز الأولى</h3><ol class="pod-list">${ids.slice(0, 3).map((id, i) => { const pl = places ? places[i] : i; return `<li class="p${pl}">${medalSVG(pl)}${avatar(id)}<b>${nm(id)}</b><small>${sub(id)}</small></li>`; }).join('')}</ol>
 <div class="row"><button class="btn btn-gold" data-act="go" data-to="ceremony"${tab ? ` data-tab="${esc(tab)}"` : ''}>${icon('trophy')}<span>حفل التتويج</span></button>${certK ? `<button class="btn btn-ghost" data-act="cert-open" data-k="${esc(certK)}">${icon('print')}<span>الشهادات</span></button>` : ''}</div></section>`;
 }
 function teamsBody() {
@@ -4660,13 +4714,13 @@ function teamsBody() {
   const pts = started ? ptsOf(m) : {}, order = fin ? resolve(m).order : null, mix = T.settings.team.src === 'mix';
   const cards = T.squads.map((q) => {
     const k = order ? order.indexOf(q.id) : -1;
-    return `<article class="sq-card${k === 0 ? ' win' : ''}" style="--tc:${safeColor(q.color)}"><header><span class="sq-sw" aria-hidden="true"></span><h3 dir="auto">${esc(q.name)}</h3>${k >= 0 && k < 3 ? `<span class="tag ${k ? 't-silver' : 't-gold'}">المركز ${placeAr(k)}</span>` : ''}${started ? `<b class="sq-pts">${num(pts[q.id] || 0)}<small>نقطة</small></b>` : `<small class="sq-n">${studentsAr(q.members.length)}</small>`}</header>
+    return `<article class="sq-card${k === 0 ? ' win' : ''}" style="--tc:${safeColor(q.color)}"><header><span class="sq-sw" aria-hidden="true"></span><h3 dir="auto">${esc(q.name)}</h3>${k >= 0 && k < 3 ? `<span class="tag ${['t-gold', 't-silver', 't-bronze'][k]}">المركز ${placeAr(k)}</span>` : ''}${started ? `<b class="sq-pts">${ptsAr(pts[q.id] || 0)}</b>` : `<small class="sq-n">${studentsAr(q.members.length)}</small>`}</header>
 <ol class="sq-mem">${q.members.map((id) => `<li>${avatar(id)}${nm(id)}${mix ? `<small dir="auto">${esc(person(id).cls)}</small>` : ''}</li>`).join('')}</ol></article>`;
   }).join('');
   const main = fin ? '' : `<button class="btn btn-gold btn-xl" data-act="team-go" id="btn-next">${icon(started ? 'play' : 'play')}<span>${started ? 'أكمل التحدي' : 'ابدأ التحدي'}</span></button>`;
   const side = `${!started && mix ? `<button class="btn btn-ghost" data-act="team-shuffle">${icon('shuffle')}<span>توزيع جديد للفرق</span></button>` : ''}${fin ? `<button class="btn btn-ghost" data-act="open-match" data-id="team">${icon('list')}<span>ملخص التحدي</span></button>` : ''}`;
   const pod = fin ? gamePodHTML(order, (id) => ptsAr(pts[id]), '', (() => { const w = T.squads.find((q) => q.id === order[0]); return w && w.members.length ? `t0-${w.members[0]}` : ''; })()) : '';
-  return `${pod}<div class="gm-bar"><p class="gm-rule">${icon('users')}<span>${num(T.settings.team.R)} أسئلة لكل فريق · يجيب طلاب الفريق بالدور · التعادل على المركز الأول يُحسم بسؤال حاسم</span></p><div class="row">${side}${main}</div></div>
+  return `${pod}<div class="gm-bar"><p class="gm-rule">${icon('users')}<span>${num(T.settings.team.R)} أسئلة لكل فريق · يجيب طلاب الفريق بالدور · التعادل على المراكز الثلاثة الأولى يُحسم بسؤال حاسم</span></p><div class="row">${side}${main}</div></div>
 <div class="sq-grid n${Math.min(T.squads.length, 4)}">${cards}</div>`;
 }
 function raceBody() {
@@ -4688,14 +4742,14 @@ function ladderBody() {
   const L = T.ladder, live = liveRun(), played = new Map();
   L.runs.forEach((r) => { if (r.status === 'done') played.set(r.s, r); });
   const left = T.classes.reduce((a, c) => a.concat(presentOf(c).filter((id) => !played.has(id))), []);
-  const liveBox = live ? `<div class="lad-live" style="--tc:${safeColor(person(live.s).color)}">${avatar(live.s, 'lg')}<p><small>محاولة لم تكتمل</small><b>${nm(live.s)}</b><span>السؤال ${num(live.lvl + 1)} من ${num(LADDER_N)}</span></p><button class="btn btn-gold" data-act="lad-open" data-id="${esc(live.id)}" id="btn-next">${icon('play')}<span>أكمل</span></button><button class="btn btn-ghost btn-sm" data-act="lad-cancel" data-id="${esc(live.id)}">${icon('x')}<span>إلغاء المحاولة</span></button></div>` : '';
+  const liveBox = live ? `<div class="lad-live" style="--tc:${safeColor(person(live.s).color)}">${avatar(live.s, 'lg')}<p><small>محاولة لم تكتمل</small><b>${nm(live.s)}</b><span>السؤال ${num(live.qs.length)} من ${num(LADDER_N)}</span></p><button class="btn btn-gold" data-act="lad-open" data-id="${esc(live.id)}" id="btn-next">${icon('play')}<span>أكمل</span></button><button class="btn btn-ghost btn-sm" data-act="lad-cancel" data-id="${esc(live.id)}">${icon('x')}<span>إلغاء المحاولة</span></button></div>` : '';
   const pick = T.classes.map((c) => `<section class="lad-cls" style="--cc:${safeColor(c.color)}"><h3><span class="ro-chip" dir="auto">${esc(c.name)}</span><small class="muted">${num(presentOf(c).filter((id) => played.has(id)).length)} من ${num(presentOf(c).length)} لعبوا</small></h3>
 <div class="lad-pick">${presentOf(c).map((id) => { const r = played.get(id); return `<button class="lp-s${r ? ' played' : ''}" data-act="lad-start" data-s="${esc(id)}"${r || live ? ' disabled' : ''} title="${esc(pName(id))}">${avatar(id)}<bdi dir="auto">${esc(compactName(pName(id)))}</bdi>${r ? `<small class="lp-lv" dir="ltr">${runScore(r)}/${LADDER_N}</small>` : ''}</button>`; }).join('') || '<p class="muted">لا يوجد طلاب حاضرون.</p>'}</div></section>`).join('');
-  const rank = ladderRank();
-  const board = rank.length ? `<section class="panel lad-board"><h3>${icon('star')} لوحة الصدارة</h3><div class="tbl-wrap"><table class="stand"><thead><tr><th>#</th><th>الطالب</th><th class="pt">المستوى <small>من ${num(LADDER_N)}</small></th><th>وسائل المساعدة</th></tr></thead><tbody>${rank.map((r, i) => `<tr class="${i < 3 ? 'f-q' : ''}"><td class="rk">${num(i + 1)}</td><td class="who"><div class="who-in">${avatar(r.s)}<span>${nm(r.s)}<small class="cl" style="--cc:${person(r.s).color}" dir="auto">${esc(person(r.s).cls)}</small></span></div></td><td class="pt">${num(runScore(r))}</td><td class="fate"><span class="tag t-${r.end === 'won' ? 'q' : r.end === 'stop' ? 'rep' : 'out'}">${r.end === 'won' ? 'أكمل السلّم' : r.end === 'stop' ? 'انسحب محتفظًا بمستواه' : 'أخطأ'}</span><small class="muted"> · ${num(lifeUsed(r))} من 3</small></td></tr>`).join('')}</tbody></table></div></section>` : '';
-  const fin = !left.length && rank.length;
-  const pod = rank.length && (fin || rank.length >= 3) ? gamePodHTML(rank.map((r) => r.s), (id) => `المستوى ${num(runScore(rank.find((r) => r.s === id)))}`, '', fin ? 'l0' : '') : '';
-  return `${liveBox}${fin ? pod : ''}<div class="gm-bar"><p class="gm-rule">${icon('star')}<span>${num(LADDER_N)} أسئلة تزداد صعوبة · نقطتا أمان بعد السؤال ${num(LADDER_SAFE[0])} والسؤال ${num(LADDER_SAFE[1])}${L.life ? ' · 3 وسائل مساعدة: حذف إجابتين، تغيير السؤال، استشارة زميل' : ''}</span></p><div class="row">${left.length && !live ? `<button class="btn btn-gold btn-xl" data-act="lad-rand"${live ? '' : ' id="btn-next"'}>${icon('shuffle')}<span>اختيار طالب عشوائيًا</span></button>` : ''}</div></div>
+  const pl = ladderPlaces(), P = ladderPodium();
+  const board = pl.length ? `<section class="panel lad-board"><h3>${icon('star')} لوحة الصدارة</h3><div class="tbl-wrap"><table class="stand"><thead><tr><th>#</th><th>الطالب</th><th class="pt">المستوى <small>من ${num(LADDER_N)}</small></th><th>${L.life ? 'وسائل المساعدة' : 'النتيجة'}</th></tr></thead><tbody>${pl.map(({ r, place }) => `<tr class="${place < 3 && runScore(r) > 0 ? 'f-q' : ''}"><td class="rk">${num(place + 1)}</td><td class="who"><div class="who-in">${avatar(r.s)}<span>${nm(r.s)}<small class="cl" style="--cc:${person(r.s).color}" dir="auto">${esc(person(r.s).cls)}</small></span></div></td><td class="pt">${num(runScore(r))}</td><td class="fate"><span class="tag t-${r.end === 'won' ? 'q' : r.end === 'stop' ? 'rep' : 'out'}">${r.end === 'won' ? 'أكمل السلّم' : r.end === 'stop' ? 'انسحب محتفظًا بمستواه' : 'أخطأ'}</span>${L.life ? `<small class="muted"> · ${num(lifeUsed(r))} من 3</small>` : ''}</td></tr>`).join('')}</tbody></table></div></section>` : '';
+  const fin = !left.length && pl.length;
+  const pod = fin && P.length ? gamePodHTML(P.map((x) => x.r.s), (id) => `المستوى ${num(runScore(P.find((x) => x.r.s === id).r))}`, '', 'l0', P.map((x) => x.place)) : '';
+  return `${liveBox}${fin ? pod : ''}<div class="gm-bar"><p class="gm-rule">${icon('star')}<span>${num(LADDER_N)} أسئلة تزداد صعوبة · نقطتا أمان بعد السؤال ${num(LADDER_SAFE[0])} والسؤال ${num(LADDER_SAFE[1])}${L.life ? ' · 3 وسائل مساعدة: حذف إجابتين، تغيير السؤال، استشارة زميل' : ''} · المستوى نفسه${L.life ? ' بعدد وسائل المساعدة نفسه' : ''} = المركز نفسه</span></p><div class="row">${left.length && !live ? `<button class="btn btn-gold btn-xl" data-act="lad-rand"${live ? '' : ' id="btn-next"'}>${icon('shuffle')}<span>اختيار طالب عشوائيًا</span></button>` : ''}</div></div>
 <p class="lad-lead muted">${left.length ? 'أو اختر الطالب الذي يصعد السلّم الآن:' : 'لعب كل الطلاب الحاضرين.'}</p>
 <div class="lad-cols">${pick}</div>${board}`;
 }
@@ -4709,11 +4763,14 @@ VIEWS.game = () => {
 };
 
 /* ---------- «من سيربح المفردات»: the ladder screen of one student ---------- */
-const LAD = { armAt: 0, friend: 0 };
+/* LAD.paused: the pause card is up; LAD.friend: seconds left of «استشارة زميل» (the question timer waits for both, and
+   for any dialog: MODAL.ladHeld) — the timer never runs where nobody is looking */
+const LAD = { armAt: 0, friend: 0, paused: false };
 const ladCur = (r) => (r && r.status === 'live' ? r.qs[r.qs.length - 1] : null);
+const ladLive = () => { const cur = S.view === 'ladder' ? ladCur(runOf(S.run)) : null; return cur && cur.ok === null ? cur : null; }; // an unanswered question on screen
 const LIFE = { h: { ic: 'x', ar: 'حذف إجابتين', short: '50:50' }, c: { ic: 'shuffle', ar: 'تغيير السؤال', short: 'تغيير' }, f: { ic: 'users', ar: 'استشارة زميل', short: '30 ث' } };
 function ladStepsHTML(r) {
-  const cur = r.status === 'live' ? r.lvl : -1;
+  const cur = r.status === 'live' ? r.qs.length - 1 : -1;
   return `<ol class="lad-steps" aria-label="السلّم">${Array.from({ length: LADDER_N }, (_, i) => LADDER_N - 1 - i).map((i) => {
     const n = i + 1, safe = LADDER_SAFE.includes(n), c = i < r.lvl ? 'passed' : i === cur ? 'now' : r.status === 'done' && r.end === 'lost' && i === r.lvl ? 'fell' : '';
     return `<li class="ls${safe ? ' safe' : ''}${c ? ' ' + c : ''}"><span class="ls-n" dir="ltr">${n}</span><span class="ls-l">${safe ? `${icon('lock')}<span>نقطة أمان</span>` : lvlDots(T.ladder.steps[i].lvl)}</span>${i < r.lvl ? icon('check') : ''}</li>`;
@@ -4723,41 +4780,67 @@ function ladEndHTML(r) {
   const sc = runScore(r), p = person(r.s);
   const t = r.end === 'won' ? `${icon('trophy')} أكمل السلّم كاملًا!` : r.end === 'stop' ? `${icon('check')} انسحب محتفظًا بمستواه` : `${icon('x')} إجابة غير صحيحة`;
   const sub = r.end === 'lost' ? (sc ? `يحتفظ بنقطة الأمان: المستوى ${num(sc)} من ${num(LADDER_N)}` : `لم يصل إلى نقطة الأمان الأولى (بعد السؤال ${num(LADDER_SAFE[0])})`) : `المستوى ${num(sc)} من ${num(LADDER_N)}`;
-  const rank = ladderRank(), k = rank.findIndex((x) => x.id === r.id);
-  return `<section class="lad-end ${r.end}" style="--tc:${safeColor(p.color)}" role="status"><h2 class="disp">${t}</h2>${avatar(r.s, 'xl')}<p class="lad-end-n">${nm(r.s)}</p><p class="lad-end-s">${sub}</p>${r.end === 'lost' && r.qs.length ? learnCard(r.qs[r.qs.length - 1].q, true) : ''}${k >= 0 ? `<p class="muted">الترتيب الآن: ${num(k + 1)} من ${num(rank.length)}</p>` : ''}
+  const pl = ladderPlaces(), me = pl.find((x) => x.r.id === r.id);
+  return `<section class="lad-end ${r.end}" style="--tc:${safeColor(p.color)}" role="status"><h2 class="disp">${t}</h2>${avatar(r.s, 'xl')}<p class="lad-end-n">${nm(r.s)}</p><p class="lad-end-s">${sub}</p>${r.end === 'lost' && r.qs.length ? learnCard(r.qs[r.qs.length - 1].q, true) : ''}${me ? `<p class="muted">الترتيب الآن: ${num(me.place + 1)} من ${num(pl.length)}</p>` : ''}
 <div class="row"><button class="btn btn-gold btn-xl" data-act="up" data-to="game" id="btn-next">${icon('star')}<span>الطالب التالي</span></button></div></section>`;
 }
 VIEWS.ladder = () => {
   const r = runOf(S.run); if (!T || !r) return T ? VIEWS[compHome()]() : VIEWS.home();
   const p = person(r.s), cur = ladCur(r), L = T.ladder;
-  const who = `<div class="lad-who" style="--tc:${safeColor(p.color)}">${avatar(r.s, 'lg')}<p><b>${nm(r.s)}</b><small dir="auto">${esc(p.cls)}</small></p>${cur ? `<span class="lad-q-n">السؤال <b dir="ltr">${r.lvl + 1}</b> من <b dir="ltr">${LADDER_N}</b></span>` : ''}</div>`;
+  const who = `<div class="lad-who" style="--tc:${safeColor(p.color)}">${avatar(r.s, 'lg')}<p><b>${nm(r.s)}</b><small><bdi dir="auto">${esc(p.cls)}</bdi></small></p>${cur ? `<span class="lad-q-n">السؤال <b dir="ltr">${r.qs.length}</b> من <b dir="ltr">${LADDER_N}</b></span>` : ''}</div>`;
   let main;
   if (!cur) main = ladEndHTML(r);
   else {
-    const q = cur.q, done = cur.ok !== null, secs = done ? 0 : qSeconds(q, T.settings.timer);
+    const q = cur.q, done = cur.ok !== null;
     const life = L.life ? `<div class="lad-life" role="group" aria-label="وسائل المساعدة">${['h', 'c', 'f'].map((k) => `<button class="ll${r.life[k] ? ' used' : ''}" data-act="lad-life" data-k="${k}"${r.life[k] || done ? ' disabled' : ''} aria-label="${LIFE[k].ar}${r.life[k] ? ' (استُخدمت)' : ''}" title="${LIFE[k].ar}">${icon(LIFE[k].ic)}<b dir="auto">${LIFE[k].short}</b><small>${LIFE[k].ar}</small></button>`).join('')}</div>` : '';
-    let body = bodyHTML(q).replace(/data-act="opt"/g, 'data-act="lad-opt"');
+    const body = bodyHTML(q).replace(/data-act="opt"/g, 'data-act="lad-opt"');
+    const ring = !done ? ringHTML(qSeconds(q, T.settings.timer)) : `<div class="ring off" id="ring" aria-hidden="true"><svg viewBox="0 0 64 64"><circle class="ring-bg" cx="32" cy="32" r="28"/></svg><b>${icon(cur.ok ? 'check' : 'x')}</b></div>`;
     const next = !done ? '' : cur.ok ? `<div class="lad-fb ok" role="status">${icon('check')}<b>إجابة صحيحة!</b>${LADDER_SAFE.includes(r.lvl) ? `<span class="tag t-gold">${icon('lock')} وصل إلى نقطة أمان</span>` : ''}<button class="btn btn-gold btn-xl" data-act="lad-next" id="btn-next">${icon('next')}<span>السؤال ${num(r.lvl + 1)}</span></button></div>` : '';
     const stop = !done ? `<button class="btn btn-ghost" data-act="lad-stop">${icon('exit')}<span>انسحاب والاحتفاظ بالمستوى ${num(r.lvl)}</span></button>` : '';
     main = `${life}<article class="qp lad-qp cat-${q.cat} qt-${q.type}${done ? ' answered ' + (cur.ok ? 'was-ok' : 'was-bad') : ''}" id="qp" style="--cc:${CATS[q.cat].color};--tc:${safeColor(p.color)}" aria-labelledby="qp-t">
-<header class="qp-h"><h2 class="qp-t" id="qp-t"><span class="cat-chip">${icon(CATS[q.cat].icon)}${CATS[q.cat].ar}</span><span>${TYPES[q.type].ar}</span></h2><span class="lad-friend" id="lad-friend" hidden></span>${ringHTML(secs)}</header>
+<header class="qp-h"><h2 class="qp-t" id="qp-t"><span class="cat-chip">${icon(CATS[q.cat].icon)}${CATS[q.cat].ar}</span><span>${TYPES[q.type].ar}</span></h2><span class="lad-friend" id="lad-friend" hidden></span>${ring}</header>
 <div class="qp-body" id="qp-body">${body}</div></article>${next}<div class="lad-foot">${stop}</div>`;
   }
   return `${topbar(GAMES.ladder.ar)}<section class="v-lad page">${who}<div class="lad-grid"><div class="lad-main">${main}</div><aside class="lad-side">${ladStepsHTML(r)}</aside></div></section>`;
 };
-/* after a render: the options removed by 50:50, the marks of an answered question, the timer of a new one */
+/* after a render: the options removed by 50:50, the marks of an answered question; the timer of a new one (paused when
+   the ladder was reopened — a reload, the competition opened again, another device — until the teacher continues) */
 AFTER.ladder = () => {
-  const r = runOf(S.run), cur = ladCur(r); LAD.armAt = performance.now() + dur(ARM_MS); LAD.friend = 0;
-  if (!cur) { if (r && r.end === 'won') { SFX.fanfare(); const w = person(r.s); startConfetti(['#f2c14e', '#ffe08a', w.color, '#ffffff']); } return; }
+  const r = runOf(S.run), cur = ladCur(r); LAD.armAt = performance.now() + dur(ARM_MS); LAD.friend = 0; LAD.paused = false;
+  if (!cur) { S.ladPaused = false; if (r && r.end === 'won') { SFX.fanfare(); const w = person(r.s); startConfetti(['#f2c14e', '#ffe08a', w.color, '#ffffff']); } return; }
   (cur.off || []).forEach((i) => { const b = $$('#opts .opt')[i]; if (b) { b.disabled = true; b.classList.add('off'); } });
-  if (cur.ok !== null) { revealMarks(cur.q, cur.ok, cur.g); if (cur.ok) { const b = $('#btn-next'); if (b) b.focus({ preventScroll: true }); } return; }
+  if (cur.ok !== null) { S.ladPaused = false; revealMarks(cur.q, cur.ok, cur.g); if (cur.ok) { const b = $('#btn-next'); if (b) b.focus({ preventScroll: true }); } return; }
   const secs = qSeconds(cur.q, T.settings.timer);
   if (secs) timerStart(secs, () => ladAnswer(-1, true));
+  const left = cur.fr ? Math.ceil((cur.fr - Date.now()) / 1000) : 0; // «استشارة زميل» still running when the screen was drawn again
+  if (left > 0 && left <= 30) ladFriend(left);
+  if (S.ladPaused) ladPause(true);
 };
+function ladPause(reopened) {
+  const cur = ladLive(); if (!cur || LAD.paused) return;
+  timerPause(); LAD.paused = true;
+  const r = runOf(S.run), qp = $('#qp'); if (qp) qp.classList.add('lad-hidden');
+  showLayer('lpause', `<div class="ovl-card pz" role="dialog" aria-modal="true" aria-labelledby="lp-t"><h2 id="lp-t" class="disp">${reopened ? 'متابعة السلّم' : 'متوقف مؤقتًا'}</h2><p class="muted"><b>${nm(r.s)}</b> — السؤال ${num(r.qs.length)} من ${num(LADDER_N)}. المؤقت متوقف والسؤال مخفي عن الطلاب.</p>
+<div class="ovl-actions"><button class="btn btn-ghost" data-act="up" data-to="game">${icon(GAMES.ladder.icon)}<span>${GAMES.ladder.ar}</span></button><button class="btn btn-gold btn-xl" data-act="lad-resume" id="btn-next">${icon('play')}<span>متابعة</span><kbd>Enter</kbd></button></div></div>`);
+}
+function ladResume() {
+  hideLayer('lpause'); S.ladPaused = false;
+  if (!LAD.paused) return;
+  LAD.paused = false; LAD.armAt = performance.now() + dur(ARM_MS); UI_AT = performance.now();
+  const qp = $('#qp'); if (qp) qp.classList.remove('lad-hidden');
+  if (ladLive() && !LAD.friend && !MODAL.open) timerResume();
+}
+/* a dialog over the ladder holds the question timer (openModal / closeModal) */
+function ladModalOpen() { if (S.view === 'ladder' && TM.running) { timerPause(); MODAL.ladHeld = true; } }
+function ladModalClosed() {
+  if (S.view !== 'ladder') return;
+  LAD.armAt = performance.now() + dur(ARM_MS); UI_AT = performance.now(); // the second tap of a double tap never answers
+  if (MODAL.ladHeld) { MODAL.ladHeld = false; if (ladLive() && !LAD.paused && !LAD.friend) timerResume(); }
+}
 function ladAnswer(i, timedOut) {
   const r = runOf(S.run), cur = ladCur(r); if (!cur || cur.ok !== null) return;
-  if (!timedOut && (performance.now() < LAD.armAt || i < 0 || i >= cur.q.opts.length || (cur.off || []).includes(i))) return;
-  timerStop(); clearLater(); LAD.friend = 0;
+  if (!timedOut && (performance.now() < LAD.armAt || LAD.paused || MODAL.open || i < 0 || i >= cur.q.opts.length || (cur.off || []).includes(i))) return;
+  timerStop(); clearLater(); LAD.friend = 0; delete cur.fr;
   const ok = !timedOut && i === cur.q.ans; cur.ok = ok; cur.g = timedOut ? null : i;
   if (ok) { r.lvl++; if (r.lvl >= LADDER_N) { r.status = 'done'; r.end = 'won'; } }
   else { r.status = 'done'; r.end = 'lost'; }
@@ -4766,24 +4849,34 @@ function ladAnswer(i, timedOut) {
   announce(ok ? 'إجابة صحيحة' : `${timedOut ? 'انتهى الوقت' : 'إجابة غير صحيحة'}. الإجابة الصحيحة: ${plainAnswer(cur.q)}`);
   revealMarks(cur.q, ok, cur.g);
   const y = window.scrollY;
-  later(() => { go('ladder', 'replace'); window.scrollTo(0, y); }, dur(ok ? 700 : 1600));
+  const show = () => { if (STORE.conflict) return; if (MODAL.open) { later(show, 300); return; } go('ladder', 'replace'); window.scrollTo(0, y); };
+  later(show, dur(ok ? 700 : 1600));
+}
+/* «استشارة زميل»: 30 seconds on the clock of the question (saved, so a reload goes on with the seconds left) */
+function ladFriend(secs) {
+  timerPause(); LAD.friend = secs;
+  const box = $('#lad-friend');
+  const tick = () => {
+    if (!box || !document.contains(box)) return;
+    if (LAD.paused) { later(tick, 250); return; } // the pause card holds the countdown too
+    if (LAD.friend <= 0) { box.hidden = true; if (MODAL.open) MODAL.ladHeld = true; else if (ladLive()) timerResume(); return; }
+    box.hidden = false; box.innerHTML = `${icon('users')}<span>استشارة زميل</span><b dir="ltr">${LAD.friend}</b>`; LAD.friend--; later(tick, dur(1000));
+  };
+  tick();
 }
 function ladLife(k) {
-  const r = runOf(S.run), cur = ladCur(r); if (!cur || cur.ok !== null || r.life[k] || !T.ladder.life) return;
+  const r = runOf(S.run), cur = ladCur(r); if (!cur || cur.ok !== null || r.life[k] || !T.ladder.life || LAD.paused) return;
   SFX.click(); r.life[k] = true;
   if (k === 'h') { cur.off = halfOpts(cur.q); noteEdit(); saveT(); cur.off.forEach((i) => { const b = $$('#opts .opt')[i]; if (b) { b.disabled = true; b.classList.add('off'); } }); const lb = $('.ll[data-k="h"]'); if (lb) { lb.disabled = true; lb.classList.add('used'); } announce('حُذفت إجابتان'); return; }
   if (k === 'c') { let q; try { q = ladderQuestion(r, r.lvl, [cur.q.w]); } catch (e) { r.life.c = false; toast('لا يوجد سؤال بديل الآن', 'bad'); return; } r.qs[r.qs.length - 1] = { q, ok: null, g: null }; noteEdit(); saveT(); go('ladder', 'replace'); announce('سؤال جديد'); return; }
-  /* استشارة زميل: 30 seconds; the question's timer waits meanwhile */
-  noteEdit(); saveT(); timerPause();
+  cur.fr = Date.now() + 30000; noteEdit(); saveT();
   const lb = $('.ll[data-k="f"]'); if (lb) { lb.disabled = true; lb.classList.add('used'); }
-  const box = $('#lad-friend'); LAD.friend = 30;
-  const tick = () => { if (!box || !document.contains(box)) return; if (LAD.friend <= 0) { box.hidden = true; timerResume(); return; } box.hidden = false; box.innerHTML = `${icon('users')}<span>استشارة زميل</span><b dir="ltr">${LAD.friend}</b>`; LAD.friend--; later(tick, dur(1000)); };
-  tick();
+  ladFriend(30);
 }
 function ladStart(sid) {
-  if (!T || gameOf(T) !== 'ladder' || liveRun()) return;
+  if (!T || gameOf(T) !== 'ladder' || liveRun() || T.ladder.runs.some((x) => x.s === sid && x.status === 'done')) return; // one climb per student
   let r; try { r = startRun(sid); } catch (e) { toast('بنك الكلمات لا يكفي لسؤال جديد', 'bad'); return; }
-  S.run = r.id; SFX.whistle(); go('ladder');
+  S.run = r.id; S.ladPaused = false; SFX.whistle(); go('ladder');
 }
 
 /* ---------- Word bank: exactly the unit's 66 words (read-only) ---------- */
@@ -4815,7 +4908,7 @@ VIEWS.help = () => {
   return `${topbar('طريقة اللعب')}<section class="v-help page">
 <div class="help-grid">
 <article class="panel wide help-games"><h2>${icon('sparkle')} أربع ألعاب — تختارها عند «مسابقة جديدة»</h2><div class="hg">${GAME_IDS.map((g) => `<div class="hg-i"><span class="gc-ic t-${GAMES[g].tint}">${icon(GAMES[g].icon)}</span><p><b>${esc(GAMES[g].ar)}</b>${esc(GAMES[g].desc)}</p></div>`).join('')}</div>
-<p class="muted">في كل لعبة: تحدد عدد الشعب (من 1 إلى ${num(CLASS_MAX)}) وأسماءها وأسماء طلابها، والأسئلة من كلمات الوحدة فقط، والتعادل المؤثر يُحسم بسؤال حاسم، وللفائزين حفل تتويج وشهادات.</p></article>
+<p class="muted">في كل لعبة: تحدد عدد الشعب (من 1 إلى ${num(CLASS_MAX)}) وأسماءها وأسماء طلابها، والأسئلة من كلمات الوحدة فقط، والتعادل المؤثر في المباريات يُحسم بسؤال حاسم (وفي «من سيربح المفردات» يتشارك المتساوون المركز نفسه)، وللفائزين حفل تتويج وشهادات.</p></article>
 <article class="panel wide help-path"><h2>${icon('road')} دوري الأبطال: من القرعة إلى النهائي الكبير</h2><ol class="hp">
 <li><b>${icon('shuffle')} القرعة</b><p>كل مسابقة جديدة تبدأ بـ<b>قرعة واحدة لكل الشعب</b> (الشعبة الأولى ثم الثانية ثم …): تُسحب الأسماء واحدًا واحدًا إلى <b>المجموعة (أ)</b> و<b>المجموعة (ب)</b>، ثم تظهر لوحة القرعة: من مع من، وترتيب اللعب.</p></li>
 <li><b>${icon('users')} دور المجموعات</b><p>كل مجموعة (4 طلاب) تلعب مباراة واحدة، ويتأهل <b>أول طالبين</b>. يمكن تبديل طالبين بين المجموعتين قبل أول مباراة للشعبة.</p></li>
@@ -4884,8 +4977,10 @@ function refreshBoard(m, hit) {
   const w = $('#sb-wrap'); if (!w) return;
   w.innerHTML = scoreboardHTML(m);
   if (hit) hitScore(m, hit);
+  boardFollow();
 }
 /* a point: the student's number glows gold for a moment (colour only — nothing moves or grows) */
+function boardFollow() { const on = $('.sb-chips.many .chip.on'), row = on && on.parentElement; if (row && row.scrollWidth > row.clientWidth + 1) row.scrollLeft = Math.max(-row.scrollWidth, Math.min(row.scrollWidth, row.scrollLeft + (on.getBoundingClientRect().left - row.getBoundingClientRect().left) - (row.clientWidth - on.offsetWidth) / 2)); }
 function hitScore(m, pid) {
   const el = $('#sc-' + m.players.indexOf(pid)); if (!el) return;
   el.classList.add('hit'); later(() => { if (document.contains(el)) el.classList.remove('hit'); }, dur(1600));
@@ -5274,7 +5369,7 @@ function drawSky() {
 /* ============================ 15. NAVIGATION & EVENTS ============================ */
 function cleanupView() {
   timerStop(); clearLater(); stopConfetti(); m5Unobserve();
-  clearLayers(); closeModal(true); Q = null; S.toss = null;
+  clearLayers(); closeModal(true); Q = null; S.toss = null; MODAL.ladHeld = false; LAD.paused = false; LAD.friend = 0;
   try { if (SPEECH_OK) window.speechSynthesis.cancel(); } catch (e) { /* ignore */ }
 }
 /* ---- navigation. Every screen has a logical parent («رجوع»); every screen shown is also a browser history entry
@@ -5307,7 +5402,7 @@ function viewFor(v) {
     case 'result': return m && m.seq && m.status === 'done' ? v : up;
     case 'ceremony': return T && gamePodium() ? v : up;
     case 'cert': return certList().length ? v : up;
-    case 'setup': case 'classes': if (!S.setup) S.setup = defaultSetup(); return v;
+    case 'setup': case 'classes': if (!S.setup) S.setup = v === 'classes' ? listsSetup() : defaultSetup(); return v;
     default: return v;
   }
 }
@@ -5353,12 +5448,12 @@ function resumePlace(opening) {
   if (T && T.cur) { T.cur = null; saveT(); }
   if (T && isLeague() && !T.drawOk) return 'draw';
   const lr = T && gameOf(T) === 'ladder' ? liveRun() : null;
-  if (lr) { S.run = lr.id; return 'ladder'; } // a student in the middle of the ladder
+  if (lr) { S.run = lr.id; S.ladPaused = true; return 'ladder'; } // a student in the middle of the ladder: back on the question, paused
   const p = opening ? T && IDX.cplace[T.id] : IDX.place; /* opened from the dashboard: that competition's own last screen */
   if (p && !opening && !COMP_VIEWS.includes(p.v)) return p.v; // a screen of the dashboard (class lists, bank, help…)
   if (!p || !T || p.cid !== T.id || (opening && !COMP_VIEWS.includes(p.v)) || p.m === 'demo') return compHome();
   S.tab = p.tab; S.cert = p.c; S.matchId = p.m && p.m !== 'demo' && p.v !== 'ladder' ? p.m : null;
-  if (p.v === 'ladder') S.run = p.m;
+  if (p.v === 'ladder') { S.run = p.m; S.ladPaused = true; }
   if (p.v === 'match') S.resumePaused = true;
   return p.v;
 }
@@ -5366,8 +5461,9 @@ function go(view, how) {
   const prev = S.view;
   view = viewFor(view);
   const endOfMatch = view === 'result' && (prev === 'match' || prev === 'result'); // the match that just ended: its result first
-  if (ACC && CLOUD.state === 'auth' && view !== 'match' && !endOfMatch) { relogin(); return; } // the session ended during a match: sign in again now
+  if (ACC && CLOUD.state === 'auth' && view !== 'match' && !endOfMatch && !(view === 'ladder' && (liveRun() || prev === 'ladder'))) { relogin(); return; } // the session ended during a match: sign in again now
   if (view !== 'match') S.resumePaused = false;
+  if (view === 'ladder' && (how === 'pop' || how === 'init' || how === 'switch')) S.ladPaused = true; else if (view !== 'ladder') S.ladPaused = false;
   if (S.matchId === 'demo' && view !== 'match' && view !== 'result') { S.matchId = null; S.demo = null; } // the quick try is left
   if (view === 'match' && (how === 'pop' || how === 'init' || how === 'switch' || S.resumePaused)) {
     const m = curMatch(); S.resumePaused = true; if (T && m && !m.demo && T.cur !== m.id) { T.cur = m.id; saveT(); }
@@ -5477,7 +5573,8 @@ function restoreFrom(text) {
   if (isOldData(t)) { toast('هذه نسخة من نظام سابق للمسابقة ولا تعمل في هذه النسخة — ابدأ مسابقة جديدة', 'bad'); return; }
   if (!t || !validT(t)) { toast('الرمز لا يحتوي مسابقة صالحة', 'bad'); return; }
   const done = t.matches.filter((m) => m.seq && m.step >= m.seq.length).length;
-  const what = `مسابقة «${esc(compName(t.name || DEF_NAME))}» — الشعب ${t.classes.map((x) => bd(x.name)).join('، ')} — ${num(done)} مباراة منتهية${typeof t.createdAt === 'number' ? ` · أُنشئت ${esc(fmtDate(t.createdAt))}` : ''}`;
+  const g = GAMES[t.game] ? t.game : 'league', climbed = g === 'ladder' && t.ladder && Array.isArray(t.ladder.runs) ? new Set(t.ladder.runs.filter((r) => r && r.status === 'done').map((r) => r.s)).size : 0;
+  const what = `${esc(GAMES[g].ar)} «${esc(compName(t.name || DEF_NAME))}» — الشعب ${t.classes.map((x) => bd(x.name)).join('، ')} — ${g === 'ladder' ? `${num(climbed)} ${climbed === 1 ? 'طالب لعب' : 'طلاب لعبوا'}` : `${num(done)} مباراة منتهية`}${typeof t.createdAt === 'number' ? ` · أُنشئت ${esc(fmtDate(t.createdAt))}` : ''}`;
   const same = IDX.comps.some((c) => c.id === t.id) || IDX.del.includes(t.id) || IDX.base[t.id] != null || (T && T.id === t.id);
   confirmModal(`<b>ستُضاف إلى مسابقاتك:</b> ${what}.<br>${same ? '<b>هذه المسابقة موجودة في حسابك، فتُضاف النسخة المستعادة كمسابقة منفصلة «(مستعادة)» ولا يُمحى شيء.</b><br>' : ''}متابعة؟`, 'استعادة', () => {
     cleanupView(); T = repairT(t); T.cur = null; T.drawOk = true;
@@ -5500,7 +5597,7 @@ function swapPick(el) {
 }
 
 const ACT = {
-  go: (el) => { SFX.click(); const to = el.dataset.to; if (to === 'setup' && !S.setup) S.setup = defaultSetup(); if (el.dataset.tab) S.tab = el.dataset.tab; go(to); },
+  go: (el) => { SFX.click(); const to = el.dataset.to; if (to === 'setup' && !S.setup) S.setup = defaultSetup(); if (to === 'classes') S.setup = listsSetup(); if (el.dataset.tab) S.tab = el.dataset.tab; go(to); },
   /* «رجوع» (logical parent), an upward link, the logo (home) */
   back: () => { SFX.click(); goBack(); },
   up: (el) => { SFX.click(); navUp(el.dataset.to); },
@@ -5529,14 +5626,16 @@ const ACT = {
   'tch-edit': () => { SFX.click(); editTeachers(); },
   'fill-rosters': () => {
     if (!S.setup) return; SFX.click();
-    S.setup.classes.forEach((c, i) => { if (!String(c.text || '').trim()) { c.text = schoolRoster(i); c.absent = []; } });
+    const done = [], left = [];
+    S.setup.classes.forEach((c, i) => { if (!String(c.text || '').trim()) { const t = schoolRoster(i); if (t) { c.text = t; c.absent = []; done.push(c.name); } else left.push(c.name); } });
     if (S.setup.open) S.setup.open = {};
     const y = window.scrollY; go(S.view, 'replace'); window.scrollTo(0, y);
-    toast('مُلئت قوائم الشعب — راجعها ثم تابع', 'good');
+    toast(done.length ? `مُلئت ${done.map((x) => `«${x}»`).join('، ')}${left.length ? ` — واكتب أسماء ${left.map((x) => `«${x}»`).join('، ')}` : ' — راجعها ثم تابع'}` : 'لا توجد قائمة محفوظة بهذه الأسماء — اكتب أسماء الطلاب', done.length ? 'good' : 'bad');
   },
   'save-classes': () => {
-    const s = S.setup, bad = s.classes.find((c) => rosterNames(c.text).names.length < ROSTER_MIN || !cleanName(c.name));
+    const s = S.setup, bad = s.classes.find((c) => rosterNames(c.text).names.length < ROSTER_MIN || !cleanName(c.name)), names = s.classes.map((c) => cleanName(c.name));
     if (bad) { toast('لكل شعبة: اسم، وطالبان على الأقل', 'bad'); return; }
+    if (new Set(names).size !== names.length) { toast('أسماء الشعب يجب أن تكون مختلفة', 'bad'); return; }
     saveSetupDefaults(s); SFX.click(); toast('حُفظت الشعب والطلاب في حسابك', 'good'); navUp('home');
   },
   mute: () => setMuted(!PREFS.muted),
@@ -5555,15 +5654,20 @@ const ACT = {
   'setup-game': (el) => { const s = S.setup; if (!s || !GAMES[el.dataset.v]) return; s.game = el.dataset.v; SFX.click(); const y = window.scrollY; go('setup', 'replace'); window.scrollTo(0, y); },
   'cls-count': (el) => {
     const s = S.setup, n = Math.max(1, Math.min(CLASS_MAX, +el.dataset.n || 1)); if (!s || n === s.classes.length) return;
-    const apply = () => {
-      while (s.classes.length < n) { const i = s.classes.length, used = new Set(s.classes.map((c) => c.color)); s.classes.push({ name: defClassName(i, s.classes), color: CLASS_COLORS.find((c) => !used.has(c)) || CLASS_COLORS[i % CLASS_MAX], text: '', absent: [] }); }
-      s.classes.length = n; if (s.open) s.open = {};
-      SFX.click(); const y = window.scrollY; go(S.view, 'replace'); window.scrollTo(0, y);
-    };
-    const drop = s.classes.slice(n).filter((c) => String(c.text || '').trim());
-    if (drop.length) confirmModal(`ستُحذف ${drop.length === 1 ? 'الشعبة' : 'الشعب'} ${drop.map((c) => `«${esc(c.name)}»`).join('، ')} مع أسماء طلابها من هذه المسابقة. متابعة؟`, 'حذف', apply, 'btn-danger'); else apply();
+    s.spare = s.spare || [];
+    const kept = s.classes.slice(n).filter((c) => String(c.text || '').trim());
+    if (n < s.classes.length) { s.spare = s.classes.slice(n).concat(s.spare); s.classes.length = n; }
+    while (s.classes.length < n) {
+      const k = s.spare.findIndex((x) => !s.classes.some((c) => cleanName(c.name) === cleanName(x.name))), used = new Set(s.classes.map((c) => c.color));
+      const c = k >= 0 ? s.spare.splice(k, 1)[0] : { name: defClassName(s.classes.length, s.classes), color: '', text: '', absent: [] };
+      if (!c.color || used.has(c.color)) c.color = CLASS_COLORS.find((x) => !used.has(x)) || CLASS_COLORS[s.classes.length % CLASS_MAX];
+      s.classes.push(c);
+    }
+    if (s.open) s.open = {};
+    SFX.click(); const y = window.scrollY; go(S.view, 'replace'); window.scrollTo(0, y);
+    if (kept.length) toast(`${kept.length === 1 ? 'قائمة الشعبة' : 'قوائم الشعب'} ${kept.map((c) => `«${c.name}»`).join('، ')} ${kept.length === 1 ? 'تبقى محفوظة وتعود' : 'تبقى محفوظة وتعود'} إذا زدت عدد الشعب`, 'good');
   },
-  'cls-color': (el) => { const s = S.setup, c = s && s.classes[+el.dataset.i]; if (!c || !CLASS_COLORS.includes(el.dataset.c)) return; c.color = el.dataset.c; SFX.click(); const y = window.scrollY; go(S.view, 'replace'); window.scrollTo(0, y); },
+  'cls-color': (el) => { const s = S.setup, c = s && s.classes[+el.dataset.i]; if (!c || !CLASS_COLORS.includes(el.dataset.c)) return; const o = s.classes.find((x) => x !== c && x.color === el.dataset.c); if (o) o.color = c.color; c.color = el.dataset.c; SFX.click(); const y = window.scrollY; go(S.view, 'replace'); window.scrollTo(0, y); },
   'game-opt': (el) => {
     const s = S.setup, g = el.dataset.g, k = el.dataset.k, raw = el.dataset.v; if (!s || !s[g]) return;
     s[g][k] = raw === 'true' ? true : raw === 'false' ? false : /^\d+$/.test(raw) ? +raw : raw;
@@ -5595,13 +5699,16 @@ const ACT = {
   'lad-start': (el) => ladStart(el.dataset.s),
   'lad-rand': () => { if (!T || gameOf(T) !== 'ladder') return; const done = new Set(T.ladder.runs.filter((r) => r.status === 'done').map((r) => r.s)); const left = T.classes.reduce((a, c) => a.concat(presentOf(c).filter((id) => !done.has(id))), []); if (left.length) ladStart(left[rnd(left.length)]); },
   'lad-open': (el) => { if (!runOf(el.dataset.id)) return; SFX.click(); S.run = el.dataset.id; go('ladder'); },
-  'lad-cancel': (el) => { const r = runOf(el.dataset.id); if (!r || r.status !== 'live') return; confirmModal(`إلغاء محاولة ${nm(r.s)}؟ تُحذف المحاولة ويمكنه أن يبدأ من جديد.`, 'إلغاء المحاولة', () => { const i = T.ladder.runs.indexOf(r); if (i >= 0) T.ladder.runs.splice(i, 1); if (S.run === r.id) S.run = null; noteEdit(); saveT(); go('game', 'replace'); }); },
+  'lad-cancel': (el) => { const r = runOf(el.dataset.id); if (!r || r.status !== 'live') return; confirmModal(`إلغاء محاولة ${nm(r.s)}؟ تُحذف المحاولة ويمكنه أن يبدأ من جديد.`, 'إلغاء المحاولة', () => { const i = T.ladder.runs.indexOf(r); if (i >= 0) T.ladder.runs.splice(i, 1); if (S.run === r.id) S.run = null; T.edits = (isInt(T.edits, 0, 1e9) ? T.edits : 0) + r.qs.filter((x) => x.ok !== null).length; noteEdit(); saveT(); go('game', 'replace'); }); },
   'lad-opt': (el) => ladAnswer(+el.dataset.i),
+  'lad-resume': () => { SFX.click(); ladResume(); },
   'lad-life': (el) => ladLife(el.dataset.k),
   'lad-next': () => { const r = runOf(S.run); if (!r || r.status !== 'live') return; const cur = ladCur(r); if (!cur || !cur.ok) return; SFX.click(); try { r.qs.push({ q: ladderQuestion(r, r.lvl), ok: null, g: null }); } catch (e) { toast('بنك الكلمات لا يكفي لسؤال جديد', 'bad'); return; } noteEdit(); saveT(); go('ladder', 'replace'); },
-  'lad-stop': () => { const r = runOf(S.run), cur = ladCur(r); if (!cur || cur.ok !== null) return; timerPause();
-    openModal({ title: 'تأكيد', body: `<p class="confirm-t">ينسحب ${nm(r.s)} ويحتفظ بالمستوى ${num(r.lvl)} من ${num(LADDER_N)}؟</p>`, onClose: () => { if (!LAD.friend) timerResume(); },
-      actions: [{ label: 'متابعة اللعب' }, { label: 'انسحاب', cls: 'btn-gold', fn: () => { timerStop(); r.qs.pop(); r.status = 'done'; r.end = 'stop'; noteEdit(); saveT(); SFX.click(); later(() => go('ladder', 'replace'), 0); } }] }); },
+  'lad-stop': () => {
+    const r = runOf(S.run), cur = ladLive(); if (!cur || LAD.paused) return;
+    openModal({ title: 'تأكيد', body: `<p class="confirm-t">ينسحب ${nm(r.s)} ويحتفظ بالمستوى ${num(r.lvl)} من ${num(LADDER_N)}؟</p>`,
+      actions: [{ label: 'متابعة اللعب' }, { label: 'انسحاب', cls: 'btn-gold', fn: () => { if (ladLive() !== cur) return; timerStop(); clearLater(); LAD.friend = 0; r.qs.pop(); r.status = 'done'; r.end = 'stop'; noteEdit(); saveT(); SFX.click(); later(() => go('ladder', 'replace'), 0); } }] });
+  },
   /* the draw */
   'draw-open': () => { SFX.click(); openDraw(); },
   'draw-skip': () => { SFX.click(); drawDone(); },
@@ -5673,7 +5780,7 @@ const ACT = {
 };
 const INP = {
   'comp-name': (el) => { S.setup.name = el.value; },
-  'cls-name': (el) => { const i = +el.dataset.i, c = S.setup.classes[i]; if (!c) return; c.name = el.value.slice(0, CNAME_MAX); const ch = el.closest('.roster') && el.closest('.roster').querySelector('.ro-chip'); if (ch) ch.textContent = c.name || '—'; },
+  'cls-name': (el) => { const i = +el.dataset.i, c = S.setup.classes[i]; if (!c) return; c.name = el.value.slice(0, CNAME_MAX); const ch = el.closest('.roster') && el.closest('.roster').querySelector('.ro-chip'); if (ch) ch.textContent = c.name || '—'; const f = $('.ro-fill'), h = fillBar(); if (f) f.outerHTML = h; else if (h) { const r = $('.st-rosters .rosters'); if (r) r.insertAdjacentHTML('beforebegin', h); } },
   roster: (el) => { const i = +el.dataset.i, c = S.setup.classes[i]; if (!c) return; c.text = el.value; const names = new Set(rosterNames(c.text).names); c.absent = c.absent.filter((n) => names.has(n)); clearTimeout(INP._rt); INP._rt = setTimeout(() => refreshSetupBits(i), 150); },
   'bank-q': (el) => { S.bankQ = el.value; clearTimeout(INP._bt); INP._bt = setTimeout(bankFilter, 120); },
 };
@@ -5721,6 +5828,7 @@ document.addEventListener('keydown', (e) => {
   const shortcut = (x) => lk === x && (!sbLiveKeys || e.shiftKey); // during «رتّب الحروف» the teacher keys need Shift
   if (top) {
     if (top === 'pause') { if (k === 'Escape' || (enter && !onBtn)) { e.preventDefault(); resumeGame(); } else if (lk === 'm') setMuted(!PREFS.muted); else if (lk === 'f' && FS_OK) toggleFS(); return; }
+    if (top === 'lpause') { if (k === 'Escape' || (enter && !onBtn)) { e.preventDefault(); ladResume(); } else if (lk === 'm') setMuted(!PREFS.muted); return; }
     if (top === 'toss') { if (enter && !onBtn) { const b = $('#layer [data-name="toss"] #btn-next'); if (b && !b.disabled) { e.preventDefault(); b.click(); } } return; }
     if (enter && !onBtn) { const b = $('#btn-next'); if (b) { e.preventDefault(); b.click(); } return; }
     if (lk === 'p' && top === 'res') { sayCurrent(); return; }
@@ -5742,6 +5850,7 @@ document.addEventListener('keydown', (e) => {
     if (shortcut('p')) { sayCurrent(); return; }
   }
   if (S.view === 'ladder') {
+    if (k === 'Escape' && ladLive()) { e.preventDefault(); ladPause(); return; }
     if (/^[1-9]$/.test(dk)) { const b = $$('#opts .opt')[+dk - 1]; if (b && !b.disabled) { e.preventDefault(); b.click(); } return; }
     if (enter && !onBtn) { const b = $('#btn-next'); if (b) { e.preventDefault(); b.click(); return; } }
   }
@@ -5769,11 +5878,12 @@ window.addEventListener('storage', (e) => {
   }
   if (!T || (e.key !== tKey() && e.key !== null) || STORE.conflict) return;
   if (S.view === 'match' && S.matchId !== 'demo') { staleTab(); return; }
+  if (S.view === 'ladder' && ladCur(runOf(S.run))) { staleTab(); return; } // a student is climbing here
   T = loadT(T.id); LOAD_WARN = ''; S.drawAnim = false;
   if (MODAL.open) return;
-  if (['hub', 'home', 'draw', 'intro', 'result'].includes(S.view)) { const y = window.scrollY; go(T ? (S.view === 'intro' && !(curMatch() && !curMatch().seq) ? 'hub' : S.view) : 'home'); window.scrollTo(0, y); }
+  if (['hub', 'home', 'draw', 'intro', 'result', 'game', 'ladder', 'ceremony', 'cert'].includes(S.view)) { const y = window.scrollY; go(T ? (S.view === 'intro' && !(curMatch() && !curMatch().seq) ? 'hub' : S.view) : 'home'); window.scrollTo(0, y); }
 });
-document.addEventListener('visibilitychange', () => { if (document.hidden && Q && !Q.answered && !Q.paused && !topLayer()) pauseGame(); });
+document.addEventListener('visibilitychange', () => { if (document.hidden && Q && !Q.answered && !Q.paused && !topLayer()) pauseGame(); if (document.hidden && ladLive() && !MODAL.open) ladPause(); });
 let RESIZE_T = 0;
 window.addEventListener('resize', () => { clearTimeout(RESIZE_T); RESIZE_T = setTimeout(() => { drawSky(); $$('#layer > .ovl').forEach(placeLayer); if (Q) fitQuestion(); if (Q && Q.m5) { m5Measure(); m5Draw(); } fitToolSave(); if (S.view === 'ceremony') fitPod(); }, 150); });
 /* the web fonts arrive after the first paint (fallback stacks meanwhile): the two text fits are measured again */
