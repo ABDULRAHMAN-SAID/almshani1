@@ -1542,7 +1542,8 @@ function medalSVG(place) {
 const MEM = {}, UNSAVED = new Set(); /* UNSAVED: keys whose latest value is only in memory (storage full / blocked) */
 function sGet(k) { if (UNSAVED.has(k)) return MEM[k]; try { const v = window.localStorage.getItem(k); if (v !== null) return v; } catch (e) { /* storage unavailable */ } return Object.prototype.hasOwnProperty.call(MEM, k) ? MEM[k] : null; }
 function sSet(k, v) { MEM[k] = v; try { window.localStorage.setItem(k, v); UNSAVED.delete(k); return true; } catch (e) { UNSAVED.add(k); return false; } }
-function sDel(k) { delete MEM[k]; UNSAVED.delete(k); try { window.localStorage.removeItem(k); } catch (e) { /* ignore */ } }
+const DBG = []; function dbg(m) { DBG.push(Math.round(performance.now()) + ' ' + m); if (DBG.length > 120) DBG.shift(); }
+function sDel(k) { if (/\.c\./.test(k)) dbg('del ' + k.split('.').pop() + ' < ' + String(new Error().stack).split('\n').slice(2, 5).map((x) => x.trim().split(' ')[1]).join(' < ')); delete MEM[k]; UNSAVED.delete(k); try { window.localStorage.removeItem(k); } catch (e) { /* ignore */ } }
 function jGet(k) { const raw = sGet(k); if (raw == null) return { ok: true, val: null }; try { return { ok: true, val: JSON.parse(raw) }; } catch (e) { return { ok: false, val: null }; } }
 
 const PREFS = Object.assign({ muted: false, setups: {} }, (() => { const r = jGet(KEYS.p); return r.ok && r.val && typeof r.val === 'object' && !Array.isArray(r.val) ? r.val : {}; })());
@@ -1992,7 +1993,7 @@ function mergeCloud(list) {
       return;
     }
     if (!dirty && b == null && lr === (c.rev || 0)) { IDX.base[c.id] = c.rev; IDX.bwork[c.id] = workOf(mine); if (!l) upsertSum(sumOf(mine)); return; } // the same version
-    replacedHere(c.id, remoteSum(c), dirty ? mine : null); // another device saved a version this copy does not continue from
+    replacedHere(c.id, remoteSum(c), mine); // another device saved a version this copy does not continue from (answers only here are kept as a copy)
   });
   IDX.comps.slice().forEach((l) => {
     if (seen.has(l.id)) return;
@@ -2017,7 +2018,7 @@ function changedElsewhere(id, h) { replacedHere(id, remoteSum(Object.assign({ id
 /* the competition was deleted in the account from another device */
 function deletedElsewhere(id) {
   const mine = T && T.id === id ? T : peekT(id);
-  const forked = mine && IDX.dirty.includes(id) && workOf(mine) > (IDX.bwork[id] || 0) ? forkComp(mine) : null;
+  const forked = mine && workOf(mine) > (IDX.bwork[id] || 0) ? forkComp(mine) : null; // answers not in the account are never dropped
   IDX.comps = IDX.comps.filter((c) => c.id !== id); IDX.dirty = IDX.dirty.filter((x) => x !== id);
   delete IDX.base[id]; delete IDX.bwork[id]; delete IDX.cplace[id]; sDel(ck(id));
   if (IDX.last === id) IDX.last = ''; if (IDX.place && IDX.place.cid === id) IDX.place = null;
@@ -4951,6 +4952,7 @@ window.VCL = {
   fastTimers(f) { TM.speed = f > 0 ? f : 1; return TM.speed; },
   test: {
     netMs(ms) { NET_MS = ms; },
+    dbg: () => DBG.slice(),
     expireToken() { if (ACC) { ACC.exp = 0; ACC.idToken = ''; } },
     gen(type) {
       const all = allEntries(), el = all.filter((e) => eligible(type, e));
