@@ -1331,8 +1331,23 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 .game-card.on{ border:2px solid var(--green); background:var(--green-t); padding:15.5px 17.5px }
 .gc-on{ position:absolute; top:10px; inset-inline-end:10px; display:grid; place-items:center; width:28px; height:28px; border-radius:50%; background:var(--green); color:#fff }
 .gc-on .ic{ width:16px; height:16px }
-.cls-count{ display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:16px }
-.cls-count .seg-b{ min-width:48px; font-size:1.1rem; font-weight:700 }
+/* «إضافة شعبة» after the class cards; «حذف الشعبة» on each card */
+.ro-h{ grid-template-columns:auto minmax(0,1fr) auto }
+.ro-h .icon-btn.ro-del{ grid-row:1; grid-column:3; align-self:end; width:auto; height:44px; padding:0 12px; gap:6px; display:inline-flex; align-items:center; font-size:15px; font-weight:600; color:#a3342e; border-color:#f0d3d0; background:#fff }
+.ro-h .icon-btn.ro-del:not([disabled]):hover{ background:#fdecea; color:var(--bad); border-color:#f3c5c1 }
+.ro-h .icon-btn.ro-del[disabled]{ color:var(--muted); border-color:var(--line) }
+@media (max-width:520px){ .ro-h{ grid-template-columns:auto minmax(0,1fr) } .ro-h .icon-btn.ro-del{ grid-row:2; grid-column:2; justify-self:end; height:38px; align-self:center } .ro-h .ro-n{ grid-row:2; grid-column:1 } }
+.cls-add{ display:flex; flex-direction:column; gap:12px; margin-top:14px }
+.cls-add-b{ display:flex; align-items:center; justify-content:center; gap:10px; min-height:64px; width:100%; border:2px dashed #b9cfc3; border-radius:var(--r); background:var(--green-t); color:var(--green); font-size:1.15rem; font-weight:700; transition:background-color .15s, border-color .15s }
+.cls-add-b:hover{ background:#dcece3; border-color:var(--green) }
+.cls-add-b .ic{ width:24px; height:24px }
+.cls-add-b small{ font-size:15px; font-weight:500; color:var(--silver) }
+.cls-saved{ display:flex; flex-wrap:wrap; align-items:center; gap:8px }
+.chip-btn{ display:inline-flex; align-items:center; gap:6px; min-height:40px; padding:4px 14px 4px 10px; border-radius:99px; border:1.5px solid color-mix(in srgb, var(--cc) 40%, #fff); background:color-mix(in srgb, var(--cc) 8%, #fff); color:var(--ink); font-weight:600; font-size:15px }
+.chip-btn:hover{ border-color:var(--cc) }
+.chip-btn .ic{ width:16px; height:16px; color:var(--cc) }
+.chip-btn small{ color:var(--silver); font-weight:400 }
+.cnt-b{ display:inline-block; padding:2px 10px; border-radius:99px; background:var(--green-t); color:var(--green); font-size:15px; font-weight:700 }
 .ro-colors{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px }
 .ro-colors .sw{ width:30px; height:30px; border-radius:50%; border:3px solid #fff; background:var(--sw); box-shadow:0 0 0 1px var(--line); padding:0 }
 .ro-colors .sw.on{ box-shadow:0 0 0 2px var(--ink) }
@@ -1548,7 +1563,7 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
   .sb-chips.many::-webkit-scrollbar{ display:none }
   .sb-chips.many .chip{ flex:0 0 auto; min-width:calc((100% - 12px) / 3); height:42px }
   .v-match .qp-body{ overflow-y:auto }
-  .cls-count .seg-b{ min-width:40px; padding-inline:8px }
+  .cls-add-b{ min-height:56px }
   .gm-pod .pod-list li b{ white-space:normal; overflow-wrap:anywhere }
 }
 .v-champ:has(.cer-tabs) .cer{ gap:6px } .v-champ:has(.cer-tabs) .champ-title{ margin-bottom:0 }
@@ -1668,7 +1683,7 @@ const SCHOOL = 'مدرسة حطين للبنين';
 const TEACHER = 'أ. محمد بن سعيد المعشني';
 const DEF_NAME = 'الوحدة الأولى: New Media';
 const UNIT2_LINE = 'موعدنا مع مسابقة جديدة مماثلة قرب نهاية الوحدة الثانية';
-const PALETTE = ['#e63946', '#1d6fe0', '#10a36b', '#f4a300', '#8a4dff', '#00b3b3', '#ff6f3c', '#e5e7eb', '#a86a00', '#0b8585']; // the last two: class colours 4 and 6 (darker, for white text)
+const PALETTE = ['#e63946', '#1d6fe0', '#10a36b', '#f4a300', '#8a4dff', '#00b3b3', '#ff6f3c', '#e5e7eb', '#a86a00', '#0b8585', '#c2410c', '#be185d', '#4d7c0f', '#475569']; // then the class colours 4, 6 and 7–10 (white text readable)
 const LINK_COLORS = ['#7cc4ff', '#f2c14e', '#c08bff', '#3fe0d0', '#ff9f5a'];
 const MONTHS_AR = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
 const POS_AR = { n: 'اسم', v: 'فعل', adj: 'صفة', adv: 'ظرف', phr: 'فعل مركّب', '': '—' };
@@ -1690,7 +1705,7 @@ const GAMES = {
 };
 const GAME_IDS = ['league', 'teams', 'ladder', 'race'];
 const gameOf = (t) => (t && GAMES[t.game] ? t.game : 'league');
-const CLASS_MAX = 6, CLASS_COLORS = ['#e63946', '#1d6fe0', '#10a36b', '#a86a00', '#8a4dff', '#0b8585']; // white text stays readable on each
+const CLASS_MAX = 10, CLASS_COLORS = ['#e63946', '#1d6fe0', '#10a36b', '#a86a00', '#8a4dff', '#0b8585', '#c2410c', '#be185d', '#4d7c0f', '#475569']; // white text stays readable on each
 /* the teams of «تحدي الفرق» when they are drawn from the students */
 const TEAM_NAMES = ['الفريق الأحمر', 'الفريق الأزرق', 'الفريق الأخضر', 'الفريق الذهبي'], TEAM_COLORS = ['#e63946', '#1d6fe0', '#10a36b', '#a86a00'];
 /* «من سيربح المفردات»: 10 steps of rising level, two safe steps (a wrong answer falls back to the last one passed) */
@@ -1975,7 +1990,7 @@ function validMatch(m, sids, cids, tids) {
 function validT(t) {
   if (!(t && typeof t === 'object' && t.v === SCHEMA && Array.isArray(t.classes) && Array.isArray(t.matches))) return false;
   if ((t.id != null && !(typeof t.id === 'string' && ID_RE.test(t.id))) || (t.name != null && !isStr(t.name, 120))) return false;
-  if (t.classes.length < 1 || t.classes.length > 6) return false;
+  if (t.classes.length < 1 || t.classes.length > CLASS_MAX) return false;
   const cids = new Set(), sids = new Set();
   for (const c of t.classes) {
     if (!c || typeof c.id !== 'string' || !ID_RE.test(c.id) || cids.has(c.id) || !isStr(c.name, 40)) return false;
@@ -1995,10 +2010,10 @@ function validT(t) {
   if (t.game != null && !GAME_IDS.includes(t.game)) return false;
   const tids = new Set();
   if (t.squads != null) { // «تحدي الفرق»: the teams and their students
-    if (!Array.isArray(t.squads) || t.squads.length < 2 || t.squads.length > 6) return false;
+    if (!Array.isArray(t.squads) || t.squads.length < 2 || t.squads.length > CLASS_MAX) return false;
     const inTeam = new Set();
     for (const q of t.squads) {
-      if (!q || typeof q.id !== 'string' || !/^t[1-6]$/.test(q.id) || tids.has(q.id) || !isStr(q.name, 40) || !Array.isArray(q.members) || q.members.length < 1 || q.members.length > 96) return false;
+      if (!q || typeof q.id !== 'string' || !/^t([1-9]|10)$/.test(q.id) || tids.has(q.id) || !isStr(q.name, 40) || !Array.isArray(q.members) || q.members.length < 1 || q.members.length > 96) return false;
       if (!q.members.every((x) => sids.has(x) && !inTeam.has(x) && inTeam.add(x))) return false;
       tids.add(q.id);
     }
@@ -3945,7 +3960,7 @@ VIEWS.classes = () => {
   if (!S.setup) S.setup = defaultSetup();
   return `${topbar('الشعب والطلاب')}<section class="v-setup v-classes page">
 <p class="page-lead">${icon('users')}<span>هذه قوائم شعبك في حسابك. كل مسابقة جديدة تبدأ منها، ويمكنك تعديلها لأي مسابقة قبل القرعة.</span></p>
-<section class="panel st-rosters">${classCountHTML(S.setup)}${fillBar()}<div class="rosters n${S.setup.classes.length}">${S.setup.classes.map(rosterCard).join('')}</div></section>
+<section class="panel st-rosters">${fillBar()}<div class="rosters n${S.setup.classes.length}">${S.setup.classes.map(rosterCard).join('')}</div>${classAddHTML(S.setup)}</section>
 <div class="setup-foot"><button class="btn btn-gold btn-xl" data-act="save-classes" id="btn-save-classes">${icon('check')}<span>حفظ في حسابي</span></button></div>
 </section>`;
 };
@@ -4059,7 +4074,7 @@ function rosterCard(c, i) {
   const taken = new Set(S.setup.classes.filter((x, j) => j !== i).map((x) => x.color));
   const colors = `<div class="ro-colors" role="radiogroup" aria-label="لون الشعبة ${esc(cn(c.name))}">${CLASS_COLORS.map((col) => `<button class="sw${c.color === col ? ' on' : ''}" style="--sw:${col}" role="radio" aria-checked="${c.color === col}" data-act="cls-color" data-i="${i}" data-c="${col}" aria-label="${taken.has(col) ? 'لون شعبة أخرى — يتبادلان' : 'لون'}"${taken.has(col) ? ' title="لون شعبة أخرى — يتبادل اللونان"' : ''}></button>`).join('')}</div>`;
   return `<article class="roster" style="--cc:${c.color}">
-  <header class="ro-h"><span class="ro-chip" dir="auto">${esc(c.name || '—')}</span><label class="fld ro-name"><span>اسم الشعبة</span><input type="text" data-in="cls-name" data-i="${i}" value="${esc(c.name)}" maxlength="${CNAME_MAX}" autocomplete="off" dir="auto"></label><span class="ro-n" id="ro-n-${i}">${rosterCount(c)}</span></header>
+  <header class="ro-h"><span class="ro-chip" dir="auto">${esc(c.name || '—')}</span><label class="fld ro-name"><span>اسم الشعبة</span><input type="text" data-in="cls-name" data-i="${i}" value="${esc(c.name)}" maxlength="${CNAME_MAX}" autocomplete="off" dir="auto"></label><span class="ro-n" id="ro-n-${i}">${rosterCount(c)}</span><button type="button" class="icon-btn sm ro-del" data-act="cls-del" data-i="${i}"${S.setup.classes.length < 2 ? ' disabled' : ''} aria-label="حذف الشعبة ${esc(c.name)}" title="${S.setup.classes.length < 2 ? 'تبقى شعبة واحدة على الأقل' : 'حذف الشعبة'}">${icon('trash')}<span>حذف</span></button></header>
   <div class="ro-att"><span class="field-h">الحضور: اضغط على اسم الطالب الغائب — القرعة بين الحاضرين فقط</span><div class="att-list" id="ro-att-${i}">${attChips(c, i)}</div></div>
   <details class="ro-edit"${(S.setup.open && S.setup.open[i]) || !String(c.text || '').trim() ? ' open' : ''} data-i="${i}"><summary>${icon('spell')}<span>تعديل قائمة الطلاب</span><small>اسم في كل سطر</small>${icon('chev', 'chev')}</summary><textarea data-in="roster" data-i="${i}" rows="9" dir="auto" spellcheck="false" autocomplete="off" aria-label="أسماء طلاب الشعبة ${esc(cn(c.name))} — اسم في كل سطر">${esc(c.text)}</textarea></details>
   <p class="ro-plan" id="ro-plan-${i}">${rosterPlan(c)}</p>${colors}
@@ -4093,8 +4108,10 @@ function gameCards(s) {
     return `<button class="game-card${on ? ' on' : ''}" role="radio" aria-checked="${on}" data-act="setup-game" data-v="${g}"><span class="gc-ic ${G.tint}">${icon(G.icon)}</span><b>${G.ar}</b><small>${G.desc}</small>${on ? `<span class="gc-on">${icon('check')}</span>` : ''}</button>`; }).join('')}</div>`;
 }
 /* step 3: how many classes (each with its own name, colour and students) */
-function classCountHTML(s) {
-  return `<div class="cls-count"><span class="field-l" id="cc-l">عدد الشعب</span><div class="seg" role="radiogroup" aria-labelledby="cc-l">${Array.from({ length: CLASS_MAX }, (_, i) => i + 1).map((n) => `<button class="seg-b${s.classes.length === n ? ' on' : ''}" role="radio" aria-checked="${s.classes.length === n}" data-act="cls-count" data-n="${n}">${n}</button>`).join('')}</div></div>`;
+function classAddHTML(s) {
+  const n = s.classes.length, saved = (s.spare || []).filter((x) => String(x.text || '').trim() && !s.classes.some((c) => cleanName(c.name) === cleanName(x.name)));
+  if (n >= CLASS_MAX) return `<div class="cls-add full"><p class="muted">${icon('check')} ${num(CLASS_MAX)} شعب — الحد الأعلى.</p></div>`;
+  return `<div class="cls-add"><button type="button" class="cls-add-b" data-act="cls-add" id="btn-cls-add">${icon('plus')}<span>إضافة شعبة</span><small>${num(n)} من ${num(CLASS_MAX)}</small></button>${saved.length ? `<div class="cls-saved"><span class="field-h">أو أعد شعبة من قوائمك المحفوظة:</span>${saved.map((x) => `<button type="button" class="chip-btn" data-act="cls-add" data-name="${esc(x.name)}" style="--cc:${safeColor(x.color)}">${icon('plus')}<bdi dir="auto">${esc(x.name)}</bdi><small>${studentsAr(rosterNames(x.text).names.length)}</small></button>`).join('')}</div>` : ''}</div>`;
 }
 /* step 4: the options of the chosen game */
 function gameOptsHTML(s) {
@@ -4117,7 +4134,7 @@ VIEWS.setup = () => {
   return `${topbar('مسابقة جديدة')}<section class="v-setup page">
 <section class="panel st-game"><h2><span class="step-n">1</span> اختر اللعبة</h2>${gameCards(s)}</section>
 <section class="panel st-name"><h2><span class="step-n">2</span> اسم المسابقة ومعلموها</h2><label class="fld"><span>اسم المسابقة (يظهر في لوحة المعلم وعلى الشهادات)</span><input type="text" data-in="comp-name" value="${esc(s.name)}" maxlength="80" autocomplete="off" dir="auto"></label><div class="fld tch"><span>معلمو المسابقة <small>(تظهر أسماؤهم كلها على الشهادات — أضف زملاءك المشاركين)</small></span><div id="tch-box">${tchBox(s.teachers || (s.teachers = []))}</div></div><p class="unit-line">${icon('book')}<span>الوحدة: <b>الوحدة الأولى: <span dir="ltr" lang="en">New Media</span></b> · ${num(tPool().length)} كلمة وعبارة</span></p></section>
-<section class="panel st-rosters"><h2><span class="step-n">3</span> الشعب والطلاب <small>(من ${ROSTER_MIN} إلى ${ROSTER_MAX} طالبًا في كل شعبة)</small></h2>${classCountHTML(s)}${fillBar()}<div class="rosters n${S.setup.classes.length}">${s.classes.map(rosterCard).join('')}</div></section>
+<section class="panel st-rosters"><h2><span class="step-n">3</span> الشعب والطلاب <span class="cnt-b">${clsCount(s.classes.length)}</span> <small>(من ${ROSTER_MIN} إلى ${ROSTER_MAX} طالبًا في كل شعبة)</small></h2>${fillBar()}<div class="rosters n${S.setup.classes.length}">${s.classes.map(rosterCard).join('')}</div>${classAddHTML(s)}</section>
 <section class="panel st-rules"><h2><span class="step-n">4</span> خيارات ${G.ar}</h2><div id="rules">${gameOptsHTML(s)}</div></section>
 <div class="setup-foot"><p class="setup-err" id="setup-err" role="alert"></p><button class="btn btn-gold btn-xl" data-act="create">${icon(s.game === 'league' ? 'shuffle' : G.icon)}<span>${G.go}</span></button></div>
 </section>`;
@@ -4928,7 +4945,7 @@ VIEWS.help = () => {
   return `${topbar('طريقة اللعب')}<section class="v-help page">
 <div class="help-grid">
 <article class="panel wide help-games"><h2>${icon('sparkle')} أربع ألعاب — تختارها عند «مسابقة جديدة»</h2><div class="hg">${GAME_IDS.map((g) => `<div class="hg-i"><span class="gc-ic t-${GAMES[g].tint}">${icon(GAMES[g].icon)}</span><p><b>${esc(GAMES[g].ar)}</b>${esc(GAMES[g].desc)}</p></div>`).join('')}</div>
-<p class="muted">في كل لعبة: تحدد عدد الشعب (من 1 إلى ${num(CLASS_MAX)}) وأسماءها وأسماء طلابها، والأسئلة من كلمات الوحدة فقط، والتعادل المؤثر في المباريات يُحسم بسؤال حاسم (وفي «من سيربح المفردات» يتشارك المتساوون المركز نفسه)، وللفائزين حفل تتويج وشهادات.</p></article>
+<p class="muted">في كل لعبة: تضيف الشعب التي تريدها بزر «إضافة شعبة» (حتى ${num(CLASS_MAX)} شعب) وتحذف ما لا تحتاجه، وتكتب أسماءها وأسماء طلابها، والأسئلة من كلمات الوحدة فقط، والتعادل المؤثر في المباريات يُحسم بسؤال حاسم (وفي «من سيربح المفردات» يتشارك المتساوون المركز نفسه)، وللفائزين حفل تتويج وشهادات.</p></article>
 <article class="panel wide help-path"><h2>${icon('road')} دوري الأبطال: من القرعة إلى النهائي الكبير</h2><ol class="hp">
 <li><b>${icon('shuffle')} القرعة</b><p>كل مسابقة جديدة تبدأ بـ<b>قرعة واحدة لكل الشعب</b> (الشعبة الأولى ثم الثانية ثم …): تُسحب الأسماء واحدًا واحدًا إلى <b>المجموعة (أ)</b> و<b>المجموعة (ب)</b>، ثم تظهر لوحة القرعة: من مع من، وترتيب اللعب.</p></li>
 <li><b>${icon('users')} دور المجموعات</b><p>كل مجموعة (4 طلاب) تلعب مباراة واحدة، ويتأهل <b>أول طالبين</b>. يمكن تبديل طالبين بين المجموعتين قبل أول مباراة للشعبة.</p></li>
@@ -5672,23 +5689,28 @@ const ACT = {
   absent: (el) => { const s = S.setup, c = s.classes[+el.dataset.i], n = el.dataset.n; if (!c) return; c.absent = c.absent.includes(n) ? c.absent.filter((x) => x !== n) : c.absent.concat(n); SFX.click(); refreshSetupBits(+el.dataset.i); },
   /* «مسابقة جديدة»: the game, the number of classes, a class colour, an option of the game */
   'setup-game': (el) => { const s = S.setup; if (!s || !GAMES[el.dataset.v]) return; s.game = el.dataset.v; SFX.click(); const y = window.scrollY; go('setup', 'replace'); window.scrollTo(0, y); },
-  'cls-count': (el) => {
-    const s = S.setup, n = Math.max(1, Math.min(CLASS_MAX, +el.dataset.n || 1)); if (!s || n === s.classes.length) return;
+  'cls-add': (el) => {
+    const s = S.setup; if (!s || s.classes.length >= CLASS_MAX) return;
     s.spare = s.spare || [];
-    const lists = S.view === 'classes', kept = s.classes.slice(n).filter((c) => String(c.text || '').trim());
+    const want = el.dataset.name, k = want ? s.spare.findIndex((x) => cleanName(x.name) === cleanName(want)) : -1, used = new Set(s.classes.map((c) => c.color));
+    const c = k >= 0 ? s.spare.splice(k, 1)[0] : { name: defClassName(s.classes.length, s.classes.concat(s.spare)), color: '', text: '', absent: [] };
+    if (!c.color || used.has(c.color)) c.color = CLASS_COLORS.find((x) => !used.has(x)) || CLASS_COLORS[s.classes.length % CLASS_MAX];
+    s.classes.push(c); if (s.open) s.open = {};
+    SFX.click(); go(S.view, 'replace');
+    const card = $$('.rosters .roster')[s.classes.length - 1];
+    if (card) { card.scrollIntoView({ block: 'center', behavior: reduced() ? 'auto' : 'smooth' }); const f = k >= 0 ? null : $('input[data-in="cls-name"]', card); if (f) { f.focus({ preventScroll: true }); f.select(); } }
+    toast(k >= 0 ? `أُعيدت الشعبة «${c.name}» بطلابها` : `أُضيفت الشعبة «${c.name}» — غيّر اسمها واكتب أسماء طلابها`, 'good');
+  },
+  'cls-del': (el) => {
+    const s = S.setup, i = +el.dataset.i, c = s && s.classes[i]; if (!c || s.classes.length < 2) return;
+    const lists = S.view === 'classes', has = !!String(c.text || '').trim(), n = rosterNames(c.text).names.length;
     const apply = () => {
-      if (n < s.classes.length) { if (!lists) s.spare = kept.concat(s.spare); s.classes.length = n; } // «الشعب والطلاب»: removed from the account when saved
-      while (s.classes.length < n) {
-        const k = s.spare.findIndex((x) => !s.classes.some((c) => cleanName(c.name) === cleanName(x.name))), used = new Set(s.classes.map((c) => c.color));
-        const c = k >= 0 ? s.spare.splice(k, 1)[0] : { name: defClassName(s.classes.length, s.classes), color: '', text: '', absent: [] };
-        if (!c.color || used.has(c.color)) c.color = CLASS_COLORS.find((x) => !used.has(x)) || CLASS_COLORS[s.classes.length % CLASS_MAX];
-        s.classes.push(c);
-      }
-      if (s.open) s.open = {};
+      s.classes.splice(i, 1); if (s.open) s.open = {};
+      if (has && !lists) s.spare = [c].concat((s.spare || []).filter((x) => cleanName(x.name) !== cleanName(c.name))); // kept in the account: «إضافة شعبة» brings it back
       SFX.click(); const y = window.scrollY; go(S.view, 'replace'); window.scrollTo(0, y);
-      if (kept.length && !lists) toast(`${kept.length === 1 ? 'قائمة الشعبة' : 'قوائم الشعب'} ${kept.map((c) => `«${c.name}»`).join('، ')} تبقى محفوظة في حسابك وتعود إذا زدت عدد الشعب`, 'good');
+      toast(lists ? `حُذفت الشعبة «${c.name}» — اضغط «حفظ في حسابي» لتثبيت الحذف` : has ? `حُذفت الشعبة «${c.name}» من هذه المسابقة — قائمتها باقية في حسابك وتعود من «إضافة شعبة»` : `حُذفت الشعبة «${c.name}»`, 'good');
     };
-    if (lists && kept.length && n < s.classes.length) confirmModal(`ستُحذف ${kept.length === 1 ? 'قائمة الشعبة' : 'قوائم الشعب'} ${kept.map((c) => `«${esc(c.name)}»`).join('، ')} من حسابك عند الحفظ. متابعة؟`, 'حذف', apply, 'btn-danger'); else apply();
+    if (lists && has) confirmModal(`حذف الشعبة «${esc(c.name)}» وقائمة طلابها (${studentsAr(n)}) من حسابك؟ يُثبَّت الحذف عند الضغط على «حفظ في حسابي».`, 'حذف الشعبة', apply, 'btn-danger'); else apply();
   },
   'cls-color': (el) => { const s = S.setup, c = s && s.classes[+el.dataset.i]; if (!c || !CLASS_COLORS.includes(el.dataset.c)) return; const o = s.classes.find((x) => x !== c && x.color === el.dataset.c); if (o) o.color = c.color; c.color = el.dataset.c; SFX.click(); const y = window.scrollY; go(S.view, 'replace'); window.scrollTo(0, y); },
   'game-opt': (el) => {
