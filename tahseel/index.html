@@ -1532,7 +1532,8 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
   .v-lad .qp.lad-qp{ min-height:0 }
   .ll small{ display:none }
   /* a class race on a phone: one row of compact chips (the student on turn is scrolled into view) — the question keeps its room */
-  .sb-chips.many{ display:flex; overflow-x:auto; scrollbar-width:none; gap:6px }
+  .sb-chips.many{ display:flex; overflow-x:auto; scrollbar-width:none; gap:6px; min-width:0; width:100% }
+  .v-match .sb-wrap, .v-match .sb{ min-width:0; max-width:100% }
   .sb-chips.many::-webkit-scrollbar{ display:none }
   .sb-chips.many .chip{ flex:0 0 calc((100% - 12px) / 3); height:42px }
   .v-match .qp-body{ overflow-y:auto }
