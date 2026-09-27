@@ -77,7 +77,7 @@ bdi{ unicode-bidi:isolate }
 /* ============ buttons ============ */
 .btn{ display:inline-flex; align-items:center; justify-content:center; gap:.55em; min-height:48px; padding:.55em 1.2em; border-radius:14px; border:1px solid var(--line); background:var(--glass-2); color:var(--white); font-weight:600; font-size:1rem; line-height:1.2; text-decoration:none; transition: transform .15s var(--ease), background-color .2s, border-color .2s, box-shadow .2s, opacity .2s; white-space:nowrap }
 .btn:hover{ background:var(--navy-2); border-color:rgba(124,196,255,.45) }
-.btn:active{ transform:translateY(1px) scale(.99) }
+.btn:active{ transform:translateY(1px) }
 .btn[disabled]{ opacity:.42; cursor:not-allowed; transform:none; box-shadow:none }
 .btn .ic{ width:1.2em; height:1.2em }
 .btn small{ display:block; font-weight:400; font-size:max(15px,.8em); opacity:.85; margin-top:2px }
@@ -108,21 +108,64 @@ bdi{ unicode-bidi:isolate }
 .panel h2 small, .panel h3 small{ font-weight:400; color:var(--muted); font-size:.95rem }
 .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center }
 .bar{ height:8px; border-radius:99px; background:rgba(201,211,232,.14); overflow:hidden; flex:1 }
-.bar > i{ display:block; height:100%; border-radius:inherit; background:var(--flood); transition:width .8s var(--ease) }
+.bar > i{ display:block; height:100%; border-radius:inherit; background:var(--flood) }
 .bar.big{ height:12px; max-width:420px; margin:14px auto 8px; width:100% }
 .lv{ display:inline-flex; gap:3px; vertical-align:middle }
 .lv i{ width:7px; height:7px; border-radius:50%; background:rgba(201,211,232,.25) }
 .lv i.on{ background:var(--gold) }
 
-/* topbar */
-.topbar{ display:flex; align-items:center; gap:16px; padding:16px 0 14px; margin-bottom:20px; border-bottom:1px solid var(--line); flex-wrap:wrap }
-.brand{ display:flex; align-items:center; gap:10px; background:none; border:0; padding:4px 2px; border-radius:12px; text-align:start }
+/* topbar — the same on every screen but the home and the match: «رجوع» first (top start = the right side in RTL, same place
+   and style everywhere), the school logo, the user (with the autosave state), the title, the screen's own actions */
+.view.has-tb{ display:flex; flex-direction:column }
+.view.has-tb > section{ flex:1 0 auto; width:100% }
+.tb-wrap{ width:100%; max-width:1320px; margin:0 auto; padding:0 var(--gutter) }
+.topbar{ display:flex; align-items:flex-start; gap:12px 14px; padding:10px 0; margin-bottom:16px; border-bottom:1px solid var(--line); flex-wrap:wrap }
+.view-hub .topbar, .view-draw .topbar, .view-cert .topbar{ margin-bottom:12px }
+.tb-back{ flex:none; margin-top:3px } /* the items keep their top: a long title never moves «رجوع» */
+.brand{ display:flex; align-items:center; gap:10px; background:none; border:0; padding:0 2px; border-radius:12px; text-align:start; flex:none }
 .seal-mini{ height:50px; width:auto; flex:none; filter:drop-shadow(0 4px 14px rgba(242,193,78,.22)) }
-.intro-brand .seal-mini{ height:40px }
 .brand-t b{ display:block; font-family:var(--f-disp); font-weight:600; font-size:1.08rem; line-height:1.2 }
 .brand-t small{ display:block; font-family:var(--f-disp); font-weight:600; font-size:.95rem; color:var(--gold); line-height:1.3 }
-.tb-title{ flex:1; font-family:var(--f-disp); font-weight:600; font-size:clamp(1.3rem,2vw,1.7rem); text-align:center; min-width:160px }
-.tb-act{ display:flex; gap:8px; flex-wrap:wrap; align-items:center }
+.tb-title{ flex:1 1 160px; align-self:center; font-family:var(--f-disp); font-weight:600; font-size:clamp(1.3rem,2vw,1.7rem); text-align:center; min-width:0 }
+.tb-title:empty{ display:none }
+.tb-act{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-inline-start:auto; margin-top:3px }
+/* the user: gold initials, name and «✓ محفوظ · 10:42»; a small menu (switch / add a user, backup) */
+.um{ position:relative; flex:none; margin-top:1px }
+.um-btn{ position:relative; display:inline-flex; align-items:center; gap:10px; min-height:48px; padding:4px 14px 4px 6px; border-radius:99px; border:1px solid var(--line); background:rgba(255,255,255,.045); color:var(--white); text-align:start; transition:background-color .2s, border-color .2s }
+.um-btn:hover, .um-btn[aria-expanded="true"]{ background:rgba(255,255,255,.09); border-color:rgba(242,193,78,.55) }
+.av.uav{ direction:rtl; background:var(--gold); color:#241500; text-shadow:none; box-shadow:0 0 0 2px rgba(242,193,78,.4); font-family:var(--f-ui); font-size:15px; letter-spacing:0 }
+.av.uav.lg{ font-size:19px }
+.um-t{ display:flex; flex-direction:column; min-width:0; line-height:1.25 }
+.um-t b{ font-size:15px; font-weight:600; white-space:nowrap; max-width:230px; overflow:hidden; text-overflow:ellipsis }
+.um-s{ display:inline-flex; align-items:center; gap:5px; font-size:15px; font-weight:500; color:var(--good); white-space:nowrap }
+.um-s .ic{ width:15px; height:15px }
+.um-s.bad{ color:var(--warn) }
+.um-s .nw{ white-space:nowrap }
+.um-dot{ display:none; position:absolute; bottom:1px; inset-inline-end:1px; width:14px; height:14px; border-radius:50%; background:var(--good); box-shadow:0 0 0 2px #0b1a45 }
+.um-dot.bad{ background:var(--warn) }
+.um-pop{ position:absolute; top:calc(100% + 8px); inset-inline-start:0; z-index:40; width:min(380px, calc(100vw - 32px)); padding:12px; border-radius:18px; background:#0f2260; border:1px solid rgba(201,211,232,.26); box-shadow:0 18px 50px rgba(0,0,0,.5); display:flex; flex-direction:column; gap:4px; text-align:start; animation:fadeUp .15s ease both }
+.um-h{ display:flex; align-items:center; gap:12px; padding:4px 6px 12px; margin-bottom:4px; border-bottom:1px solid var(--line) }
+.um-h > span:not(.av){ display:flex; flex-direction:column; gap:2px; min-width:0 }
+.um-h b{ font-size:1.05rem; line-height:1.3 }
+.um-h .um-s{ white-space:normal }
+.um-i{ display:flex; align-items:center; gap:10px; width:100%; min-height:46px; padding:8px 12px; border-radius:12px; border:0; background:none; color:var(--white); font-weight:500; text-align:start }
+.um-i:hover{ background:rgba(255,255,255,.07) }
+.um-i .ic{ color:var(--flood) }
+.um-i small{ margin-inline-start:auto; color:var(--muted); font-size:15px; font-weight:400 }
+.um-note{ margin-top:6px; padding:10px 8px 2px; border-top:1px solid var(--line); color:var(--silver); font-size:15px; line-height:1.65 }
+/* «تبديل المستخدم» / «إضافة مستخدم» */
+.ulist{ list-style:none; margin:0 0 12px; padding:0; display:flex; flex-direction:column; gap:8px }
+.ulist li{ display:flex; align-items:center; gap:8px }
+.ur{ flex:1; display:flex; align-items:center; gap:12px; min-height:58px; padding:8px 14px 8px 10px; border-radius:14px; border:1.5px solid var(--line); background:rgba(6,13,36,.5); color:var(--white); text-align:start; min-width:0; transition:border-color .2s, background-color .2s }
+.ur:hover{ border-color:rgba(124,196,255,.5) }
+.ur.on{ border-color:var(--gold); background:rgba(242,193,78,.1) }
+.ur .av{ width:40px; height:40px; font-size:15px }
+.ur-t{ display:flex; flex-direction:column; min-width:0; flex:1 }
+.ur-t b{ font-size:1.05rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+.ur-t small{ color:var(--muted); font-size:15px }
+.ur > .ic{ color:var(--gold) }
+.uadd .fld input{ font-size:1.1rem }
+.uadd-err:empty{ display:none }
 
 /* ============ home ============ */
 .v-home{ position:relative; min-height:100vh; min-height:100dvh; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:clamp(18px,3vh,30px); padding:28px var(--gutter) 28px; text-align:center; overflow:hidden }
@@ -130,9 +173,9 @@ bdi{ unicode-bidi:isolate }
 .beam{ position:absolute; top:-12vh; width:44vw; height:120vh; background:linear-gradient(180deg, rgba(160,210,255,.26), rgba(124,196,255,.05) 55%, transparent 80%); filter:blur(22px); clip-path:polygon(46% 0, 54% 0, 100% 100%, 0 100%); transform-origin:50% 0; opacity:.75 }
 .beam.b1{ right:-14vw; transform:rotate(32deg) }
 .beam.b2{ left:-14vw; transform:rotate(-32deg) }
-.home-top{ position:absolute; top:16px; inset-inline-start:var(--gutter) }
+.home-top{ position:absolute; top:16px; inset-inline-start:var(--gutter); z-index:3; display:flex; align-items:center; gap:10px }
 .home-hero{ display:flex; flex-direction:column; align-items:center; gap:6px }
-.home-emblem .seal-svg{ height:clamp(170px,30vh,300px); width:auto; max-width:100%; filter:drop-shadow(0 16px 46px rgba(124,196,255,.28)) drop-shadow(0 0 18px rgba(242,193,78,.18)); animation:float 7s ease-in-out infinite }
+.home-emblem .seal-svg{ height:clamp(170px,30vh,300px); width:auto; max-width:100%; filter:drop-shadow(0 16px 46px rgba(124,196,255,.28)) drop-shadow(0 0 18px rgba(242,193,78,.18)) }
 .home-title{ font-family:var(--f-disp); font-weight:700; font-size:clamp(42px,6.2vw,84px); line-height:1.15; background:linear-gradient(180deg,#ffffff 20%,#c9d3e8 70%,#93a4cc); -webkit-background-clip:text; background-clip:text; color:transparent; text-shadow:0 0 40px rgba(124,196,255,.12); padding:0 .1em }
 .home-school{ font-family:var(--f-disp); font-weight:700; font-size:clamp(26px,3.1vw,42px); line-height:1.25; color:var(--gold); text-shadow:0 2px 24px rgba(242,193,78,.28); margin-top:-2px }
 .home-sub{ font-size:clamp(.98rem,1.35vw,1.2rem); color:var(--silver); display:flex; flex-wrap:wrap; justify-content:center; gap:2px 8px }
@@ -153,11 +196,11 @@ bdi{ unicode-bidi:isolate }
 .ht-cat::before{ content:''; position:absolute; top:-1px; inset-inline:16px; height:3px; border-radius:0 0 4px 4px; background:var(--cc, var(--flood)) }
 
 /* ============ avatars: initials in the class colour (no photos) ============ */
-.av{ --ac:#1d6fe0; flex:none; display:inline-grid; place-items:center; width:34px; height:34px; border-radius:50%; font-family:var(--f-ui); font-weight:700; font-size:13px; letter-spacing:.02em; line-height:1; color:#fff; direction:ltr; background:var(--ac); background:radial-gradient(circle at 32% 26%, color-mix(in srgb, var(--ac) 50%, #fff), var(--ac) 52%, color-mix(in srgb, var(--ac) 68%, #000)); box-shadow:0 0 0 2px rgba(245,247,255,.8), 0 4px 12px rgba(0,0,0,.35); text-shadow:0 1px 2px rgba(0,0,0,.4); user-select:none }
+.av{ --ac:#1d6fe0; flex:none; display:inline-grid; place-items:center; width:34px; height:34px; border-radius:50%; font-family:var(--f-ui); font-weight:700; font-size:13px; letter-spacing:.02em; line-height:1; color:#fff; direction:ltr; background:var(--ac); box-shadow:0 0 0 2px rgba(245,247,255,.8); text-shadow:0 1px 1px rgba(0,0,0,.28); user-select:none }
 .av.sm{ width:24px; height:24px; font-size:10px; box-shadow:0 0 0 1.5px rgba(245,247,255,.8) }
 .av.lg{ width:46px; height:46px; font-size:17px }
-.av.xl{ width:74px; height:74px; font-size:27px; box-shadow:0 0 0 3px rgba(245,247,255,.85), 0 10px 26px rgba(0,0,0,.4) }
-.av.xxl{ width:112px; height:112px; font-size:42px; box-shadow:0 0 0 4px rgba(245,247,255,.9), 0 14px 36px rgba(0,0,0,.45) }
+.av.xl{ width:74px; height:74px; font-size:27px; box-shadow:0 0 0 3px rgba(245,247,255,.85) }
+.av.xxl{ width:112px; height:112px; font-size:42px; box-shadow:0 0 0 4px rgba(245,247,255,.9) }
 .av.q{ background:rgba(6,13,36,.5); color:var(--ac); box-shadow:none; border:2px dashed var(--ac); text-shadow:none; font-family:var(--f-num); font-size:1.4em }
 .nm{ unicode-bidi:isolate; font-weight:inherit }
 
@@ -195,7 +238,7 @@ bdi{ unicode-bidi:isolate }
 .roster{ position:relative; display:flex; flex-direction:column; gap:10px; padding:14px; border-radius:var(--r); background:linear-gradient(180deg, color-mix(in srgb, var(--cc) 16%, rgba(6,13,36,.7)), rgba(6,13,36,.55) 40%); border:1px solid color-mix(in srgb, var(--cc) 45%, transparent); min-width:0 }
 .roster::before{ content:''; position:absolute; top:-1px; inset-inline:18px; height:4px; border-radius:0 0 4px 4px; background:var(--cc) }
 .ro-h{ display:grid; grid-template-columns:auto minmax(0,1fr); gap:6px 12px; align-items:end }
-.ro-chip{ display:inline-grid; place-items:center; min-width:64px; height:52px; padding:4px 10px 0; border-radius:14px; background:var(--cc); color:#fff; font-family:var(--f-num); font-weight:600; font-size:2rem; line-height:1; box-shadow:0 8px 22px color-mix(in srgb, var(--cc) 35%, transparent), inset 0 1px 0 rgba(255,255,255,.35); text-shadow:0 1px 2px rgba(0,0,0,.3) }
+.ro-chip{ display:inline-grid; place-items:center; min-width:64px; height:52px; padding:4px 10px 0; border-radius:14px; background:var(--cc); color:#fff; font-family:var(--f-num); font-weight:600; font-size:2rem; line-height:1; text-shadow:0 1px 1px rgba(0,0,0,.25) }
 .ro-n{ grid-column:1 / -1; font-size:.95rem; color:var(--silver) } .ro-n b{ font-family:var(--f-num); font-size:1.3rem; color:var(--white); vertical-align:-2px }
 .warn-t{ color:#ffd89a }
 .ro-edit{ border-top:1px dashed var(--line); padding-top:6px }
@@ -268,7 +311,7 @@ button.rn{ cursor:pointer } button.rn:hover{ border-color:var(--flood); transfor
 .rn-draw{ border-style:solid }
 .rn-link{ display:block; width:2px; height:8px; margin:0 auto; background:linear-gradient(color-mix(in srgb, var(--cc) 80%, #fff), rgba(201,211,232,.18)); flex:none }
 .mavs{ display:flex; justify-content:center; flex-wrap:wrap; row-gap:3px; padding-inline-start:5px; min-height:24px }
-.mav{ margin-inline-start:-5px; transition:opacity .3s, filter .3s }
+.mav{ margin-inline-start:-5px; transition:opacity .2s, filter .2s }
 .mav .av{ width:24px; height:24px; font-size:9px; box-shadow:0 0 0 2px #0b1a45 }
 .mav.out{ opacity:.32; filter:grayscale(.8) }
 .mav.win .av{ box-shadow:0 0 0 2px var(--gold), 0 0 10px rgba(242,193,78,.5) }
@@ -289,7 +332,7 @@ button.rn{ cursor:pointer } button.rn:hover{ border-color:var(--flood); transfor
 .gf-h{ display:flex; align-items:center; gap:12px }
 .gf-h h3{ font-family:var(--f-disp); font-weight:700; font-size:1.5rem; color:var(--gold); line-height:1.2 }
 .gf-h small{ color:var(--silver); font-size:.95rem }
-.gf-cup{ width:56px; height:56px; flex:none; display:grid; place-items:center; border-radius:50%; background:radial-gradient(circle at 50% 35%, rgba(242,193,78,.4), rgba(242,193,78,.06) 72%); color:var(--gold); box-shadow:0 0 0 1px rgba(242,193,78,.4) } .gf-cup .ic{ width:30px; height:30px }
+.gf-cup{ width:56px; height:56px; flex:none; display:grid; place-items:center; border-radius:50%; background:rgba(242,193,78,.14); color:var(--gold); box-shadow:0 0 0 1px rgba(242,193,78,.45) } .gf-cup .ic{ width:30px; height:30px }
 .gf-slots{ display:flex; justify-content:center; gap:10px 22px; flex-wrap:wrap }
 .gf-slot{ position:relative; display:flex; flex-direction:column; align-items:center; gap:3px; min-width:96px; max-width:170px; text-align:center }
 .gf-slot b{ font-size:1rem; line-height:1.25; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100% }
@@ -389,7 +432,7 @@ button.rn{ cursor:pointer } button.rn:hover{ border-color:var(--flood); transfor
 .dw-cls{ font-family:var(--f-num); font-weight:600; font-size:clamp(30px,2.6vw,46px); line-height:1; padding:7px 14px 2px; border-radius:12px; background:var(--cc); color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.3) }
 .dw-cls:empty{ display:none }
 .dw-pot{ display:flex; gap:6px; min-width:0 }
-.dw-tok{ width:clamp(20px,1.8vw,30px); height:clamp(20px,1.8vw,30px); border-radius:50%; background:radial-gradient(circle at 32% 28%, color-mix(in srgb, var(--cc) 35%, #fff), var(--cc) 58%, color-mix(in srgb, var(--cc) 60%, #000)); box-shadow:0 2px 6px rgba(0,0,0,.4); transition:opacity .3s }
+.dw-tok{ width:clamp(20px,1.8vw,30px); height:clamp(20px,1.8vw,30px); border-radius:50%; background:var(--cc); box-shadow:0 0 0 1.5px rgba(245,247,255,.55); transition:opacity .2s }
 .dw-tok.out{ opacity:.14 }
 .dw-cap{ display:flex; align-items:center; gap:14px; min-width:0; font-size:clamp(17px,1.5vw,26px); color:var(--silver); white-space:nowrap }
 .dw-cap b{ font-weight:700; color:#fff; font-size:clamp(22px,2.1vw,38px); overflow:hidden; text-overflow:ellipsis; min-width:0 }
@@ -399,7 +442,7 @@ button.rn{ cursor:pointer } button.rn:hover{ border-color:var(--flood); transfor
 .dw-cap b.dw-name{ max-width:100%; line-height:1.18 }
 .dw-cap .ic{ color:var(--gold); width:1.3em; height:1.3em }
 .dw-board{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px }
-.dw-col{ position:relative; display:flex; flex-direction:column; gap:10px; padding:12px 14px 14px; border-radius:20px; background:linear-gradient(180deg, color-mix(in srgb, var(--cc) 20%, rgba(11,26,69,.95)), rgba(6,13,36,.68) 45%); border:1px solid color-mix(in srgb, var(--cc) 45%, transparent); min-width:0; transition:opacity .35s, filter .35s }
+.dw-col{ position:relative; display:flex; flex-direction:column; gap:10px; padding:12px 14px 14px; border-radius:20px; background:linear-gradient(180deg, color-mix(in srgb, var(--cc) 20%, rgba(11,26,69,.95)), rgba(6,13,36,.68) 45%); border:1px solid color-mix(in srgb, var(--cc) 45%, transparent); min-width:0; transition:opacity .2s, filter .2s }
 .dw-col::before{ content:''; position:absolute; top:-1px; inset-inline:24px; height:4px; border-radius:0 0 4px 4px; background:var(--cc) }
 .v-draw.anim .dw-col.wait{ opacity:.5; filter:saturate(.5) }
 .dw-h{ display:flex; align-items:baseline; justify-content:space-between; gap:8px }
@@ -407,10 +450,10 @@ button.rn{ cursor:pointer } button.rn:hover{ border-color:var(--flood); transfor
 .dw-h small{ color:var(--silver); font-size:clamp(15px,1.05vw,17px) }
 .dw-g h3{ font-family:var(--f-disp); font-weight:600; font-size:clamp(16px,1.2vw,20px); color:color-mix(in srgb, var(--cc) 45%, #fff); margin:0 0 6px }
 .dw-g ol{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:5px }
-.dw-n{ display:flex; align-items:center; gap:10px; width:100%; height:clamp(34px,4.5vh,50px); padding:0 12px 0 6px; border-radius:11px; background:rgba(6,13,36,.58); border:1.5px solid rgba(201,211,232,.16); color:inherit; font:inherit; font-weight:600; font-size:clamp(15px,1.22vw,22px); text-align:start; transition:border-color .3s, background-color .3s, box-shadow .3s }
-.dw-n > *{ transition:opacity .35s }
+.dw-n{ display:flex; align-items:center; gap:10px; width:100%; height:clamp(34px,4.5vh,50px); padding:0 12px 0 6px; border-radius:11px; background:rgba(6,13,36,.58); border:1.5px solid rgba(201,211,232,.16); color:inherit; font:inherit; font-weight:600; font-size:clamp(15px,1.22vw,22px); text-align:start; transition:border-color .2s, background-color .2s, box-shadow .2s }
+.dw-n > *{ transition:opacity .2s ease, transform .2s ease }
 .dw-n:not(.on){ border-style:dashed; border-color:rgba(201,211,232,.2); background:transparent }
-.dw-n:not(.on) > *{ opacity:0 }
+.dw-n:not(.on) > *{ opacity:0; transform:translateY(6px) }
 .dw-n.new{ border-color:var(--gold); box-shadow:0 0 0 2px rgba(242,193,78,.3), 0 0 22px rgba(242,193,78,.22) }
 .dw-n bdi{ min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
 .dw-n .av{ width:clamp(26px,2vw,34px); height:clamp(26px,2vw,34px); font-size:clamp(10px,.8vw,13px) }
@@ -430,28 +473,18 @@ button.dw-n[disabled]{ cursor:default } button.dw-n[disabled]:hover{ border-colo
 .dw-note .ic{ color:var(--flood); width:18px; height:18px }
 
 /* ============ match intro ============ */
-.v-intro{ min-height:100vh; min-height:100dvh; padding-top:16px; padding-bottom:28px; display:flex; flex-direction:column; gap:26px }
+.v-intro{ padding-top:8px; padding-bottom:28px; display:flex; flex-direction:column; gap:26px }
 .v-intro .intro-head{ margin-top:auto } .v-intro .intro-foot{ margin-bottom:auto }
-.intro-top{ display:flex; justify-content:space-between; align-items:center }
 .intro-head{ text-align:center; display:flex; flex-direction:column; align-items:center; gap:8px }
 .intro-head h1{ font-size:clamp(28px,3.4vw,48px) }
 .intro-head p{ color:var(--silver); font-size:clamp(16px,1.3vw,20px) }
-.intro-brand{ display:inline-flex; align-items:center; gap:8px; font-family:var(--f-disp); font-weight:600; color:var(--gold); font-size:1rem }
 .ips{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(var(--n,4),minmax(0,1fr)); gap:16px }
 .ips.n2{ --n:2; width:min(680px,100%); margin:0 auto } .ips.n3{ --n:3; width:min(960px,100%); margin:0 auto } .ips.n4{ --n:4 }
-.ip{ position:relative; display:flex; flex-direction:column; align-items:center; gap:10px; padding:22px 14px 18px; border-radius:22px; background:linear-gradient(180deg, color-mix(in srgb, var(--tc, var(--flood)) 22%, rgba(11,26,69,.92)), rgba(6,13,36,.7)); border:1px solid color-mix(in srgb, var(--tc, var(--flood)) 45%, transparent); text-align:center; min-width:0; animation:fadeIn .4s ease both }
+.ip{ position:relative; display:flex; flex-direction:column; align-items:center; gap:10px; padding:22px 14px 18px; border-radius:22px; background:linear-gradient(180deg, color-mix(in srgb, var(--tc, var(--flood)) 22%, rgba(11,26,69,.92)), rgba(6,13,36,.7)); border:1px solid color-mix(in srgb, var(--tc, var(--flood)) 45%, transparent); text-align:center; min-width:0; animation:fadeIn .2s ease both }
 .ip b{ font-size:clamp(18px,1.55vw,24px); line-height:1.3; max-width:100% }
 .ip small{ color:var(--silver); font-size:clamp(15px,1.05vw,17px) }
 .ip .pos{ font-size:15px }
-.coin-stage{ position:relative; width:112px; height:124px; perspective:600px; margin:2px auto 0 }
-.coin{ position:relative; width:104px; height:104px; margin:0 auto; transform-style:preserve-3d }
-.coin.flipping{ transition:transform 1.8s cubic-bezier(.15,.7,.2,1); animation:coinUp 1.8s cubic-bezier(.3,.7,.3,1) }
-.coin-face{ position:absolute; inset:0; border-radius:50%; display:grid; place-items:center; backface-visibility:hidden; -webkit-backface-visibility:hidden; background:radial-gradient(circle at 34% 28%, #ffffff, #d7deee 45%, #8a95b3 100%); border:4px solid #eef2fb; box-shadow:inset 0 0 0 5px rgba(11,26,69,.12), 0 8px 20px rgba(0,0,0,.4) }
-.coin-face svg{ width:52px; height:auto }
-.coin-face.fb{ transform:rotateY(180deg) }
-.coin-shadow{ width:70px; height:10px; margin:6px auto 0; border-radius:50%; background:rgba(0,0,0,.45); filter:blur(4px) }
 .intro-foot{ display:flex; justify-content:center; padding-bottom:8px }
-.coin-face .av{ box-shadow:none }
 
 /* ============ match (broadcast) — every box has a FIXED size: nothing grows, shrinks or moves between turns ============ */
 html.in-match, html.in-match body{ overflow:hidden; height:100% }
@@ -472,14 +505,14 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .sb-q b{ font-family:var(--f-num); font-weight:600; font-size:1.5em; color:var(--gold); line-height:1 }
 .sb-q.sd{ color:var(--gold); font-weight:700 }
 /* the turn banner: always the same box; its colour is the class colour of the student on turn */
-.turn{ width:clamp(250px,30vw,480px); height:calc(var(--toph) - 8px); display:flex; align-items:center; justify-content:center; gap:8px; padding:0 18px; border-radius:99px; background:color-mix(in srgb, var(--tc) 78%, #0b1a45); color:#fff; font-size:clamp(15px,min(1.3vw,2.4vh),23px); font-weight:600; white-space:nowrap; overflow:hidden; box-shadow:0 0 18px color-mix(in srgb, var(--tc) 40%, transparent); text-shadow:0 1px 3px rgba(0,0,0,.4); transition:background-color .3s, box-shadow .3s }
+.turn{ width:clamp(250px,30vw,480px); height:calc(var(--toph) - 8px); display:flex; align-items:center; justify-content:center; gap:8px; padding:0 18px; border-radius:99px; background:color-mix(in srgb, var(--tc) 78%, #0b1a45); color:#fff; font-size:clamp(15px,min(1.3vw,2.4vh),23px); font-weight:600; white-space:nowrap; overflow:hidden; box-shadow:0 0 18px color-mix(in srgb, var(--tc) 40%, transparent); text-shadow:0 1px 3px rgba(0,0,0,.4); transition:background-color .2s, box-shadow .2s }
 .turn > span{ overflow:hidden; text-overflow:ellipsis; min-width:0; flex:none }
 .turn b{ font-weight:800; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; min-width:0 }
 .turn.none > span{ flex:0 1 auto }
 .turn.none{ background:rgba(6,13,36,.85); color:var(--silver); box-shadow:none; border:1px solid var(--line); text-shadow:none }
 .sb-chips{ list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(var(--n,4),minmax(0,1fr)); gap:8px }
 /* one player: avatar · name / result dots («▶ يجيب الآن» while on turn) · points. On turn = lit, others dimmed — colour only, never size */
-.chip{ position:relative; height:var(--chiph); display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:10px; padding:0 10px 0 12px; border-radius:14px; background:linear-gradient(180deg,#1a3480,#0b1a45 78%); border:1px solid rgba(201,211,232,.22); box-shadow:0 10px 26px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.12); overflow:hidden; min-width:0; transition:opacity .3s, filter .3s, background-color .3s, border-color .3s, box-shadow .3s }
+.chip{ position:relative; height:var(--chiph); display:grid; grid-template-columns:auto minmax(0,1fr) auto; align-items:center; gap:10px; padding:0 10px 0 12px; border-radius:14px; background:linear-gradient(180deg,#1a3480,#0b1a45 78%); border:1px solid rgba(201,211,232,.22); box-shadow:0 10px 26px rgba(0,0,0,.4); overflow:hidden; min-width:0; transition:opacity .2s, filter .2s, background-color .2s, border-color .2s, box-shadow .2s }
 .chip::before{ content:''; position:absolute; inset-block:0; inset-inline-start:0; width:6px; background:var(--tc) }
 .chip.on{ border-color:var(--tc); background:linear-gradient(180deg, color-mix(in srgb, var(--tc) 60%, #1a3480), color-mix(in srgb, var(--tc) 30%, #0b1a45)); box-shadow:inset 0 0 0 2px var(--tc), 0 0 30px color-mix(in srgb, var(--tc) 50%, transparent), 0 10px 26px rgba(0,0,0,.4) }
 .chip.off{ opacity:.45; filter:saturate(.35) }
@@ -491,7 +524,7 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .chip-now{ display:none; align-items:center; gap:5px; height:100%; padding:0 10px; border-radius:99px; background:#fff; color:#0b1a45; font-weight:700; font-size:clamp(15px,min(1vw,1.9vh),18px); white-space:nowrap }
 .chip-now i{ font-style:normal; color:var(--tc); font-size:1em }
 .chip.on .chip-now{ display:inline-flex } .chip.on .dots{ display:none }
-.chip-s{ font-family:var(--f-num); font-weight:600; font-size:clamp(32px,min(3.2vw,5.8vh),62px); line-height:1; width:1.3em; text-align:center; padding:.12em 0 0; border-radius:10px; background:rgba(6,13,36,.6); font-variant-numeric:tabular-nums; transition:color .4s, box-shadow .4s }
+.chip-s{ font-family:var(--f-num); font-weight:600; font-size:clamp(32px,min(3.2vw,5.8vh),62px); line-height:1; width:1.3em; text-align:center; padding:.12em 0 0; border-radius:10px; background:rgba(6,13,36,.6); font-variant-numeric:tabular-nums; transition:color .2s, box-shadow .2s }
 .chip-s.hit{ color:var(--gold); box-shadow:0 0 0 2px rgba(242,193,78,.75), 0 0 24px rgba(242,193,78,.5) }
 .dots{ display:flex; gap:5px; flex-wrap:nowrap; overflow:hidden; min-width:0 }
 .dot{ width:clamp(11px,min(.85vw,1.6vh),16px); height:clamp(11px,min(.85vw,1.6vh),16px); border-radius:50%; border:2px solid rgba(201,211,232,.45); background:rgba(6,13,36,.5); position:relative; flex:none }
@@ -500,10 +533,10 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .dot.x::before, .dot.x::after{ content:''; position:absolute; left:50%; top:50%; width:70%; height:2px; background:var(--bad); border-radius:2px }
 .dot.x::before{ transform:translate(-50%,-50%) rotate(45deg) } .dot.x::after{ transform:translate(-50%,-50%) rotate(-45deg) }
 .dot.sd{ border-radius:4px }
-.qzone{ min-height:0; display:flex; justify-content:center; align-items:stretch; padding:10px var(--mg); overflow:hidden; transition:filter .3s }
+.qzone{ min-height:0; display:flex; justify-content:center; align-items:stretch; padding:10px var(--mg); overflow:hidden; transition:filter .2s }
 .v-match.is-paused .qzone{ filter:blur(18px) saturate(.6); pointer-events:none }
 /* the question panel: always the full height of its zone; long content gets smaller type INSIDE it (fit1 / fit2) */
-.qp{ --tc:var(--flood); position:relative; width:min(1340px,100%); height:100%; display:grid; grid-template-rows:var(--qph) minmax(0,1fr); gap:clamp(8px,1.4vh,16px); padding:clamp(10px,1.8vh,22px) clamp(14px,2.2vw,30px); background:var(--glass); border:1px solid color-mix(in srgb, var(--tc) 40%, rgba(201,211,232,.2)); border-top:6px solid var(--tc); border-radius:var(--r-l); -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px); box-shadow:var(--shadow), 0 -8px 34px -14px var(--tc); overflow:hidden; animation:fadeIn .3s ease both }
+.qp{ --tc:var(--flood); position:relative; width:min(1340px,100%); height:100%; display:grid; grid-template-rows:var(--qph) minmax(0,1fr); gap:clamp(8px,1.4vh,16px); padding:clamp(10px,1.8vh,22px) clamp(14px,2.2vw,30px); background:var(--glass); border:1px solid color-mix(in srgb, var(--tc) 40%, rgba(201,211,232,.2)); border-top:6px solid var(--tc); border-radius:var(--r-l); -webkit-backdrop-filter:blur(14px); backdrop-filter:blur(14px); box-shadow:var(--shadow), 0 -8px 34px -14px var(--tc); overflow:hidden; animation:fadeIn .2s ease both }
 .qp.empty{ animation:none }
 .qp-h{ display:flex; align-items:center; gap:14px; min-width:0; height:var(--qph) }
 .qp-who{ display:inline-flex; align-items:center; gap:8px; flex:none; max-width:44%; padding:4px 16px 4px 5px; border-radius:99px; background:color-mix(in srgb, var(--tc) 26%, rgba(6,13,36,.7)); border:1.5px solid var(--tc); white-space:nowrap; overflow:hidden; font-size:clamp(15px,min(1.3vw,2.4vh),24px) }
@@ -517,7 +550,7 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .ring{ position:relative; width:clamp(52px,min(5vw,8.4vh),96px); aspect-ratio:1; flex:none }
 .ring svg{ width:100%; height:100% }
 .ring-bg{ fill:rgba(6,13,36,.65); stroke:rgba(201,211,232,.16); stroke-width:6 }
-.ring-fg{ fill:none; stroke:var(--flood); stroke-width:6; stroke-linecap:round; transition:stroke .3s }
+.ring-fg{ fill:none; stroke:var(--flood); stroke-width:6; stroke-linecap:round; transition:stroke .2s }
 .ring b{ position:absolute; inset:0; display:grid; place-items:center; font-family:var(--f-num); font-weight:500; font-size:clamp(22px,min(2.2vw,4vh),44px); padding-top:.12em; font-variant-numeric:tabular-nums }
 .ring.low .ring-fg{ stroke:var(--bad) }
 .ring.low b{ color:var(--bad); animation:pulse 1s infinite }
@@ -534,7 +567,7 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .say.sm{ width:40px; height:40px }
 .say.sm .ic{ width:20px; height:20px }
 .opts{ display:grid; grid-template-columns:1fr 1fr; gap:clamp(10px,1.4vw,16px) }
-.opt{ position:relative; display:flex; align-items:center; gap:14px; min-height:clamp(56px,9vh,112px); padding:8px 16px; border-radius:16px; border:1.5px solid rgba(201,211,232,.22); background:linear-gradient(180deg, rgba(26,52,128,.7), rgba(15,33,86,.7)); font-size:clamp(18px,min(2.2vw,3.8vh),44px); font-weight:600; text-align:center; line-height:1.25; transition:border-color .2s, background .2s, opacity .3s, box-shadow .2s }
+.opt{ position:relative; display:flex; align-items:center; gap:14px; min-height:clamp(56px,9vh,112px); padding:8px 16px; border-radius:16px; border:1.5px solid rgba(201,211,232,.22); background:linear-gradient(180deg, rgba(26,52,128,.7), rgba(15,33,86,.7)); font-size:clamp(18px,min(2.2vw,3.8vh),44px); font-weight:600; text-align:center; line-height:1.25; transition:border-color .2s, background .2s, opacity .2s, box-shadow .2s }
 .opt:hover:not([disabled]){ border-color:var(--flood); box-shadow:0 0 0 2px rgba(124,196,255,.35) }
 .opt .k{ flex:none; display:grid; place-items:center; width:1.55em; height:1.55em; border-radius:10px; background:rgba(6,13,36,.6); font-family:var(--f-num); font-size:.82em; color:var(--silver); padding-top:.12em; font-weight:500 }
 .opt .t{ flex:1; min-width:0; overflow-wrap:break-word; word-break:normal; hyphens:none; padding-inline-end:1.55em }
@@ -558,10 +591,10 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .slot.ok{ border-color:var(--good); background:rgba(47,208,122,.22); border-style:solid }
 .slot.bad{ border-color:var(--bad); background:rgba(255,90,106,.2); border-style:solid }
 .slots.nope{ box-shadow:0 0 0 3px rgba(255,90,106,.55) }
-.tile{ width:clamp(40px,min(4.2vw,7.4vh),84px); height:clamp(50px,min(5.4vw,9.4vh),104px); border-radius:12px; border:0; background:linear-gradient(180deg,#ffffff,#cdd6ea); color:#0b1a45; box-shadow:0 5px 0 #7c88ad, 0 10px 18px rgba(0,0,0,.35); font-size:clamp(24px,min(2.8vw,5vh),56px); font-weight:700; padding:0; transition:opacity .2s, filter .12s, box-shadow .12s }
-.tile:hover:not([disabled]){ filter:brightness(1.06) }
-.tile:active:not([disabled]){ filter:brightness(.9) }
-.tile.used{ opacity:.14; box-shadow:none }
+.tile{ width:clamp(40px,min(4.2vw,7.4vh),84px); height:clamp(50px,min(5.4vw,9.4vh),104px); border-radius:12px; border:1px solid rgba(255,255,255,.9); background:#eef2fb; color:#0b1a45; font-size:clamp(24px,min(2.8vw,5vh),56px); font-weight:700; padding:0; transition:opacity .2s, background-color .15s, border-color .15s }
+.tile:hover:not([disabled]){ background:#ffffff; border-color:var(--flood) }
+.tile:active:not([disabled]){ background:#dfe6f5 }
+.tile.used{ opacity:.14 }
 .sbc{ display:flex; justify-content:center; gap:10px; flex-wrap:wrap }
 /* gap_sentence */
 .sentence{ font-size:clamp(22px,min(3vw,5.4vh),62px); line-height:1.5; font-weight:500; text-align:center; padding:clamp(4px,1.6vh,22px) 0 }
@@ -606,9 +639,9 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .qp.fit2 .slot, .qp.fit2 .tile{ width:clamp(28px,min(2.8vw,5vh),58px); height:clamp(36px,min(3.6vw,6.4vh),74px); font-size:clamp(18px,min(2vw,3.4vh),40px) }
 .qp.fit2 .m5-i{ min-height:clamp(36px,5vh,62px); font-size:clamp(15px,min(1.6vw,2.8vh),30px) } .qp.fit2 .lb{ width:clamp(34px,min(3.8vw,6.6vh),76px); height:clamp(44px,min(4.9vw,8.6vh),96px); font-size:clamp(24px,min(2.9vw,5vh),58px) }
 /* the turn card: before EVERY question «الآن دور:» + the full name fills the question panel (same box, same size) */
-.turn-card{ position:absolute; inset:0; z-index:6; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:clamp(6px,1.4vh,16px); padding:16px; text-align:center; cursor:pointer; background:radial-gradient(120% 95% at 50% 20%, color-mix(in srgb, var(--tc) 58%, #0b1a45), color-mix(in srgb, var(--tc) 16%, #081333) 62%, #060d24); transition:opacity .28s ease }
+.turn-card{ position:absolute; inset:0; z-index:6; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:clamp(6px,1.4vh,16px); padding:16px; text-align:center; cursor:pointer; background:radial-gradient(120% 95% at 50% 20%, color-mix(in srgb, var(--tc) 58%, #0b1a45), color-mix(in srgb, var(--tc) 16%, #081333) 62%, #060d24); transition:opacity .2s ease }
 .turn-card.out{ opacity:0; pointer-events:none }
-.turn-card .av{ width:clamp(64px,min(7vw,13vh),140px); height:clamp(64px,min(7vw,13vh),140px); font-size:clamp(24px,min(2.6vw,4.8vh),52px); box-shadow:0 0 0 4px rgba(255,255,255,.9), 0 14px 40px rgba(0,0,0,.45) }
+.turn-card .av{ width:clamp(64px,min(7vw,13vh),140px); height:clamp(64px,min(7vw,13vh),140px); font-size:clamp(24px,min(2.6vw,4.8vh),52px); box-shadow:0 0 0 4px rgba(255,255,255,.9) }
 .tc-t{ font-family:var(--f-disp); font-weight:700; font-size:clamp(26px,min(3.4vw,6vh),64px); line-height:1.2; color:rgba(255,255,255,.9) }
 .tc-n{ font-weight:800; font-size:clamp(32px,min(5vw,8.6vh),104px); line-height:1.1; color:#fff; text-shadow:0 6px 30px rgba(0,0,0,.4); max-width:100%; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
 .tc-m{ display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:8px 12px; color:#fff; font-size:clamp(16px,min(1.6vw,2.8vh),28px); font-weight:600 }
@@ -623,13 +656,19 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .tool:hover:not([disabled]){ color:var(--white); background:rgba(255,255,255,.11) }
 .tool[disabled]{ opacity:.35; cursor:not-allowed }
 .tool kbd{ font-family:var(--f-num); font-size:.85rem; padding:0 6px; border-radius:6px; border:1px solid var(--line); color:var(--muted); line-height:1.5 }
-.tools-sp{ flex:1; min-width:8px }
+.tools-sp{ flex:1; min-width:8px; display:flex; align-items:center; justify-content:center; overflow:hidden }
+/* «✓ محفوظ 10:42» — the autosave, inside the spacer: it never moves a tool (the time has fixed-width digits) */
+.tools-save{ display:inline-flex; align-items:center; gap:6px; padding:0 6px; font-size:15px; font-weight:500; line-height:1; color:var(--good); white-space:nowrap; pointer-events:none }
+.tools-save .ic{ width:16px; height:16px; flex:none }
+.tools-save .tsv-t{ color:var(--silver); font-variant-numeric:tabular-nums }
+.tools-save.tight .tsv-w{ display:none } /* little room (the smallest phones): «✓ 10:42» — the full words stay in its title */
+.tools-save.off{ visibility:hidden }
 .v-match .btn:active{ transform:none }
 
 /* ============ overlays ============ */
 #layer{ position:fixed; inset:0; z-index:50; pointer-events:none }
-.ovl{ position:absolute; inset:0; display:grid; place-items:safe center; padding:16px; background:rgba(4,9,26,.68); -webkit-backdrop-filter:blur(5px); backdrop-filter:blur(5px); pointer-events:auto; animation:fadeIn .25s ease both; overflow:auto }
-.ovl-card{ position:relative; width:min(780px,100%); max-height:calc(100dvh - var(--ovl-top, 0px) - 32px); overflow:auto; background:linear-gradient(180deg, rgba(22,46,112,.97), rgba(9,21,58,.98)); border:1px solid rgba(201,211,232,.26); border-radius:26px; padding:22px 28px 22px; box-shadow:0 30px 90px rgba(0,0,0,.6); text-align:center; animation:fadeIn .3s ease both }
+.ovl{ position:absolute; inset:0; display:grid; place-items:safe center; padding:16px; background:rgba(4,9,26,.68); -webkit-backdrop-filter:blur(5px); backdrop-filter:blur(5px); pointer-events:auto; animation:fadeIn .2s ease both; overflow:auto }
+.ovl-card{ position:relative; width:min(780px,100%); max-height:calc(100dvh - var(--ovl-top, 0px) - 32px); overflow:auto; background:linear-gradient(180deg, rgba(22,46,112,.97), rgba(9,21,58,.98)); border:1px solid rgba(201,211,232,.26); border-radius:26px; padding:22px 28px 22px; box-shadow:0 30px 90px rgba(0,0,0,.6); text-align:center; animation:fadeIn .2s ease both }
 .ovl-card h2.disp{ font-size:clamp(28px,3.4vw,46px); margin-bottom:10px }
 .ovl-card p.muted{ font-size:clamp(15px,1.1vw,18px) }
 .ovl-actions{ display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:18px }
@@ -676,14 +715,22 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .sd-card .sd-rule .muted{ display:block }
 .sd-card .sd-out{ color:var(--silver); font-size:clamp(15px,1.1vw,18px); margin-bottom:8px }
 .sd-card.won h2{ color:var(--good) }
-.toss-card .coin-stage{ margin:14px auto 4px }
-.toss-res{ display:flex; flex-direction:column; align-items:center; gap:8px; min-height:3.6em; font-size:1.1rem }
-.tr-row{ display:flex; align-items:center; gap:10px; padding:6px 16px 6px 8px; border-radius:99px; background:rgba(6,13,36,.6); border:1px solid rgba(201,211,232,.18); max-width:100% }
-.tr-row.first{ border-color:rgba(242,193,78,.7); box-shadow:0 0 22px rgba(242,193,78,.2) }
-.tr-row b{ font-size:1.12rem } .tr-q{ font-size:1.15rem; font-weight:600 }
+/* «قرعة الترتيب»: two flat name cards; the result is revealed calmly (a short fade), 1st gets a gold hairline (nothing spins or flips) */
+.ts-pair{ list-style:none; margin:16px 0 4px; padding:0; display:grid; grid-template-columns:minmax(0,1fr) 3.2em minmax(0,1fr); align-items:stretch; gap:10px }
+.ts-p{ display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; min-height:150px; padding:16px 12px 14px; border-radius:18px; background-color:rgba(6,13,36,.55); border:1px solid color-mix(in srgb, var(--tc) 50%, rgba(201,211,232,.2)); min-width:0; transition:opacity .2s ease, border-color .2s ease, background-color .2s ease, box-shadow .2s ease }
+.ts-p b{ font-size:clamp(17px,1.4vw,21px); line-height:1.3; max-width:100%; overflow-wrap:anywhere }
+.ts-p .tag{ font-size:1rem; padding:2px 14px }
+.ts-or{ align-self:center; text-align:center; color:var(--muted); font-weight:600; font-size:1.05rem }
+.ts-pair.drawing .ts-p{ opacity:.45 }
+.ts-p .tag.ts-ph{ visibility:hidden } /* the room of «الأول» / «الثاني»: the card never changes size */
+/* the result is written into the same nodes: both cards come back from .45 and 1st takes its gold hairline with a
+   short transition; only the new «الأول» / «الثاني» tags fade in */
+.ts-pair.done .ts-p .tag{ animation:fadeUp .2s ease both }
+.ts-p.first{ border-color:var(--gold); background-color:rgba(242,193,78,.1); box-shadow:0 0 0 1px rgba(242,193,78,.35) }
+.ts-wait{ min-height:1.7em; margin:0; color:var(--gold); font-weight:600; font-size:1.05rem }
 /* modal */
 .modal-bg{ position:fixed; inset:0; z-index:80; background:rgba(4,9,26,.72); -webkit-backdrop-filter:blur(4px); backdrop-filter:blur(4px); display:grid; place-items:center; padding:16px; animation:fadeIn .2s ease both }
-.modal{ width:min(560px,100%); max-height:calc(100dvh - 32px); overflow:auto; background:linear-gradient(180deg,#16307a,#0b1a45); border:1px solid rgba(201,211,232,.26); border-radius:22px; padding:22px 24px; box-shadow:0 30px 80px rgba(0,0,0,.6); animation:fadeIn .25s ease both }
+.modal{ width:min(560px,100%); max-height:calc(100dvh - 32px); overflow:auto; background:linear-gradient(180deg,#16307a,#0b1a45); border:1px solid rgba(201,211,232,.26); border-radius:22px; padding:22px 24px; box-shadow:0 30px 80px rgba(0,0,0,.6); animation:fadeIn .2s ease both }
 .modal.wide{ width:min(760px,100%) }
 .modal h3{ display:flex; align-items:center; gap:10px; font-family:var(--f-disp); font-weight:600; font-size:1.4rem; margin-bottom:12px }
 .modal h3 .ic{ color:var(--flood); width:24px; height:24px }
@@ -706,7 +753,7 @@ html.in-match .warn-bar{ display:none }
 .tool.warn{ color:var(--warn); border-color:rgba(255,181,71,.5) }
 /* toasts */
 #toasts{ position:fixed; bottom:calc(92px + env(safe-area-inset-bottom)); left:50%; transform:translateX(-50%); z-index:95; display:flex; flex-direction:column; gap:8px; align-items:center; pointer-events:none; width:min(560px, calc(100% - 32px)) }
-.toast{ padding:10px 18px; border-radius:14px; background:rgba(11,26,69,.97); border:1px solid var(--line); box-shadow:var(--shadow); animation:toastIn .3s var(--ease) both; font-weight:500; text-align:center; transition:opacity .3s, transform .3s }
+.toast{ padding:10px 18px; border-radius:14px; background:rgba(11,26,69,.97); border:1px solid var(--line); box-shadow:var(--shadow); animation:fadeUp .2s ease both; font-weight:500; text-align:center; transition:opacity .2s, transform .2s }
 .toast.good{ border-color:rgba(47,208,122,.6) } .toast.bad{ border-color:rgba(255,90,106,.65) }
 .toast.out{ opacity:0; transform:translateY(8px) }
 #toasts{ left:auto; right:auto; inset-inline-end:max(16px, env(safe-area-inset-left)); transform:none; bottom:calc(84px + env(safe-area-inset-bottom)); align-items:flex-start; width:min(440px, calc(100% - 32px)) }
@@ -718,7 +765,7 @@ html.in-match .warn-bar{ display:none }
 .ft-head p{ color:var(--silver); font-size:clamp(16px,1.3vw,20px) }
 .v-ft .tbl-wrap{ width:min(980px,100%) }
 .tie-card, .out-card{ width:min(980px,100%); display:flex; flex-direction:column; align-items:center; gap:10px; padding:18px 22px; border-radius:24px; text-align:center }
-.tie-card{ background:radial-gradient(120% 160% at 50% 0%, rgba(242,193,78,.24), rgba(19,41,106,.94) 60%); border:1px solid rgba(242,193,78,.75); box-shadow:0 0 0 1px rgba(242,193,78,.25), 0 0 50px rgba(242,193,78,.18); animation:fadeIn .4s ease both }
+.tie-card{ background:radial-gradient(120% 160% at 50% 0%, rgba(242,193,78,.24), rgba(19,41,106,.94) 60%); border:1px solid rgba(242,193,78,.75); box-shadow:0 0 0 1px rgba(242,193,78,.25), 0 0 50px rgba(242,193,78,.18); animation:fadeIn .2s ease both }
 .tie-card h2{ display:flex; align-items:center; justify-content:center; gap:10px; flex-wrap:wrap; font-size:clamp(24px,2.6vw,36px); line-height:1.35 }
 .tie-card h2 .ic{ color:var(--gold); width:32px; height:32px }
 .tie-card p{ color:var(--silver); max-width:720px; line-height:1.7 }
@@ -757,37 +804,38 @@ td.ok .rc{ background:var(--good); color:#032012 } td.no .rc{ background:rgba(25
 .ft-rounds th bdi{ font-weight:600; color:var(--white) }
 
 /* ============ ceremony ============ */
-.v-champ{ position:relative; min-height:100vh; min-height:100dvh; display:flex; align-items:center; justify-content:center; padding:28px var(--gutter); overflow:hidden }
+.v-champ{ position:relative; display:flex; align-items:center; justify-content:center; padding:28px var(--gutter); overflow:hidden }
+.view-ceremony .tb-wrap{ position:relative; z-index:3 }
+.view-ceremony .topbar{ margin-bottom:0 }
 #fx{ position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:2 }
 .v-champ .beam{ background:linear-gradient(180deg, rgba(255,224,138,.28), rgba(242,193,78,.05) 55%, transparent 80%) }
-.trophy{ width:clamp(130px,24vh,230px); height:auto; filter:drop-shadow(0 20px 50px rgba(242,193,78,.4)); animation:rise 1.2s var(--ease) both }
 .champ-title{ font-family:var(--f-disp); font-weight:700; font-size:clamp(28px,3.6vw,52px); color:var(--gold); line-height:1.2 }
 .champ-actions{ display:flex; gap:10px; flex-wrap:wrap }
 .cer{ position:relative; z-index:1; width:min(1200px,100%); display:flex; flex-direction:column; align-items:center; gap:clamp(6px,1.3vh,18px); text-align:center }
 .cer-name{ color:var(--silver); margin-top:2px }
-.champ-title{ font-size:clamp(30px,min(4vw,7vh),58px) }
-.pod.p0 .av.xxl{ width:clamp(80px,min(8vw,13vh),118px); height:clamp(80px,min(8vw,13vh),118px); font-size:clamp(30px,min(3vw,5vh),44px) }
-.pod .av.xl{ width:clamp(58px,min(6vw,10vh),84px); height:clamp(58px,min(6vw,10vh),84px); font-size:clamp(22px,min(2.2vw,3.8vh),31px) }
+.champ-title{ font-size:clamp(28px,min(3.6vw,5.8vh),54px) }
+.pod.p0 .av.xxl{ width:clamp(76px,min(8vw,11.5vh),118px); height:clamp(76px,min(8vw,11.5vh),118px); font-size:clamp(28px,min(3vw,4.4vh),44px) }
+.pod .av.xl{ width:clamp(56px,min(6vw,8.8vh),84px); height:clamp(56px,min(6vw,8.8vh),84px); font-size:clamp(21px,min(2.2vw,3.3vh),31px) }
 .ovl-card.res{ width:min(880px,100%) }
 .podium{ list-style:none; margin:4px 0 0; padding:0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); align-items:end; gap:clamp(10px,1.6vw,22px); width:min(1000px,100%) }
 .pod{ display:flex; flex-direction:column; align-items:center; min-width:0 }
-.pod-who{ position:relative; display:flex; flex-direction:column; align-items:center; gap:4px; padding-bottom:8px; min-width:0; max-width:100%; animation:rise 1s var(--ease) both }
-.pod.p0 .pod-who{ animation-delay:.5s } .pod.p1 .pod-who{ animation-delay:.25s }
-.pod-who .medal{ width:clamp(34px,min(4.2vw,6vh),58px); height:auto; margin-bottom:-18px; position:relative; z-index:1; filter:drop-shadow(0 6px 12px rgba(0,0,0,.4)) }
-.pod.p0 .pod-who .medal{ width:clamp(44px,min(5.2vw,8vh),72px) }
-.pod-who .av{ box-shadow:0 0 0 4px var(--tc), 0 0 0 7px rgba(245,247,255,.85), 0 16px 40px rgba(0,0,0,.45) }
-.pod.p0 .pod-who .av{ box-shadow:0 0 0 4px var(--gold), 0 0 0 8px rgba(255,241,191,.9), 0 0 60px rgba(242,193,78,.55) }
+.pod-who{ position:relative; display:flex; flex-direction:column; align-items:center; gap:4px; padding-bottom:8px; min-width:0; max-width:100%; animation:fadeUp .2s ease both }
+.pod.p1 .pod-who{ animation-delay:.15s } .pod.p0 .pod-who{ animation-delay:.3s }
+.pod-who .medal{ width:clamp(34px,min(4.2vw,5.4vh),58px); height:auto; margin-bottom:-14px; position:relative; z-index:1; filter:drop-shadow(0 2px 3px rgba(0,0,0,.3)) }
+.pod.p0 .pod-who .medal{ width:clamp(42px,min(5vw,6.8vh),70px) }
+.pod-who .av{ box-shadow:0 0 0 3px var(--tc), 0 0 0 5px rgba(245,247,255,.8) }
+.pod.p0 .pod-who .av{ box-shadow:0 0 0 3px var(--gold), 0 0 0 6px rgba(255,241,191,.85), 0 0 36px rgba(242,193,78,.3) }
 .pod-who b{ font-size:clamp(17px,1.6vw,24px); line-height:1.3; max-width:100%; overflow-wrap:anywhere }
 .pod.p0 .pod-who b{ font-size:clamp(20px,2vw,30px); color:var(--gold) }
 .pod-c{ font-family:var(--f-num); font-size:1.3rem; line-height:1; padding:3px 12px 0; border-radius:99px; background:var(--tc); color:#fff; text-shadow:0 1px 2px rgba(0,0,0,.35) }
 .pod-who small{ color:var(--silver); font-size:.95rem }
-.pod-step{ width:100%; display:flex; flex-direction:column; align-items:center; gap:0; padding-top:8px; border-radius:18px 18px 6px 6px; box-shadow:inset 0 2px 0 rgba(255,255,255,.55), 0 20px 40px rgba(0,0,0,.35); animation:stepUp .9s var(--ease) both; transform-origin:bottom }
-.pod.p0 .pod-step{ height:clamp(84px,16vh,190px); background:linear-gradient(180deg,#ffe9a8,#e2a82c 45%,#a8761a) }
-.pod.p1 .pod-step{ height:clamp(64px,11.5vh,136px); background:linear-gradient(180deg,#ffffff,#c9d3e8 45%,#7d88a8) }
-.pod.p2 .pod-step{ height:clamp(52px,8.5vh,104px); background:linear-gradient(180deg,#ffd9b0,#cd8a4b 45%,#8a5226) }
-.pod-n{ font-family:var(--f-num); font-weight:600; font-size:clamp(30px,min(4.4vw,6.4vh),68px); line-height:1; color:rgba(11,26,69,.85); padding-top:.1em }
+.pod-step{ width:100%; display:flex; flex-direction:column; align-items:center; gap:0; padding-top:8px; border-radius:14px 14px 4px 4px; border-top:1px solid rgba(255,255,255,.75); box-shadow:0 12px 28px rgba(0,0,0,.28); animation:fadeIn .2s ease both }
+.pod.p0 .pod-step{ height:clamp(80px,13vh,180px); background:linear-gradient(180deg,#f6cf66,#e2a82c) }
+.pod.p1 .pod-step{ height:clamp(70px,11vh,140px); background:linear-gradient(180deg,#eef2fb,#c3cce0) }
+.pod.p2 .pod-step{ height:clamp(52px,7.5vh,104px); background:linear-gradient(180deg,#e7ab78,#c47d42) }
+.pod-n{ font-family:var(--f-num); font-weight:600; font-size:clamp(30px,min(3.8vw,5.4vh),64px); line-height:1; color:rgba(11,26,69,.85); padding-top:.1em }
 .pod.p2 .pod-step{ flex-direction:row; justify-content:center; align-items:center; gap:8px; padding-top:0 }
-.v-champ{ padding-block:16px }
+.v-champ{ padding-block:8px 12px }
 .pod-step em{ font-style:normal; font-size:clamp(15px,1.1vw,19px); font-weight:700; color:rgba(11,26,69,.85) }
 .congrats{ display:flex; align-items:center; justify-content:center; gap:12px; flex-wrap:wrap; padding:10px 22px; border-radius:99px; background:linear-gradient(90deg, transparent, color-mix(in srgb, var(--cc) 35%, rgba(11,26,69,.9)), transparent); font-family:var(--f-disp); font-weight:600; font-size:clamp(18px,1.9vw,26px); text-shadow:0 0 24px color-mix(in srgb, var(--cc) 80%, transparent); box-shadow:0 0 50px color-mix(in srgb, var(--cc) 22%, transparent) }
 .congrats .ic{ color:var(--gold); width:22px; height:22px } .congrats b{ font-family:var(--f-num); font-size:1.35em; font-weight:600; line-height:1 }
@@ -876,20 +924,15 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 .hp p{ color:var(--silver); font-size:.95rem; line-height:1.7 }
 .promise-panel{ border-color:rgba(242,193,78,.45) } .promise-panel h2 .ic{ color:var(--gold) }
 
-/* ============ motion ============ */
+/* ============ motion: flat and calm — short opacity fades and small translate slides only (no 3D, no scale, no
+   bounce); «prefers-reduced-motion» → no motion at all ============ */
 @keyframes fadeIn{ from{opacity:0} to{opacity:1} }
-@keyframes toastIn{ from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none} }
+@keyframes fadeUp{ from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:none} }
 @keyframes pulse{ 0%,100%{opacity:1} 50%{opacity:.45} }
 @keyframes blink{ 0%,100%{border-color:var(--flood)} 50%{border-color:rgba(124,196,255,.3)} }
-@keyframes float{ 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-@keyframes coinUp{ 0%{translate:0 0} 45%{translate:0 -46px} 100%{translate:0 0} }
-@keyframes rise{ from{opacity:0; transform:translateY(30px)} to{opacity:1; transform:none} }
-@keyframes stepUp{ from{transform:scaleY(.2); opacity:0} to{transform:none; opacity:1} }
 @keyframes tcBar{ from{ clip-path:inset(0 0 0 0) } to{ clip-path:inset(0 0 0 100%) } }
 @media (prefers-reduced-motion: reduce){
-  *,*::before,*::after{ animation-duration:.01ms!important; animation-iteration-count:1!important; animation-delay:0ms!important; transition-duration:.15s!important }
-  .ovl, .modal-bg, .toast{ animation:fadeIn .2s ease both!important }
-  .home-emblem .seal-svg{ animation:none!important }
+  *,*::before,*::after{ animation:none!important; transition:none!important; scroll-behavior:auto!important }
 }
 
 /* ============ responsive ============ */
@@ -907,7 +950,7 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 @media (max-width: 900px){
   .tool > span, .tool kbd{ display:none }
   .tools{ justify-content:flex-start }
-  .tools-sp{ display:none }
+  .tools-sp{ order:1; justify-content:flex-end } /* the tools stay together; the autosave goes to the far end */
   .road-cols{ grid-template-columns:1fr }
   .road-join{ display:none }
   .rcol + .rcol{ margin-top:4px }
@@ -924,13 +967,22 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 }
 @media (max-width: 700px){
   body{ font-size:16px }
-  .topbar{ gap:10px }
-  .brand-t b{ display:none }
-  .brand-t small{ font-size:.82rem; max-width:7.5em; line-height:1.25 }
-  .seal-mini{ height:42px }
-  .tb-title{ text-align:start; min-width:0; font-size:1.2rem }
+  /* phone topbar: «رجوع» · logo · the user's initials (a green dot = saved) · title; the actions as icons on the next row */
+  .topbar{ gap:8px 10px; padding:8px 0 }
+  .tb-back, .tb-act, .um{ margin-top:0 }
+  .brand-t{ display:none }
+  .seal-mini{ height:42px; margin-top:1px }
+  .topbar .um-t{ display:none }
+  .topbar{ position:relative } .topbar .um{ position:static } /* the menu opens under the whole topbar, inside the screen */
+  .topbar .um-btn{ padding:3px; min-height:44px; gap:0 }
+  .topbar .um-dot{ display:block }
+  .tb-act{ order:1 }
+  .tb-title{ order:2; flex:1 1 100%; text-align:start; font-size:1.25rem; line-height:1.3 }
   .tb-act .btn-sm span{ display:none }
   .tb-act .btn-sm{ padding:.4em .7em }
+  .v-home{ padding-top:76px }
+  .home-emblem .seal-svg{ height:clamp(150px,24vh,300px) }
+
   .help-types, .hp{ grid-template-columns:1fr }
   .home-main .btn-xl{ min-width:0; width:100% }
   .home-main{ width:100%; flex-direction:column }
@@ -940,7 +992,6 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
   .rounds-grid{ grid-template-columns:1fr 1fr }
   .setup-foot{ padding:10px; gap:8px; bottom:8px }
   .setup-foot .btn-xl{ flex:1 }
-  .intro-brand span{ display:none }
   .ip{ padding:14px 8px } .ip .av.xl{ width:56px; height:56px; font-size:21px }
   /* the draw on a phone: the classes one under the other; the caption keeps one fixed box */
   .dw-stage{ grid-template-columns:auto minmax(0,1fr); grid-template-rows:auto auto auto; height:auto; padding:12px 14px; gap:8px 12px }
@@ -993,6 +1044,7 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
   .m5-i{ font-size:15px; padding:4px 6px; min-height:46px }
   .m5-foot{ gap:8px } .m5-foot .muted{ display:none }
   .tools{ gap:3px; padding-inline:6px }
+  .tools-save{ padding:0; gap:3px; font-size:12px } .tools-save .ic{ width:13px; height:13px }
   .tools [data-act="fullscreen"]{ display:none }
   .tool{ padding:6px 8px }
   .slot, .tile{ width:36px; height:46px; font-size:24px }
@@ -1053,7 +1105,7 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 }
 /* projectors / big screens: let the broadcast graphics grow with the screen instead of stopping at laptop size */
 @media (min-width: 1500px){
-  .v-hub.page, .v-draw.page{ max-width:1660px }
+  .v-hub.page, .v-draw.page, .tb-wrap{ max-width:1660px }
   .sb, .qp{ width:min(88vw,1680px) }
   .ovl-card{ width:min(1000px,100%) }
   .ovl-card.pz, .ovl-card.toss-card{ width:min(760px,100%) }
@@ -1170,7 +1222,9 @@ const UNITS =
 /* ============================ 2. CONSTANTS ============================ */
 const APP_VERSION = '3.0.0';
 const SCHEMA = 3;
-const KEYS = { t: 'vcl.contest.v3', p: 'vcl.prefs.v1' };
+/* KEYS.t: the single save of the version without users (moved into the ready user at start); every user's competition
+   is saved under its own key (tKey) — KEYS.u lists the users */
+const KEYS = { t: 'vcl.contest.v3', p: 'vcl.prefs.v1', u: 'vcl.users.v1' };
 /* custom words were removed: every question uses ONLY the unit's words; an old save of them is deleted at start (OLD_CUSTOM_KEY) */
 const OLD_CUSTOM_KEY = 'vcl.custom.v1';
 /* saves of the earlier versions (class teams / groups in a knockout): never opened — a backup copy is offered, then a fresh start */
@@ -1345,7 +1399,6 @@ const IC = {
   swap: '<path d="M7 4 3 8l4 4"/><path d="M3 8h13"/><path d="m17 20 4-4-4-4"/><path d="M21 16H8"/>',
   sliders: '<path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/>',
   list: '<path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>',
-  coin: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5.5"/><path d="M12 9.5v5"/>',
   lock: '<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
   road: '<path d="M5 3v4a4 4 0 0 0 4 4h6a4 4 0 0 1 4 4v6"/><path d="M19 3v4a4 4 0 0 1-4 4"/><path d="m16 18 3 3 3-3"/>',
 };
@@ -1364,31 +1417,28 @@ function sealSVG(id, cls) {
 function sealMini(id) {
   return `<img class="seal-mini school-logo" src="${SCHOOL_LOGO}" alt="" aria-hidden="true" decoding="async" draggable="false">`;
 }
+/* the class champion's cup on the certificate: flat fills and thin hairlines (no metallic gloss) */
 function trophySVG(id) {
-  return `<svg class="trophy" viewBox="0 0 220 280" role="img" aria-label="كأس المسابقة"><defs>
-<linearGradient id="${id}s" x1="0" x2="1"><stop offset="0" stop-color="#7d88a8"/><stop offset=".3" stop-color="#f5f7ff"/><stop offset=".52" stop-color="#c9d3e8"/><stop offset=".78" stop-color="#7a86a6"/><stop offset="1" stop-color="#dfe5f3"/></linearGradient>
-<linearGradient id="${id}g" x1="0" x2="1"><stop offset="0" stop-color="#b8860b"/><stop offset=".45" stop-color="#ffe08a"/><stop offset="1" stop-color="#c8931e"/></linearGradient>
-<linearGradient id="${id}d" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#13296a"/><stop offset="1" stop-color="#060d24"/></linearGradient></defs>
-<path d="M60 44 C20 40 16 104 70 116" fill="none" stroke="url(#${id}s)" stroke-width="10" stroke-linecap="round"/>
-<path d="M160 44 C200 40 204 104 150 116" fill="none" stroke="url(#${id}s)" stroke-width="10" stroke-linecap="round"/>
-<path d="M52 30 H168 C168 104 146 144 110 156 C74 144 52 104 52 30 Z" fill="url(#${id}s)"/>
-<ellipse cx="110" cy="30" rx="58" ry="9" fill="#f5f7ff"/><ellipse cx="110" cy="31" rx="50" ry="5.5" fill="#8f9bbd"/>
-<path d="M70 42 C72 96 86 128 104 142" fill="none" stroke="#ffffff" stroke-width="5" stroke-linecap="round" opacity=".55"/>
-<polygon points="${starPts(110, 78, 17, 7)}" fill="url(#${id}g)"/>
-<path d="M100 156 H120 L124 196 H96 Z" fill="url(#${id}s)"/>
-<ellipse cx="110" cy="176" rx="17" ry="5.5" fill="#dfe5f3"/>
-<path d="M76 196 H144 L154 226 H66 Z" fill="url(#${id}s)"/>
-<rect x="58" y="226" width="104" height="36" rx="5" fill="url(#${id}d)" stroke="#c9d3e8" stroke-opacity=".5"/>
-<rect x="58" y="238" width="104" height="8" fill="url(#${id}g)"/></svg>`;
+  return `<svg class="trophy" viewBox="0 0 220 280" role="img" aria-label="كأس المسابقة">
+<path d="M60 44 C20 40 16 104 70 116" fill="none" stroke="#c9d3e8" stroke-width="10" stroke-linecap="round"/>
+<path d="M160 44 C200 40 204 104 150 116" fill="none" stroke="#c9d3e8" stroke-width="10" stroke-linecap="round"/>
+<path d="M52 30 H168 C168 104 146 144 110 156 C74 144 52 104 52 30 Z" fill="#dfe5f3" stroke="#7d88a8" stroke-width="2"/>
+<path d="M58 30 H162" stroke="#7d88a8" stroke-width="2"/>
+<polygon points="${starPts(110, 78, 17, 7)}" fill="#f2c14e" stroke="#b8860b" stroke-width="1.5"/>
+<path d="M100 156 H120 L124 196 H96 Z" fill="#dfe5f3" stroke="#7d88a8" stroke-width="2"/>
+<path d="M76 196 H144 L154 226 H66 Z" fill="#dfe5f3" stroke="#7d88a8" stroke-width="2"/>
+<rect x="58" y="226" width="104" height="36" rx="5" fill="#13296a"/>
+<rect x="58" y="238" width="104" height="8" fill="#f2c14e"/></svg>`;
 }
-/* podium medal: a ribboned disc in gold / silver / bronze with the place number */
-const MEDAL = [['#fff1bf', '#f2c14e', '#b8860b'], ['#ffffff', '#c9d3e8', '#7d88a8'], ['#ffd9b0', '#cd8a4b', '#8a5226']];
-function medalSVG(place, id) {
-  const [l, m, d] = MEDAL[place] || MEDAL[0];
-  return `<svg class="medal" viewBox="0 0 100 130" role="img" aria-label="ميدالية المركز ${placeAr(place)}"><defs><linearGradient id="${id}g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${l}"/><stop offset=".5" stop-color="${m}"/><stop offset="1" stop-color="${d}"/></linearGradient><linearGradient id="${id}r" x1="0" x2="1"><stop offset="0" stop-color="#13296a"/><stop offset="1" stop-color="#1d6fe0"/></linearGradient></defs>
-<path d="M22 0 H44 L60 46 H38 Z" fill="url(#${id}r)"/><path d="M78 0 H56 L40 46 H62 Z" fill="#0b1a45"/><path d="M56 0 H78 L62 46 H40 Z" fill="url(#${id}r)" opacity=".85"/>
-<circle cx="50" cy="84" r="40" fill="url(#${id}g)" stroke="${d}" stroke-width="2"/><circle cx="50" cy="84" r="31" fill="none" stroke="#ffffff" stroke-opacity=".55" stroke-width="1.6"/>
-<text x="50" y="99" text-anchor="middle" font-family="Teko,'Readex Pro',sans-serif" font-weight="600" font-size="46" fill="#0b1a45" fill-opacity=".82">${place + 1}</text></svg>`;
+/* podium medal: a flat disc in gold / silver / bronze with a thin rim, a hairline ring and the place number, on a
+   two-colour ribbon (no gloss, no gradient) */
+const MEDAL = [['#f2c14e', '#b8860b', '#fff1bf'], ['#dfe5f3', '#7d88a8', '#ffffff'], ['#d9955a', '#8a5226', '#ffd9b0']];
+function medalSVG(place) {
+  const [f, d, l] = MEDAL[place] || MEDAL[0];
+  return `<svg class="medal" viewBox="0 0 100 130" role="img" aria-label="ميدالية المركز ${placeAr(place)}">
+<path d="M24 0 H46 L60 46 H38 Z" fill="#1d6fe0"/><path d="M76 0 H54 L40 46 H62 Z" fill="#13296a"/>
+<circle cx="50" cy="84" r="40" fill="${f}" stroke="${d}" stroke-width="2.5"/><circle cx="50" cy="84" r="31" fill="none" stroke="${l}" stroke-opacity=".8" stroke-width="1.5"/>
+<text x="50" y="99" text-anchor="middle" font-family="Teko,'Readex Pro',sans-serif" font-weight="600" font-size="46" fill="#0b1a45" fill-opacity=".85">${place + 1}</text></svg>`;
 }
 
 /* ============================ 5. STORAGE ============================ */
@@ -1398,8 +1448,13 @@ function sSet(k, v) { MEM[k] = v; try { window.localStorage.setItem(k, v); retur
 function sDel(k) { delete MEM[k]; try { window.localStorage.removeItem(k); } catch (e) { /* ignore */ } }
 function jGet(k) { const raw = sGet(k); if (raw == null) return { ok: true, val: null }; try { return { ok: true, val: JSON.parse(raw) }; } catch (e) { return { ok: false, val: null }; } }
 
-const PREFS = Object.assign({ muted: false, setup: null }, (() => { const r = jGet(KEYS.p); return r.ok && r.val && typeof r.val === 'object' && !Array.isArray(r.val) ? r.val : {}; })());
+const PREFS = Object.assign({ muted: false, setups: {} }, (() => { const r = jGet(KEYS.p); return r.ok && r.val && typeof r.val === 'object' && !Array.isArray(r.val) ? r.val : {}; })());
 delete PREFS.customOnly; // the old custom-words switch (OLD_CUSTOM_KEY)
+/* the setup defaults (rosters, attendance, questions) are kept per user; the single one of the version without users
+   belongs to the ready user */
+if (!PREFS.setups || typeof PREFS.setups !== 'object' || Array.isArray(PREFS.setups)) PREFS.setups = {};
+if (PREFS.setup && typeof PREFS.setup === 'object' && !PREFS.setups.teacher) PREFS.setups.teacher = PREFS.setup;
+delete PREFS.setup;
 function savePrefs() { sSet(KEYS.p, JSON.stringify(PREFS)); }
 
 let T = null;           // the competition (persisted)
@@ -1519,11 +1574,49 @@ function repairT(t) {
   if (!t.matches.some((m) => m.id === t.cur)) t.cur = null;
   return t;
 }
+/* ---- users: local profiles WITHOUT passwords. The ready user «أ. محمد بن سعيد المعشني» exists from the first launch and
+   the page opens as the last user. Each user's competition is saved under its own key (the single save of the version
+   without users is moved into the ready user); the list also keeps each user's last save time and last screen. ---- */
+const READY_ID = 'teacher', USER_MAX = 12, UNAME_MAX = 40;
+const USERS = { cur: READY_ID, list: [] };
+const tKey = (id) => `vcl.u.${id || USERS.cur}.contest.v3`;
+const PLACE_VIEWS = ['home', 'setup', 'draw', 'hub', 'bank', 'help', 'intro', 'match', 'result', 'ceremony', 'cert'];
+/* a remembered screen: { v: view, tab, m: match id, c: certificate } */
+function validPlace(p) {
+  if (!p || typeof p !== 'object' || !PLACE_VIEWS.includes(p.v)) return null;
+  const s = (x) => (typeof x === 'string' && x.length <= 40 && /^[A-Za-z0-9_-]*$/.test(x) ? x : '');
+  return { v: p.v, tab: s(p.tab), m: s(p.m), c: s(p.c) };
+}
+function loadUsers() {
+  const r = jGet(KEYS.u), v = r.ok && r.val && typeof r.val === 'object' && !Array.isArray(r.val) ? r.val : null, seen = new Set();
+  USERS.list = (v && Array.isArray(v.list) ? v.list : []).filter((u) => u && typeof u === 'object' && typeof u.id === 'string' && ID_RE.test(u.id) && !seen.has(u.id) && seen.add(u.id) && isStr(u.name, 200) && cleanName(u.name))
+    .slice(0, USER_MAX).map((u) => ({ id: u.id, name: cleanName(u.name).slice(0, UNAME_MAX), at: isNum(u.at) ? u.at : Date.now(), saved: isNum(u.saved) ? u.saved : null, place: validPlace(u.place) }));
+  if (!USERS.list.some((u) => u.id === READY_ID)) USERS.list.unshift({ id: READY_ID, name: TEACHER, at: Date.now(), saved: null, place: null });
+  USERS.cur = v && USERS.list.some((u) => u.id === v.cur) ? v.cur : READY_ID;
+}
+function saveUsers() { sSet(KEYS.u, JSON.stringify({ v: 1, cur: USERS.cur, list: USERS.list })); }
+const curUser = () => USERS.list.find((u) => u.id === USERS.cur) || USERS.list[0];
+/* the single save of the version without users becomes the ready user's save (kept as it is when that user already has one) */
+function migrateSingleSave() {
+  const old = sGet(KEYS.t); if (old == null) return;
+  if (sGet(tKey(READY_ID)) == null && sSet(tKey(READY_ID), old)) sDel(KEYS.t);
+}
+/* the initials of a user: «أ. محمد بن سعيد المعشني» → «م م» (titles, «بن» and the article «ال» left out) */
+function userInitials(n) {
+  const w = cleanName(n).split(' ').filter((x) => x && !/\.$/.test(x) && !['بن', 'بنت', 'ابن', 'أ', 'د'].includes(x)).map((x) => x.replace(/^ال(?=\S\S)/, ''));
+  if (!w.length) return '?';
+  if (/^[A-Za-z]/.test(w[0])) return initials(w.join(' '));
+  const f = (x) => Array.from(x)[0] || '';
+  return w.length > 1 ? f(w[0]) + '\u2009' + f(w[w.length - 1]) : f(w[0]); // a thin space: the two letters never join
+}
+const pad2 = (n) => String(n).padStart(2, '0');
+/* «10:42» today, «25 سبتمبر · 10:42» another day */
+function fmtClock(ts) { const d = new Date(ts), now = new Date(), t = `${pad2(d.getHours())}:${pad2(d.getMinutes())}`; return d.toDateString() === now.toDateString() ? t : `${d.getDate()} ${MONTHS_AR[d.getMonth()]} · ${t}`; }
 function loadT() {
-  const r = jGet(KEYS.t);
+  const r = jGet(tKey());
   if (!r.ok) { LOAD_WARN = 'تعذّرت قراءة المسابقة المحفوظة (بيانات تالفة) — تم البدء من جديد.'; return null; }
   if (!r.val) return null;
-  if (hasReplays(r.val)) { LEGACY = LEGACY || { key: KEYS.t, raw: sGet(KEYS.t) }; return null; }
+  if (hasReplays(r.val)) { LEGACY = LEGACY || { key: tKey(), raw: sGet(tKey()) }; return null; }
   if (!validT(r.val)) { LOAD_WARN = 'المسابقة المحفوظة غير صالحة — ابدأ مسابقة جديدة (يمكنك استعادة نسخة احتياطية من الرئيسية).'; return null; }
   try { return repairT(r.val); } catch (e) { LOAD_WARN = 'تعذّر إصلاح المسابقة المحفوظة — ابدأ مسابقة جديدة (يمكنك استعادة نسخة احتياطية من الرئيسية).'; return null; }
 }
@@ -1537,15 +1630,15 @@ function compactT() {
 /* saves the competition. Returns false when it could not be persisted (the teacher is warned once, and a banner stays).
    A tab holding an older copy never overwrites newer results saved by another tab (force = intentional replace). */
 function saveT(force) {
-  if (!T) { sDel(KEYS.t); return true; }
+  if (!T) { sDel(tKey()); noteSaved(); return true; }
   if (!force && STORE.ok) {
-    const r = jGet(KEYS.t), cur = r.ok && r.val && typeof r.val === 'object' ? r.val : null;
+    const r = jGet(tKey()), cur = r.ok && r.val && typeof r.val === 'object' ? r.val : null;
     if (cur && ((cur.id && cur.id !== T.id) || (cur.id === T.id && (cur.rev || 0) > (T.rev || 0)))) { staleTab(); return false; }
   }
   T.rev = (T.rev || 0) + 1;
-  let ok = sSet(KEYS.t, JSON.stringify(T));
-  if (!ok && STORE.ok) { try { compactT(); ok = sSet(KEYS.t, JSON.stringify(T)); } catch (e) { ok = false; } }
-  if (ok) { if (STORE.failing) { STORE.failing = false; renderWarn(); } }
+  let ok = sSet(tKey(), JSON.stringify(T));
+  if (!ok && STORE.ok) { try { compactT(); ok = sSet(tKey(), JSON.stringify(T)); } catch (e) { ok = false; } }
+  if (ok) { if (STORE.failing) { STORE.failing = false; renderWarn(); } noteSaved(); }
   else if (STORE.ok) { STORE.failing = true; renderWarn(); if (!STORE.warned) { STORE.warned = true; toast('تعذّر حفظ المسابقة على هذا الجهاز (مساحة التخزين ممتلئة أو محظورة) — انسخ رمز النسخة الاحتياطية الآن', 'bad'); } }
   return ok;
 }
@@ -1604,7 +1697,6 @@ const SFX = {
   turn() { if (!canPlay()) return; const t = AU.ctx.currentTime + 0.02; tone('sine', midi(79), t, 0.25, 0.06); tone('sine', midi(84), t + 0.12, 0.4, 0.05); },
   click() { if (!canPlay()) return; tone('triangle', 680, AU.ctx.currentTime + 0.005, 0.05, 0.05); },
   pop() { if (!canPlay()) return; tone('sine', 520, AU.ctx.currentTime + 0.005, 0.09, 0.08, 880); },
-  coin() { if (!canPlay()) return; let t = AU.ctx.currentTime + 0.02; for (let i = 0; i < 12; i++) { tone('triangle', 2100 + rnd(500), t, 0.06, 0.05); t += 0.045 + i * 0.014; } tone('sine', 1760, t + 0.05, 0.35, 0.08); },
   roll() { if (!canPlay()) return; const t = AU.ctx.currentTime + 0.02; for (let i = 0; i < 16; i++) noiseBurst(t + i * 0.07, 0.07, { freq: 220, q: 1.2, vol: 0.14 + i * 0.01, attack: 0.01 }); },
   fanfare() {
     if (!canPlay()) return; const c = AU.ctx, t = c.currentTime + 0.05;
@@ -2113,7 +2205,7 @@ function matchBudget(types, pool, R, n) {
    two 1-v-1 cross matches) → the class final (1-v-1) → class champion. The class champions play the Grand Final
    (podium 1st / 2nd / 3rd). A tie that decides something (qualification, a win, a podium place) is broken right away on
    the match screen by «سؤال حاسم» (sudden death: one extra mirrored question each, round after round); a tie on group
-   seeding (1st vs 2nd, «مواجهتان فرديتان» only) is decided by a visible coin toss. Matches are created when first opened. */
+   seeding (1st vs 2nd, «مواجهتان فرديتان» only) is decided by a visible draw («قرعة الترتيب»). Matches are created when first opened. */
 function classById(id) { return (T && Array.isArray(T.classes) && T.classes.find((c) => c.id === id)) || null; }
 /* a student (or one of the two guests of the quick try) with the colour and name of the class */
 function person(id) {
@@ -2187,7 +2279,7 @@ function sdNeed(m) {
   const P = sdPartition(m); return P.open ? null : sdNext(m, P.part);
 }
 /* the final order of a finished match: blocks of equal points broken by the sudden-death rounds; a block that only
-   straddles a seeding cut is ordered by its coin toss; a block that straddles nothing decides nothing and stays tied.
+   straddles a seeding cut is ordered by its seeding draw; a block that straddles nothing decides nothing and stays tied.
    → { order, tied: [blocks], pts } or { pending: { kind: 'play' | 'toss', m, block, key } } */
 function resolve(m) {
   if (!m || !m.seq || m.status !== 'done') return { pending: { kind: 'play', m } };
@@ -2306,7 +2398,7 @@ function classFlow(c) {
     for (const g of ['A', 'B']) {
       const mem = d[g];
       if (mem.length >= 3) { const s = mkStep(c, 'g' + g, 'group', g, mem); F.steps.push(s); top[g] = s.state === 'done' ? s.res.order.slice(0, 2) : null; continue; }
-      /* a group of two: both qualify without a match (in «مواجهتان فرديتان» a coin toss orders them) */
+      /* a group of two: both qualify without a match (in «مواجهتان فرديتان» a seeding draw orders them) */
       const s = { key: 'g' + g, id: MID(c, 'g' + g), stage: 'group', slot: g, cls: c.id, players: mem, m: null, auto: true, state: 'done', act: null };
       if (mode === 'pairs') { const key = tossKey(s.id, mem), o = T.tosses[key]; if (!o) { s.state = 'toss'; s.act = { kind: 'toss', key, block: mem, of: null }; } top[g] = o ? o.slice() : null; }
       else top[g] = mem.slice(0, 2);
@@ -2378,7 +2470,7 @@ function addSdRound(m, need) {
   refreshStatus(m);
   return m.sdr[j - 1];
 }
-/* the visible coin toss that orders two students tied on group seeding */
+/* the visible seeding draw («قرعة الترتيب») that orders two students tied on group seeding */
 function doToss(key, block) { if (!T.tosses[key]) { T.tosses[key] = shuffle(block.slice(0, 2)); saveT(); } return T.tosses[key]; }
 /* is the whole competition decided? (the podium of the Grand Final) */
 function podiumOf() { if (!T) return null; try { return grandFlow().podium; } catch (e) { return null; } }
@@ -2423,6 +2515,7 @@ function renderWarn() {
   if (!bar) return;
   bar.hidden = !bad;
   bar.innerHTML = bad ? `${icon('save')}<span>${STORE.ok ? 'تعذّر الحفظ التلقائي على هذا الجهاز (مساحة التخزين ممتلئة أو محظورة).' : 'الحفظ التلقائي غير متاح في هذه الصفحة — ستضيع النتائج عند إغلاقها أو تحديثها.'} احفظ «رمز النسخة الاحتياطية» قبل الإغلاق.</span><button class="btn btn-gold btn-sm" data-act="backup">${icon('copy')}<span>النسخ الاحتياطي</span></button>` : '';
+  paintSave();
 }
 /* another tab saved newer results: this tab stops saving and offers to load them */
 function staleTab() {
@@ -2434,7 +2527,7 @@ function staleTab() {
     actions: [{ label: 'تحميل أحدث نسخة', cls: 'btn-gold', icon: 'reset', fn: reloadFromStorage }],
   });
 }
-function reloadFromStorage() { STORE.conflict = false; T = loadT(); LOAD_WARN = ''; if (S.matchId !== 'demo') S.matchId = null; go(T ? 'hub' : 'home'); }
+function reloadFromStorage() { STORE.conflict = false; T = loadT(); LOAD_WARN = ''; if (S.matchId !== 'demo') S.matchId = null; go(T ? 'hub' : 'home', 'replace'); }
 
 const MODAL = { open: false, handlers: [], onClose: null, prevFocus: null, gen: 0, dismissable: true };
 function openModal(o) {
@@ -2474,8 +2567,111 @@ function topLayer() { const els = $$('#layer > .ovl'); return els.length ? els[e
 function clearLayers() { const l = $('#layer'); if (l) l.innerHTML = ''; }
 
 function soundBtn() { return `<button class="icon-btn" data-act="mute" aria-label="${PREFS.muted ? 'تشغيل الصوت' : 'كتم الصوت'}" aria-pressed="${PREFS.muted}" title="الصوت (M)">${icon(PREFS.muted ? 'mute' : 'speaker')}</button>`; }
+
+/* ---- the user and the visible autosave: «✓ التقدم محفوظ تلقائياً · آخر حفظ 10:42» ---- */
+function noteSaved() { const u = curUser(); if (!u) return; u.saved = Date.now(); saveUsers(); paintSave(); }
+function saveStatus() {
+  const u = curUser();
+  if (storageBad()) return { ok: false, short: 'الحفظ غير متاح', long: 'الحفظ التلقائي غير متاح على هذا الجهاز — استخدم «النسخ الاحتياطي»' };
+  const t = u && u.saved ? fmtClock(u.saved) : '';
+  if (t) return { ok: true, short: `محفوظ · ${t}`, long: `التقدم محفوظ تلقائياً · آخر حفظ ${t}` };
+  return T ? { ok: true, short: 'محفوظ', long: 'التقدم محفوظ تلقائياً' } : { ok: true, short: 'حفظ تلقائي', long: 'التقدم يُحفظ تلقائياً' };
+}
+/* «✓ التقدم محفوظ تلقائياً · آخر حفظ 10:42» — each part stays whole when the line wraps */
+const saveLine = (st, long) => `${icon(st.ok ? 'check' : 'x')}<span dir="auto">${(long ? st.long : st.short).split(' · ').map((x) => `<span class="nw">${esc(x)}</span>`).join(' · ')}</span>`;
+function paintSave() {
+  const st = saveStatus();
+  $$('.um-s').forEach((el) => { el.classList.toggle('bad', !st.ok); el.innerHTML = saveLine(st, el.dataset.l === '1'); });
+  $$('.um-dot').forEach((el) => el.classList.toggle('bad', !st.ok));
+  $$('.um-btn').forEach((el) => el.setAttribute('title', `${curUser().name} — ${st.long}`));
+  const ts = $('#tools-save'); if (ts) { ts.hidden = toolSaveOff(); ts.title = st.long; ts.innerHTML = toolSaveHTML(); fitToolSave(); }
+}
+/* the toolbar's autosave is never cut: with too little room between the tools it drops the word «محفوظ» («✓ 10:42»),
+   and with less still it steps aside (the topbar and the pause card show the save) */
+function fitToolSave() {
+  const s = $('#tools-save'); if (!s || s.hidden) return;
+  const room = s.parentElement.clientWidth + 0.5, wide = () => s.getBoundingClientRect().width > room;
+  s.classList.remove('tight', 'off'); if (wide()) s.classList.add('tight'); if (wide()) s.classList.add('off');
+}
+const userAv = (u, cls) => `<span class="av uav${cls ? ' ' + cls : ''}" aria-hidden="true">${esc(userInitials(u.name))}</span>`;
+function userMenu() {
+  const u = curUser(), st = saveStatus();
+  return `<div class="um" id="um"><button class="um-btn" data-act="umenu" id="um-btn" aria-haspopup="true" aria-expanded="false" aria-controls="um-pop" title="${esc(u.name)} — ${esc(st.long)}">${userAv(u)}<span class="um-t"><b>${esc(u.name)}</b><small class="um-s${st.ok ? '' : ' bad'}">${saveLine(st)}</small></span><i class="um-dot${st.ok ? '' : ' bad'}" aria-hidden="true"></i><span class="sr-only">قائمة المستخدم</span></button>
+<div class="um-pop" id="um-pop" hidden><div class="um-h">${userAv(u, 'lg')}<span><b>${esc(u.name)}</b><small class="um-s${st.ok ? '' : ' bad'}" data-l="1" id="um-status">${saveLine(st, true)}</small></span></div>
+<button class="um-i" data-act="users">${icon('users')}<span>تبديل المستخدم</span>${USERS.list.length > 1 ? `<small>${num(USERS.list.length)}</small>` : ''}</button>
+<button class="um-i" data-act="user-add">${icon('plus')}<span>إضافة مستخدم</span><small>الاسم فقط</small></button>
+<button class="um-i" data-act="backup">${icon('save')}<span>النسخ الاحتياطي</span><small>لجهاز آخر</small></button>
+<p class="um-note">يُحفظ التقدم على <b>هذا الجهاز وهذا المتصفح</b> فقط. للانتقال إلى جهاز آخر استخدم «النسخ الاحتياطي».</p></div></div>`;
+}
+const umOpen = () => { const p = $('#um-pop'); return !!p && !p.hidden; };
+function closeUserMenu(focus) { const p = $('#um-pop'), b = $('#um-btn'); if (!p || p.hidden) return; p.hidden = true; if (b) { b.setAttribute('aria-expanded', 'false'); if (focus) b.focus({ preventScroll: true }); } }
+function toggleUserMenu() {
+  const p = $('#um-pop'), b = $('#um-btn'); if (!p || !b) return;
+  if (!p.hidden) { closeUserMenu(); return; }
+  p.hidden = false; b.setAttribute('aria-expanded', 'true'); paintSave();
+  const f = p.querySelector('.um-i'); if (f) f.focus({ preventScroll: true });
+}
+/* «تبديل المستخدم»: every user of this device with the state of their saved competition */
+function openUsers() {
+  closeUserMenu();
+  const rows = USERS.list.map((u) => {
+    const on = u.id === USERS.cur, has = sGet(tKey(u.id)) != null;
+    return `<li><button class="ur${on ? ' on' : ''}" data-act="user-switch" data-id="${esc(u.id)}"${on ? ' aria-current="true"' : ''}>${userAv(u)}<span class="ur-t"><b>${esc(u.name)}</b><small>${on ? 'المستخدم الحالي · ' : ''}${has ? 'مسابقة محفوظة' : 'لا توجد مسابقة بعد'}${u.saved ? ` · آخر حفظ ${esc(fmtClock(u.saved))}` : ''}</small></span>${on ? icon('check') : ''}</button>${!on && u.id !== READY_ID ? `<button class="icon-btn sm" data-act="user-del" data-id="${esc(u.id)}" aria-label="حذف المستخدم ${esc(u.name)}" title="حذف المستخدم">${icon('trash')}</button>` : ''}</li>`;
+  }).join('');
+  openModal({
+    title: `${icon('users')} تبديل المستخدم`,
+    body: `<ul class="ulist" id="ulist">${rows}</ul><p class="muted small">لكل مستخدم مسابقته المحفوظة تلقائيًا على هذا الجهاز — بلا كلمة مرور. للانتقال إلى جهاز آخر استخدم «النسخ الاحتياطي».</p>`,
+    actions: [{ label: 'إغلاق' }].concat(USERS.list.length < USER_MAX ? [{ label: 'إضافة مستخدم', icon: 'plus', cls: 'btn-primary', fn: () => { openAddUser(); return false; } }] : []),
+  });
+}
+/* «إضافة مستخدم»: a name, nothing else (no password) — the new user starts with no competition */
+function openAddUser() {
+  closeUserMenu();
+  if (USERS.list.length >= USER_MAX) { toast(`الحد الأقصى ${USER_MAX} مستخدمًا على هذا الجهاز`, 'bad'); return; }
+  openModal({
+    title: `${icon('plus')} إضافة مستخدم`,
+    body: `<div class="uadd"><label class="fld"><span>الاسم (بلا كلمة مرور)</span><input type="text" id="uadd-in" maxlength="${UNAME_MAX}" autocomplete="off" dir="auto" placeholder="مثال: أ. خالد" autofocus></label><p class="bad uadd-err" id="uadd-err" role="alert"></p><p class="muted small">يبدأ المستخدم الجديد بلا مسابقة، ويُحفظ تقدّمه تلقائيًا على هذا الجهاز.</p></div>`,
+    actions: [{ label: 'إلغاء' }, { label: 'إضافة والتبديل إليه', cls: 'btn-gold', icon: 'plus', fn: () => addUser(($('#uadd-in') || {}).value) }],
+  });
+}
+function addUser(name) {
+  const n = cleanName(name).slice(0, UNAME_MAX), err = $('#uadd-err'), fail = (m) => { if (err) err.textContent = m; const i = $('#uadd-in'); if (i) i.focus(); return false; };
+  if (!n) return fail('اكتب اسم المستخدم.');
+  if (USERS.list.some((u) => u.name === n)) return fail('هذا الاسم موجود — اختره من «تبديل المستخدم».');
+  if (USERS.list.length >= USER_MAX) return fail(`الحد الأقصى ${USER_MAX} مستخدمًا على هذا الجهاز.`);
+  let id; do { id = 'u' + uid(); } while (USERS.list.some((u) => u.id === id));
+  USERS.list.push({ id, name: n, at: Date.now(), saved: null, place: null }); saveUsers();
+  switchUser(id);
+  return true;
+}
+function delUser(id) {
+  const u = USERS.list.find((x) => x.id === id); if (!u || id === USERS.cur || id === READY_ID) return;
+  confirmModal(`حذف المستخدم «${esc(u.name)}» ومسابقته المحفوظة من هذا الجهاز؟ (يمكنك حفظ نسخة احتياطية أولًا بعد التبديل إليه)`, 'حذف المستخدم', () => {
+    sDel(tKey(id)); USERS.list = USERS.list.filter((x) => x.id !== id); delete PREFS.setups[id]; saveUsers(); savePrefs();
+    toast(`تم حذف المستخدم «${u.name}»`); openUsers(); return false;
+  });
+}
+/* switching the user: that user's competition, back where they left it */
+function switchUser(id) {
+  const u = USERS.list.find((x) => x.id === id); if (!u) return;
+  if (id === USERS.cur) { closeModal(true); return; }
+  cleanupView();
+  USERS.cur = id; saveUsers();
+  Object.assign(STORE, { failing: false, warned: false, conflict: false });
+  LOAD_WARN = ''; T = loadT();
+  Object.assign(S, { tab: '', matchId: null, setup: null, drawAnim: false, swapSel: null, cert: '', demo: null, resumePaused: false, introErr: '', toss: null, sdAck: '' });
+  go(resumePlace(), 'switch');
+  if (LOAD_WARN) { toast(LOAD_WARN, 'bad'); LOAD_WARN = ''; }
+  toast(`المستخدم الآن: ${u.name} — التقدم يُحفظ تلقائيًا`, 'good');
+  if (LEGACY) legacyNotice();
+}
+
+/* «رجوع»: the same button in the same place (top start) on every screen but the home; it goes to the screen's logical
+   parent (certificate → ceremony → hub → home). In a running match «خروج» plays this role. */
+const PARENT_AR = { home: 'الرئيسية', hub: 'مركز المسابقة', ceremony: 'حفل التتويج' };
+function backBtn() { const to = parentOf(S.view); return `<button class="btn btn-ghost btn-sm tb-back" data-act="back" id="btn-back" aria-label="رجوع إلى ${PARENT_AR[to] || 'الصفحة السابقة'}" title="رجوع إلى ${PARENT_AR[to] || 'الصفحة السابقة'}">${icon('back')}<span>رجوع</span></button>`; }
 function topbar(title, actions) {
-  return `<header class="topbar"><button class="brand" data-act="go" data-to="home" aria-label="الرئيسية — ${SCHOOL}">${sealMini('tb' + uid())}<span class="brand-t"><b>${TITLE}</b><small>${SCHOOL}</small></span></button><h1 class="tb-title">${title}</h1><nav class="tb-act" aria-label="إجراءات">${actions || ''}${soundBtn()}</nav></header>`;
+  return `<div class="tb-wrap"><header class="topbar">${backBtn()}<button class="brand" data-act="home" aria-label="الرئيسية — ${SCHOOL}">${sealMini()}<span class="brand-t"><b>${TITLE}</b><small>${SCHOOL}</small></span></button>${userMenu()}<h1 class="tb-title">${title || ''}</h1><nav class="tb-act" aria-label="إجراءات">${actions || ''}${soundBtn()}</nav></header></div>`;
 }
 const lvlDots = (l) => `<span class="lv" aria-label="المستوى ${l}" title="المستوى ${l}">${[1, 2, 3].map((i) => `<i class="${i <= l ? 'on' : ''}"></i>`).join('')}</span>`;
 const sayBtn = (w, cls) => (SPEECH_OK ? `<button class="say${cls ? ' ' + cls : ''}" data-act="say-word" data-w="${esc(w)}" aria-label="استمع إلى نطق الكلمة" title="نطق">${icon('wave')}</button>` : '');
@@ -2494,11 +2690,11 @@ function progressText() {
 }
 VIEWS.home = () => {
   const main = T
-    ? `<button class="btn btn-gold btn-xl" data-act="go" data-to="hub" id="btn-home">${icon('play')}<span>متابعة المسابقة<small>${progressText()}</small></span></button>`
+    ? `<button class="btn btn-gold btn-xl" data-act="go" data-to="${T.drawOk ? 'hub' : 'draw'}" id="btn-home">${icon('play')}<span>متابعة المسابقة<small>${T.drawOk ? progressText() : 'القرعة بانتظار الاعتماد'}</small></span></button>`
     : `<button class="btn btn-gold btn-xl" data-act="new-t" id="btn-home">${icon('shuffle')}<span>ابدأ المسابقة<small>القرعة أولًا: من مع من</small></span></button>`;
   return `<section class="v-home">
   <div class="beams" aria-hidden="true"><i class="beam b1"></i><i class="beam b2"></i></div>
-  <div class="home-top">${soundBtn()}</div>
+  <div class="home-top">${userMenu()}${soundBtn()}</div>
   <div class="home-hero">
     <div class="home-emblem">${sealSVG('he')}</div>
     <h1 class="home-title">${TITLE}</h1>
@@ -2537,7 +2733,7 @@ function rosterNames(text) {
 function defaultSetup() {
   const s = { name: DEF_NAME, classes: DEF_CLASSES.map((c) => ({ name: c.name, color: c.color, text: DEF_ROSTERS[c.name].join('\n'), absent: [] })), rounds: {}, second: 'four', timer: 1 };
   STAGE_IDS.forEach((k) => { s.rounds[k] = STAGES[k].def; });
-  const p = PREFS.setup;
+  const p = PREFS.setups[USERS.cur];
   if (p && typeof p === 'object' && p.v === SCHEMA) {
     if (isStr(p.name, 80) && cleanName(p.name)) s.name = cleanName(p.name);
     if (Array.isArray(p.classes) && p.classes.length === 3) p.classes.forEach((c, i) => { if (!c || typeof c !== 'object') return; if (isStr(c.name, CNAME_MAX) && cleanName(c.name)) s.classes[i].name = cleanName(c.name); if (isStr(c.text, 4000)) s.classes[i].text = c.text; if (Array.isArray(c.absent)) s.classes[i].absent = c.absent.filter((x) => isStr(x, NAME_MAX)); });
@@ -2597,11 +2793,11 @@ function rulesHTML() {
 VIEWS.setup = () => {
   if (!S.setup) S.setup = defaultSetup();
   const s = S.setup;
-  return `<section class="v-setup page">${topbar('إعداد المسابقة', `<button class="btn btn-ghost btn-sm" data-act="go" data-to="${T ? 'hub' : 'home'}">${icon('back')}<span>رجوع</span></button>`)}
+  return `${topbar('إعداد المسابقة')}<section class="v-setup page">
 <section class="panel st-name"><label class="fld"><span>اسم المسابقة (يظهر في مركز المسابقة وعلى الشهادات)</span><input type="text" data-in="comp-name" value="${esc(s.name)}" maxlength="80" autocomplete="off" dir="auto"></label></section>
 <section class="panel st-rosters"><h2>${icon('users')} الشعب والطلاب <small>(من ${ROSTER_MIN} إلى ${ROSTER_MAX} طالبًا في كل شعبة)</small></h2><div class="rosters">${s.classes.map(rosterCard).join('')}</div></section>
 <section class="panel st-rules"><h2>${icon('sliders')} قواعد المسابقة</h2><div id="rules">${rulesHTML()}</div></section>
-<div class="setup-foot"><p class="setup-err" id="setup-err" role="alert"></p><button class="btn btn-ghost" data-act="go" data-to="${T ? 'hub' : 'home'}">${icon('back')}<span>رجوع</span></button><button class="btn btn-gold btn-xl" data-act="create">${icon('shuffle')}<span>إنشاء المسابقة والقرعة</span></button></div>
+<div class="setup-foot"><p class="setup-err" id="setup-err" role="alert"></p><button class="btn btn-gold btn-xl" data-act="create">${icon('shuffle')}<span>إنشاء المسابقة والقرعة</span></button></div>
 </section>`;
 };
 function setupErrors(s) {
@@ -2625,7 +2821,7 @@ function refreshSetupBits(i) {
 
 /* ---------- Hub: «مركز المسابقة» ---------- */
 const STATE_AR = { locked: 'بانتظار المتأهلين', ready: 'جاهزة للعب', live: 'جارية', sd: 'تعادل — سؤال حاسم', toss: 'تعادل — قرعة الترتيب', done: 'انتهت' };
-const STATE_IC = { locked: 'lock', ready: 'play', live: 'play', sd: 'bolt', toss: 'coin', done: 'check' };
+const STATE_IC = { locked: 'lock', ready: 'play', live: 'play', sd: 'bolt', toss: 'shuffle', done: 'check' };
 function miniAvs(ids, win) { if (win) ids = win.concat(ids.filter((x) => !win.includes(x))); return `<span class="mavs">${ids.map((id) => `<span class="mav${win && !win.includes(id) ? ' out' : ''}${win && win.includes(id) ? ' win' : ''}" title="${esc(pName(id))}">${avatar(id)}</span>`).join('')}</span>`; }
 /* the students a finished step sends on */
 function winnersOf(st) {
@@ -2642,7 +2838,7 @@ function roadNode(F, st, extra) {
   const body = st.players ? miniAvs(st.players, winnersOf(st)) : '';
   return `<${tag} class="rn st-${state}${extra ? ' ' + extra : ''}"${attrs} title="${esc(lab)} — ${esc(stateTxt)}"><span class="rn-t">${esc(lab)}</span>${body}<span class="rn-s">${icon(STATE_IC[state])}<span>${esc(stateTxt)}</span></span></${tag}>`;
 }
-const nextIcon = (nx) => (nx.kind === 'draw' ? 'shuffle' : nx.kind === 'toss' ? 'coin' : nx.step && nx.step.state === 'sd' ? 'bolt' : 'play');
+const nextIcon = (nx) => (nx.kind === 'draw' ? 'shuffle' : nx.kind === 'toss' ? 'shuffle' : nx.step && nx.step.state === 'sd' ? 'bolt' : 'play');
 function roadCol(F) {
   const c = F.c, nx = F.next, step = (k) => F.steps.find((s) => s.key === k);
   let rows = '';
@@ -2740,8 +2936,8 @@ VIEWS.hub = () => {
   const F = G.flows.find((f) => f.c.id === S.tab);
   const done = T.matches.filter((m) => m.status === 'done').length;
   const banner = G.podium ? `<div class="champ-banner">${icon('trophy')}${avatar(G.podium[0], 'lg')}<div><small>بطل دوري أبطال المفردات — الجائزة الكبرى</small><b>${nm(G.podium[0])} <span class="muted" dir="ltr">${esc(person(G.podium[0]).cls)}</span></b></div><button class="btn btn-gold" data-act="go" data-to="ceremony">${icon('trophy')}<span>حفل التتويج</span></button></div>` : '';
-  const acts = `<button class="btn btn-ghost btn-sm" data-act="draw-open">${icon('shuffle')}<span>نتيجة القرعة</span></button><button class="btn btn-ghost btn-sm" data-act="backup">${icon('save')}<span>النسخ الاحتياطي</span></button><button class="btn btn-danger btn-sm" data-act="reset-t">${icon('reset')}<span>إعادة ضبط</span></button>`;
-  return `<section class="v-hub page">${topbar('مركز المسابقة', acts)}
+  const acts = `<button class="btn btn-ghost btn-sm" data-act="draw-open">${icon('shuffle')}<span>نتيجة القرعة</span></button><button class="btn btn-danger btn-sm" data-act="reset-t">${icon('reset')}<span>إعادة ضبط</span></button>`;
+  return `${topbar('مركز المسابقة', acts)}<section class="v-hub page">
 ${banner}${roadHTML(G, `<div class="hub-head"><h3 class="hub-name"><bdi>${esc(T.name)}</bdi></h3><div class="hub-meta"><span>${icon('users')} ${num(T.classes.reduce((n, c) => n + c.students.length, 0))} طالبًا · ${num(T.classes.length)} شعب</span><span class="hm-done">${icon('check')} مباريات منتهية: ${num(done)}</span></div></div>`)}
 <div class="tabs" role="tablist" aria-label="أقسام المسابقة">${tabs.map((t) => `<button class="tab${S.tab === t.id ? ' on' : ''}" role="tab" id="tab-${t.id}" aria-selected="${S.tab === t.id}" data-act="tab" data-tab="${t.id}" style="--cc:${t.color}">${t.id === 'gf' ? icon('trophy') : '<i class="tab-sw"></i>'}<span${t.id === 'gf' ? '' : ' dir="ltr"'}>${esc(t.label)}</span>${t.dot ? `<i class="tab-dot ${t.dot}" aria-hidden="true"></i>` : ''}</button>`).join('')}</div>
 <div class="tab-body" id="tab-body" role="tabpanel" aria-labelledby="tab-${S.tab}">${S.tab === 'gf' ? grandSection(G) : classSection(F)}</div></section>`;
@@ -2770,13 +2966,12 @@ function drawCol(c, anim) {
 VIEWS.draw = () => {
   if (!T) return VIEWS.home();
   const anim = !!S.drawAnim, played = anyPlayed(), canSwap = !anim && T.classes.some((c) => c.draw && c.draw.A && !classStarted(c));
-  const back = T.drawOk ? `<button class="btn btn-ghost btn-sm" data-act="go" data-to="hub">${icon('back')}<span>مركز المسابقة</span></button>` : '';
   const stage = anim ? `<div class="dw-stage" id="dw-stage"><span class="dw-cls" id="dw-cls"></span><span class="dw-pot" id="dw-pot"></span><p class="dw-cap" id="dw-cap" aria-live="polite"><span>القرعة تبدأ الآن…</span></p><div class="dw-act">%FOOT%</div></div>`
     : `<div class="dw-stage done"><span class="dw-cls"></span><span class="dw-pot"></span><p class="dw-cap">${icon('check')}<b>اكتملت القرعة — من مع من</b></p><div class="dw-act">%FOOT%</div></div>`;
   const note = anim ? '' : S.swapSel ? 'اختر الآن طالبًا من المجموعة الأخرى في الشعبة نفسها لتبديل مكانيهما.' : canSwap ? 'لتبديل طالبين قبل أول مباراة للشعبة: اضغط اسم طالب ثم اسم طالب من المجموعة الأخرى.' : '';
   const foot = anim ? `<button class="btn btn-ghost" data-act="draw-skip" id="btn-skip">${icon('next')}<span>تخطّي القرعة</span></button>`
-    : `${played ? '' : `<button class="btn btn-ghost" data-act="redraw" id="btn-redraw">${icon('shuffle')}<span>إعادة القرعة</span></button>`}${T.drawOk ? `<button class="btn btn-gold" data-act="go" data-to="hub" id="btn-next">${icon('road')}<span>مركز المسابقة</span></button>` : `<button class="btn btn-gold" data-act="draw-ok" id="btn-next">${icon('check')}<span>اعتماد القرعة والبدء</span></button>`}`;
-  return `<section class="v-draw page${anim ? ' anim' : ''}">${topbar('قرعة دوري أبطال المفردات', back)}
+    : `${played ? '' : `<button class="btn btn-ghost" data-act="redraw" id="btn-redraw">${icon('shuffle')}<span>إعادة القرعة</span></button>`}${T.drawOk ? `<button class="btn btn-gold" data-act="up" data-to="hub" id="btn-next">${icon('road')}<span>مركز المسابقة</span></button>` : `<button class="btn btn-gold" data-act="draw-ok" id="btn-next">${icon('check')}<span>اعتماد القرعة والبدء</span></button>`}`;
+  return `${topbar('قرعة دوري أبطال المفردات')}<section class="v-draw page${anim ? ' anim' : ''}">
 ${stage.replace('%FOOT%', foot)}
 <div class="dw-board">${T.classes.map((c) => drawCol(c, anim)).join('')}</div>
 <p class="dw-gf">${icon('trophy')}<span>ثم <b>النهائي الكبير</b>: أبطال الشعب الثلاث — ${num(T.settings.rounds.grand)} أسئلة لكل طالب</span></p>
@@ -2828,9 +3023,8 @@ AFTER.draw = () => {
 VIEWS.intro = () => {
   const m = curMatch(); if (!m || m.seq || !T) return VIEWS.hub();
   const n = m.players.length;
-  const top = `<div class="intro-top"><button class="btn btn-ghost btn-sm" data-act="go" data-to="hub">${icon('back')}<span>مركز المسابقة</span></button><span class="intro-brand">${sealMini('ib' + uid())}<span>${SCHOOL}</span></span>${soundBtn()}</div>`;
   const players = m.players.map((id) => { const p = person(id); return `<li class="ip" style="--tc:${safeColor(p.color)}">${avatar(id, 'xl')}<b>${nm(id)}</b><small>الشعبة <span dir="ltr">${esc(p.cls)}</span></small></li>`; }).join('');
-  return `<section class="v-intro page-narrow">${top}
+  return `${topbar('')}<section class="v-intro page-narrow">
 <div class="intro-head"><h1 class="disp">${esc(matchLabel(m))}</h1><p>${num(m.R)} أسئلة لكل طالب · تتنوّع الأسئلة تلقائيًا${n > 2 ? ' · يتبدّل من يبدأ في كل جولة' : ''}</p></div>
 <ol class="ips n${Math.min(n, 4)}" aria-label="المتسابقون">${players}</ol>
 ${S.introErr ? `<p class="bad" style="text-align:center">${esc(S.introErr)}</p>` : ''}
@@ -2867,10 +3061,17 @@ function scoreboardHTML(m) {
 function tool(act, ic, label, key, disabled) {
   return `<button class="tool" data-act="${act}" aria-label="${label}" title="${label}${key ? ' (' + key + ')' : ''}" ${disabled ? 'disabled' : ''}>${icon(ic)}<span>${label}</span>${key ? `<kbd dir="ltr" data-k="${key}">${key}</kbd>` : ''}</button>`;
 }
+/* the match screen has no topbar: its toolbar shows the autosave itself («✓ محفوظ 10:42», the time of the last save).
+   Not in the quick try (it is never saved), and not when saving fails (the «الحفظ غير متاح» tool shows instead). */
+function toolSaveOff() { return storageBad() || S.matchId === 'demo'; }
+function toolSaveHTML() {
+  const u = curUser(), d = u && u.saved ? new Date(u.saved) : null, today = !!d && d.toDateString() === new Date().toDateString();
+  return today ? `${icon('check')}<span class="tsv-w">محفوظ</span> <span class="tsv-t" dir="ltr">${pad2(d.getHours())}:${pad2(d.getMinutes())}</span>` : `${icon('check')}<span>محفوظ</span>`;
+}
 function toolbarHTML() {
   return `<footer class="tools" id="tools" role="toolbar" aria-label="أدوات المعلم">
   ${SPEECH_OK ? tool('say', 'wave', 'نطق', 'P') : ''}${tool('review', 'review', 'مراجعة المعلم', '', true)}${tool('reveal', 'eye', 'كشف الإجابة', '')}
-  <span class="tools-sp"></span>
+  <span class="tools-sp"><span class="tools-save" id="tools-save" title="${esc(saveStatus().long)}"${toolSaveOff() ? ' hidden' : ''}>${toolSaveHTML()}</span></span>
   ${tool('pause', 'pause', 'إيقاف', 'Esc')}${FS_OK ? tool('fullscreen', 'full', 'ملء الشاشة', 'F') : ''}
   <button class="tool" data-act="mute" aria-pressed="${PREFS.muted}" aria-label="الصوت" title="الصوت (M)">${icon(PREFS.muted ? 'mute' : 'speaker')}<span>الصوت</span><kbd dir="ltr" data-k="M">M</kbd></button>
   <button class="tool warn" data-act="backup" id="tool-warn" aria-label="الحفظ غير متاح — النسخ الاحتياطي" title="الحفظ التلقائي غير متاح — احفظ رمز النسخة الاحتياطية" ${storageBad() ? '' : 'hidden'}>${icon('save')}<span>الحفظ غير متاح</span></button>
@@ -2971,8 +3172,10 @@ function sdWonHTML(m, winners, cut) {
   <p class="sd-what">${esc(sdWonText(m, winners, cut))}</p>
   <div class="ovl-actions"><button class="btn btn-gold btn-xl" data-act="sd-ok" id="btn-next">${icon('next')}<span>متابعة</span><kbd>Enter</kbd></button></div></div>`;
 }
-function pauseHTML(resumed) {
-  return `<div class="ovl-card pz" role="dialog" aria-modal="true" aria-labelledby="pz-t"><h2 id="pz-t" class="disp">${resumed ? 'استئناف المباراة' : 'متوقف مؤقتًا'}</h2><p class="muted">${resumed ? 'تم حفظ التقدم تلقائيًا — تابع من السؤال نفسه.' : 'المؤقت متوقف والسؤال مخفي عن الطلاب.'}</p><div class="ovl-actions"><button class="btn btn-ghost" data-act="exit-match">${icon('home')}<span>${S.matchId === 'demo' ? 'إنهاء التجربة' : 'مركز المسابقة'}</span></button><button class="btn btn-gold btn-xl" data-act="resume" id="btn-next">${icon('play')}<span>استئناف</span></button></div></div>`;
+function pauseHTML(resumed, fromBack) {
+  const demo = S.matchId === 'demo'; // the quick try is never saved and ends on the home
+  const why = resumed ? (demo ? 'تابع التجربة من السؤال نفسه.' : 'تم حفظ التقدم تلقائيًا — تابع من السؤال نفسه.') : !fromBack ? 'المؤقت متوقف والسؤال مخفي عن الطلاب.' : demo ? 'زر الرجوع لا يغادر التجربة. تابع، أو أنهِ التجربة.' : 'زر الرجوع لا يغادر المباراة: التقدم محفوظ تلقائيًا. تابع، أو اخرج إلى مركز المسابقة.';
+  return `<div class="ovl-card pz" role="dialog" aria-modal="true" aria-labelledby="pz-t"><h2 id="pz-t" class="disp">${resumed ? 'استئناف المباراة' : 'متوقف مؤقتًا'}</h2><p class="muted">${why}</p><div class="ovl-actions"><button class="btn btn-ghost" data-act="exit-match">${icon('home')}<span>${demo ? 'إنهاء التجربة' : 'مركز المسابقة'}</span></button><button class="btn btn-gold btn-xl" data-act="resume" id="btn-next">${icon('play')}<span>استئناف</span></button></div></div>`;
 }
 VIEWS.match = () => {
   const m = curMatch(); if (!m || !m.seq) return VIEWS.home();
@@ -2996,7 +3199,7 @@ const nameChips = (ids, cls) => `<span class="nchips">${ids.map((id) => `<span c
 function outcomeHTML(m) {
   const rr = resolve(m), p = rr.pending, cls = m.cls ? classById(m.cls) : null;
   const sdNote = m.sdr.length ? `<p class="muted">${icon('bolt')} حُسم التعادل بالسؤال الحاسم (${num(m.sdr.length)} ${m.sdr.length === 1 ? 'جولة' : 'جولات'}).</p>` : '';
-  if (p && p.kind === 'toss') return `<section class="tie-card toss"><h2 class="disp">${icon('coin')} تعادل على صدارة المجموعة</h2>${nameChips(p.block)}<p>الطالبان متأهلان معًا، والقرعة تحدد الأول والثاني (أول المجموعة يواجه ثاني المجموعة الأخرى).</p><button class="btn btn-gold btn-xl" data-act="toss-now" data-id="${esc(m.id)}" id="btn-next">${icon('coin')}<span>قرعة الترتيب</span></button></section>`;
+  if (p && p.kind === 'toss') return `<section class="tie-card toss"><h2 class="disp">${icon('shuffle')} تعادل على صدارة المجموعة</h2>${nameChips(p.block)}<p>الطالبان متأهلان معًا، والقرعة تحدد الأول والثاني (أول المجموعة يواجه ثاني المجموعة الأخرى).</p><button class="btn btn-gold btn-xl" data-act="toss-now" data-id="${esc(m.id)}" id="btn-next">${icon('shuffle')}<span>قرعة الترتيب</span></button></section>`;
   if (p) return '';
   const o = rr.order;
   if (m.stage === 'grand') return `<section class="out-card gold"><h2 class="disp">${icon('trophy')} بطل دوري أبطال المفردات — الجائزة الكبرى</h2>${nameChips([o[0]], 'gold')}<p>المركز الثاني: ${nm(o[1])}${o[2] ? ` · المركز الثالث: ${nm(o[2])}` : ''}</p>${sdNote}<button class="btn btn-gold btn-xl" data-act="go" data-to="ceremony" id="btn-next">${icon('trophy')}<span>حفل التتويج</span></button></section>`;
@@ -3008,9 +3211,9 @@ VIEWS.result = () => {
   const m = curMatch(); if (!m || !m.seq || m.status !== 'done') return T ? VIEWS.hub() : VIEWS.home();
   if (m.demo) {
     const pts = ptsOf(m);
-    return `<section class="v-ft page-narrow"><div class="ft-head"><h1 class="disp">انتهت التجربة</h1><p>سؤال من كل نوع من الأنواع السبعة</p></div>
+    return `${topbar('')}<section class="v-ft page-narrow"><div class="ft-head"><h1 class="disp">انتهت التجربة</h1><p>سؤال من كل نوع من الأنواع السبعة</p></div>
 <div class="ft-demo">${m.players.map((id) => `<span class="ip">${avatar(id, 'xl')}<b>${nm(id)}</b><em>${ptsAr(pts[id])}</em></span>`).join('')}</div>
-<div class="ft-actions"><button class="btn btn-ghost" data-act="go" data-to="home">${icon('home')}<span>الرئيسية</span></button><button class="btn btn-ghost" data-act="demo">${icon('sparkle')}<span>تجربة أخرى</span></button><button class="btn btn-gold btn-xl" data-act="go" data-to="${T ? 'hub' : 'home'}" id="btn-next">${icon('play')}<span>${T ? 'مركز المسابقة' : 'الرئيسية'}</span></button></div>
+<div class="ft-actions"><button class="btn btn-ghost" data-act="demo">${icon('sparkle')}<span>تجربة أخرى</span></button><button class="btn btn-gold btn-xl" data-act="${T ? 'go' : 'up'}" data-to="${T ? 'hub' : 'home'}" id="btn-next">${icon(T ? 'play' : 'home')}<span>${T ? 'مركز المسابقة' : 'الرئيسية'}</span></button></div>
 ${roundsTable(m)}</section>`;
   }
   const rr = resolve(m), grand = m.stage === 'grand';
@@ -3018,7 +3221,7 @@ ${roundsTable(m)}</section>`;
   const main = rr.pending || grand, hasNext = !main && !!(F && F.next);
   const next = hasNext ? `<button class="btn btn-gold btn-xl" data-act="next" data-cls="${cls.id}" id="btn-next">${icon(nextIcon(F.next))}<span>التالي: ${esc(nextText(F.next))}</span></button>` : '';
   const hubMain = !main && !hasNext;
-  return `<section class="v-ft page-narrow">
+  return `${topbar('')}<section class="v-ft page-narrow">
 <div class="ft-head"><h1 class="disp">نهاية المباراة</h1><p>${esc(matchLabel(m))}</p></div>
 ${outcomeHTML(m)}
 ${standingsTable(m, { cls: grand })}
@@ -3028,13 +3231,29 @@ ${roundsTable(m)}
 };
 AFTER.result = () => { const m = curMatch(); if (m && !m.demo) announce('نهاية المباراة'); };
 
-/* ---------- The seeding coin toss (overlay) ---------- */
+/* ---------- «قرعة الترتيب» (overlay): two flat name cards; the result is revealed with a short fade (nothing spins or flips) ---------- */
+const TOSS_TAG = (k) => ({ cls: `tag ${k ? 't-silver' : 't-gold'}`, text: k ? 'الثاني' : 'الأول' });
+const TOSS_BTN = { go: `${icon('shuffle')}<span>أجرِ القرعة</span>`, close: `${icon('check')}<span>متابعة</span>` };
 function tossHTML(t) {
-  const [a, b] = t.block, done = t.order;
+  const [a, b] = t.block, done = t.order; // the two cards keep their places; the result only adds «الأول» / «الثاني»
+  const card = (id) => { const k = done ? done.indexOf(id) : -1, g = TOSS_TAG(k); return `<li class="ts-p${k === 0 ? ' first' : ''}" data-id="${esc(id)}" style="--tc:${safeColor(person(id).color)}">${avatar(id, 'lg')}<b>${nm(id)}</b>${k >= 0 ? `<span class="${g.cls}">${g.text}</span>` : '<span class="tag ts-ph" aria-hidden="true">&nbsp;</span>'}</li>`; };
   return `<div class="ovl-card toss-card" role="dialog" aria-modal="true" aria-labelledby="ts-t"><h2 id="ts-t" class="disp">قرعة الترتيب</h2><p class="muted">${esc(t.text)}</p>
-<div class="coin-stage"><div class="coin" id="coin" style="transform:rotateY(${done && done[0] === b ? 180 : 0}deg)"><div class="coin-face fa">${avatar(a, 'xl')}</div><div class="coin-face fb">${avatar(b, 'xl')}</div></div><div class="coin-shadow"></div></div>
-<div class="toss-res" id="toss-res" aria-live="polite">${done ? `<p class="tr-row first">${avatar(done[0])}<span class="tag t-gold">الأول</span><b>${nm(done[0])}</b></p><p class="tr-row">${avatar(done[1])}<span class="tag t-silver">الثاني</span><b>${nm(done[1])}</b></p>` : `<p class="tr-q">${nm(a)} <span class="muted">أم</span> ${nm(b)}؟</p>`}</div>
-<div class="ovl-actions">${done ? `<button class="btn btn-gold btn-xl" data-act="toss-close" id="btn-next">${icon('check')}<span>متابعة</span></button>` : `<button class="btn btn-gold btn-xl" data-act="toss-go" id="btn-next">${icon('coin')}<span>ارمِ العملة</span></button>`}</div></div>`;
+<ol class="ts-pair${done ? ' done' : ''}" id="toss-res" aria-live="polite">${card(a)}<li class="ts-or" aria-hidden="true">${done ? '' : 'أم'}</li>${card(b)}</ol>
+<p class="ts-wait" id="ts-wait">${done ? '' : '&nbsp;'}</p>
+<div class="ovl-actions"><button class="btn btn-gold btn-xl" data-act="${done ? 'toss-close' : 'toss-go'}" id="btn-next">${done ? TOSS_BTN.close : TOSS_BTN.go}</button></div></div>`;
+}
+/* the result is written into the open card (the same nodes — nothing is rebuilt, so nothing blinks): the dimmed cards
+   come back, 1st takes the gold hairline (a short transition) and the «الأول» / «الثاني» tags fade in */
+function tossPaint(el, order) {
+  const box = $('#toss-res', el); if (!box) return;
+  $$('.ts-p', box).forEach((li) => {
+    const k = order.indexOf(li.dataset.id), tag = $('.tag', li); li.classList.toggle('first', k === 0);
+    if (tag && k >= 0) { const g = TOSS_TAG(k); tag.className = g.cls; tag.textContent = g.text; tag.removeAttribute('aria-hidden'); }
+  });
+  const or = $('.ts-or', box); if (or) or.textContent = '';
+  const w = $('#ts-wait', el); if (w) w.textContent = '';
+  box.classList.remove('drawing'); box.classList.add('done');
+  const n = $('#btn-next', el); if (n) { n.dataset.act = 'toss-close'; n.innerHTML = TOSS_BTN.close; n.disabled = false; n.focus({ preventScroll: true }); }
 }
 
 /* ---------- Ceremony ---------- */
@@ -3043,16 +3262,33 @@ VIEWS.ceremony = () => {
   const pod = G.podium, gm = matchById('gf'), pts = gm ? ptsOf(gm) : {}, win = person(pod[0]), wc = classById(win.cid);
   const order = [1, 0, 2].filter((i) => pod[i]);
   const cols = order.map((i) => { const id = pod[i], p = person(id); return `<li class="pod p${i}" style="--tc:${safeColor(p.color)}"><div class="pod-who">${medalSVG(i, 'md' + i)}${avatar(id, i ? 'xl' : 'xxl')}<b>${nm(id)}</b><span class="pod-c" dir="ltr">${esc(p.cls)}</span><small>${ptsAr(pts[id])} في النهائي</small></div><div class="pod-step"><span class="pod-n" dir="ltr">${i + 1}</span><em>${i === 0 ? 'المركز الأول · الجائزة الكبرى' : `المركز ${placeAr(i)}`}</em></div></li>`; }).join('');
-  return `<section class="v-champ" style="--tc:${win.color}"><canvas id="fx" aria-hidden="true"></canvas><div class="beams" aria-hidden="true"><i class="beam b1"></i><i class="beam b2"></i></div>
+  return `${topbar('')}<section class="v-champ" style="--tc:${win.color}"><canvas id="fx" aria-hidden="true"></canvas><div class="beams" aria-hidden="true"><i class="beam b1"></i><i class="beam b2"></i></div>
 <div class="cer">
   <header class="cer-h"><h1 class="champ-title">حفل التتويج</h1><p class="cer-name"><bdi>${esc(T.name)}</bdi> · ${SCHOOL}</p></header>
   <ol class="podium" aria-label="منصة التتويج">${cols}</ol>
   <p class="congrats" style="--cc:${wc ? wc.color : win.color}">${icon('star')}<span>مبروك لطلاب الشعبة <b dir="ltr">${esc(win.cls)}</b> على فوز زميلهم بالجائزة الكبرى</span>${icon('star')}</p>
   <p class="promise">${UNIT2_LINE}</p>
-  <div class="champ-actions"><button class="btn btn-gold btn-xl" data-act="cert-open" data-k="p0">${icon('print')}<span>شهادات التكريم</span></button><button class="btn btn-ghost" data-act="go" data-to="hub">${icon('road')}<span>المسار الكامل</span></button><button class="btn btn-ghost" data-act="new-t">${icon('plus')}<span>مسابقة جديدة</span></button></div>
+  <div class="champ-actions"><button class="btn btn-gold btn-xl" data-act="cert-open" data-k="p0">${icon('print')}<span>شهادات التكريم</span></button><button class="btn btn-ghost" data-act="up" data-to="hub">${icon('road')}<span>المسار الكامل</span></button><button class="btn btn-ghost" data-act="new-t">${icon('plus')}<span>مسابقة جديدة</span></button></div>
 </div></section>`;
 };
-AFTER.ceremony = () => { const G = grandFlow(); if (!G.podium) return; SFX.fanfare(); const w = person(G.podium[0]); startConfetti(['#f2c14e', '#ffe08a', '#c9d3e8', '#f5f7ff', w.color, mixHex(w.color, true, 0.35)]); announce('المركز الأول: ' + w.name + ' — الشعبة ' + w.cls); };
+/* a podium name never breaks inside a word: a long single word («Abdulhameed» in a phone's narrow column) gets a slightly
+   smaller font instead — «overflow-wrap:anywhere» stays only as the last resort */
+function wordSplit(el) { // is a word of el's text broken over two lines?
+  const tw = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+  for (let t = tw.nextNode(); t; t = tw.nextNode()) {
+    const re = /\S+/g; let m;
+    while ((m = re.exec(t.data))) { const r = document.createRange(); r.setStart(t, m.index); r.setEnd(t, m.index + m[0].length); if (new Set([...r.getClientRects()].map((x) => Math.round(x.top))).size > 1) return true; }
+  }
+  return false;
+}
+function fitPod() {
+  $$('.podium .pod-who b').forEach((b) => {
+    b.style.fontSize = '';
+    const base = parseFloat(getComputedStyle(b).fontSize) || 17, min = Math.min(base, 12);
+    for (let f = base; f > min && wordSplit(b); ) { f = Math.max(min, f - 1); b.style.fontSize = f + 'px'; }
+  });
+}
+AFTER.ceremony = () => { const G = grandFlow(); if (!G.podium) return; fitPod(); SFX.fanfare(); const w = person(G.podium[0]); startConfetti(['#f2c14e', '#ffe08a', '#c9d3e8', '#f5f7ff', w.color, mixHex(w.color, true, 0.35)]); announce('المركز الأول: ' + w.name + ' — الشعبة ' + w.cls); };
 
 /* ---------- Certificates ---------- */
 function certList() {
@@ -3071,7 +3307,7 @@ VIEWS.cert = () => {
     : `<button class="btn btn-gold" data-act="print">${icon('print')}<span>طباعة الشهادة</span></button><span class="muted small">اختر الاتجاه «أفقي» وحجم A4 عند الطباعة</span>`;
   const head = cur.place >= 0 ? `المركز ${placeAr(cur.place)} في مسابقة دوري أبطال المفردات` : `بطل الشعبة <span dir="ltr">${esc(cur.cls.name)}</span> في مسابقة دوري أبطال المفردات`;
   const emblem = cur.place >= 0 ? medalSVG(cur.place, 'cm') : trophySVG('cs');
-  return `<section class="v-cert page">${topbar('شهادات التكريم', `<button class="btn btn-ghost btn-sm" data-act="go" data-to="${grandFlow().podium ? 'ceremony' : 'hub'}">${icon('back')}<span>رجوع</span></button>`)}
+  return `${topbar('شهادات التكريم')}<section class="v-cert page">
 <div class="cert-pick seg" role="radiogroup" aria-label="اختر الشهادة">${list.map((x) => `<button class="seg-b${x.k === cur.k ? ' on' : ''}" role="radio" aria-checked="${x.k === cur.k}" data-act="cert-open" data-k="${x.k}">${x.place >= 0 ? icon('medal') : icon('crown')}<span>${esc(x.ar)}</span></button>`).join('')}</div>
 <div class="cert-tools">${tools}</div>
 <div class="cert-wrap"><article class="cert${cur.place >= 0 ? ' pl' + cur.place : ' cls'}" id="cert" aria-label="شهادة تكريم">
@@ -3093,7 +3329,7 @@ VIEWS.cert = () => {
 /* ---------- Word bank: exactly the unit's 66 words (read-only) ---------- */
 VIEWS.bank = () => {
   const es = allEntries();
-  return `<section class="v-bank page">${topbar('بنك الكلمات', `<button class="btn btn-ghost btn-sm" data-act="go" data-to="home">${icon('home')}<span>الرئيسية</span></button>`)}
+  return `${topbar('بنك الكلمات')}<section class="v-bank page">
 <div class="bank-bar"><div class="bank-t"><b>الوحدة الأولى: <span dir="ltr" lang="en">New Media</span></b><span>كل أسئلة المسابقة من هذه الكلمات فقط · <span class="bank-count"><b id="bank-n">${es.length}</b> كلمة وعبارة</span></span></div><label class="search">${icon('search')}<input type="search" id="bank-q" data-in="bank-q" placeholder="ابحث بالإنجليزية أو بالعربية…" value="${esc(S.bankQ)}" aria-label="بحث في الكلمات" autocomplete="off"></label></div>
 <div class="tbl-wrap"><table class="words" id="bank-words"><thead><tr><th>الكلمة</th><th>المعنى</th><th>النوع</th><th class="lvc">المستوى</th><th class="ex">مثال</th><th><span class="sr-only">نطق</span></th></tr></thead><tbody>${es.map((e) => `<tr data-q="${esc(e.w + ' ' + normAr(e.ar))}"><td class="w">${en(e.w)}</td><td class="a">${esc(e.ar)}</td><td>${POS_AR[e.pos] || '—'}</td><td class="lvc">${lvlDots(e.lvl)}</td><td class="ex">${e.s ? `<span dir="ltr" lang="en">${esc(e.s)}</span>` : '<span class="muted">—</span>'}</td><td>${SPEECH_OK ? `<button class="icon-btn sm" data-act="say-word" data-w="${esc(e.w)}" aria-label="نطق ${esc(e.w)}">${icon('wave')}</button>` : ''}</td></tr>`).join('')}</tbody></table></div></section>`;
 };
@@ -3116,7 +3352,7 @@ VIEWS.help = () => {
     match5: `5 كلمات إنجليزية ↔ 5 معانٍ عربية مخلوطة، تُوصل بخطوط`,
   };
   const keys = [['Enter / Space', 'التالي / تأكيد، وتخطّي بطاقة «الآن دور»'], ['1 – 4', 'اختيار الإجابة'], ['P', 'نطق الكلمة'], ['Esc', 'إيقاف مؤقت / إغلاق النافذة'], ['F', 'ملء الشاشة'], ['M', 'كتم الصوت'], ['A–Z / ⌫', 'الكتابة في «رتّب الحروف»'], ['Shift + P / M / F', 'اختصارات المعلم أثناء «رتّب الحروف»']];
-  return `<section class="v-help page">${topbar('طريقة اللعب', `<button class="btn btn-ghost btn-sm" data-act="go" data-to="home">${icon('home')}<span>الرئيسية</span></button>`)}
+  return `${topbar('طريقة اللعب')}<section class="v-help page">
 <div class="help-grid">
 <article class="panel wide help-path"><h2>${icon('road')} مسار المسابقة: من القرعة إلى النهائي الكبير</h2><ol class="hp">
 <li><b>${icon('shuffle')} القرعة</b><p>كل مسابقة جديدة تبدأ بـ<b>قرعة واحدة للشعب الثلاث</b> (10/1 ثم 10/2 ثم 10/3): تُسحب الأسماء واحدًا واحدًا إلى <b>المجموعة (أ)</b> و<b>المجموعة (ب)</b>، ثم تظهر لوحة القرعة: من مع من، وترتيب اللعب.</p></li>
@@ -3141,7 +3377,12 @@ VIEWS.help = () => {
 <li>لا تتكرر كلمة داخل المباراة الواحدة، وتعود الكلمات الأقدم استخدامًا أولًا بين المباريات.</li>
 <li>المعاني المتقاربة لا تظهر معًا خيارين.</li></ul></article>
 <article class="panel"><h2>${icon('sparkle')} اختصارات لوحة المفاتيح</h2><table class="keys">${keys.map(([k, d]) => `<tr><td><kbd dir="ltr">${k}</kbd></td><td>${d}</td></tr>`).join('')}</table></article>
-<article class="panel wide promise-panel"><h2>${icon('star')} ${UNIT2_LINE}</h2><p class="muted">احفظ «رمز النسخة الاحتياطية» من مركز المسابقة قبل تغيير الجهاز أو مسح بيانات المتصفح.</p></article>
+<article class="panel wide help-save"><h2>${icon('save')} الحفظ والمستخدمون والرجوع</h2><ul class="ticks">
+<li><b>الحفظ تلقائي</b> بعد كل إجابة وكل خطوة — ترى ذلك في أعلى الصفحات: «✓ التقدم محفوظ تلقائياً · آخر حفظ …»، وفي المباراة في شريط الأدوات أسفل الشاشة: «✓ محفوظ …». وعند فتح الصفحة من جديد تعود إلى <b>المكان نفسه</b>: مركز المسابقة، أو السؤال نفسه في مباراة جارية.</li>
+<li>يُحفظ التقدم على <b>هذا الجهاز وهذا المتصفح فقط</b>. للانتقال إلى جهاز آخر (أو قبل مسح بيانات المتصفح) استخدم <b>«النسخ الاحتياطي»</b> من قائمة المستخدم: انسخ الرمز أو نزّل الملف، ثم استعده على الجهاز الآخر.</li>
+<li>المستخدم الجاهز <b>${TEACHER}</b> بلا كلمة مرور. من قائمة المستخدم: <b>«تبديل المستخدم»</b> و<b>«إضافة مستخدم»</b> (بالاسم فقط)، ولكل مستخدم مسابقته المحفوظة.</li>
+<li>زر <b>«رجوع»</b> أعلى كل صفحة يعود إلى الصفحة الأعلى (الشهادة ← حفل التتويج ← مركز المسابقة ← الرئيسية)، ويعمل زر الرجوع في المتصفح أو الهاتف أيضًا. أثناء المباراة لا يغادرها: يوقفها مؤقتًا، و«خروج» يحفظ ويعود إلى مركز المسابقة.</li></ul></article>
+<article class="panel wide promise-panel"><h2>${icon('star')} ${UNIT2_LINE}</h2></article>
 </div><p class="help-foot muted">${SCHOOL} · إعداد: ${TEACHER}</p></section>`;
 };
 
@@ -3204,7 +3445,7 @@ function unpauseView() { hideLayer('pause'); const vm = $('#vm'); if (vm) vm.cla
 
 /* decides what the match view shows next: the next question, a sudden-death card, or the end of the match */
 function flow() {
-  const m = curMatch(); if (!m || !m.seq) { go(T ? 'hub' : 'home'); return; }
+  const m = curMatch(); if (!m || !m.seq) { go(T ? 'hub' : 'home', 'replace'); return; }
   hideLayer('res'); unpauseView();
   if (m.step < m.seq.length) { ask(m); return; }
   Q = null; timerStop(); refreshBoard(m); updateToolbar();
@@ -3355,11 +3596,11 @@ function sayCurrent() {
   if (!sayable()) { if (Q && SPEECH_OK) toast('النطق متاح بعد الإجابة في هذا النوع من الأسئلة'); return; }
   speak(Q.q.type === 'match5' ? Q.q.items.map((x) => x.w).join(', ') : Q.q.w);
 }
-function pauseGame(resumed) {
+function pauseGame(resumed, fromBack) {
   if (!Q || Q.paused || Q.answered) return; // (also during the turn card: it then waits) // after an answer the result card is on its way — nothing to pause
   Q.paused = true; timerPause();
   const vm = $('#vm'); if (vm) vm.classList.add('is-paused');
-  showLayer('pause', pauseHTML(!!resumed));
+  showLayer('pause', pauseHTML(!!resumed, !!fromBack));
 }
 function resumeGame() {
   unpauseView(); // the card always goes, even if it outlived its question
@@ -3469,17 +3710,16 @@ function m5EndDrag(e, cancel) {
 document.addEventListener('pointerup', (e) => m5EndDrag(e, false));
 document.addEventListener('pointercancel', (e) => m5EndDrag(e, true));
 
-/* ---- the seeding coin toss ---- */
+/* ---- «قرعة الترتيب» ---- */
 function openToss(key, block, text) {
   S.toss = { key, block: block.slice(0, 2), text, order: T.tosses[key] || null };
   showLayer('toss', tossHTML(S.toss));
 }
-function coinFlip(winnerIsB, done) {
-  const coin = $('#coin'); SFX.coin();
-  if (!coin || reduced()) { if (coin) coin.style.transform = `rotateY(${winnerIsB ? 180 : 0}deg)`; later(done, dur(200)); return; }
-  coin.classList.add('flipping'); void coin.offsetWidth;
-  coin.style.transform = `rotateY(${6 * 360 + (winnerIsB ? 180 : 0)}deg)`;
-  later(done, dur(1900));
+/* the draw of 1st / 2nd: the two cards dim for a moment («القرعة…»), then the order appears with a short fade */
+function tossReveal(done) {
+  const box = $('#toss-res'), w = $('#ts-wait');
+  if (box) box.classList.add('drawing'); if (w) w.textContent = 'القرعة…';
+  SFX.roll(); later(done, dur(reduced() ? 150 : 900));
 }
 
 /* ---- running a class's (or the Grand Final's) next step ---- */
@@ -3574,18 +3814,155 @@ function cleanupView() {
   clearLayers(); closeModal(true); Q = null; S.toss = null;
   try { if (SPEECH_OK) window.speechSynthesis.cancel(); } catch (e) { /* ignore */ }
 }
-function go(view) {
+/* ---- navigation. Every screen has a logical parent («رجوع»); every screen shown is also a browser history entry
+   (history.pushState), so the browser / phone back button walks back through the screens inside the page. It never
+   leaves the page by accident: in a running match it opens the pause card, and on the home (with a competition saved)
+   the first press only says how to leave. Each user's last screen is remembered, so reopening the page returns there. */
+function parentOf(v) {
+  const m = curMatch();
+  switch (v) {
+    case 'intro': case 'ceremony': return T ? 'hub' : 'home';
+    case 'match': case 'result': return m && m.demo ? 'home' : T ? 'hub' : 'home';
+    case 'draw': return T && T.drawOk ? 'hub' : 'home';
+    case 'cert': return T && podiumOf() ? 'ceremony' : T ? 'hub' : 'home';
+    default: return 'home';
+  }
+}
+/* the screen that can really be shown for v now (a stale history entry or remembered place falls back to its parent) */
+function viewFor(v) {
+  if (!VIEWS[v]) return 'home';
+  const m = curMatch(), up = T ? 'hub' : 'home';
+  switch (v) {
+    case 'hub': case 'draw': return T ? v : 'home';
+    case 'intro': return m && !m.demo && !m.seq ? v : m && m.seq ? (m.status === 'done' ? 'result' : 'match') : up;
+    case 'match': return m && m.seq && m.status !== 'done' ? v : m && m.seq ? 'result' : up;
+    case 'result': return m && m.seq && m.status === 'done' ? v : up;
+    case 'ceremony': return T && podiumOf() ? v : up;
+    case 'cert': return certList().length ? v : up;
+    case 'setup': if (!S.setup) S.setup = defaultSetup(); return v;
+    default: return v;
+  }
+}
+/* screens that are passed through: moving on from them replaces their history entry (intro → match → result → next) */
+const PASS = ['intro', 'match', 'result', 'setup'];
+const NAV = { ok: true, pend: null, pendT: 0, exitAt: 0 };
+const histState = () => { try { const h = window.history.state; return h && h.vcl ? h : null; } catch (e) { return null; } };
+const navEntry = (v) => ({ vcl: 1, v: v || S.view, tab: S.tab || '', m: S.matchId || '', c: S.cert || '', u: USERS.cur });
+function histWrite(push, e) { if (!NAV.ok) return; try { if (push) window.history.pushState(e, ''); else window.history.replaceState(e, ''); } catch (err) { NAV.ok = false; } }
+/* how = 'push' | 'replace' | 'pop' (the browser already moved) | 'init' | 'switch'; by default a new screen is pushed and
+   a re-render (same screen) replaces its entry */
+function histNote(how, prev) {
+  const cur = histState();
+  if (how === 'init' || how === 'none' || !cur || cur.guard) return;
+  if (how === 'pop') { if (cur.v !== S.view || cur.m !== (S.matchId || '')) histWrite(false, Object.assign(navEntry(), { i: cur.i, pv: cur.pv })); return; }
+  if (!how) how = S.view === prev ? 'replace' : PASS.includes(prev) ? 'replace' : 'push';
+  if (how !== 'push' && cur.i <= 1 && S.view !== 'home') how = 'push'; // the first entry is always the home
+  histWrite(how === 'push', Object.assign(navEntry(), how === 'push' ? { i: cur.i + 1, pv: cur.v } : { i: cur.i, pv: cur.pv }));
+}
+/* the history of a freshly opened page: [guard, home, …the parents…, this screen] — a reload keeps the entries it has */
+function histInit() {
+  const hs = histState();
+  if (hs && !hs.guard) { histWrite(false, Object.assign(navEntry(), { i: hs.i, pv: hs.pv })); return; }
+  const chain = []; for (let v = S.view; v !== 'home' && chain.length < 6; v = parentOf(v)) chain.unshift(v);
+  histWrite(false, { vcl: 1, guard: 1, i: 0 });
+  let i = 1, pv = null;
+  ['home'].concat(chain).forEach((v) => { histWrite(true, Object.assign(navEntry(v), { i, pv })); pv = v; i++; });
+}
+function rememberPlace() {
+  const u = curUser(); if (!u) return;
+  const p = validPlace({ v: S.view, tab: S.tab || '', m: S.matchId || '', c: S.cert || '' });
+  if (JSON.stringify(p) === JSON.stringify(u.place)) return;
+  u.place = p; saveUsers();
+}
+/* where this user continues: the match being played (paused), a finished match's result, the unconfirmed draw, or the
+   last screen */
+function resumePlace() {
+  const m = T && T.cur ? T.matches.find((x) => x.id === T.cur) : null;
+  if (m && m.status === 'live') { S.matchId = m.id; S.resumePaused = true; return 'match'; }
+  if (m && m.status === 'done') { T.cur = null; saveT(); S.matchId = m.id; return 'result'; }
+  if (T && T.cur) { T.cur = null; saveT(); }
+  if (T && !T.drawOk) return 'draw';
+  const p = curUser() && curUser().place; if (!p) return 'home';
+  S.tab = p.tab; S.cert = p.c; S.matchId = p.m && p.m !== 'demo' ? p.m : null;
+  if (p.v === 'match') S.resumePaused = true;
+  return p.v;
+}
+function go(view, how) {
+  const prev = S.view;
+  view = viewFor(view);
+  if (view === 'match' && (how === 'pop' || how === 'init' || how === 'switch' || S.resumePaused)) {
+    const m = curMatch(); S.resumePaused = true; if (T && m && !m.demo && T.cur !== m.id) { T.cur = m.id; saveT(); }
+  }
   cleanupView();
-  S.view = VIEWS[view] ? view : 'home';
+  if (prev === 'draw' && view !== 'draw') S.drawAnim = false;
+  S.view = view;
   const main = $('#view');
   main.innerHTML = VIEWS[S.view]();
-  main.className = 'view view-' + S.view;
+  main.className = 'view view-' + S.view + (S.view === 'home' || S.view === 'match' ? '' : ' has-tb');
   document.documentElement.classList.toggle('in-match', S.view === 'match');
   window.scrollTo(0, 0);
+  histNote(how === 'switch' ? 'replace' : how, prev);
+  rememberPlace();
   if (AFTER[S.view]) AFTER[S.view]();
   if (S.view !== 'match') main.focus({ preventScroll: true });
   UI_AT = performance.now(); renderWarn();
 }
+/* up to a parent screen: when the entry below is that screen the history steps back to it (so the back button does not
+   bring the child again), otherwise this entry becomes the parent */
+function navUp(to, over) {
+  over = over || {}; closeUserMenu();
+  const hs = histState();
+  const apply = () => { NAV.pend = null; clearTimeout(NAV.pendT); Object.assign(S, over); go(to, 'replace'); };
+  if (NAV.ok && hs && !hs.guard && (to === 'home' ? hs.i > 1 : hs.pv === to)) {
+    NAV.pend = { to, over }; clearTimeout(NAV.pendT);
+    NAV.pendT = setTimeout(() => { if (NAV.pend) apply(); }, 700); // the history did not answer: go directly
+    try { if (to === 'home') window.history.go(1 - hs.i); else window.history.back(); } catch (e) { apply(); }
+    return;
+  }
+  apply();
+}
+const goHome = () => navUp('home');
+/* «رجوع»: to the parent; the hub opens on the tab the screen belongs to (a match's class, the Grand Final) */
+function goBack() {
+  const m = curMatch(), to = parentOf(S.view), v = S.view;
+  const tab = ['ceremony', 'cert'].includes(v) ? 'gf' : ['intro', 'result', 'match'].includes(v) && m && !m.demo ? m.cls || (m.stage === 'grand' ? 'gf' : S.tab) : S.tab;
+  navUp(to, to === 'hub' ? { tab } : {});
+}
+/* the back button in a running match: never leaves — the match pauses (also between questions) */
+function backPause() {
+  if (topLayer() === 'pause') return;
+  if (Q && !Q.answered && !Q.paused) { pauseGame(false, true); return; }
+  const vm = $('#vm'); if (vm) vm.classList.add('is-paused');
+  showLayer('pause', pauseHTML(false, true));
+}
+window.addEventListener('popstate', (e) => {
+  const s = e.state; if (!NAV.ok || !s || !s.vcl) return;
+  const pend = NAV.pend; NAV.pend = null; clearTimeout(NAV.pendT);
+  const stay = () => { const cur = navEntry(); histWrite(true, Object.assign(cur, { i: (s.i || 0) + 1, pv: s.guard ? null : s.v })); };
+  if (!pend && umOpen()) { stay(); closeUserMenu(true); return; }
+  if (!pend) {
+    const m = curMatch();
+    if (S.view === 'match' && m && m.status !== 'done') { stay(); backPause(); return; }
+    if (MODAL.open) { stay(); if (MODAL.dismissable) closeModal(); return; }
+    if (topLayer() === 'toss') { stay(); ACT['toss-close'](); return; }
+  }
+  if (s.guard) {
+    /* the first entry: one more step would leave the page */
+    if (!T || Date.now() - NAV.exitAt < 4000) { NAV.exitAt = 0; try { window.history.back(); } catch (err) { /* nowhere to go */ } return; }
+    NAV.exitAt = Date.now();
+    if (S.view !== 'home') go('home', 'none');
+    histWrite(true, Object.assign(navEntry('home'), { i: 1, pv: null }));
+    toast('التقدم محفوظ تلقائيًا — اضغط «رجوع» مرة أخرى لمغادرة الصفحة');
+    return;
+  }
+  /* the entry's own details (its class tab, its match, its certificate); other screens keep the current ones */
+  if (s.v === 'hub' && s.tab) S.tab = s.tab;
+  if (['intro', 'match', 'result'].includes(s.v)) S.matchId = s.m || null;
+  if (s.v === 'cert' && s.c) S.cert = s.c;
+  if (pend) Object.assign(S, pend.over);
+  if (s.v === 'setup' && !S.setup) S.setup = defaultSetup();
+  go(pend && viewFor(s.v) !== pend.to ? pend.to : s.v, 'pop');
+});
 AFTER.match = () => flow();
 function setMuted(v) {
   PREFS.muted = !!v; savePrefs();
@@ -3655,6 +4032,16 @@ function swapPick(el) {
 
 const ACT = {
   go: (el) => { SFX.click(); const to = el.dataset.to; if (to === 'setup' && !S.setup) S.setup = defaultSetup(); go(to); },
+  /* «رجوع» (logical parent), an upward link, the logo (home) */
+  back: () => { SFX.click(); goBack(); },
+  up: (el) => { SFX.click(); navUp(el.dataset.to); },
+  home: () => { SFX.click(); goHome(); },
+  /* the user */
+  umenu: () => toggleUserMenu(),
+  users: () => openUsers(),
+  'user-add': () => openAddUser(),
+  'user-switch': (el) => { closeModal(true); switchUser(el.dataset.id); },
+  'user-del': (el) => delUser(el.dataset.id),
   mute: () => setMuted(!PREFS.muted),
   'new-t': () => { SFX.click(); if (T) confirmModal('مسابقة جديدة: تبدأ بقرعة جديدة للشعب الثلاث، وتُحذف المسابقة الحالية ونتائجها من هذا الجهاز (يمكنك حفظ نسخة احتياطية أولًا). متابعة؟', 'نعم، مسابقة جديدة', () => newCompetition()); else newCompetition(); },
   demo: () => { audioInit(); startDemo(); },
@@ -3671,7 +4058,7 @@ const ACT = {
     const s = S.setup, { err } = setupErrors(s), box = $('#setup-err');
     if (err.length) { if (box) box.textContent = err.join(' '); toast(err[0].length > 90 ? 'تعذّر إنشاء المسابقة — السبب مكتوب أسفل الصفحة' : err[0], 'bad'); return; }
     if (box) box.textContent = '';
-    const doIt = () => { PREFS.setup = { v: SCHEMA, name: s.name, classes: s.classes.map((c) => ({ name: c.name, text: c.text, absent: c.absent })), rounds: s.rounds, second: s.second, timer: s.timer }; savePrefs(); newCompetition(s); };
+    const doIt = () => { PREFS.setups[USERS.cur] = { v: SCHEMA, name: s.name, classes: s.classes.map((c) => ({ name: c.name, text: c.text, absent: c.absent })), rounds: s.rounds, second: s.second, timer: s.timer }; savePrefs(); newCompetition(s); };
     if (T) confirmModal('توجد مسابقة محفوظة. إنشاء مسابقة جديدة سيحذفها نهائيًا (يمكنك حفظ نسخة احتياطية أولًا من مركز المسابقة). متابعة؟', 'نعم، مسابقة جديدة', doIt); else doIt();
   },
   /* hub */
@@ -3685,14 +4072,14 @@ const ACT = {
   },
   'toss-now': (el) => { const m = matchById(el.dataset.id); if (!m) return; const r = resolve(m); if (r.pending && r.pending.kind === 'toss') { const c = classById(m.cls); openToss(r.pending.key, r.pending.block, `تعادل على صدارة ${GROUP_AR[m.slot] || 'المجموعة'}${c ? ` (الشعبة ${c.name})` : ''}: القرعة تحدد الأول والثاني.`); } },
   'open-match': (el) => { const m = matchById(el.dataset.id); if (m) { SFX.click(); openMatch(m); } },
-  backup: () => { if (Q && !Q.answered && !Q.paused) pauseGame(); openBackup(); },
-  'reset-t': () => confirmModal('سيتم حذف المسابقة الحالية وجميع نتائجها نهائيًا. هل أنت متأكد؟ (يمكنك حفظ نسخة احتياطية أولًا)', 'حذف المسابقة', () => { T = null; saveT(); toast('تم حذف المسابقة'); go('home'); }),
+  backup: () => { closeUserMenu(); if (Q && !Q.answered && !Q.paused) pauseGame(); openBackup(); },
+  'reset-t': () => confirmModal('سيتم حذف المسابقة الحالية وجميع نتائجها نهائيًا. هل أنت متأكد؟ (يمكنك حفظ نسخة احتياطية أولًا)', 'حذف المسابقة', () => { T = null; saveT(); toast('تم حذف المسابقة'); goHome(); }),
   /* the draw */
   'draw-open': () => { SFX.click(); openDraw(); },
   'draw-skip': () => { SFX.click(); drawDone(); },
   'swap-pick': (el) => swapPick(el),
   redraw: () => { if (!T || anyPlayed()) return; confirmModal('إعادة القرعة للشعب الثلاث؟ ستُسحب كل الأسماء من جديد.', 'إعادة القرعة', () => { drawAll(); saveT(); S.swapSel = null; S.drawAnim = true; go('draw'); }, 'btn-gold'); },
-  'draw-ok': () => { if (!T) return; T.drawOk = true; saveT(); SFX.click(); S.swapSel = null; S.tab = ''; go('hub'); },
+  'draw-ok': () => { if (!T) return; T.drawOk = true; saveT(); SFX.click(); S.swapSel = null; S.tab = ''; go('hub', 'replace'); },
   /* intro & match */
   kickoff: () => {
     const m = curMatch(); if (!m || m.seq) return;
@@ -3723,18 +4110,19 @@ const ACT = {
   fullscreen: () => toggleFS(),
   'exit-match': () => {
     const m = curMatch();
-    if (m && m.demo) { S.demo = null; S.matchId = null; go('home'); return; }
+    timerStop(); if (Q) Q.paused = true; // nothing runs on while the history steps back
+    if (m && m.demo) { S.demo = null; S.matchId = null; goHome(); return; }
     let saved = true; if (T) { T.cur = null; saved = saveT(); }
-    go(T ? 'hub' : 'home');
+    navUp(T ? 'hub' : 'home', m ? { tab: m.cls || (m.stage === 'grand' ? 'gf' : S.tab) } : {});
     if (m && m.status !== 'done') toast(saved ? 'تم حفظ التقدم — يمكنك إكمال المباراة لاحقًا' : 'لم يُحفظ التقدم على هذا الجهاز — احفظ «رمز النسخة الاحتياطية» من مركز المسابقة', saved ? '' : 'bad');
   },
-  'ft-hub': () => { const m = curMatch(); if (m && m.cls) S.tab = m.cls; else if (m && m.stage === 'grand') S.tab = 'gf'; go('hub'); },
+  'ft-hub': () => { const m = curMatch(); navUp('hub', { tab: m && m.cls ? m.cls : m && m.stage === 'grand' ? 'gf' : S.tab }); },
   /* toss */
   'toss-go': () => {
     const t = S.toss; if (!t || t.order) return;
     const order = doToss(t.key, t.block); t.order = order;
     const b = $('#layer [data-act="toss-go"]'); if (b) b.disabled = true;
-    coinFlip(order[0] === t.block[1], () => { const el = $('#layer > [data-name="toss"]'); if (el) { el.innerHTML = tossHTML(t); el.dataset.ready = '1'; const n = $('#btn-next', el); if (n) n.focus({ preventScroll: true }); } SFX.pop(); announce(`الأول: ${pName(order[0])}، والثاني: ${pName(order[1])}`); });
+    tossReveal(() => { const el = $('#layer > [data-name="toss"]'); if (el) { tossPaint(el, order); el.dataset.ready = '1'; } SFX.pop(); announce(`الأول: ${pName(order[0])}، والثاني: ${pName(order[1])}`); });
   },
   'toss-close': () => { hideLayer('toss'); S.toss = null; const y = window.scrollY; go(S.view === 'result' ? 'result' : 'hub'); window.scrollTo(0, y); },
   /* ceremony & certificates */
@@ -3764,6 +4152,7 @@ const CHG = {
 let UI_AT = 0;
 const OVL_ARM_MS = 350;
 document.addEventListener('click', (e) => {
+  if (umOpen() && !(e.target && e.target.closest && e.target.closest('.um'))) closeUserMenu();
   const el = e.target && e.target.closest ? e.target.closest('[data-act]') : null;
   if (!el || el.disabled || el.getAttribute('aria-disabled') === 'true') return;
   const fn = ACT[el.dataset.act]; if (!fn) return;
@@ -3788,7 +4177,8 @@ document.addEventListener('keydown', (e) => {
   const onBtn = tag === 'BUTTON' || tag === 'SUMMARY' || tag === 'A', enter = k === 'Enter' || k === ' ';
   audioInit();
   if (!typing && e.repeat && enter) { e.preventDefault(); return; } // a held key never skips cards
-  if (MODAL.open) { if (k === 'Escape' && MODAL.dismissable) { e.preventDefault(); closeModal(); } return; }
+  if (MODAL.open) { if (k === 'Escape' && MODAL.dismissable) { e.preventDefault(); closeModal(); } else if (k === 'Enter' && tg && tg.id === 'uadd-in') { e.preventDefault(); const b = $('#modal-root .modal-actions .btn-gold'); if (b) b.click(); } return; }
+  if (umOpen()) { if (k === 'Escape') { e.preventDefault(); closeUserMenu(true); } return; }
   if (typing) return;
   const top = topLayer(), inGame = S.view === 'match';
   const sbLiveKeys = inGame && !top && Q && Q.sb && !Q.answered && !Q.paused && !Q.intro;
@@ -3821,7 +4211,8 @@ document.addEventListener('keydown', (e) => {
 });
 /* another tab (same file opened twice) saved: follow it when idle; never let a stale copy overwrite it mid-match */
 window.addEventListener('storage', (e) => {
-  if ((e.key !== KEYS.t && e.key !== null) || STORE.conflict) return;
+  if (e.key === KEYS.u) { const mine = curUser(); loadUsers(); if (!USERS.list.some((u) => u.id === mine.id)) USERS.list.push(mine); USERS.cur = mine.id; paintSave(); return; } // this tab stays with its user
+  if ((e.key !== tKey() && e.key !== null) || STORE.conflict) return;
   if (S.view === 'match' && S.matchId !== 'demo') { staleTab(); return; }
   T = loadT(); LOAD_WARN = ''; S.drawAnim = false;
   if (MODAL.open) return;
@@ -3829,7 +4220,9 @@ window.addEventListener('storage', (e) => {
 });
 document.addEventListener('visibilitychange', () => { if (document.hidden && Q && !Q.answered && !Q.paused && !topLayer()) pauseGame(); });
 let RESIZE_T = 0;
-window.addEventListener('resize', () => { clearTimeout(RESIZE_T); RESIZE_T = setTimeout(() => { drawSky(); $$('#layer > .ovl').forEach(placeLayer); if (Q) fitQuestion(); if (Q && Q.m5) { m5Measure(); m5Draw(); } }, 150); });
+window.addEventListener('resize', () => { clearTimeout(RESIZE_T); RESIZE_T = setTimeout(() => { drawSky(); $$('#layer > .ovl').forEach(placeLayer); if (Q) fitQuestion(); if (Q && Q.m5) { m5Measure(); m5Draw(); } fitToolSave(); if (S.view === 'ceremony') fitPod(); }, 150); });
+/* the web fonts arrive after the first paint (fallback stacks meanwhile): the two text fits are measured again */
+try { document.fonts.addEventListener('loadingdone', () => { fitToolSave(); if (S.view === 'ceremony') fitPod(); }); } catch (e) { /* no font loading API */ }
 if (MQ_REDUCED && MQ_REDUCED.addEventListener) MQ_REDUCED.addEventListener('change', () => document.documentElement.classList.toggle('rm', reduced()));
 
 /* ============================ 16. INIT + TEST HOOK ============================ */
@@ -3837,12 +4230,11 @@ function init() {
   document.documentElement.classList.toggle('rm', reduced());
   STORE.ok = probeStorage();
   sDel(OLD_CUSTOM_KEY); // custom words no longer exist: a saved list is ignored and removed
+  loadUsers(); migrateSingleSave(); saveUsers(); // the ready user exists from the first launch; the page opens as the last user
   LEGACY = findLegacy(); T = loadT();
   drawSky();
-  const m = T && T.cur ? T.matches.find((x) => x.id === T.cur) : null;
-  if (m && m.status === 'live') { S.matchId = m.id; S.resumePaused = true; go('match'); }
-  else if (m && m.status === 'done') { T.cur = null; saveT(); S.matchId = m.id; go('result'); }
-  else { if (T && T.cur) { T.cur = null; saveT(); } go(T && !T.drawOk ? 'draw' : 'home'); }
+  go(resumePlace(), 'init'); // the same place as before: the running match (paused), or the last screen
+  histInit();
   if (LOAD_WARN) toast(LOAD_WARN, 'bad');
   if (LEGACY) legacyNotice();
   if (SPEECH_OK) { try { window.speechSynthesis.getVoices(); } catch (e) { /* warm up voices */ } }
@@ -3857,9 +4249,11 @@ function qWords(q) {
 window.VCL = {
   version: APP_VERSION,
   getState() {
-    return JSON.parse(JSON.stringify({ view: S.view, tab: S.tab, matchId: S.matchId, layer: topLayer(), modal: MODAL.open, paused: !!(Q && Q.paused), drawAnim: !!S.drawAnim, contest: T, demo: S.demo, prefs: PREFS, timerSpeed: TM.speed, legacy: !!LEGACY }));
+    return JSON.parse(JSON.stringify({ view: S.view, tab: S.tab, matchId: S.matchId, layer: topLayer(), modal: MODAL.open, paused: !!(Q && Q.paused), drawAnim: !!S.drawAnim, contest: T, demo: S.demo, prefs: PREFS, timerSpeed: TM.speed, legacy: !!LEGACY, user: USERS.cur }));
   },
-  ui() { return { view: S.view, tab: S.tab, matchId: S.matchId, layer: topLayer(), modal: MODAL.open, paused: !!(Q && Q.paused), drawAnim: !!S.drawAnim }; },
+  ui() { return { view: S.view, tab: S.tab, matchId: S.matchId, layer: topLayer(), modal: MODAL.open, paused: !!(Q && Q.paused), drawAnim: !!S.drawAnim, user: USERS.cur, menu: umOpen() }; },
+  /* the users of this device (no passwords): the current one, each one's last save and remembered screen */
+  users() { return JSON.parse(JSON.stringify({ cur: USERS.cur, list: USERS.list, key: tKey(), status: saveStatus().long, parent: parentOf(S.view), history: histState() })); },
   currentQuestion() {
     if (!Q) return null;
     const q = Q.q, out = JSON.parse(JSON.stringify(q));
@@ -3901,6 +4295,8 @@ window.VCL = {
     /* the questions of the quick try (one of each type) */
     demoQuestions() { startDemo(true); const qs = S.demo ? S.demo.seq.map((x) => x.q) : []; S.demo = null; return JSON.parse(JSON.stringify(qs)); },
     speed(k) { TS.k = k > 0 ? k : 1; return TS.k; },
+    saveKey: (id) => tKey(id),
+    userInitials: (n) => userInitials(n),
     /* a competition straight from a setup-like object (defaults = the teacher's three classes), drawn and confirmed
        (cfg.ceremony: open the draw ceremony instead of the hub) */
     create(cfg) {
