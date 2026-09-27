@@ -2599,7 +2599,7 @@ function bootstrap() {
         if (!IDX.nameDirty) { const n = isStr(p.name, 200) ? cleanText(p.name, UNAME_MAX) : ''; if (n && n !== ACC.name) { ACC.name = n; saveSession(); } } // renamed on another device
         if (!IDX.setupDirty && isStr(p.setup, 200000)) { try { const st = JSON.parse(p.setup); if (st && typeof st === 'object') { IDX.setup = st; IDX.setupBase = p.setup; } } catch (e) { /* keep this device's copy */ } } else if (!IDX.setupDirty && p.setup == null && IDX.setupBase == null) IDX.setupBase = ''; // the account has no class lists yet: a known start
         const pv = vocabOf(p); if (!IDX.vocabDirty && pv && isStr(p.vocab, 1100000)) { const vv = pv; IDX.vocab = vv; IDX.vocabBase = vv.map((x) => x.id); IDX.vocabAt = Date.now(); } // word lists added on another device
-      } else { IDX.nameDirty = true; if (IDX.setup) IDX.setupDirty = true; if (IDX.vocab) IDX.vocabDirty = true; } // a new account: its profile is written with the first upload
+      } else { IDX.nameDirty = true; if (IDX.setup) IDX.setupDirty = true; if (IDX.vocab) IDX.vocabDirty = true; if (IDX.setupBase == null) IDX.setupBase = ''; } // a new account: its profile is written with the first upload (a known empty start: lists another device saves meanwhile are merged)
       const b0 = Object.assign({}, IDX.base); // an upload of another tab while the list is read is recognised below
       const q = '?pageSize=300&' + HEAD_KEYS.map((k) => 'mask.fieldPaths=' + k).join('&');
       let docs = [], tok = '', pages = 0;
