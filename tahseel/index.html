@@ -173,6 +173,12 @@ bdi{ unicode-bidi:isolate }
 .lg-tab.on{ background:var(--gold); color:#241500 }
 .lg-h{ font-family:var(--f-disp); font-weight:700; font-size:1.45rem }
 .lg-note{ color:var(--silver); font-size:15px; margin-top:-6px }
+.imp-list{ display:flex; flex-direction:column; gap:8px; margin-top:12px; max-height:46vh; overflow:auto }
+.imp-r{ display:flex; gap:12px; align-items:flex-start; padding:12px 14px; border-radius:12px; border:1px solid var(--line); background:rgba(6,13,36,.4); cursor:pointer }
+.imp-r input{ width:20px; height:20px; margin-top:4px; accent-color:var(--gold); flex:none }
+.imp-r span{ display:flex; flex-direction:column; gap:2px } .imp-r b{ font-size:1.05rem } .imp-r small{ color:var(--silver); font-size:15px }
+.lg-alert{ display:flex; gap:10px; align-items:flex-start; padding:12px 14px; border-radius:12px; border:1px solid rgba(255,181,71,.5); background:rgba(255,181,71,.1); color:#ffe2b8; font-size:15px; line-height:1.6 }
+.lg-alert .ic{ width:20px; height:20px; flex:none; margin-top:3px; color:var(--warn) }
 .lg-card .fld{ display:flex; flex-direction:column; gap:6px }
 .lg-card .fld > span{ font-weight:600; font-size:15px; color:var(--silver) }
 .lg-card .fld small{ font-weight:400; color:var(--muted) }
@@ -1533,10 +1539,10 @@ function medalSVG(place) {
 }
 
 /* ============================ 5. STORAGE ============================ */
-const MEM = {};
-function sGet(k) { try { const v = window.localStorage.getItem(k); if (v !== null) return v; } catch (e) { /* storage unavailable */ } return Object.prototype.hasOwnProperty.call(MEM, k) ? MEM[k] : null; }
-function sSet(k, v) { MEM[k] = v; try { window.localStorage.setItem(k, v); return true; } catch (e) { return false; } }
-function sDel(k) { delete MEM[k]; try { window.localStorage.removeItem(k); } catch (e) { /* ignore */ } }
+const MEM = {}, UNSAVED = new Set(); /* UNSAVED: keys whose latest value is only in memory (storage full / blocked) */
+function sGet(k) { if (UNSAVED.has(k)) return MEM[k]; try { const v = window.localStorage.getItem(k); if (v !== null) return v; } catch (e) { /* storage unavailable */ } return Object.prototype.hasOwnProperty.call(MEM, k) ? MEM[k] : null; }
+function sSet(k, v) { MEM[k] = v; try { window.localStorage.setItem(k, v); UNSAVED.delete(k); return true; } catch (e) { UNSAVED.add(k); return false; } }
+function sDel(k) { delete MEM[k]; UNSAVED.delete(k); try { window.localStorage.removeItem(k); } catch (e) { /* ignore */ } }
 function jGet(k) { const raw = sGet(k); if (raw == null) return { ok: true, val: null }; try { return { ok: true, val: JSON.parse(raw) }; } catch (e) { return { ok: false, val: null }; } }
 
 const PREFS = Object.assign({ muted: false, setups: {} }, (() => { const r = jGet(KEYS.p); return r.ok && r.val && typeof r.val === 'object' && !Array.isArray(r.val) ? r.val : {}; })());
@@ -1674,10 +1680,12 @@ const FB_DOCS = `https://firestore.googleapis.com/v1/projects/${FB.projectId}/da
 const FB_ROOT = 'tahseel';                 // tahseel/{uid} = the teacher's profile; tahseel/{uid}/comps/{id} = a competition
 const SK = 'tahseel.session.v1';           // the signed-in teacher on this device (refresh token only)
 let ACC = null;                            // { uid, email, name, idToken, refreshToken, exp }
-const IDX = { comps: [], dirty: [], del: [], last: '', place: null, setup: null, setupDirty: false, savedAt: 0, base: {}, cplace: {} };
-/* IDX.base[id] = the account's version (rev) this device's copy continues from: an upload over a version written by
-   another device in the meantime is refused (the newer results are loaded instead), so two devices never erase each other */
-const CLOUD = { state: 'idle', lastOk: 0, timer: 0, busy: false, retry: 0, again: false, listed: false, listing: false, listTimer: 0, listTry: 0 }; /* listed: the account's list of competitions has been read in this visit */
+const IDX = { comps: [], dirty: [], del: [], last: '', place: null, setup: null, setupDirty: false, savedAt: 0, base: {}, bwork: {}, cplace: {} };
+/* IDX.base[id] = the account's version (rev) this device's copy continues from, IDX.bwork[id] = the answers in that version:
+   an upload over a version written by another device in the meantime is refused, so two devices never erase each other */
+const CLOUD = { state: 'idle', lastOk: 0, timer: 0, busy: null, retry: 0, again: false, listed: false, listing: false, listTimer: 0, listTry: 0, epoch: 0, chain: Promise.resolve(), authWarned: false }; /* listed: the account's list of competitions has been read in this visit */
+/* this browser, named in every upload: an upload whose answer was lost is recognised later as this device's own */
+const DEV = (() => { let d = sGet('tahseel.device'); if (!d || !/^[a-z0-9]{8,24}$/.test(d)) { d = (uid() + uid()).slice(0, 14); sSet('tahseel.device', d); } return d; })();
 const ck = (id) => `tahseel.${ACC ? ACC.uid : '-'}.c.${id}`;   // a competition's copy on this device
 const ik = () => `tahseel.${ACC ? ACC.uid : '-'}.idx`;          // the list, pending uploads, last place, class defaults
 const tKey = (id) => ck(id || (T && T.id) || IDX.last || '-');
@@ -1689,7 +1697,7 @@ function validPlace(p) {
   const s = (x) => (typeof x === 'string' && x.length <= 40 && /^[A-Za-z0-9_-]*$/.test(x) ? x : '');
   return { v: p.v, tab: s(p.tab), m: s(p.m), c: s(p.c), cid: s(p.cid) };
 }
-const teacherName = () => (ACC && ACC.name) || TEACHER;
+const teacherName = () => (ACC ? ACC.name || '' : TEACHER);
 const curUser = () => ({ id: ACC ? ACC.uid : '', name: teacherName(), email: ACC ? ACC.email : '', saved: IDX.savedAt || null, place: IDX.place });
 /* the initials of a name: «أ. محمد بن سعيد المعشني» → «م م» (titles, «بن» and the article «ال» left out) */
 function userInitials(n) {
@@ -1762,14 +1770,27 @@ async function signUp(name, email, pass) {
 }
 const sendReset = (email) => fbPost(`${FB_AUTH}sendOobCode?key=${FB.apiKey}`, { requestType: 'PASSWORD_RESET', email }, { locale: 'ar' });
 /* a valid ID token (refreshed a minute before it expires); a refused refresh token ends the session */
+const DEAD_RT = ['TOKEN_EXPIRED', 'INVALID_REFRESH_TOKEN', 'USER_DISABLED', 'USER_NOT_FOUND', 'INVALID_GRANT_TYPE', 'MISSING_REFRESH_TOKEN', 'PROJECT_NUMBER_MISMATCH'];
 async function idToken() {
-  if (!ACC) throw Object.assign(new Error('NO_SESSION'), { auth: true });
-  if (ACC.idToken && Date.now() < ACC.exp - 60000) return ACC.idToken;
-  try {
-    const b = await fbPost(FB_TOKEN + FB.apiKey, 'grant_type=refresh_token&refresh_token=' + encodeURIComponent(ACC.refreshToken), { form: true });
-    ACC.idToken = b.id_token; ACC.refreshToken = b.refresh_token || ACC.refreshToken; ACC.exp = Date.now() + (+b.expires_in || 3600) * 1000; saveSession();
-    return ACC.idToken;
-  } catch (e) { if (e.net) throw e; throw Object.assign(new Error('SESSION_ENDED'), { auth: true }); }
+  const acc = ACC;
+  if (!acc) throw Object.assign(new Error('NO_SESSION'), { auth: true });
+  if (acc.idToken && Date.now() < acc.exp - 60000) return acc.idToken;
+  if (!acc.refreshing) {
+    acc.refreshing = (async () => {
+      try {
+        const b = await fbPost(FB_TOKEN + FB.apiKey, 'grant_type=refresh_token&refresh_token=' + encodeURIComponent(acc.refreshToken), { form: true });
+        acc.idToken = b.id_token; acc.refreshToken = b.refresh_token || acc.refreshToken; acc.exp = Date.now() + (+b.expires_in || 3600) * 1000;
+        if (ACC === acc) saveSession();
+        return acc.idToken;
+      } catch (e) {
+        if (e.net) throw e;
+        const code = String(e.message || '').split(/[ :]/)[0];
+        if ([400, 401, 403].includes(e.status) && DEAD_RT.includes(code)) throw Object.assign(new Error('SESSION_ENDED'), { auth: true });
+        throw Object.assign(new Error(e.message || 'TOKEN_REFRESH_FAILED'), { status: e.status }); // a busy service: tried again later
+      } finally { acc.refreshing = null; }
+    })();
+  }
+  return acc.refreshing;
 }
 
 /* ---------- Firestore (REST): plain JSON ↔ typed values ---------- */
@@ -1825,8 +1846,9 @@ function loadIdx() {
   IDX.setup = v.setup && typeof v.setup === 'object' ? v.setup : null; IDX.setupDirty = v.setupDirty === true;
   IDX.savedAt = isNum(v.savedAt) ? v.savedAt : 0;
   IDX.base = {}; if (v.base && typeof v.base === 'object') Object.keys(v.base).forEach((k) => { if (ID_RE.test(k) && isInt(v.base[k], 0, 1e9)) IDX.base[k] = v.base[k]; });
+  IDX.bwork = {}; if (v.bwork && typeof v.bwork === 'object') Object.keys(v.bwork).forEach((k) => { if (ID_RE.test(k) && isInt(v.bwork[k], 0, 1e9)) IDX.bwork[k] = v.bwork[k]; });
 }
-function saveIdx() { if (ACC) sSet(ik(), JSON.stringify({ v: 1, comps: IDX.comps, dirty: IDX.dirty, del: IDX.del, last: IDX.last, place: IDX.place, cplace: IDX.cplace, setup: IDX.setup, setupDirty: IDX.setupDirty, savedAt: IDX.savedAt, base: IDX.base })); }
+function saveIdx() { if (ACC) sSet(ik(), JSON.stringify({ v: 1, comps: IDX.comps, dirty: IDX.dirty, del: IDX.del, last: IDX.last, place: IDX.place, cplace: IDX.cplace, setup: IDX.setup, setupDirty: IDX.setupDirty, savedAt: IDX.savedAt, base: IDX.base, bwork: IDX.bwork })); }
 /* how far a competition has come: matches played out of the matches its path will need */
 function compSummary(t) {
   const G = grandFlow(), done = t.matches.filter((m) => m.status === 'done').length;
@@ -1839,121 +1861,270 @@ function compSummary(t) {
 }
 function upsertSum(sum) { const i = IDX.comps.findIndex((c) => c.id === sum.id); if (i >= 0) IDX.comps[i] = sum; else IDX.comps.unshift(sum); IDX.comps.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0)); }
 
-/* ---------- upload: every change reaches the account (debounced); offline → retried with back-off and on reconnect ---------- */
+/* ---------- upload: every change reaches the account (debounced); offline → retried with back-off and on reconnect ----------
+   Rules that keep every result safe:
+   • one account operation at a time (cloudRun): a list read never crosses an upload of this device;
+   • an operation of a teacher who has since signed out stops at its next step (CLOUD.epoch);
+   • every upload names this device (dev) and is conditional on the version it read (currentDocument), so an upload whose
+     answer was lost is recognised as this device's own, and two devices can never write over each other;
+   • when another device saved newer results, the account's version is kept and what this device played on top of its
+     older copy is kept too, as a separate competition «… (نسخة هذا الجهاز)» — nothing played is ever thrown away. */
 const pending = () => IDX.dirty.length + IDX.del.length + (IDX.setupDirty ? 1 : 0);
-function queueSync(ms) { if (!ACC) return; clearTimeout(CLOUD.timer); CLOUD.timer = setTimeout(flushSync, ms == null ? 900 : ms); paintSave(); }
-async function flushSync() {
-  if (!ACC) return; if (CLOUD.busy) { CLOUD.again = true; return; }
-  CLOUD.busy = true; CLOUD.again = false; clearTimeout(CLOUD.timer); if (pending()) { CLOUD.state = 'saving'; paintSave(); }
-  const me = ACC.uid;
+/* the answers played in a competition (and its confirmed draw): how two copies of it are compared */
+const workOf = (t) => (t && Array.isArray(t.matches) ? t.matches.reduce((a, m) => a + (isInt(m.step, 0, 1e6) ? m.step : 0), 0) : 0) + (t && t.drawOk ? 1 : 0);
+/* a competition's dashboard summary (compSummary reads the open competition T) */
+function sumOf(t) { const keep = T; T = t; try { return compSummary(t); } finally { T = keep; } }
+const remoteSum = (c) => { const s = { id: c.id, remote: true }; SUM_KEYS.forEach((k) => { s[k] = c[k]; }); return s; };
+const HEAD_KEYS = SUM_KEYS.concat(['dev']);
+const RACE = ['FAILED_PRECONDITION', 'ALREADY_EXISTS', 'NOT_FOUND', 'ABORTED'];
+function cloudRun(fn) {
+  const ep = CLOUD.epoch;
+  const run = CLOUD.chain.then(() => (ep === CLOUD.epoch && ACC ? fn(ep) : 'stale'));
+  CLOUD.chain = run.then(() => {}, () => {});
+  return run;
+}
+function live(ep) { if (ep !== CLOUD.epoch || !ACC) throw Object.assign(new Error('STALE_SESSION'), { stale: true }); }
+function queueSync(ms) { if (!ACC) return; if (CLOUD.state === 'auth') { paintSave(); return; } clearTimeout(CLOUD.timer); CLOUD.timer = setTimeout(flushSync, ms == null ? 900 : ms); paintSave(); }
+function flushSync() {
+  if (!ACC || CLOUD.state === 'auth') return Promise.resolve();
+  if (CLOUD.busy) { CLOUD.again = true; return CLOUD.busy; }
+  clearTimeout(CLOUD.timer);
+  const ep = CLOUD.epoch, run = cloudRun(doFlush).catch(() => {});
+  CLOUD.busy = run;
+  return run.then(() => {
+    if (CLOUD.busy === run) CLOUD.busy = null;
+    if (ep === CLOUD.epoch && ACC && CLOUD.state === 'ok' && (CLOUD.again || pending())) queueSync(250);
+  });
+}
+async function doFlush(ep) {
+  CLOUD.again = false; if (pending()) { CLOUD.state = 'saving'; paintSave(); }
   try {
-    for (const id of IDX.del.slice()) { await fsReq('DELETE', fsPath('comps', id)); if (!ACC || ACC.uid !== me) return; IDX.del = IDX.del.filter((x) => x !== id); delete IDX.base[id]; saveIdx(); }
-    for (const id of IDX.dirty.slice()) {
-      const raw = sGet(ck(id)), sum = IDX.comps.find((c) => c.id === id);
-      if (raw == null || !sum) { IDX.dirty = IDX.dirty.filter((x) => x !== id); continue; }
-      const head = await fsGet(fsPath('comps', id), ['rev']);
-      if (!ACC || ACC.uid !== me) return;
-      const cloudRev = head ? fsObj(head).rev : null, base = IDX.base[id];
-      if (isNum(cloudRev) && (base != null ? cloudRev !== base : cloudRev >= (sum.rev || 0))) { changedElsewhere(id); continue; }
-      const f = { data: raw }; SUM_KEYS.forEach((k) => { f[k] = sum[k]; });
-      await fsReq('PATCH', fsPath('comps', id), fsFields(f));
-      if (!ACC || ACC.uid !== me) return;
-      IDX.base[id] = sum.rev;
-      if (sGet(ck(id)) === raw) IDX.dirty = IDX.dirty.filter((x) => x !== id); // changed while uploading → it stays pending
-      sum.remote = true; saveIdx();
+    for (const id of IDX.del.slice()) { await fsReq('DELETE', fsPath('comps', id)); live(ep); IDX.del = IDX.del.filter((x) => x !== id); saveIdx(); }
+    for (const id of IDX.dirty.slice()) await pushOne(id, ep);
+    if (IDX.setupDirty) {
+      await fsReq('PATCH', fsPath(), fsFields({ name: ACC.name, email: ACC.email, setup: JSON.stringify(IDX.setup || null), updatedAt: Date.now() })); live(ep);
+      IDX.setupDirty = false; saveIdx();
     }
-    if (IDX.setupDirty) { await fsReq('PATCH', fsPath(), fsFields({ name: ACC.name, email: ACC.email, setup: JSON.stringify(IDX.setup || null), updatedAt: Date.now() })); if (!ACC || ACC.uid !== me) return; IDX.setupDirty = false; saveIdx(); }
     CLOUD.state = 'ok'; CLOUD.lastOk = Date.now(); CLOUD.retry = 0;
   } catch (e) {
-    CLOUD.state = e.auth ? 'auth' : e.net ? 'offline' : 'error';
-    CLOUD.retry = Math.min(60000, Math.max(4000, CLOUD.retry * 2)); CLOUD.timer = setTimeout(flushSync, CLOUD.retry);
-    if (e.auth && ACC && ACC.uid === me) sessionEnded();
-  } finally {
-    CLOUD.busy = false; paintSave();
-    if (ACC && ACC.uid === me && CLOUD.state === 'ok' && (CLOUD.again || pending())) queueSync(250);
-  }
+    if (e.stale) return;
+    if (e.auth) { sessionEnded(); return; }
+    CLOUD.state = e.net ? 'offline' : 'error';
+    CLOUD.retry = Math.min(60000, Math.max(4000, CLOUD.retry * 2)); clearTimeout(CLOUD.timer); CLOUD.timer = setTimeout(flushSync, CLOUD.retry);
+  } finally { if (ep === CLOUD.epoch) paintSave(); }
 }
-window.addEventListener('online', () => { if (!ACC) return; if (!CLOUD.listed) refreshList(); else if (pending()) queueSync(200); });
+/* one competition to the account: only over the version this copy continues from (or this device's own) */
+async function pushOne(id, ep) {
+  if (!IDX.dirty.includes(id)) return;
+  const raw = sGet(ck(id));
+  let t = null; if (raw != null) { try { t = parseT(JSON.parse(raw)); } catch (e) { t = null; } }
+  if (!t || t.id !== id) { IDX.dirty = IDX.dirty.filter((x) => x !== id); saveIdx(); return; }
+  const head = await fsGet(fsPath('comps', id), HEAD_KEYS); live(ep);
+  const h = head ? fsObj(head) : null, b = IDX.base[id];
+  if (!h) { if (b != null) { deletedElsewhere(id); return; } } // synced before and gone now: deleted on another device
+  else if (!(h.dev === DEV && (h.rev || 0) <= (t.rev || 0)) && !(b != null && h.rev === b)) { changedElsewhere(id, h); return; }
+  const s = sumOf(t), f = { data: raw, dev: DEV }; SUM_KEYS.forEach((k) => { f[k] = s[k]; });
+  const pre = head && head.updateTime ? '?currentDocument.updateTime=' + encodeURIComponent(head.updateTime) : '?currentDocument.exists=false';
+  try { await fsReq('PATCH', fsPath('comps', id), fsFields(f), pre); }
+  catch (e) { live(ep); if (!e.auth && !e.net && (RACE.includes(e.message) || e.status === 409)) { CLOUD.again = true; return; } throw e; } // written meanwhile: read again
+  live(ep);
+  IDX.base[id] = t.rev || 0; IDX.bwork[id] = workOf(t);
+  if (sGet(ck(id)) === raw) IDX.dirty = IDX.dirty.filter((x) => x !== id); // changed while uploading → it stays pending
+  const cur = IDX.comps.find((c) => c.id === id); if (cur) cur.remote = true;
+  saveIdx();
+}
+window.addEventListener('online', () => { if (!ACC || CLOUD.state === 'auth') return; if (!CLOUD.listed) refreshList(); else if (pending()) queueSync(200); });
 /* leaving with changes not uploaded yet: the browser warns (they stay on this device and upload on the next visit) */
 window.addEventListener('beforeunload', (e) => { if (ACC && pending() && CLOUD.state !== 'ok') { e.preventDefault(); e.returnValue = ''; } });
 
 /* ---------- after signing in: the account's competitions, merged with this device's copy ---------- */
-async function bootstrap() {
-  loadIdx();
-  try {
-    const prof = await fsGet(fsPath());
-    if (prof) {
-      const p = fsObj(prof);
-      if (!ACC.name && isStr(p.name, 200) && cleanName(p.name)) { ACC.name = cleanName(p.name).slice(0, UNAME_MAX); saveSession(); }
-      if (!IDX.setupDirty && isStr(p.setup, 200000)) { try { const st = JSON.parse(p.setup); IDX.setup = st && typeof st === 'object' ? st : null; } catch (e) { /* keep this device's copy */ } }
-    } else IDX.setupDirty = true; // a new account: its profile is written with the first upload
-    const q = '?pageSize=300&' + SUM_KEYS.map((k) => 'mask.fieldPaths=' + k).join('&');
-    const res = await fsReq('GET', fsPath('comps'), null, q);
-    mergeCloud(((res && res.documents) || []).map((d) => Object.assign(fsObj(d), { id: String(d.name || '').split('/').pop() })).filter(validSum));
-    CLOUD.state = 'ok'; CLOUD.lastOk = Date.now(); CLOUD.listed = true; CLOUD.listTry = 0; clearTimeout(CLOUD.listTimer);
-  } catch (e) { if (e.auth) throw e; CLOUD.state = e.net ? 'offline' : 'error'; }
-  importDeviceSaves();
-  saveIdx();
-  if (pending()) queueSync(300);
+function bootstrap() {
+  return cloudRun(async (ep) => {
+    loadIdx();
+    try {
+      const prof = await fsGet(fsPath()); live(ep);
+      if (prof) {
+        const p = fsObj(prof);
+        if (!IDX.setupDirty) {
+          const n = isStr(p.name, 200) ? cleanName(p.name).slice(0, UNAME_MAX) : '';
+          if (n && n !== ACC.name) { ACC.name = n; saveSession(); } // the account's name (renamed on another device)
+          if (isStr(p.setup, 200000)) { try { const st = JSON.parse(p.setup); IDX.setup = st && typeof st === 'object' ? st : null; } catch (e) { /* keep this device's copy */ } }
+        }
+      } else IDX.setupDirty = true; // a new account: its profile is written with the first upload
+      const q = '?pageSize=300&' + HEAD_KEYS.map((k) => 'mask.fieldPaths=' + k).join('&');
+      const res = await fsReq('GET', fsPath('comps'), null, q); live(ep);
+      mergeCloud(((res && res.documents) || []).map((d) => Object.assign(fsObj(d), { id: String(d.name || '').split('/').pop() })).filter(validSum));
+      CLOUD.state = 'ok'; CLOUD.lastOk = Date.now(); CLOUD.listed = true; CLOUD.listTry = 0; clearTimeout(CLOUD.listTimer);
+    } catch (e) { if (e.stale) return 'stale'; if (e.auth) throw e; CLOUD.state = e.net ? 'offline' : 'error'; }
+    saveIdx();
+    if (pending()) queueSync(300);
+    return 'ok';
+  }).catch((e) => { if (e && e.stale) return 'stale'; throw e; });
 }
 /* the account could not be read (no network): tried again by itself (5 s, 10 s, 20 s … 1 min), at once when the network is
    back, or with «إعادة المحاولة» on the dashboard */
-function listLater() { clearTimeout(CLOUD.listTimer); if (!ACC || CLOUD.listed) return; CLOUD.listTimer = setTimeout(() => refreshList(), Math.min(60000, 5000 * 2 ** Math.min(CLOUD.listTry++, 4))); }
+function listLater() { clearTimeout(CLOUD.listTimer); if (!ACC || CLOUD.listed || CLOUD.state === 'auth') return; CLOUD.listTimer = setTimeout(() => refreshList(), Math.min(60000, 5000 * 2 ** Math.min(CLOUD.listTry++, 4))); }
 async function refreshList() {
-  if (!ACC || CLOUD.listing) return; CLOUD.listing = true; clearTimeout(CLOUD.listTimer);
+  if (!ACC || CLOUD.listing || CLOUD.state === 'auth') return; CLOUD.listing = true; clearTimeout(CLOUD.listTimer);
   if (S.view === 'home' && !MODAL.open) go('home', 'replace');
-  try { await bootstrap(); }
-  catch (e) { CLOUD.listing = false; if (e.auth) { CLOUD.state = 'auth'; paintSave(); sessionEnded(); } return; }
+  let r;
+  try { r = await bootstrap(); } catch (e) { CLOUD.listing = false; if (e.auth) sessionEnded(); else paintSave(); return; }
   CLOUD.listing = false;
-  if (!ACC) return;
-  if (T && !IDX.comps.some((c) => c.id === T.id)) { T = null; if (S.view !== 'match' && S.view !== 'home') go('home', 'replace'); } // deleted on another device
+  if (!ACC || r === 'stale') return;
   if (S.view === 'home' && !MODAL.open) go('home', 'replace'); else paintSave();
-  if (!CLOUD.listed) listLater();
+  if (!CLOUD.listed) listLater(); else afterBoot();
 }
-/* the account's list wins for competitions changed elsewhere; this device's newer copies are uploaded */
+/* a competition's copy on this device, read without side effects (null when missing or unreadable) */
+function peekT(id) { const r = jGet(ck(id)); return r.ok && r.val ? parseT(r.val) : null; }
+/* the account's list (a consistent snapshot: no upload of this device runs meanwhile) merged with this device's copies */
 function mergeCloud(list) {
-  const loc = new Map(IDX.comps.map((c) => [c.id, c])), seen = new Set();
+  const seen = new Set();
   list.forEach((c) => {
-    seen.add(c.id); if (IDX.del.includes(c.id)) return;
-    const l = loc.get(c.id), s = { id: c.id, remote: true }; SUM_KEYS.forEach((k) => { s[k] = c[k]; });
-    const base = IDX.base[c.id];
-    if (!l || (c.rev || 0) > (l.rev || 0) || (base != null && c.rev !== base && IDX.dirty.includes(c.id))) { loc.set(c.id, s); if (l) sDel(ck(c.id)); IDX.dirty = IDX.dirty.filter((x) => x !== c.id); delete IDX.base[c.id]; }
-    else { if (c.rev === l.rev) IDX.base[c.id] = c.rev; else if ((l.rev || 0) > (c.rev || 0) && !IDX.dirty.includes(c.id)) IDX.dirty.push(c.id); }
+    seen.add(c.id); if (IDX.del.includes(c.id)) return; // deleted here, the deletion is on its way
+    const l = IDX.comps.find((x) => x.id === c.id), b = IDX.base[c.id], dirty = IDX.dirty.includes(c.id);
+    const mine = T && T.id === c.id ? T : sGet(ck(c.id)) != null ? peekT(c.id) : null;
+    if (!mine) { IDX.dirty = IDX.dirty.filter((x) => x !== c.id); upsertSum(remoteSum(c)); return; } // only a summary here: the account's
+    const lr = mine.rev || 0;
+    if ((c.dev === DEV && (c.rev || 0) <= lr) || (b != null && c.rev === b)) { // this device's own version, or the one this copy continues from
+      if (b == null || c.rev > b) { IDX.base[c.id] = c.rev; if (c.rev === lr) IDX.bwork[c.id] = workOf(mine); }
+      if (lr > (c.rev || 0) && !dirty) IDX.dirty.push(c.id);
+      if (!l) upsertSum(sumOf(mine));
+      return;
+    }
+    if (!dirty && b == null && lr === (c.rev || 0)) { IDX.base[c.id] = c.rev; IDX.bwork[c.id] = workOf(mine); if (!l) upsertSum(sumOf(mine)); return; } // the same version
+    replacedHere(c.id, remoteSum(c), dirty ? mine : null); // another device saved a version this copy does not continue from
   });
-  loc.forEach((l, id) => { if (!seen.has(id) && (!IDX.dirty.includes(id) || IDX.base[id] != null)) { loc.delete(id); sDel(ck(id)); IDX.dirty = IDX.dirty.filter((x) => x !== id); delete IDX.base[id]; } }); // deleted on another device
-  IDX.comps = Array.from(loc.values()).sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
-}
-/* competitions saved on this device by the earlier version (without accounts) move into this account, once */
-function importDeviceSaves() {
-  const keys = [KEYS.t]; const r = jGet(KEYS.u);
-  if (r.ok && r.val && Array.isArray(r.val.list)) r.val.list.forEach((u) => { if (u && typeof u.id === 'string' && ID_RE.test(u.id)) keys.push(`vcl.u.${u.id}.contest.v3`); });
-  let n = 0;
-  keys.forEach((k) => {
-    const mark = 'tahseel.imported.' + k; if (sGet(mark)) return;
-    const raw = jGet(k); if (!raw.ok || !raw.val) return;
-    const t = parseT(raw.val); if (!t) return;
-    sSet(mark, ACC.uid);
-    if (IDX.comps.some((c) => c.id === t.id)) return;
-    const keep = T; T = t; t.updatedAt = t.updatedAt || Date.now();
-    try { sSet(ck(t.id), JSON.stringify(t)); upsertSum(compSummary(t)); if (!IDX.dirty.includes(t.id)) IDX.dirty.push(t.id); n++; } finally { T = keep; }
+  IDX.comps.slice().forEach((l) => {
+    if (seen.has(l.id)) return;
+    const dirty = IDX.dirty.includes(l.id);
+    if (dirty && IDX.base[l.id] == null && !l.remote) return; // created here, not uploaded yet
+    if (!dirty && !l.remote && IDX.base[l.id] == null && sGet(ck(l.id)) != null) { IDX.dirty.push(l.id); return; } // never uploaded: upload it
+    deletedElsewhere(l.id); // was in the account, gone now: deleted on another device
   });
-  if (n) toast(n === 1 ? 'نُقلت المسابقة المحفوظة على هذا الجهاز إلى حسابك' : `نُقلت ${num(n)} مسابقات محفوظة على هذا الجهاز إلى حسابك`, 'good');
+  IDX.comps.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
 }
-/* another device saved newer results of this competition: this device's copy is dropped and the newer one is loaded */
-function changedElsewhere(id) {
-  IDX.dirty = IDX.dirty.filter((x) => x !== id); delete IDX.base[id]; sDel(ck(id));
-  const s = IDX.comps.find((c) => c.id === id); if (s) s.remote = true; saveIdx();
-  if (!T || T.id !== id || STORE.conflict) return;
+/* the account's version replaces this device's copy; answers played here on top of the older copy become a separate competition */
+function replacedHere(id, sum, mine) {
+  const forked = mine && workOf(mine) > (IDX.bwork[id] || 0) ? forkComp(mine) : null;
+  IDX.dirty = IDX.dirty.filter((x) => x !== id); delete IDX.base[id]; delete IDX.bwork[id]; sDel(ck(id));
+  if (validSum(sum)) upsertSum(sum); else { const c = IDX.comps.find((x) => x.id === id); if (c) c.remote = true; }
+  saveIdx();
+  if (T && T.id === id) compNotice(id, forked, false);
+  else if (forked) toast(`تغيّرت «${cleanName(sum.name || '')}» على جهاز آخر — وحُفظ ما لُعب هنا كمسابقة منفصلة «${forked.name}»`, 'good');
+}
+/* another device saved newer results of this competition (found while uploading) */
+function changedElsewhere(id, h) { replacedHere(id, remoteSum(Object.assign({ id }, h)), T && T.id === id ? T : peekT(id)); }
+/* the competition was deleted in the account from another device */
+function deletedElsewhere(id) {
+  const mine = T && T.id === id ? T : peekT(id);
+  const forked = mine && IDX.dirty.includes(id) && workOf(mine) > (IDX.bwork[id] || 0) ? forkComp(mine) : null;
+  IDX.comps = IDX.comps.filter((c) => c.id !== id); IDX.dirty = IDX.dirty.filter((x) => x !== id);
+  delete IDX.base[id]; delete IDX.bwork[id]; delete IDX.cplace[id]; sDel(ck(id));
+  if (IDX.last === id) IDX.last = ''; if (IDX.place && IDX.place.cid === id) IDX.place = null;
+  saveIdx();
+  if (T && T.id === id) compNotice(id, forked, true);
+  else if (forked) toast(`حُذفت مسابقة من حسابك على جهاز آخر — وحُفظ ما لُعب فيها هنا كمسابقة «${forked.name}»`, 'good');
+}
+/* a copy of a competition under a new id («… (نسخة هذا الجهاز)»), uploaded as a competition of its own */
+function forkComp(src) {
+  const t = JSON.parse(JSON.stringify(src));
+  t.id = uid(); t.rev = 1; t.updatedAt = Date.now();
+  t.name = cleanName(`${cleanName(src.name || DEF_NAME).slice(0, 56)} (نسخة هذا الجهاز)`).slice(0, 80);
+  sSet(ck(t.id), JSON.stringify(t)); upsertSum(sumOf(t)); if (!IDX.dirty.includes(t.id)) IDX.dirty.push(t.id);
+  saveIdx();
+  return t;
+}
+/* the open competition was replaced or deleted from another device: this screen stops, the teacher is told what happened */
+function compNotice(id, forked, gone) {
+  const asking = S.view === 'match' && Q && !Q.paused && !Q.answered; // a question on screen right now
+  if (!forked && !gone && !asking && !MODAL.open && !STORE.conflict) { // only newer results, nothing lost: refreshed in place
+    openComp(id).then((ok) => { if (ok) toast('حُدّثت المسابقة بأحدث النتائج من حسابك', 'good'); else { cleanupView(); T = null; go('home', 'replace'); } });
+    return;
+  }
   STORE.conflict = true; if (Q && !Q.answered && !Q.paused) timerPause();
+  const copy = forked ? `<p class="confirm-t">وما لُعب على هذا الجهاز ولم يصل إلى الحساب لم يضِع: حُفظ كمسابقة منفصلة <b>«${esc(forked.name)}»</b> في «مسابقاتي».</p>` : '';
   openModal({
-    title: `${icon('reset')} تغيّرت المسابقة على جهاز آخر`, dismissable: false,
-    body: '<p class="confirm-t">حُفظت نتائج أحدث لهذه المسابقة من جهاز آخر في حسابك. حتى لا تُمحى تلك النتائج تُفتح الآن أحدث نسخة من الحساب.</p>',
-    actions: [{ label: 'فتح أحدث نسخة', cls: 'btn-gold', icon: 'reset', fn: () => { STORE.conflict = false; T = null; openComp(id); } }],
+    title: `${icon(gone ? 'trash' : 'reset')} ${gone ? 'حُذفت هذه المسابقة' : 'تغيّرت المسابقة على جهاز آخر'}`, dismissable: false,
+    body: (gone ? '<p class="confirm-t">حُذفت هذه المسابقة من حسابك على جهاز آخر.</p>' : '<p class="confirm-t">في حسابك نتائج أحدث لهذه المسابقة حُفظت من جهاز آخر، فتُفتح الآن أحدث نسخة.</p>') + copy,
+    actions: [{ label: gone ? 'لوحة المعلم' : 'فتح أحدث نسخة', cls: 'btn-gold', icon: gone ? 'home' : 'reset', fn: () => {
+      STORE.conflict = false; cleanupView(); const was = T; T = null; S.matchId = null;
+      if (gone || !was) { go('home', 'replace'); return; }
+      openComp(id).then((ok) => { if (!ok) go('home', 'replace'); });
+    } }],
   });
 }
+/* the session ended (password changed, account disabled…): in a running match the class goes on (saved on this device);
+   anywhere else the sign-in page opens with the e-mail filled in; after signing in, the changes upload */
 function sessionEnded() {
-  if (S.view === 'login') return;
-  toast('انتهت جلسة الدخول — سجّل الدخول مرة أخرى (تقدّمك محفوظ على هذا الجهاز وسيُرفع بعد الدخول)', 'bad');
+  if (!ACC) return;
+  CLOUD.state = 'auth'; clearTimeout(CLOUD.timer); clearTimeout(CLOUD.listTimer); paintSave();
+  if (S.view === 'match') { if (!CLOUD.authWarned) { CLOUD.authWarned = true; toast('انتهت جلسة الدخول — أكمل المباراة؛ تقدّمك محفوظ على هذا الجهاز، وسجّل الدخول بعدها ليُرفع إلى حسابك', 'bad'); } return; }
+  relogin();
+}
+function relogin() {
+  const email = ACC ? ACC.email : '';
+  signOut();
+  S.auth = { mode: 'in', email, note: 'انتهت جلسة الدخول — ادخل مرة أخرى. تقدّمك محفوظ على هذا الجهاز ويُرفع إلى حسابك بعد الدخول.' };
+  go('login', 'replace');
+}
+/* after the account was read: the teacher's name (for the certificates), then saves of the earlier version on this device */
+function afterBoot() {
+  if (!ACC || !CLOUD.listed || S.view === 'match' || MODAL.open) return;
+  if (!ACC.name) { askName(true); return; }
+  offerImport();
+}
+function askName(first) {
+  closeUserMenu();
+  openModal({
+    title: `${icon('users')} اسم المعلم`, dismissable: !first,
+    body: `<p class="confirm-t">${first ? 'اكتب اسمك كما تريده أن يظهر على شهادات الطلاب.' : 'يظهر هذا الاسم في لوحة المعلم وعلى شهادات الطلاب.'}</p><label class="fld"><span>اسم المعلم</span><input id="name-in" type="text" maxlength="${UNAME_MAX}" dir="auto" autocomplete="name" placeholder="مثال: أ. محمد بن سعيد المعشني" value="${esc(ACC ? ACC.name : '')}" autofocus></label><p class="lg-err" id="name-err" role="alert"></p>`,
+    actions: (first ? [] : [{ label: 'إلغاء' }]).concat([{ label: 'حفظ الاسم', cls: 'btn-gold', icon: 'check', fn: () => {
+      const n = cleanName(($('#name-in') || {}).value || '').slice(0, UNAME_MAX);
+      if (n.length < 3) { const e = $('#name-err'); if (e) e.textContent = 'اكتب الاسم (3 أحرف أو أكثر).'; return false; }
+      setAccountName(n); toast('حُفظ الاسم في حسابك', 'good');
+      if (first) setTimeout(offerImport, 0);
+      return true;
+    } }]),
+  });
+}
+function setAccountName(n) {
+  if (!ACC) return; ACC.name = n; saveSession(); IDX.setupDirty = true; saveIdx(); queueSync(200);
+  idToken().then((tok) => fbPost(`${FB_AUTH}update?key=${FB.apiKey}`, { idToken: tok, displayName: n, returnSecureToken: false })).catch(() => { /* the profile keeps the name */ });
+  setTimeout(() => { if (!ACC || MODAL.open) { paintSave(); return; } if (S.view === 'home') go('home', 'replace'); else if (S.view !== 'match') go(S.view, 'replace'); else paintSave(); }, 0); // once the dialog is closed
+}
+/* competitions saved on this device by the earlier version (before accounts): the teacher chooses which are theirs */
+function importCandidates() {
+  const names = {}, keys = [[KEYS.t, '']]; const r = jGet(KEYS.u);
+  if (r.ok && r.val && Array.isArray(r.val.list)) r.val.list.forEach((u) => { if (u && typeof u.id === 'string' && ID_RE.test(u.id)) { keys.push([`vcl.u.${u.id}.contest.v3`, isStr(u.name, 200) ? cleanName(u.name) : '']); } });
+  const out = [];
+  keys.forEach(([k, who]) => {
+    if (sGet('tahseel.imported.' + k) || sGet(`tahseel.skip.${ACC.uid}.${k}`)) return;
+    const raw = jGet(k); if (!raw.ok || !raw.val) return;
+    const t = parseT(raw.val); if (!t || IDX.comps.some((c) => c.id === t.id) || out.some((x) => x.t.id === t.id)) return;
+    out.push({ k, who, t });
+  });
+  return out;
+}
+function offerImport() {
+  if (!ACC || MODAL.open || S.view === 'match') return;
+  const list = importCandidates(); if (!list.length) return;
+  const rows = list.map((x, i) => `<label class="imp-r"><input type="checkbox" data-i="${i}" checked><span><b dir="auto">${esc(cleanName(x.t.name || DEF_NAME))}</b><small>${x.who ? `المستخدم في النسخة السابقة: <bdi dir="auto">${esc(x.who)}</bdi> · ` : ''}${num(x.t.matches.filter((m) => m.status === 'done').length)} مباراة منتهية</small></span></label>`).join('');
+  openModal({
+    title: `${icon('save')} مسابقات محفوظة على هذا الجهاز`, dismissable: false,
+    body: `<p class="confirm-t">وُجدت على هذا الجهاز مسابقات من النسخة السابقة (قبل حسابات المعلمين). اختر ما يخصّك لإضافته إلى حسابك:</p><div class="imp-list">${rows}</div>`,
+    actions: [{ label: 'ليست لي', fn: () => { list.forEach((x) => sSet(`tahseel.skip.${ACC.uid}.${x.k}`, '1')); } },
+      { label: 'إضافة المحدد إلى حسابي', cls: 'btn-gold', icon: 'check', fn: () => {
+        const on = new Set($$('.imp-list input:checked').map((e) => +e.dataset.i)); let n = 0;
+        list.forEach((x, i) => {
+          if (!on.has(i)) { sSet(`tahseel.skip.${ACC.uid}.${x.k}`, '1'); return; }
+          sSet('tahseel.imported.' + x.k, ACC.uid);
+          const t = x.t; t.updatedAt = t.updatedAt || Date.now();
+          sSet(ck(t.id), JSON.stringify(t)); upsertSum(sumOf(t)); if (!IDX.dirty.includes(t.id)) IDX.dirty.push(t.id); n++;
+        });
+        saveIdx(); if (n) { queueSync(200); toast(n === 1 ? 'أُضيفت المسابقة إلى حسابك' : `أُضيفت ${num(n)} مسابقات إلى حسابك`, 'good'); }
+        if (S.view === 'home') go('home', 'replace');
+      } }],
+  });
 }
 
 /* ---------- a competition: parse / open / save / delete ---------- */
@@ -1966,18 +2137,32 @@ function loadT(id) {
   id = id || IDX.last; if (!id) return null;
   const r = jGet(ck(id));
   const t = r.ok && r.val ? parseT(r.val) : null;
-  if (!r.ok || (r.val && !t)) { LOAD_WARN = 'نسخة المسابقة على هذا الجهاز غير صالحة — تُفتح من حسابك.'; sDel(ck(id)); return null; } // the account keeps the good copy
+  if (!r.ok || (r.val && !t)) { LOAD_WARN = 'نسخة المسابقة على هذا الجهاز غير صالحة — تُفتح من حسابك.'; sDel(ck(id)); IDX.dirty = IDX.dirty.filter((x) => x !== id); return null; } // the account keeps the good copy
   return t;
 }
-/* opens a competition of the account (downloads it when this device has no copy yet) */
+/* opens a competition of the account (downloads it when this device has no copy yet); the screen changes only once it
+   is here, so a failed download leaves everything as it was */
 async function openComp(id, to) {
   let t = loadT(id);
   const sum = IDX.comps.find((c) => c.id === id);
   if (!t && sum) {
+    const ep = CLOUD.epoch;
     busyOn('جارٍ فتح المسابقة من حسابك…');
-    try { const d = await fsGet(fsPath('comps', id)); const raw = d ? fsObj(d).data : null; if (isStr(raw, 2000000)) { let v = null; try { v = JSON.parse(raw); } catch (e) { v = null; } t = parseT(v); if (t) { sSet(ck(id), raw); IDX.base[id] = t.rev || 0; } } }
-    catch (e) { busyOff(); toast(e.net ? 'لا يوجد اتصال بالإنترنت — تعذّر فتح المسابقة الآن' : 'تعذّر فتح المسابقة من الحساب', 'bad'); return false; }
-    busyOff();
+    let d = null;
+    try { d = await fsGet(fsPath('comps', id)); }
+    catch (e) { busyOff(); if (ep !== CLOUD.epoch) return false; if (e.auth) { sessionEnded(); return false; } toast(e.net ? 'لا يوجد اتصال بالإنترنت — تعذّر فتح المسابقة الآن' : 'تعذّر فتح المسابقة من الحساب', 'bad'); return false; }
+    busyOff(); if (ep !== CLOUD.epoch || !ACC) return false;
+    if (!d) { // deleted in the account meanwhile
+      IDX.comps = IDX.comps.filter((c) => c.id !== id); delete IDX.base[id]; delete IDX.bwork[id]; saveIdx();
+      toast('هذه المسابقة لم تعد في حسابك (حُذفت من جهاز آخر)', 'bad'); if (S.view === 'home' && !MODAL.open) go('home', 'replace'); return false;
+    }
+    const o = fsObj(d), raw = o.data;
+    if (isStr(raw, 2000000)) { let v = null; try { v = JSON.parse(raw); } catch (e) { v = null; } t = parseT(v); }
+    if (t) {
+      const rev = Math.max(isNum(o.rev) ? o.rev : 0, t.rev || 0); t.rev = rev;
+      sSet(ck(id), JSON.stringify(t)); IDX.base[id] = rev; IDX.bwork[id] = workOf(t); IDX.dirty = IDX.dirty.filter((x) => x !== id);
+      upsertSum(Object.assign(sumOf(t), { remote: true })); saveIdx();
+    }
   }
   if (!t) { toast('تعذّر فتح هذه المسابقة (بيانات غير صالحة)', 'bad'); return false; }
   cleanupView(); T = t; IDX.last = t.id; saveIdx();
@@ -1989,6 +2174,7 @@ async function openComp(id, to) {
 function deleteComp(id) {
   IDX.comps = IDX.comps.filter((c) => c.id !== id); IDX.dirty = IDX.dirty.filter((x) => x !== id);
   if (!IDX.del.includes(id)) IDX.del.push(id);
+  delete IDX.base[id]; delete IDX.bwork[id];
   sDel(ck(id)); if (IDX.last === id) IDX.last = ''; if (IDX.place && IDX.place.cid === id) IDX.place = null; delete IDX.cplace[id];
   if (T && T.id === id) T = null;
   saveIdx(); queueSync(100);
@@ -2002,6 +2188,7 @@ function compactT() {
    copy never overwrites newer results (force = intentional replace). */
 function saveT(force) {
   if (!T || !ACC) return true;
+  if (STORE.conflict && !force) return false; // a newer copy is being opened: nothing is written over it
   if (!force && STORE.ok) {
     const r = jGet(ck(T.id)), cur = r.ok && r.val && typeof r.val === 'object' ? r.val : null;
     if (cur && cur.id === T.id && (cur.rev || 0) > (T.rev || 0)) { staleTab(); return false; }
@@ -2011,8 +2198,8 @@ function saveT(force) {
   if (raw.length > 900000) { compactT(); raw = JSON.stringify(T); } // an account document holds up to 1 MB
   let ok = sSet(ck(T.id), raw);
   if (!ok && STORE.ok) { try { compactT(); raw = JSON.stringify(T); ok = sSet(ck(T.id), raw); } catch (e) { ok = false; } }
-  STORE.failing = !ok && STORE.ok; // the copy stays in memory and still goes to the account
-  upsertSum(compSummary(T)); if (!IDX.dirty.includes(T.id)) IDX.dirty.push(T.id); IDX.last = T.id;
+  STORE.failing = !ok && STORE.ok; // the copy stays in memory (sGet returns it) and still goes to the account
+  upsertSum(sumOf(T)); if (!IDX.dirty.includes(T.id)) IDX.dirty.push(T.id); IDX.last = T.id;
   noteSaved(); queueSync();
   return true;
 }
@@ -2021,10 +2208,14 @@ function saveSetupDefaults(s) {
   IDX.setup = { v: SCHEMA, name: s.name, classes: s.classes.map((c) => ({ name: c.name, color: c.color, text: c.text, absent: c.absent.slice() })), rounds: Object.assign({}, s.rounds), second: s.second, timer: s.timer };
   IDX.setupDirty = true; saveIdx(); queueSync();
 }
+/* signing out: this device forgets the session; its copies stay (a change not uploaded yet goes up at the next sign-in
+   of the same teacher). Every account operation still running stops at its next step. */
 function signOut() {
-  cleanupView(); clearTimeout(CLOUD.timer);
-  sDel(SK); ACC = null; T = null; Object.assign(IDX, { comps: [], dirty: [], del: [], last: '', place: null, setup: null, setupDirty: false, savedAt: 0, base: {}, cplace: {} });
-  clearTimeout(CLOUD.listTimer); Object.assign(CLOUD, { state: 'idle', lastOk: 0, busy: false, retry: 0, again: false, listed: false, listing: false, listTry: 0 });
+  cleanupView(); clearTimeout(CLOUD.timer); clearTimeout(CLOUD.listTimer); closeModal(true); busyOff();
+  CLOUD.epoch++; CLOUD.chain = Promise.resolve();
+  sDel(SK); ACC = null; T = null; Object.assign(IDX, { comps: [], dirty: [], del: [], last: '', place: null, setup: null, setupDirty: false, savedAt: 0, base: {}, bwork: {}, cplace: {} });
+  Object.assign(CLOUD, { state: 'idle', lastOk: 0, busy: null, retry: 0, again: false, listed: false, listing: false, listTry: 0, authWarned: false });
+  Object.assign(STORE, { conflict: false, failing: false, warned: false });
   Object.assign(S, { tab: '', matchId: null, setup: null, drawAnim: false, swapSel: null, cert: '', demo: null, resumePaused: false, introErr: '', toss: null, sdAck: '', auth: { mode: 'in' } });
   go('login', 'replace');
 }
@@ -2917,7 +3108,7 @@ function staleTab() {
     actions: [{ label: 'تحميل أحدث نسخة', cls: 'btn-gold', icon: 'reset', fn: reloadFromStorage }],
   });
 }
-function reloadFromStorage() { STORE.conflict = false; T = loadT(); LOAD_WARN = ''; if (S.matchId !== 'demo') S.matchId = null; go(T ? 'hub' : 'home', 'replace'); }
+function reloadFromStorage() { const id = T && T.id; STORE.conflict = false; T = id ? loadT(id) : null; LOAD_WARN = ''; if (S.matchId !== 'demo') S.matchId = null; go(T ? 'hub' : 'home', 'replace'); }
 
 const MODAL = { open: false, handlers: [], onClose: null, prevFocus: null, gen: 0, dismissable: true };
 function openModal(o) {
@@ -2996,11 +3187,12 @@ const userAv = (u, cls) => `<span class="av uav${cls ? ' ' + cls : ''}" aria-hid
 function userMenu() {
   if (!ACC) return '';
   const u = curUser(), st = saveStatus();
-  return `<div class="um" id="um"><button class="um-btn" data-act="umenu" id="um-btn" aria-haspopup="true" aria-expanded="false" aria-controls="um-pop" title="${esc(u.name)} — ${esc(st.long)}">${userAv(u)}<span class="um-t"><b>${esc(shortName(u.name))}</b><small class="um-s${st.ok ? '' : ' bad'}${st.busy ? ' busy' : ''}">${saveLine(st)}</small></span><i class="um-dot${st.ok ? '' : ' bad'}" aria-hidden="true"></i><span class="sr-only">قائمة الحساب</span></button>
-<div class="um-pop" id="um-pop" hidden><div class="um-h">${userAv(u, 'lg')}<span><b>${esc(u.name)}</b><small class="um-mail" dir="ltr">${esc(u.email)}</small></span></div>
+  return `<div class="um" id="um"><button class="um-btn" data-act="umenu" id="um-btn" aria-haspopup="true" aria-expanded="false" aria-controls="um-pop" title="${esc(u.name)} — ${esc(st.long)}">${userAv(u)}<span class="um-t"><b>${esc(shortName(u.name) || 'حسابي')}</b><small class="um-s${st.ok ? '' : ' bad'}${st.busy ? ' busy' : ''}">${saveLine(st)}</small></span><i class="um-dot${st.ok ? '' : ' bad'}" aria-hidden="true"></i><span class="sr-only">قائمة الحساب</span></button>
+<div class="um-pop" id="um-pop" hidden><div class="um-h">${userAv(u, 'lg')}<span><b>${esc(u.name || 'حسابي')}</b><small class="um-mail" dir="ltr">${esc(u.email)}</small></span></div>
 <p class="um-state um-s${st.ok ? '' : ' bad'}" data-l="1" id="um-status">${saveLine(st, true)}</p>
 <button class="um-i" data-act="go" data-to="home">${icon('home')}<span>لوحة المعلم</span></button>
 <button class="um-i" data-act="go" data-to="classes">${icon('users')}<span>الشعب والطلاب</span></button>
+<button class="um-i" data-act="rename">${icon('spell')}<span>اسم المعلم</span><small>على الشهادات</small></button>
 <button class="um-i" data-act="backup">${icon('save')}<span>نسخة احتياطية</span><small>ملف إضافي</small></button>
 <button class="um-i um-out" data-act="logout">${icon('exit')}<span>تسجيل الخروج</span></button>
 <p class="um-note">كل مسابقاتك وطلابك محفوظة في <b>حسابك</b> — ادخل من أي جهاز وتجدها كما تركتها.</p></div></div>`;
@@ -3023,7 +3215,7 @@ function busyOff() { const el = $('#busy'); if (el) el.remove(); }
 function confirmLogout() {
   closeUserMenu();
   const n = pending();
-  confirmModal(n ? '<b class="bad">لم تُرفع بعض التغييرات إلى حسابك بعد</b> (لا يوجد اتصال). إذا خرجت الآن تبقى على هذا الجهاز وتُرفع عند دخولك التالي منه. تسجيل الخروج؟' : 'تسجيل الخروج من هذا الجهاز؟ كل شيء محفوظ في حسابك.', 'تسجيل الخروج', () => { signOut(); }, 'btn-danger');
+  confirmModal(n ? `<b class="bad">لم تُرفع بعض التغييرات إلى حسابك بعد</b>${CLOUD.state === 'offline' ? ' (لا يوجد اتصال)' : ''}. إذا خرجت الآن تبقى على هذا الجهاز وتُرفع عند دخولك التالي منه. تسجيل الخروج؟` : 'تسجيل الخروج من هذا الجهاز؟ كل شيء محفوظ في حسابك.', 'تسجيل الخروج', () => { signOut(); }, 'btn-danger');
 }
 
 /* «رجوع»: the same button in the same place (top start) on every screen but the home; it goes to the screen's logical
@@ -3063,6 +3255,7 @@ VIEWS.login = () => {
       <p class="lg-tag">منصة المسابقات التعليمية للمعلمين — مسابقات الصف ونتائجها وشهاداتها في حساب واحد.</p>
     </header>
     <form class="lg-card" id="auth-form" novalidate>
+      ${a.note && m === 'in' ? `<p class="lg-alert" role="status">${icon('reset')}<span>${esc(a.note)}</span></p>` : ''}
       ${m === 'reset' ? `<h2 class="lg-h">${AUTH_T.reset}</h2><p class="lg-note">اكتب بريدك، ونرسل لك رابطًا لتعيين كلمة مرور جديدة.</p>`
         : `<div class="lg-tabs" role="tablist" aria-label="نوع الدخول"><button type="button" role="tab" class="lg-tab${m === 'in' ? ' on' : ''}" aria-selected="${m === 'in'}" data-act="auth-mode" data-m="in">${AUTH_T.in}</button><button type="button" role="tab" class="lg-tab${m === 'up' ? ' on' : ''}" aria-selected="${m === 'up'}" data-act="auth-mode" data-m="up">${AUTH_T.up}</button></div>`}
       ${m === 'up' ? `<label class="fld"><span>اسم المعلم (يظهر على الشهادات)</span><input id="au-name" type="text" autocomplete="name" maxlength="${UNAME_MAX}" dir="auto" placeholder="مثال: أ. محمد بن سعيد المعشني" value="${esc(a.name || '')}"></label>` : ''}
@@ -3100,12 +3293,14 @@ async function doAuth() {
 /* the account is open: its competitions and class lists come first, then the dashboard (or the running match) */
 async function afterLogin(isNew) {
   busyOn('جارٍ فتح حسابك…');
-  try { await bootstrap(); }
-  catch (e) { busyOff(); if (e.auth) { sDel(SK); ACC = null; go('login', 'replace'); toast('انتهت جلسة الدخول — سجّل الدخول مرة أخرى', 'bad'); } return; }
+  let r;
+  try { r = await bootstrap(); } catch (e) { busyOff(); if (e.auth) relogin(); return; }
   busyOff();
-  T = null; S.setup = null; S.auth = { mode: 'in' };
+  if (!ACC || r === 'stale') return;
+  T = null; IDX.last = ''; saveIdx(); S.setup = null; S.auth = { mode: 'in' };
   go('home', 'replace');
-  if (CLOUD.listed) toast(isNew ? `أهلًا ${teacherName()} — تم إنشاء حسابك` : `أهلًا ${teacherName()}`, 'good'); else listLater();
+  const who = teacherName() ? ` ${teacherName()}` : '';
+  if (CLOUD.listed) { toast(isNew ? `أهلًا${who} — تم إنشاء حسابك` : `أهلًا${who}`, 'good'); afterBoot(); } else listLater();
 }
 
 /* ---------- Teacher dashboard («لوحة المعلم») ---------- */
@@ -3131,7 +3326,7 @@ VIEWS.home = () => {
   return `<section class="v-dash v-home">
   <header class="dash-top"><div class="dash-brand">${sealMini()}<span><b>${APP}</b><small>${SCHOOL}</small></span></div><div class="dash-tools">${userMenu()}${soundBtn()}</div></header>
   <div class="dash-hero">
-    <div class="dh-t"><p class="dh-hi">أهلًا، <bdi dir="auto">${esc(teacherName())}</bdi></p><h1 class="dh-title">لوحة المعلم</h1><p class="dh-date">${todayAr()}</p></div>
+    <div class="dh-t"><p class="dh-hi">${teacherName() ? `أهلًا، <bdi dir="auto">${esc(teacherName())}</bdi>` : 'أهلًا بك'}</p><h1 class="dh-title">لوحة المعلم</h1><p class="dh-date">${todayAr()}</p></div>
     <div class="dh-act">
       <button class="btn btn-gold btn-xl" data-act="new-t" id="btn-new">${icon('plus')}<span>مسابقة جديدة<small>الشعب والطلاب ← الخيارات ← القرعة</small></span></button>
       ${lead ? `<button class="btn btn-ghost btn-lg" data-act="open-comp" data-id="${esc(lead.id)}" id="btn-home">${icon('play')}<span>متابعة: <bdi dir="auto">${esc(lead.name)}</bdi></span></button>` : ''}
@@ -4321,7 +4516,7 @@ function histInit() {
   ['home'].concat(chain).forEach((v) => { histWrite(true, Object.assign(navEntry(v), { i, pv })); pv = v; i++; });
 }
 function rememberPlace() {
-  if (!ACC || S.view === 'login') return;
+  if (!ACC || S.view === 'login' || S.matchId === 'demo') return; // the quick try is no place of a competition
   const p = validPlace({ v: S.view, tab: S.tab || '', m: S.matchId || '', c: S.cert || '', cid: T ? T.id : '' });
   const own = p && T && COMP_VIEWS.includes(p.v) && JSON.stringify(p) !== JSON.stringify(IDX.cplace[T.id]);
   if (own) IDX.cplace[T.id] = p;
@@ -4337,7 +4532,8 @@ function resumePlace(opening) {
   if (T && T.cur) { T.cur = null; saveT(); }
   if (T && !T.drawOk) return 'draw';
   const p = opening ? T && IDX.cplace[T.id] : IDX.place; /* opened from the dashboard: that competition's own last screen */
-  if (!p || !T || p.cid !== T.id || (opening && !COMP_VIEWS.includes(p.v))) return T ? 'hub' : 'home';
+  if (p && !opening && !COMP_VIEWS.includes(p.v)) return p.v; // a screen of the dashboard (class lists, bank, help…)
+  if (!p || !T || p.cid !== T.id || (opening && !COMP_VIEWS.includes(p.v)) || p.m === 'demo') return T ? 'hub' : 'home';
   S.tab = p.tab; S.cert = p.c; S.matchId = p.m && p.m !== 'demo' ? p.m : null;
   if (p.v === 'match') S.resumePaused = true;
   return p.v;
@@ -4345,6 +4541,8 @@ function resumePlace(opening) {
 function go(view, how) {
   const prev = S.view;
   view = viewFor(view);
+  if (ACC && CLOUD.state === 'auth' && view !== 'match') { relogin(); return; } // the session ended during a match: sign in again now
+  if (view !== 'match') S.resumePaused = false;
   if (view === 'match' && (how === 'pop' || how === 'init' || how === 'switch' || S.resumePaused)) {
     const m = curMatch(); S.resumePaused = true; if (T && m && !m.demo && T.cur !== m.id) { T.cur = m.id; saveT(); }
   }
@@ -4454,9 +4652,11 @@ function restoreFrom(text) {
   if (!t || !validT(t)) { toast('الرمز لا يحتوي مسابقة صالحة', 'bad'); return; }
   const done = t.matches.filter((m) => m.seq && m.step >= m.seq.length).length;
   const what = `مسابقة «${esc(cleanName(t.name || DEF_NAME))}» — الشعب ${t.classes.map((x) => bd(x.name)).join('، ')} — ${num(done)} مباراة منتهية${typeof t.createdAt === 'number' ? ` · أُنشئت ${esc(fmtDate(t.createdAt))}` : ''}`;
-  const same = IDX.comps.some((c) => c.id === t.id);
-  confirmModal(`<b>ستُضاف إلى مسابقاتك:</b> ${what}.<br>${same ? '<b class="bad">توجد في حسابك نسخة من هذه المسابقة نفسها — ستحل هذه النسخة محلها.</b><br>' : ''}متابعة؟`, 'استعادة', () => {
-    cleanupView(); T = repairT(t); T.cur = null; T.drawOk = true; saveT(true); S.tab = '';
+  const same = IDX.comps.some((c) => c.id === t.id) || IDX.del.includes(t.id) || IDX.base[t.id] != null || (T && T.id === t.id);
+  confirmModal(`<b>ستُضاف إلى مسابقاتك:</b> ${what}.<br>${same ? '<b>هذه المسابقة موجودة في حسابك، فتُضاف النسخة المستعادة كمسابقة منفصلة «(مستعادة)» ولا يُمحى شيء.</b><br>' : ''}متابعة؟`, 'استعادة', () => {
+    cleanupView(); T = repairT(t); T.cur = null; T.drawOk = true;
+    if (same) { T.id = uid(); T.rev = 0; T.name = cleanName(`${cleanName(T.name || DEF_NAME).slice(0, 64)} (مستعادة)`).slice(0, 80); }
+    saveT(true); S.tab = '';
     toast('تمت استعادة النسخة', 'good'); go('hub');
   }, 'btn-gold');
 }
@@ -4482,6 +4682,7 @@ const ACT = {
   /* the user */
   umenu: () => toggleUserMenu(),
   logout: () => confirmLogout(),
+  rename: () => { SFX.click(); askName(false); },
   'auth-mode': (el) => { const a = S.auth || (S.auth = {}); a.email = (($('#au-email') || {}).value || a.email || '').trim(); a.mode = el.dataset.m; SFX.click(); go('login', 'replace'); const f = $(a.mode === 'up' ? '#au-name' : '#au-email'); if (f) f.focus(); },
   'pw-toggle': (el) => { const i = $('#au-pass'); if (!i) return; const show = i.type === 'password'; i.type = show ? 'text' : 'password'; el.setAttribute('aria-pressed', String(show)); el.setAttribute('aria-label', show ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور'); i.focus(); },
   'open-comp': (el) => { SFX.click(); openComp(el.dataset.id); },
@@ -4665,7 +4866,20 @@ document.addEventListener('keydown', (e) => {
 window.addEventListener('storage', (e) => {
   if (!ACC) return;
   if (e.key === SK) { const r = restoreSession(); if (!r || r.uid !== ACC.uid) { signOut(); } return; } // signed out / another account in another tab
-  if (e.key === ik()) { const keep = { dirty: IDX.dirty.slice() }; loadIdx(); keep.dirty.forEach((id) => { if (!IDX.dirty.includes(id)) IDX.dirty.push(id); }); if (S.view === 'home' && !MODAL.open) go('home', 'replace'); paintSave(); return; }
+  if (e.key === ik()) {
+    const keep = { dirty: IDX.dirty.slice(), comps: IDX.comps.slice() }; loadIdx();
+    keep.dirty.forEach((id) => { if (!IDX.dirty.includes(id) && sGet(ck(id)) != null) IDX.dirty.push(id); });
+    keep.comps.forEach((c) => { if (!IDX.comps.some((x) => x.id === c.id) && !IDX.del.includes(c.id) && sGet(ck(c.id)) != null) IDX.comps.push(c); });
+    if (S.view === 'home' && !MODAL.open) go('home', 'replace'); paintSave(); return;
+  }
+  if (T && e.key === ck(T.id) && e.newValue === null && !STORE.conflict) { // deleted (or replaced by the account's newer version) in another tab
+    const id = T.id; delete MEM[e.key]; UNSAVED.delete(e.key);
+    setTimeout(() => { // the other tab's list arrives right after its copy is removed
+      if (!ACC || !T || T.id !== id || STORE.conflict || sGet(ck(id)) != null) return;
+      loadIdx(); compNotice(id, null, !IDX.comps.some((c) => c.id === id));
+    }, 250);
+    return;
+  }
   if (!T || (e.key !== tKey() && e.key !== null) || STORE.conflict) return;
   if (S.view === 'match' && S.matchId !== 'demo') { staleTab(); return; }
   T = loadT(T.id); LOAD_WARN = ''; S.drawAnim = false;
@@ -4693,19 +4907,19 @@ async function init() {
   ACC = restoreSession();
   if (!ACC) { S.auth = { mode: 'in' }; go('login', 'init'); histInit(); return; }
   /* signed in on this device: this device's copy shows at once (even offline), the account refreshes it right after */
-  loadIdx(); T = IDX.last ? loadT(IDX.last) : null;
+  loadIdx();
+  const pl = IDX.place, onDash = pl && !COMP_VIEWS.includes(pl.v); // left on a screen of the dashboard: it reopens there
+  T = IDX.last && !onDash ? loadT(IDX.last) : null;
   const lost = !T && LOAD_WARN && IDX.last ? IDX.last : ''; // this device's copy was damaged: reopened from the account below
-  go(T ? resumePlace() : 'home', 'init'); histInit();
+  go(T ? resumePlace() : onDash ? pl.v : 'home', 'init'); histInit();
   if (LOAD_WARN) { toast(LOAD_WARN, 'bad'); LOAD_WARN = ''; }
-  try { await bootstrap(); }
-  catch (e) { if (e.auth) { signOut(); toast('انتهت جلسة الدخول — سجّل الدخول مرة أخرى', 'bad'); } return; }
-  if (!ACC) return;
+  let r;
+  try { r = await bootstrap(); } catch (e) { if (e.auth) sessionEnded(); return; }
+  if (!ACC || r === 'stale') return;
   if (!CLOUD.listed) { listLater(); if (S.view === 'home' && !MODAL.open) go('home', 'replace'); else paintSave(); return; } // offline: this device's copy for now
-  const sum = T ? IDX.comps.find((c) => c.id === T.id) : null;
-  if (T && !sum) { T = null; if (S.view !== 'match') go('home', 'replace'); return; } // deleted on another device
-  if (lost && IDX.comps.some((c) => c.id === lost) && S.view === 'home' && !MODAL.open) { IDX.dirty = IDX.dirty.filter((x) => x !== lost); saveIdx(); openComp(lost); return; }
-  if (T && sum && sum.rev !== T.rev && sGet(ck(T.id)) == null) { const id = T.id, v = S.view; T = null; openComp(id, v === 'home' ? 'home' : null); return; } // newer results from another device
+  if (lost && IDX.comps.some((c) => c.id === lost) && S.view === 'home' && !MODAL.open) { openComp(lost); return; }
   if (S.view === 'home' && !MODAL.open) go('home', 'replace'); else paintSave();
+  afterBoot();
 }
 const byName = (n) => { if (!T) return null; for (const c of T.classes) { const s = c.students.find((x) => x.name === n || x.id === n); if (s) return s.id; } return null; };
 /* the words a question shows as its prompt, options and answer (misspelled options and letter options excepted) */
@@ -4723,7 +4937,7 @@ window.VCL = {
   /* the users of this device (no passwords): the current one, each one's last save and remembered screen */
   account() { return JSON.parse(JSON.stringify({ uid: ACC ? ACC.uid : null, name: ACC ? ACC.name : null, email: ACC ? ACC.email : null, comps: IDX.comps, dirty: IDX.dirty, del: IDX.del, saved: IDX.savedAt, cloud: { state: CLOUD.state, lastOk: CLOUD.lastOk }, key: T ? tKey() : null, status: saveStatus().long, parent: parentOf(S.view), history: histState() })); },
   users() { return this.account(); },
-  sync: () => flushSync(),
+  async sync() { for (let i = 0; i < 6; i++) { await flushSync(); if (!pending() || CLOUD.state !== 'ok') break; } },
   currentQuestion() {
     if (!Q) return null;
     const q = Q.q, out = JSON.parse(JSON.stringify(q));
@@ -4737,6 +4951,7 @@ window.VCL = {
   fastTimers(f) { TM.speed = f > 0 ? f : 1; return TM.speed; },
   test: {
     netMs(ms) { NET_MS = ms; },
+    expireToken() { if (ACC) { ACC.exp = 0; ACC.idToken = ''; } },
     gen(type) {
       const all = allEntries(), el = all.filter((e) => eligible(type, e));
       if (type === 'match5') { const P = makePicker(all, new Set()); const g = P.five(1 + rnd(3), 1); return g ? genMatch5(g[0]) : null; }
