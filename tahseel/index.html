@@ -246,6 +246,12 @@ bdi{ unicode-bidi:isolate }
 .dash-off > .ic{ width:28px; height:28px; color:var(--warn); flex:none }
 .dash-off p{ flex:1 1 240px; display:flex; flex-direction:column; gap:2px } .dash-off b{ font-size:1.1rem; color:var(--white) }
 .dash-load .spin{ width:30px; height:30px; flex:none }
+.tch-list{ display:flex; flex-wrap:wrap; gap:8px; margin:4px 0 10px }
+.tch-chip{ display:inline-flex; align-items:center; gap:6px; padding:6px 8px 6px 14px; border-radius:999px; background:rgba(242,193,78,.12); border:1px solid rgba(242,193,78,.4); font-weight:600 }
+.tch-x{ display:grid; place-items:center; width:30px; height:30px; border-radius:50%; border:0; background:rgba(255,255,255,.08); color:var(--silver); cursor:pointer } .tch-x:hover{ background:rgba(255,90,90,.25); color:#fff } .tch-x .ic{ width:16px; height:16px }
+.tch-none{ color:var(--muted); padding:6px 0 }
+.tch-add{ display:flex; gap:10px; flex-wrap:wrap } .tch-add input{ flex:1 1 260px; min-width:0; width:auto; min-height:44px; padding:8px 12px; border-radius:10px; border:1px solid var(--line); background:rgba(6,13,36,.6); color:inherit; font:inherit; font-weight:600 }
+.modal .tch-add input{ font-size:16px }
 .ro-fill{ display:flex; align-items:center; gap:12px 18px; flex-wrap:wrap; margin:4px 0 16px; padding:14px 18px; border-radius:14px; border:1px dashed rgba(242,193,78,.45); background:rgba(242,193,78,.07) }
 .ro-fill p{ flex:1 1 260px; display:flex; gap:10px; align-items:flex-start; color:var(--silver); line-height:1.6 } .ro-fill p .ic{ width:22px; height:22px; flex:none; color:var(--gold); margin-top:2px }
 .dash-empty .link-btn{ flex-basis:100%; background:none; border:0; padding:4px 0; color:var(--silver); font:inherit; font-size:.95rem; text-decoration:underline; text-underline-offset:4px; cursor:pointer; text-align:start } .dash-empty .link-btn:hover{ color:var(--gold) }
@@ -969,6 +975,13 @@ td.ok .rc{ background:var(--good); color:#032012 } td.no .rc{ background:rgba(25
 .sg span{ color:#43507a }
 .sg b{ font-size:1.8cqw; min-height:1.2em }
 .sg i{ display:block; width:80%; height:.15cqw; background:#0b1a45; margin-top:1.8cqw }
+/* the teachers of the competition: one line each; several side by side (up to three a row) */
+.sg-t{ min-width:0 } .sg-names{ display:flex; flex-wrap:wrap; justify-content:center; gap:.6cqw 2.4cqw; width:100% }
+.sg-n{ display:flex; flex-direction:column; align-items:center; min-width:0; max-width:100% } .sg-n b{ white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100% } .sg-n i{ width:100% }
+.cert-sign.multi{ grid-template-columns:2.3fr auto 1fr; gap:2.2cqw }
+.sg-t:not(.n1) .sg-n b{ font-size:1.5cqw } .sg-t:not(.n1) .sg-n i{ margin-top:1cqw }
+.sg-t.n2 .sg-n{ flex:0 1 44% } .sg-t.n2 .sg-n b{ font-size:1.7cqw } .sg-t.n3 .sg-n, .sg-t.n4 .sg-n, .sg-t.n5 .sg-n, .sg-t.n6 .sg-n{ flex:0 1 30% }
+.sg-t.n4 .sg-n b, .sg-t.n5 .sg-n b, .sg-t.n6 .sg-n b{ font-size:1.3cqw } .sg-t.n4 .sg-n i, .sg-t.n5 .sg-n i, .sg-t.n6 .sg-n i{ margin-top:.7cqw }
 .seal svg{ width:6.5cqw; height:auto; opacity:.9 }
 .cert{ width:min(1100px, 100%, calc((100vh - 250px) * 1.4143)); width:min(1100px, 100%, calc((100dvh - 250px) * 1.4143)) }
 .cert-pick{ margin:0 auto 12px; justify-content:center } .cert-pick .seg-b{ display:inline-flex; align-items:center; gap:6px } .cert-pick .ic{ width:16px; height:16px }
@@ -1444,6 +1457,10 @@ function clearLater() { LATER.forEach((id) => clearTimeout(id)); LATER.clear(); 
 const cleanText = (s, max) => String(s == null ? '' : s).replace(/[\u0000-\u001f\u007f​-‏‪-‮⁦-⁩]/g, ' ').replace(/\s+/g, ' ').trim().slice(0, max);
 const cleanName = (s) => cleanText(s, NAME_MAX);
 const COMP_NAME_MAX = 80;
+/* the teachers of a competition: their names go on every certificate (the account's teacher first, colleagues added) */
+const TEACHERS_MAX = 6;
+function cleanTeachers(a) { const out = []; (Array.isArray(a) ? a : []).forEach((x) => { const n = cleanText(x, UNAME_MAX); if (n && out.length < TEACHERS_MAX && !out.includes(n)) out.push(n); }); return out; }
+const compTeachers = (t) => (t && t.teachers && t.teachers.length ? t.teachers : [teacherName()].filter(Boolean));
 const compName = (s) => cleanText(s, COMP_NAME_MAX);
 /* «name (suffix)» that always keeps the whole suffix */
 const suffixed = (n, sfx) => `${compName(n || DEF_NAME).slice(0, Math.max(1, COMP_NAME_MAX - sfx.length - 1)).trim()} ${sfx}`;
@@ -1651,6 +1668,7 @@ function repairT(t) {
   if (!TIMER_OPTS.some((o) => o.v === s.timer)) s.timer = 1;
   t.name = compName(t.name || DEF_NAME) || DEF_NAME;
   if (!isInt(t.edits, 0, 1e9)) t.edits = 0;
+  t.teachers = cleanTeachers(t.teachers);
   t.classes.forEach((c, i) => {
     c.name = cleanName(c.name).slice(0, CNAME_MAX) || `10/${i + 1}`; c.color = safeColor(c.color);
     c.students.forEach((st) => { st.name = cleanName(st.name) || '—'; st.absent = st.absent === true; });
@@ -2257,7 +2275,7 @@ function saveT(force) {
 }
 /* the teacher's class lists and question counts: the defaults of every new competition (kept in the account) */
 function saveSetupDefaults(s) {
-  const st = { v: SCHEMA, name: s.name, classes: s.classes.map((c) => ({ name: c.name, color: c.color, text: c.text, absent: c.absent.slice() })), rounds: Object.assign({}, s.rounds), second: s.second, timer: s.timer };
+  const st = { v: SCHEMA, name: s.name, teachers: cleanTeachers(s.teachers), classes: s.classes.map((c) => ({ name: c.name, color: c.color, text: c.text, absent: c.absent.slice() })), rounds: Object.assign({}, s.rounds), second: s.second, timer: s.timer };
   if (JSON.stringify(st) === JSON.stringify(IDX.setup)) return; // unchanged: nothing is written over lists saved on another device
   IDX.setup = st; IDX.setupDirty = true; saveIdx(); queueSync();
 }
@@ -3111,7 +3129,7 @@ function createCompetition(cfg) {
   const classes = cfg.classes.map((c, i) => ({ id: 'c' + (i + 1), name: cleanName(c.name).slice(0, CNAME_MAX), color: safeColor(c.color),
     students: c.names.map((n, k) => ({ id: `c${i + 1}s${k + 1}`, name: cleanName(n), absent: (c.absent || []).includes(n) })), draw: null }));
   return {
-    v: SCHEMA, app: 'vcl', id: uid(), rev: 0, createdAt: Date.now(), name: compName(cfg.name) || DEF_NAME,
+    v: SCHEMA, app: 'vcl', id: uid(), rev: 0, createdAt: Date.now(), name: compName(cfg.name) || DEF_NAME, teachers: cleanTeachers(cfg.teachers),
     settings: { rounds: Object.assign({}, cfg.rounds), second: cfg.second, timer: cfg.timer },
     classes, matches: [], tosses: {}, used: [], finishedAt: null, cur: null, drawOk: false, drawAt: null,
   };
@@ -3413,7 +3431,7 @@ VIEWS.classes = () => {
 /* a new competition: the setup (or the saved defaults) → straight into the draw ceremony of the three classes */
 function newCompetition(s) {
   s = s || defaultSetup();
-  T = createCompetition({ name: s.name, classes: s.classes.map((c) => ({ name: c.name, color: c.color, names: rosterNames(c.text).names, absent: c.absent })), rounds: s.rounds, second: s.second, timer: s.timer });
+  T = createCompetition({ name: s.name, teachers: s.teachers && s.teachers.length ? s.teachers : [teacherName()], classes: s.classes.map((c) => ({ name: c.name, color: c.color, names: rosterNames(c.text).names, absent: c.absent })), rounds: s.rounds, second: s.second, timer: s.timer });
   drawAll();
   STORE.conflict = false; saveT(true); S.tab = ''; S.swapSel = null; S.drawAnim = true; S.sdAck = '';
   go('draw');
@@ -3427,11 +3445,12 @@ function rosterNames(text) {
   return { names, dup, over };
 }
 function defaultSetup() {
-  const s = { name: DEF_NAME, classes: DEF_CLASSES.map((c) => ({ name: c.name, color: c.color, text: '', absent: [] })), rounds: {}, second: 'four', timer: 1 };
+  const s = { name: DEF_NAME, teachers: [teacherName()].filter(Boolean), classes: DEF_CLASSES.map((c) => ({ name: c.name, color: c.color, text: '', absent: [] })), rounds: {}, second: 'four', timer: 1 };
   STAGE_IDS.forEach((k) => { s.rounds[k] = STAGES[k].def; });
   const p = IDX.setup;
   if (p && typeof p === 'object' && p.v === SCHEMA) {
     if (isStr(p.name, 120) && compName(p.name)) s.name = compName(p.name);
+    if (Array.isArray(p.teachers) && cleanTeachers(p.teachers).length) s.teachers = cleanTeachers(p.teachers);
     if (Array.isArray(p.classes) && p.classes.length === 3) p.classes.forEach((c, i) => { if (!c || typeof c !== 'object') return; if (isStr(c.name, CNAME_MAX) && cleanName(c.name)) s.classes[i].name = cleanName(c.name); if (isStr(c.text, 4000)) s.classes[i].text = c.text; if (Array.isArray(c.absent)) s.classes[i].absent = c.absent.filter((x) => isStr(x, NAME_MAX)); });
     if (p.rounds && typeof p.rounds === 'object') STAGE_IDS.forEach((k) => { if (STAGES[k].opts.includes(p.rounds[k])) s.rounds[k] = p.rounds[k]; });
     if (SECOND_MODES.some((x) => x.v === p.second)) s.second = p.second;
@@ -3455,6 +3474,30 @@ function attChips(c, i) {
 function rosterCount(c) {
   const r = rosterNames(c.text), abs = new Set(c.absent), pres = r.names.filter((n) => !abs.has(n)).length;
   return `<b>${num(r.names.length)}</b> ${r.names.length === 1 ? 'طالب' : 'طلاب'}${pres !== r.names.length ? ` · <span class="warn-t">${num(pres)} حاضرون</span>` : ''}${r.dup.length ? ` · <span class="warn-t">حُذف المكرر: ${esc(r.dup.join('، '))}</span>` : ''}${r.over ? ` · <span class="bad">الحد الأقصى ${ROSTER_MAX} طالبًا</span>` : ''}`;
+}
+/* the list of teachers being edited: the new competition's, or (dialog on the certificates page) the open competition's */
+const tchList = () => (MODAL.open && S.tchEdit ? S.tchEdit : S.setup ? (S.setup.teachers = S.setup.teachers || []) : null);
+function tchBox(list) {
+  const full = list.length >= TEACHERS_MAX;
+  return `<div class="tch-list" role="list">${list.length ? list.map((n, i) => `<span class="tch-chip" role="listitem"><bdi dir="auto">${esc(n)}</bdi><button type="button" class="tch-x" data-act="tch-del" data-i="${i}" aria-label="حذف ${esc(n)}" title="حذف">${icon('x')}</button></span>`).join('') : '<span class="tch-none">لم يُضف معلم بعد</span>'}</div>
+${full ? `<p class="field-h">الحد الأعلى ${num(TEACHERS_MAX)} معلمين.</p>` : `<div class="tch-add"><input id="tch-in" type="text" maxlength="${UNAME_MAX}" dir="auto" autocomplete="off" placeholder="اسم معلم آخر، مثال: أ. سالم الحارثي" aria-label="اسم معلم يُضاف إلى الشهادات"><button type="button" class="btn btn-ghost" data-act="tch-add">${icon('plus')}<span>إضافة</span></button></div>`}
+<p class="setup-err" id="tch-err" role="alert"></p>`;
+}
+function paintTch(focus) { const box = $('#tch-box'), L = tchList(); if (!box || !L) return; box.innerHTML = tchBox(L); if (focus) { const i = $('#tch-in'); if (i) i.focus({ preventScroll: true }); } }
+function editTeachers() {
+  if (!T) return;
+  S.tchEdit = compTeachers(T).slice();
+  openModal({
+    title: `${icon('users')} معلمو المسابقة`, onClose: () => { S.tchEdit = null; },
+    body: `<p class="confirm-t">تظهر أسماؤهم كلها على شهادات هذه المسابقة.</p><div class="tch" id="tch-box">${tchBox(S.tchEdit)}</div>`,
+    actions: [{ label: 'إلغاء' }, { label: 'حفظ', cls: 'btn-gold', icon: 'check', fn: () => {
+      const L = cleanTeachers(S.tchEdit);
+      if (!L.length) { const e = $('#tch-err'); if (e) e.textContent = 'أضف اسم معلم واحد على الأقل.'; return false; }
+      T.teachers = L; noteEdit(); saveT(); S.tchEdit = null; toast('حُفظت أسماء المعلمين', 'good');
+      setTimeout(() => { if (S.view === 'cert' && !MODAL.open) go('cert', 'replace'); }, 0);
+      return true;
+    } }],
+  });
 }
 /* a new account starts with empty class lists; the grade-10 lists of the school fill them in one click */
 const schoolRoster = (i) => (DEF_ROSTERS[(DEF_CLASSES[i] || {}).name] || []).join('\n');
@@ -3495,7 +3538,7 @@ VIEWS.setup = () => {
   if (!S.setup) S.setup = defaultSetup();
   const s = S.setup;
   return `${topbar('مسابقة جديدة')}<section class="v-setup page">
-<section class="panel st-name"><h2><span class="step-n">1</span> اسم المسابقة والوحدة</h2><label class="fld"><span>اسم المسابقة (يظهر في لوحة المعلم وعلى الشهادات)</span><input type="text" data-in="comp-name" value="${esc(s.name)}" maxlength="80" autocomplete="off" dir="auto"></label><p class="unit-line">${icon('book')}<span>الوحدة: <b>الوحدة الأولى: <span dir="ltr" lang="en">New Media</span></b> · ${num(tPool().length)} كلمة وعبارة</span></p></section>
+<section class="panel st-name"><h2><span class="step-n">1</span> اسم المسابقة ومعلموها</h2><label class="fld"><span>اسم المسابقة (يظهر في لوحة المعلم وعلى الشهادات)</span><input type="text" data-in="comp-name" value="${esc(s.name)}" maxlength="80" autocomplete="off" dir="auto"></label><div class="fld tch"><span>معلمو المسابقة <small>(تظهر أسماؤهم كلها على الشهادات — أضف زملاءك المشاركين)</small></span><div id="tch-box">${tchBox(s.teachers || (s.teachers = []))}</div></div><p class="unit-line">${icon('book')}<span>الوحدة: <b>الوحدة الأولى: <span dir="ltr" lang="en">New Media</span></b> · ${num(tPool().length)} كلمة وعبارة</span></p></section>
 <section class="panel st-rosters"><h2><span class="step-n">2</span> الشعب والطلاب <small>(من ${ROSTER_MIN} إلى ${ROSTER_MAX} طالبًا في كل شعبة)</small></h2>${fillBar()}<div class="rosters">${s.classes.map(rosterCard).join('')}</div></section>
 <section class="panel st-rules"><h2><span class="step-n">3</span> الخيارات</h2><div id="rules">${rulesHTML()}</div></section>
 <div class="setup-foot"><p class="setup-err" id="setup-err" role="alert"></p><button class="btn btn-gold btn-xl" data-act="create">${icon('shuffle')}<span>إنشاء المسابقة والقرعة</span></button></div>
@@ -4007,11 +4050,12 @@ VIEWS.cert = () => {
   const tools = IN_FRAME
     ? `<p class="note">${icon('camera')} الطباعة غير متاحة داخل هذه الصفحة المضمّنة — التقط صورة للشاشة لحفظ الشهادة، أو افتح الملف مباشرة في المتصفح للطباعة.</p>`
     : `<button class="btn btn-gold" data-act="print">${icon('print')}<span>طباعة الشهادة</span></button><span class="muted small">اختر الاتجاه «أفقي» وحجم A4 عند الطباعة</span>`;
+  const tchBtn = `<button class="btn btn-ghost" data-act="tch-edit" id="btn-tch">${icon('users')}<span>أسماء المعلمين</span></button>`;
   const head = cur.place >= 0 ? `المركز ${placeAr(cur.place)} في مسابقة دوري أبطال المفردات` : `بطل الشعبة <span dir="ltr">${esc(cur.cls.name)}</span> في مسابقة دوري أبطال المفردات`;
-  const emblem = cur.place >= 0 ? medalSVG(cur.place, 'cm') : trophySVG('cs');
+  const emblem = cur.place >= 0 ? medalSVG(cur.place, 'cm') : trophySVG('cs'), tch = compTeachers(T);
   return `${topbar('شهادات التكريم')}<section class="v-cert page">
 <div class="cert-pick seg" role="radiogroup" aria-label="اختر الشهادة">${list.map((x) => `<button class="seg-b${x.k === cur.k ? ' on' : ''}" role="radio" aria-checked="${x.k === cur.k}" data-act="cert-open" data-k="${x.k}">${x.place >= 0 ? icon('medal') : icon('crown')}<span>${esc(x.ar)}</span></button>`).join('')}</div>
-<div class="cert-tools">${tools}</div>
+<div class="cert-tools">${tools}${tchBtn}</div>
 <div class="cert-wrap"><article class="cert${cur.place >= 0 ? ' pl' + cur.place : ' cls'}" id="cert" aria-label="شهادة تكريم">
   <div class="cert-frame" aria-hidden="true"></div><i class="cc c1"></i><i class="cc c2"></i><i class="cc c3"></i><i class="cc c4"></i>
   <div class="cert-wm" aria-hidden="true">${sealSVG('cw')}</div>
@@ -4024,7 +4068,7 @@ VIEWS.cert = () => {
     <p class="cert-name"><bdi dir="auto">${esc(p.name)}</bdi></p>
     <p class="cert-text">الشعبة <b dir="ltr">${esc(p.cls)}</b></p>
     <p class="cert-date">التاريخ: ${fmtDates(cur.at)}</p>
-    <div class="cert-sign"><div class="sg"><span>معلم المادة</span><b>${esc(teacherName())}</b><i></i></div><div class="seal" aria-hidden="true">${emblem}</div><div class="sg"><span>مدير المدرسة</span><b>&nbsp;</b><i></i></div></div>
+    <div class="cert-sign${tch.length > 1 ? ' multi' : ''}"><div class="sg sg-t n${tch.length}"><span>${tch.length > 1 ? 'معلمو المادة' : 'معلم المادة'}</span><div class="sg-names">${tch.map((n) => `<div class="sg-n"><b><bdi dir="auto">${esc(n)}</bdi></b><i></i></div>`).join('')}</div></div><div class="seal" aria-hidden="true">${emblem}</div><div class="sg"><span>مدير المدرسة</span><b>&nbsp;</b><i></i></div></div>
   </div></article></div></section>`;
 };
 
@@ -4751,6 +4795,16 @@ const ACT = {
     const c = IDX.comps.find((x) => x.id === el.dataset.id); if (!c) return;
     confirmModal(`حذف مسابقة «${esc(c.name)}» ونتائجها من حسابك نهائيًا؟`, 'حذف المسابقة', () => { deleteComp(c.id); toast('تم حذف المسابقة'); go('home', 'replace'); });
   },
+  'tch-add': () => {
+    const L = tchList(), inp = $('#tch-in'); if (!L || !inp) return;
+    const n = cleanText(inp.value, UNAME_MAX), err = $('#tch-err');
+    if (n.length < 3) { if (err) err.textContent = 'اكتب اسم المعلم (3 أحرف أو أكثر).'; inp.focus(); return; }
+    if (L.includes(n)) { if (err) err.textContent = 'هذا الاسم مضاف من قبل.'; inp.focus(); return; }
+    if (L.length >= TEACHERS_MAX) return;
+    L.push(n); SFX.click(); paintTch(true);
+  },
+  'tch-del': (el) => { const L = tchList(); if (!L) return; L.splice(+el.dataset.i, 1); SFX.click(); paintTch(true); },
+  'tch-edit': () => { SFX.click(); editTeachers(); },
   'fill-rosters': () => {
     if (!S.setup) return; SFX.click();
     S.setup.classes.forEach((c, i) => { if (!String(c.text || '').trim()) { c.text = schoolRoster(i); c.absent = []; } });
@@ -4902,6 +4956,8 @@ document.addEventListener('keydown', (e) => {
   const onBtn = tag === 'BUTTON' || tag === 'SUMMARY' || tag === 'A', enter = k === 'Enter' || k === ' ';
   audioInit();
   if (!typing && e.repeat && enter) { e.preventDefault(); return; } // a held key never skips cards
+  if (k === 'Enter' && tg && tg.id === 'tch-in') { e.preventDefault(); ACT['tch-add'](); return; }
+  if (k === 'Enter' && tg && tg.id === 'name-in' && MODAL.open) { e.preventDefault(); const b = $('#modal-root .modal-actions .btn-gold'); if (b) b.click(); return; }
   if (MODAL.open) { if (k === 'Escape' && MODAL.dismissable) { e.preventDefault(); closeModal(); } else if (k === 'Enter' && tg && tg.id === 'uadd-in') { e.preventDefault(); const b = $('#modal-root .modal-actions .btn-gold'); if (b) b.click(); } return; }
   if (umOpen()) { if (k === 'Escape') { e.preventDefault(); closeUserMenu(true); } return; }
   if (typing) return;
