@@ -136,7 +136,7 @@ bdi{ unicode-bidi:isolate }
 .av.uav{ direction:rtl; background:var(--gold); color:#241500; text-shadow:none; box-shadow:0 0 0 2px rgba(242,193,78,.4); font-family:var(--f-ui); font-size:15px; letter-spacing:0 }
 .av.uav.lg{ font-size:19px }
 .um-t{ display:flex; flex-direction:column; min-width:0; line-height:1.25 }
-.um-t b{ font-size:15px; font-weight:600; white-space:nowrap; max-width:230px; overflow:hidden; text-overflow:ellipsis }
+.um-t b{ font-size:15px; font-weight:600; white-space:nowrap; max-width:230px; overflow:hidden; text-overflow:ellipsis; line-height:1.55; margin-block:-3px } /* room for the dots under «ي» (the ellipsis clips) */
 .um-s{ display:inline-flex; align-items:center; gap:5px; font-size:15px; font-weight:500; color:var(--good); white-space:nowrap }
 .um-s .ic{ width:15px; height:15px }
 .um-s.bad{ color:var(--warn) }
@@ -236,12 +236,17 @@ bdi{ unicode-bidi:isolate }
 .dash-empty > .ic{ width:40px; height:40px; color:var(--gold) }
 .dash-empty p{ flex:1 1 260px; display:flex; flex-direction:column; gap:4px }
 .dash-empty b{ font-size:1.15rem } .dash-empty span{ color:var(--silver) }
+.dash-off{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:14px; padding:16px 20px; border-radius:16px; border:1px solid rgba(255,181,71,.5); background:rgba(255,181,71,.1); color:#ffe2b8 }
+.dash-off > .ic{ width:28px; height:28px; color:var(--warn); flex:none }
+.dash-off p{ flex:1 1 240px; display:flex; flex-direction:column; gap:2px } .dash-off b{ font-size:1.1rem; color:var(--white) }
+.dash-load .spin{ width:30px; height:30px; flex:none }
+.dash-empty .link-btn{ flex-basis:100%; background:none; border:0; padding:4px 0; color:var(--silver); font:inherit; font-size:.95rem; text-decoration:underline; text-underline-offset:4px; cursor:pointer; text-align:start } .dash-empty .link-btn:hover{ color:var(--gold) }
 .dash-quick{ display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%,220px),1fr)); gap:12px }
 .qk{ display:grid; grid-template-columns:auto 1fr; grid-template-rows:auto auto; column-gap:12px; align-items:center; padding:16px 18px; border-radius:16px; border:1px solid var(--line); background:rgba(6,13,36,.45); color:var(--white); text-align:start; transition:border-color .2s, background-color .2s }
 .qk:hover{ border-color:rgba(124,196,255,.5); background:rgba(19,41,106,.45) }
 .qk .ic{ grid-row:1 / 3; width:30px; height:30px; color:var(--flood) }
-.qk b{ font-size:1.05rem } .qk small{ color:var(--muted); font-size:14px }
-.dash-foot{ text-align:center; color:var(--muted); font-size:14px; margin-top:auto }
+.qk b{ font-size:1.05rem } .qk small{ color:var(--muted); font-size:15px }
+.dash-foot{ text-align:center; color:var(--muted); font-size:15px; margin-top:auto }
 
 /* the account menu */
 .um-mail{ color:var(--muted); font-size:14px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:260px }
@@ -746,6 +751,7 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .tools-save .tsv-t{ color:var(--silver); font-variant-numeric:tabular-nums }
 .tools-save.tight .tsv-w{ display:none } /* little room (the smallest phones): «✓ 10:42» — the full words stay in its title */
 .tools-save.off{ visibility:hidden }
+.tools-save.bad{ color:var(--warn) }
 .v-match .btn:active{ transform:none }
 
 /* ============ overlays ============ */
@@ -1442,6 +1448,7 @@ const placeAr = (i) => PLACE_AR[i] || String(i + 1);
 
 /* ============================ 4. ICONS & ART ============================ */
 const IC = {
+  cloudOff: '<path d="M2 2l20 20"/><path d="M5.8 5.8A7 7 0 0 0 4.5 16.3 4.5 4.5 0 0 0 7 18h11"/><path d="M21.5 15.5A4.5 4.5 0 0 0 17.5 9h-1.3A7 7 0 0 0 9.4 4.3"/>',
   speaker: '<path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/>',
   mute: '<path d="M11 5 6 9H2v6h4l5 4z"/><path d="m22 9-6 6"/><path d="m16 9 6 6"/>',
   review: '<rect x="5" y="3.5" width="14" height="18" rx="2"/><path d="M9 2.5h6v3H9z"/><path d="m8.8 13.2 2.2 2.2 4.2-4.4"/>',
@@ -1667,14 +1674,15 @@ const FB_DOCS = `https://firestore.googleapis.com/v1/projects/${FB.projectId}/da
 const FB_ROOT = 'tahseel';                 // tahseel/{uid} = the teacher's profile; tahseel/{uid}/comps/{id} = a competition
 const SK = 'tahseel.session.v1';           // the signed-in teacher on this device (refresh token only)
 let ACC = null;                            // { uid, email, name, idToken, refreshToken, exp }
-const IDX = { comps: [], dirty: [], del: [], last: '', place: null, setup: null, setupDirty: false, savedAt: 0, base: {} };
+const IDX = { comps: [], dirty: [], del: [], last: '', place: null, setup: null, setupDirty: false, savedAt: 0, base: {}, cplace: {} };
 /* IDX.base[id] = the account's version (rev) this device's copy continues from: an upload over a version written by
    another device in the meantime is refused (the newer results are loaded instead), so two devices never erase each other */
-const CLOUD = { state: 'idle', lastOk: 0, timer: 0, busy: false, retry: 0, again: false };
+const CLOUD = { state: 'idle', lastOk: 0, timer: 0, busy: false, retry: 0, again: false, listed: false, listing: false, listTimer: 0, listTry: 0 }; /* listed: the account's list of competitions has been read in this visit */
 const ck = (id) => `tahseel.${ACC ? ACC.uid : '-'}.c.${id}`;   // a competition's copy on this device
 const ik = () => `tahseel.${ACC ? ACC.uid : '-'}.idx`;          // the list, pending uploads, last place, class defaults
 const tKey = (id) => ck(id || (T && T.id) || IDX.last || '-');
 const PLACE_VIEWS = ['home', 'setup', 'classes', 'draw', 'hub', 'bank', 'help', 'intro', 'match', 'result', 'ceremony', 'cert'];
+const COMP_VIEWS = ['draw', 'hub', 'intro', 'match', 'result', 'ceremony', 'cert']; /* the screens of one competition (where it reopens from the dashboard) */
 /* a remembered screen: { v: view, tab, m: match id, c: certificate, cid: competition } */
 function validPlace(p) {
   if (!p || typeof p !== 'object' || !PLACE_VIEWS.includes(p.v)) return null;
@@ -1708,16 +1716,26 @@ const AUTH_ERR = {
   TOO_MANY_ATTEMPTS_TRY_LATER: 'محاولات كثيرة — انتظر قليلًا ثم حاول مرة أخرى.',
   USER_DISABLED: 'هذا الحساب موقوف — تواصل مع مسؤول المنصة.',
   OPERATION_NOT_ALLOWED: 'الدخول بالبريد غير مفعَّل في المنصة — تواصل مع المسؤول.',
-  NET: 'لا يوجد اتصال بالإنترنت — تحقّق من الشبكة ثم حاول مرة أخرى.',
+  NET: 'تعذّر الاتصال بالإنترنت — تحقّق من الشبكة ثم حاول مرة أخرى.',
 };
 const authMsg = (e) => AUTH_ERR[String((e && e.message) || '').split(/[ :]/)[0]] || 'تعذّر إكمال العملية — حاول مرة أخرى.';
+/* one request to the account service: its answer (JSON) — or, with no answer within NET_MS (a bad school network), a network
+   error, so a button never spins forever and the sync retries later */
+let NET_MS = 30000;
+async function netCall(url, init) {
+  const ac = typeof AbortController === 'function' ? new AbortController() : null, tm = ac ? setTimeout(() => ac.abort(), NET_MS) : 0;
+  try {
+    const r = await fetch(url, ac ? Object.assign({}, init, { signal: ac.signal }) : init);
+    let b = null; try { b = await r.json(); } catch (e) { if (ac && ac.signal.aborted) throw e; b = null; }
+    return { r, b };
+  } catch (e) { throw Object.assign(new Error('NET'), { net: true }); }
+  finally { clearTimeout(tm); }
+}
 async function fbPost(url, body, opt) {
-  opt = opt || {}; let r;
+  opt = opt || {};
   const headers = { 'Content-Type': opt.form ? 'application/x-www-form-urlencoded' : 'application/json' };
   if (opt.locale) headers['X-Firebase-Locale'] = opt.locale;
-  try { r = await fetch(url, { method: 'POST', headers, body: opt.form ? body : JSON.stringify(body) }); }
-  catch (e) { throw Object.assign(new Error('NET'), { net: true }); }
-  let b = null; try { b = await r.json(); } catch (e) { b = null; }
+  const { r, b } = await netCall(url, { method: 'POST', headers, body: opt.form ? body : JSON.stringify(body) });
   if (!r.ok) throw Object.assign(new Error((b && b.error && b.error.message) || 'HTTP_' + r.status), { status: r.status });
   return b || {};
 }
@@ -1777,22 +1795,18 @@ const fsFields = (o) => { const fields = {}; Object.keys(o).forEach((k) => { if 
 const fsObj = (d) => { const o = {}, f = (d && d.fields) || {}; Object.keys(f).forEach((k) => { o[k] = fsDec(f[k]); }); return o; };
 const fsPath = (...p) => [FB_ROOT, ACC.uid].concat(p).map((x) => encodeURIComponent(x)).join('/');
 async function fsReq(method, path, body, query) {
-  const tok = await idToken(); let r;
-  try { r = await fetch(`${FB_DOCS}/${path}${query || ''}`, { method, headers: Object.assign({ Authorization: 'Bearer ' + tok }, body ? { 'Content-Type': 'application/json' } : {}), body: body ? JSON.stringify(body) : undefined }); }
-  catch (e) { throw Object.assign(new Error('NET'), { net: true }); }
+  const tok = await idToken();
+  const { r, b } = await netCall(`${FB_DOCS}/${path}${query || ''}`, { method, headers: Object.assign({ Authorization: 'Bearer ' + tok }, body ? { 'Content-Type': 'application/json' } : {}), body: body ? JSON.stringify(body) : undefined });
   if (r.status === 404 && method === 'GET') return null;
-  let b = null; try { b = await r.json(); } catch (e) { b = null; }
   if (!r.ok) throw Object.assign(new Error((b && b.error && (b.error.status || b.error.message)) || 'HTTP_' + r.status), { status: r.status, auth: r.status === 401 });
   return b || {};
 }
 
 /* reads one document without a «404» in the console when it does not exist yet (documents:batchGet answers «missing») */
 async function fsGet(path, mask) {
-  const tok = await idToken(); let r;
+  const tok = await idToken();
   const body = { documents: [`projects/${FB.projectId}/databases/(default)/documents/${path}`] }; if (mask) body.mask = { fieldPaths: mask };
-  try { r = await fetch(`${FB_DOCS}:batchGet`, { method: 'POST', headers: { Authorization: 'Bearer ' + tok, 'Content-Type': 'application/json' }, body: JSON.stringify(body) }); }
-  catch (e) { throw Object.assign(new Error('NET'), { net: true }); }
-  let b = null; try { b = await r.json(); } catch (e) { b = null; }
+  const { r, b } = await netCall(`${FB_DOCS}:batchGet`, { method: 'POST', headers: { Authorization: 'Bearer ' + tok, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
   if (!r.ok) throw Object.assign(new Error((b && b.error && (b.error.status || b.error.message)) || 'HTTP_' + r.status), { status: r.status, auth: r.status === 401 });
   const x = Array.isArray(b) ? b.find((y) => y && (y.found || y.missing)) : null;
   return x && x.found ? x.found : null;
@@ -1807,11 +1821,12 @@ function loadIdx() {
   const ids = (a) => (Array.isArray(a) ? a.filter((x) => typeof x === 'string' && ID_RE.test(x)) : []);
   IDX.dirty = ids(v.dirty); IDX.del = ids(v.del);
   IDX.last = typeof v.last === 'string' && ID_RE.test(v.last) ? v.last : '';
-  IDX.place = validPlace(v.place); IDX.setup = v.setup && typeof v.setup === 'object' ? v.setup : null; IDX.setupDirty = v.setupDirty === true;
+  IDX.place = validPlace(v.place); IDX.cplace = {}; if (v.cplace && typeof v.cplace === 'object') Object.keys(v.cplace).forEach((k) => { const q = validPlace(v.cplace[k]); if (ID_RE.test(k) && q && q.cid === k && COMP_VIEWS.includes(q.v)) IDX.cplace[k] = q; });
+  IDX.setup = v.setup && typeof v.setup === 'object' ? v.setup : null; IDX.setupDirty = v.setupDirty === true;
   IDX.savedAt = isNum(v.savedAt) ? v.savedAt : 0;
   IDX.base = {}; if (v.base && typeof v.base === 'object') Object.keys(v.base).forEach((k) => { if (ID_RE.test(k) && isInt(v.base[k], 0, 1e9)) IDX.base[k] = v.base[k]; });
 }
-function saveIdx() { if (ACC) sSet(ik(), JSON.stringify({ v: 1, comps: IDX.comps, dirty: IDX.dirty, del: IDX.del, last: IDX.last, place: IDX.place, setup: IDX.setup, setupDirty: IDX.setupDirty, savedAt: IDX.savedAt, base: IDX.base })); }
+function saveIdx() { if (ACC) sSet(ik(), JSON.stringify({ v: 1, comps: IDX.comps, dirty: IDX.dirty, del: IDX.del, last: IDX.last, place: IDX.place, cplace: IDX.cplace, setup: IDX.setup, setupDirty: IDX.setupDirty, savedAt: IDX.savedAt, base: IDX.base })); }
 /* how far a competition has come: matches played out of the matches its path will need */
 function compSummary(t) {
   const G = grandFlow(), done = t.matches.filter((m) => m.status === 'done').length;
@@ -1858,7 +1873,7 @@ async function flushSync() {
     if (ACC && ACC.uid === me && CLOUD.state === 'ok' && (CLOUD.again || pending())) queueSync(250);
   }
 }
-window.addEventListener('online', () => { if (ACC && pending()) queueSync(200); });
+window.addEventListener('online', () => { if (!ACC) return; if (!CLOUD.listed) refreshList(); else if (pending()) queueSync(200); });
 /* leaving with changes not uploaded yet: the browser warns (they stay on this device and upload on the next visit) */
 window.addEventListener('beforeunload', (e) => { if (ACC && pending() && CLOUD.state !== 'ok') { e.preventDefault(); e.returnValue = ''; } });
 
@@ -1875,11 +1890,25 @@ async function bootstrap() {
     const q = '?pageSize=300&' + SUM_KEYS.map((k) => 'mask.fieldPaths=' + k).join('&');
     const res = await fsReq('GET', fsPath('comps'), null, q);
     mergeCloud(((res && res.documents) || []).map((d) => Object.assign(fsObj(d), { id: String(d.name || '').split('/').pop() })).filter(validSum));
-    CLOUD.state = 'ok'; CLOUD.lastOk = Date.now();
+    CLOUD.state = 'ok'; CLOUD.lastOk = Date.now(); CLOUD.listed = true; CLOUD.listTry = 0; clearTimeout(CLOUD.listTimer);
   } catch (e) { if (e.auth) throw e; CLOUD.state = e.net ? 'offline' : 'error'; }
   importDeviceSaves();
   saveIdx();
   if (pending()) queueSync(300);
+}
+/* the account could not be read (no network): tried again by itself (5 s, 10 s, 20 s … 1 min), at once when the network is
+   back, or with «إعادة المحاولة» on the dashboard */
+function listLater() { clearTimeout(CLOUD.listTimer); if (!ACC || CLOUD.listed) return; CLOUD.listTimer = setTimeout(() => refreshList(), Math.min(60000, 5000 * 2 ** Math.min(CLOUD.listTry++, 4))); }
+async function refreshList() {
+  if (!ACC || CLOUD.listing) return; CLOUD.listing = true; clearTimeout(CLOUD.listTimer);
+  if (S.view === 'home' && !MODAL.open) go('home', 'replace');
+  try { await bootstrap(); }
+  catch (e) { CLOUD.listing = false; if (e.auth) { CLOUD.state = 'auth'; paintSave(); sessionEnded(); } return; }
+  CLOUD.listing = false;
+  if (!ACC) return;
+  if (T && !IDX.comps.some((c) => c.id === T.id)) { T = null; if (S.view !== 'match' && S.view !== 'home') go('home', 'replace'); } // deleted on another device
+  if (S.view === 'home' && !MODAL.open) go('home', 'replace'); else paintSave();
+  if (!CLOUD.listed) listLater();
 }
 /* the account's list wins for competitions changed elsewhere; this device's newer copies are uploaded */
 function mergeCloud(list) {
@@ -1936,8 +1965,9 @@ function parseT(val) {
 function loadT(id) {
   id = id || IDX.last; if (!id) return null;
   const r = jGet(ck(id));
-  if (!r.ok) { LOAD_WARN = 'تعذّرت قراءة نسخة المسابقة على هذا الجهاز — تُفتح من الحساب.'; return null; }
-  return r.val ? parseT(r.val) : null;
+  const t = r.ok && r.val ? parseT(r.val) : null;
+  if (!r.ok || (r.val && !t)) { LOAD_WARN = 'نسخة المسابقة على هذا الجهاز غير صالحة — تُفتح من حسابك.'; sDel(ck(id)); return null; } // the account keeps the good copy
+  return t;
 }
 /* opens a competition of the account (downloads it when this device has no copy yet) */
 async function openComp(id, to) {
@@ -1953,13 +1983,13 @@ async function openComp(id, to) {
   cleanupView(); T = t; IDX.last = t.id; saveIdx();
   Object.assign(STORE, { failing: false, warned: false, conflict: false });
   Object.assign(S, { tab: '', matchId: null, drawAnim: false, swapSel: null, cert: '', demo: null, resumePaused: false, introErr: '', toss: null, sdAck: '' });
-  go(to || resumePlace());
+  go(to || resumePlace(true));
   return true;
 }
 function deleteComp(id) {
   IDX.comps = IDX.comps.filter((c) => c.id !== id); IDX.dirty = IDX.dirty.filter((x) => x !== id);
   if (!IDX.del.includes(id)) IDX.del.push(id);
-  sDel(ck(id)); if (IDX.last === id) IDX.last = ''; if (IDX.place && IDX.place.cid === id) IDX.place = null;
+  sDel(ck(id)); if (IDX.last === id) IDX.last = ''; if (IDX.place && IDX.place.cid === id) IDX.place = null; delete IDX.cplace[id];
   if (T && T.id === id) T = null;
   saveIdx(); queueSync(100);
 }
@@ -1993,8 +2023,8 @@ function saveSetupDefaults(s) {
 }
 function signOut() {
   cleanupView(); clearTimeout(CLOUD.timer);
-  sDel(SK); ACC = null; T = null; Object.assign(IDX, { comps: [], dirty: [], del: [], last: '', place: null, setup: null, setupDirty: false, savedAt: 0 });
-  Object.assign(CLOUD, { state: 'idle', lastOk: 0, busy: false, retry: 0, again: false });
+  sDel(SK); ACC = null; T = null; Object.assign(IDX, { comps: [], dirty: [], del: [], last: '', place: null, setup: null, setupDirty: false, savedAt: 0, base: {}, cplace: {} });
+  clearTimeout(CLOUD.listTimer); Object.assign(CLOUD, { state: 'idle', lastOk: 0, busy: false, retry: 0, again: false, listed: false, listing: false, listTry: 0 });
   Object.assign(S, { tab: '', matchId: null, setup: null, drawAnim: false, swapSel: null, cert: '', demo: null, resumePaused: false, introErr: '', toss: null, sdAck: '', auth: { mode: 'in' } });
   go('login', 'replace');
 }
@@ -2937,6 +2967,7 @@ function saveStatus() {
   if (n && CLOUD.state === 'offline') return { ok: false, warn: true, short: 'بلا اتصال', long: 'بلا اتصال بالإنترنت — التقدم محفوظ مؤقتًا ويُرفع إلى حسابك تلقائيًا' };
   if (n && CLOUD.state === 'error') return { ok: false, warn: true, short: 'إعادة المحاولة', long: 'تعذّر الحفظ في الحساب مؤقتًا — تُعاد المحاولة تلقائيًا' };
   if (n) return { ok: true, busy: true, short: 'جارٍ الحفظ…', long: 'جارٍ الحفظ في حسابك…' };
+  if (!CLOUD.listed && (CLOUD.state === 'offline' || CLOUD.state === 'error')) return { ok: false, warn: true, short: 'بلا اتصال', long: 'تعذّر الاتصال بحسابك — تُعاد المحاولة تلقائيًا' };
   const at = Math.max(CLOUD.lastOk || 0, IDX.savedAt || 0), t = at ? fmtClock(at) : '';
   return t ? { ok: true, short: `محفوظ · ${t}`, long: `محفوظ في حسابك · آخر حفظ ${t}` } : { ok: true, short: 'محفوظ', long: 'كل شيء محفوظ في حسابك' };
 }
@@ -2947,7 +2978,7 @@ function paintSave() {
   $$('.um-s').forEach((el) => { el.classList.toggle('bad', !st.ok); el.classList.toggle('busy', !!st.busy); el.innerHTML = saveLine(st, el.dataset.l === '1'); });
   $$('.um-dot').forEach((el) => { el.classList.toggle('bad', !st.ok); el.classList.toggle('busy', !!st.busy); });
   $$('.um-btn').forEach((el) => el.setAttribute('title', `${teacherName()} — ${st.long}`));
-  const ts = $('#tools-save'); if (ts) { ts.hidden = toolSaveOff(); ts.title = st.long; ts.innerHTML = toolSaveHTML(); fitToolSave(); }
+  const ts = $('#tools-save'); if (ts) { ts.hidden = toolSaveOff(); ts.title = st.long; ts.classList.toggle('bad', !st.ok); ts.innerHTML = toolSaveHTML(); fitToolSave(); }
 }
 /* the toolbar's save state is never cut: with too little room between the tools it drops the word («✓ 10:42»),
    and with less still it steps aside (the topbar and the pause card show the save) */
@@ -2980,6 +3011,10 @@ function toggleUserMenu() {
   const p = $('#um-pop'), b = $('#um-btn'); if (!p || !b) return;
   if (!p.hidden) { closeUserMenu(); return; }
   p.hidden = false; b.setAttribute('aria-expanded', 'true'); paintSave();
+  /* the menu opens towards the middle of the screen, never past its edge */
+  p.style.left = p.style.right = '';
+  const vw = document.documentElement.clientWidth, r = p.getBoundingClientRect();
+  if (r.left < 8 || r.right > vw - 8) { const br = b.getBoundingClientRect(), toRight = br.left + br.width / 2 < vw / 2; p.style.left = toRight ? '0' : 'auto'; p.style.right = toRight ? 'auto' : '0'; }
   const f = p.querySelector('.um-i'); if (f) f.focus({ preventScroll: true });
 }
 /* a calm full-screen «loading» veil while the account answers */
@@ -3022,7 +3057,7 @@ VIEWS.login = () => {
   <div class="beams" aria-hidden="true"><i class="beam b1"></i><i class="beam b2"></i></div>
   <div class="lg-wrap">
     <header class="lg-brand">
-      <img class="lg-logo" src="${SCHOOL_LOGO}" alt="شعار ${SCHOOL}" decoding="async" draggable="false">
+      <img class="lg-logo school-logo" src="${SCHOOL_LOGO}" alt="شعار ${SCHOOL}" decoding="async" draggable="false">
       <h1 class="lg-title">${APP}</h1>
       <p class="lg-school">${SCHOOL}</p>
       <p class="lg-tag">منصة المسابقات التعليمية للمعلمين — مسابقات الصف ونتائجها وشهاداتها في حساب واحد.</p>
@@ -3070,7 +3105,7 @@ async function afterLogin(isNew) {
   busyOff();
   T = null; S.setup = null; S.auth = { mode: 'in' };
   go('home', 'replace');
-  toast(isNew ? `أهلًا ${teacherName()} — تم إنشاء حسابك` : `أهلًا ${teacherName()}`, 'good');
+  if (CLOUD.listed) toast(isNew ? `أهلًا ${teacherName()} — تم إنشاء حسابك` : `أهلًا ${teacherName()}`, 'good'); else listLater();
 }
 
 /* ---------- Teacher dashboard («لوحة المعلم») ---------- */
@@ -3091,8 +3126,9 @@ function compCard(c) {
 }
 VIEWS.home = () => {
   const list = IDX.comps, live = list.filter((c) => c.status !== 'done');
+  const off = !CLOUD.listed && !CLOUD.listing && (CLOUD.state === 'offline' || CLOUD.state === 'error'), loading = !CLOUD.listed && !off;
   const lead = live.length ? live[0] : null;
-  return `<section class="v-dash">
+  return `<section class="v-dash v-home">
   <header class="dash-top"><div class="dash-brand">${sealMini()}<span><b>${APP}</b><small>${SCHOOL}</small></span></div><div class="dash-tools">${userMenu()}${soundBtn()}</div></header>
   <div class="dash-hero">
     <div class="dh-t"><p class="dh-hi">أهلًا، <bdi dir="auto">${esc(teacherName())}</bdi></p><h1 class="dh-title">لوحة المعلم</h1><p class="dh-date">${todayAr()}</p></div>
@@ -3103,8 +3139,10 @@ VIEWS.home = () => {
   </div>
   <section class="dash-sec" aria-labelledby="my-h">
     <h2 id="my-h">مسابقاتي ${list.length ? `<small>${num(list.length)}</small>` : ''}</h2>
+    ${off ? `<div class="dash-off" role="status">${icon('cloudOff')}<p><b>تعذّر الاتصال بحسابك الآن</b><span>تظهر كل مسابقاتك فور عودة الاتصال — ${list.length ? 'وما على هذا الجهاز يعمل عاديًا.' : 'تُعاد المحاولة تلقائيًا.'}</span></p><button class="btn btn-ghost" data-act="retry-list" id="btn-retry">${icon('reset')}<span>إعادة المحاولة</span></button></div>` : ''}
     ${list.length ? `<div class="cmp-list">${list.map(compCard).join('')}</div>`
-      : `<div class="dash-empty">${icon('trophy')}<p><b>لا توجد مسابقات بعد</b><span>ابدأ أول مسابقة: تختار الشعب والطلاب، ثم القرعة، وكل شيء يُحفظ في حسابك.</span></p><button class="btn btn-gold" data-act="new-t">${icon('plus')}<span>مسابقة جديدة</span></button></div>`}
+      : off ? '' : loading ? `<div class="dash-empty dash-load" role="status"><span class="spin" aria-hidden="true"></span><p><b>جارٍ تحميل مسابقاتك من حسابك…</b></p></div>`
+      : `<div class="dash-empty">${icon('trophy')}<p><b>لا توجد مسابقات بعد</b><span>ابدأ أول مسابقة: تختار الشعب والطلاب، ثم القرعة، وكل شيء يُحفظ في حسابك.</span></p><button class="btn btn-gold" data-act="new-t">${icon('plus')}<span>مسابقة جديدة</span></button><button class="link-btn home-restore" data-act="backup">لديك نسخة احتياطية؟ استعِدها</button></div>`}
   </section>
   <nav class="dash-quick" aria-label="أدوات">
     <button class="qk" data-act="go" data-to="classes">${icon('users')}<b>الشعب والطلاب</b><small>قوائم شعبك وأسماء الطلاب</small></button>
@@ -3475,6 +3513,7 @@ function tool(act, ic, label, key, disabled) {
    Not in the quick try (it is never saved), and not when saving fails (the «الحفظ غير متاح» tool shows instead). */
 function toolSaveOff() { return storageBad() || S.matchId === 'demo'; }
 function toolSaveHTML() {
+  const st = saveStatus(); if (!st.ok) return `${icon('x')}<span class="tsv-w">${esc(st.short)}</span>`; // offline / retrying: saved on this device, uploaded later
   const u = curUser(), d = u && u.saved ? new Date(u.saved) : null, today = !!d && d.toDateString() === new Date().toDateString();
   return today ? `${icon('check')}<span class="tsv-w">محفوظ</span> <span class="tsv-t" dir="ltr">${pad2(d.getHours())}:${pad2(d.getMinutes())}</span>` : `${icon('check')}<span>محفوظ</span>`;
 }
@@ -4284,18 +4323,21 @@ function histInit() {
 function rememberPlace() {
   if (!ACC || S.view === 'login') return;
   const p = validPlace({ v: S.view, tab: S.tab || '', m: S.matchId || '', c: S.cert || '', cid: T ? T.id : '' });
-  if (JSON.stringify(p) === JSON.stringify(IDX.place)) return;
+  const own = p && T && COMP_VIEWS.includes(p.v) && JSON.stringify(p) !== JSON.stringify(IDX.cplace[T.id]);
+  if (own) IDX.cplace[T.id] = p;
+  if (!own && JSON.stringify(p) === JSON.stringify(IDX.place)) return;
   IDX.place = p; saveIdx();
 }
 /* where this user continues: the match being played (paused), a finished match's result, the unconfirmed draw, or the
    last screen */
-function resumePlace() {
+function resumePlace(opening) {
   const m = T && T.cur ? T.matches.find((x) => x.id === T.cur) : null;
   if (m && m.status === 'live') { S.matchId = m.id; S.resumePaused = true; return 'match'; }
   if (m && m.status === 'done') { T.cur = null; saveT(); S.matchId = m.id; return 'result'; }
   if (T && T.cur) { T.cur = null; saveT(); }
   if (T && !T.drawOk) return 'draw';
-  const p = IDX.place; if (!p || !T || p.cid !== T.id) return T ? 'hub' : 'home';
+  const p = opening ? T && IDX.cplace[T.id] : IDX.place; /* opened from the dashboard: that competition's own last screen */
+  if (!p || !T || p.cid !== T.id || (opening && !COMP_VIEWS.includes(p.v))) return T ? 'hub' : 'home';
   S.tab = p.tab; S.cert = p.c; S.matchId = p.m && p.m !== 'demo' ? p.m : null;
   if (p.v === 'match') S.resumePaused = true;
   return p.v;
@@ -4443,6 +4485,7 @@ const ACT = {
   'auth-mode': (el) => { const a = S.auth || (S.auth = {}); a.email = (($('#au-email') || {}).value || a.email || '').trim(); a.mode = el.dataset.m; SFX.click(); go('login', 'replace'); const f = $(a.mode === 'up' ? '#au-name' : '#au-email'); if (f) f.focus(); },
   'pw-toggle': (el) => { const i = $('#au-pass'); if (!i) return; const show = i.type === 'password'; i.type = show ? 'text' : 'password'; el.setAttribute('aria-pressed', String(show)); el.setAttribute('aria-label', show ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور'); i.focus(); },
   'open-comp': (el) => { SFX.click(); openComp(el.dataset.id); },
+  'retry-list': () => { SFX.click(); refreshList(); },
   'del-comp': (el) => {
     const c = IDX.comps.find((x) => x.id === el.dataset.id); if (!c) return;
     confirmModal(`حذف مسابقة «${esc(c.name)}» ونتائجها من حسابك نهائيًا؟`, 'حذف المسابقة', () => { deleteComp(c.id); toast('تم حذف المسابقة'); go('home', 'replace'); });
@@ -4636,6 +4679,8 @@ window.addEventListener('resize', () => { clearTimeout(RESIZE_T); RESIZE_T = set
 try { document.fonts.addEventListener('loadingdone', () => { fitToolSave(); if (S.view === 'ceremony') fitPod(); }); } catch (e) { /* no font loading API */ }
 if (MQ_REDUCED && MQ_REDUCED.addEventListener) MQ_REDUCED.addEventListener('change', () => document.documentElement.classList.toggle('rm', reduced()));
 
+/* the sign-in button (also Enter in a field, which clicks it): handled on the click itself, since a sandboxed frame blocks form submission */
+document.addEventListener('click', (e) => { const b = e.target && e.target.closest && e.target.closest('#auth-go'); if (b) { e.preventDefault(); doAuth(); } });
 document.addEventListener('submit', (e) => { if (e.target && e.target.id === 'auth-form') { e.preventDefault(); doAuth(); } });
 
 /* ============================ 16. INIT + TEST HOOK ============================ */
@@ -4649,13 +4694,16 @@ async function init() {
   if (!ACC) { S.auth = { mode: 'in' }; go('login', 'init'); histInit(); return; }
   /* signed in on this device: this device's copy shows at once (even offline), the account refreshes it right after */
   loadIdx(); T = IDX.last ? loadT(IDX.last) : null;
+  const lost = !T && LOAD_WARN && IDX.last ? IDX.last : ''; // this device's copy was damaged: reopened from the account below
   go(T ? resumePlace() : 'home', 'init'); histInit();
   if (LOAD_WARN) { toast(LOAD_WARN, 'bad'); LOAD_WARN = ''; }
   try { await bootstrap(); }
   catch (e) { if (e.auth) { signOut(); toast('انتهت جلسة الدخول — سجّل الدخول مرة أخرى', 'bad'); } return; }
   if (!ACC) return;
+  if (!CLOUD.listed) { listLater(); if (S.view === 'home' && !MODAL.open) go('home', 'replace'); else paintSave(); return; } // offline: this device's copy for now
   const sum = T ? IDX.comps.find((c) => c.id === T.id) : null;
   if (T && !sum) { T = null; if (S.view !== 'match') go('home', 'replace'); return; } // deleted on another device
+  if (lost && IDX.comps.some((c) => c.id === lost) && S.view === 'home' && !MODAL.open) { IDX.dirty = IDX.dirty.filter((x) => x !== lost); saveIdx(); openComp(lost); return; }
   if (T && sum && sum.rev !== T.rev && sGet(ck(T.id)) == null) { const id = T.id, v = S.view; T = null; openComp(id, v === 'home' ? 'home' : null); return; } // newer results from another device
   if (S.view === 'home' && !MODAL.open) go('home', 'replace'); else paintSave();
 }
@@ -4673,7 +4721,7 @@ window.VCL = {
   },
   ui() { return { view: S.view, tab: S.tab, matchId: S.matchId, layer: topLayer(), modal: MODAL.open, paused: !!(Q && Q.paused), drawAnim: !!S.drawAnim, user: ACC ? ACC.uid : '', menu: umOpen() }; },
   /* the users of this device (no passwords): the current one, each one's last save and remembered screen */
-  account() { return JSON.parse(JSON.stringify({ uid: ACC ? ACC.uid : null, name: ACC ? ACC.name : null, email: ACC ? ACC.email : null, comps: IDX.comps, dirty: IDX.dirty, del: IDX.del, cloud: { state: CLOUD.state, lastOk: CLOUD.lastOk }, key: T ? tKey() : null, status: saveStatus().long, parent: parentOf(S.view), history: histState() })); },
+  account() { return JSON.parse(JSON.stringify({ uid: ACC ? ACC.uid : null, name: ACC ? ACC.name : null, email: ACC ? ACC.email : null, comps: IDX.comps, dirty: IDX.dirty, del: IDX.del, saved: IDX.savedAt, cloud: { state: CLOUD.state, lastOk: CLOUD.lastOk }, key: T ? tKey() : null, status: saveStatus().long, parent: parentOf(S.view), history: histState() })); },
   users() { return this.account(); },
   sync: () => flushSync(),
   currentQuestion() {
@@ -4688,6 +4736,7 @@ window.VCL = {
   },
   fastTimers(f) { TM.speed = f > 0 ? f : 1; return TM.speed; },
   test: {
+    netMs(ms) { NET_MS = ms; },
     gen(type) {
       const all = allEntries(), el = all.filter((e) => eligible(type, e));
       if (type === 'match5') { const P = makePicker(all, new Set()); const g = P.five(1 + rnd(3), 1); return g ? genMatch5(g[0]) : null; }
