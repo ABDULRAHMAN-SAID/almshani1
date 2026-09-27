@@ -234,7 +234,7 @@ bdi{ unicode-bidi:isolate }
 .rd-top{ display:flex; align-items:center; gap:14px } .rd-ic{ flex:none; display:grid; place-items:center; width:56px; height:56px; border-radius:16px; background:var(--gold-t); color:var(--gold-ink) } .rd-ic .ic{ width:30px; height:30px }
 .rd-t{ display:flex; flex-direction:column; gap:2px; min-width:0 } .rd-t p{ color:var(--silver); font-size:15px }
 .dash-sec.rd h2{ margin:0; padding:0; font-size:clamp(1.5rem,2.4vw,2rem) } .dash-sec.rd h2::after{ display:none }
-.rd-tag{ align-self:flex-start; display:inline-flex; align-items:center; gap:6px; padding:2px 10px; border-radius:99px; background:#e6f5ec; color:var(--good); font-size:15px; font-weight:700 } .rd-tag .ic{ width:15px; height:15px }
+.rd-tag{ align-self:flex-start; display:inline-flex; align-items:center; gap:6px; padding:2px 10px; border-radius:99px; background:var(--green-t); color:var(--green); font-size:15px; font-weight:700 } .rd-tag .ic{ width:15px; height:15px }
 .rd-cls{ display:flex; flex-wrap:wrap; gap:10px; list-style:none; margin:0; padding:0 }
 .rd-cls li{ display:flex; align-items:center; gap:10px; padding-block:6px; padding-inline:6px 14px; border-radius:14px; border:1px solid var(--line); background:#fff }
 .rd-cls li b{ display:inline-grid; place-items:center; min-width:58px; height:40px; padding:0 10px; border-radius:10px; background:var(--cc); color:#fff; font-family:var(--f-num); font-size:1.35rem }
@@ -1360,7 +1360,7 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 .ro-h{ grid-template-columns:auto minmax(0,1fr) } .ro-h .icon-btn.ro-del{ grid-row:2; grid-column:2; justify-self:end; height:38px; align-self:center } .ro-h .ro-n{ grid-row:2; grid-column:1 }
 .ro-h .ro-chip{ max-width:11rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap } .ro-h .ro-chip.long{ font-family:var(--f-ui); font-size:1.2rem; font-weight:700 }
 .ro-h .fld.ro-name input{ min-width:7rem }
-@media (max-width:430px){ .ro-h .ro-chip{ max-width:7rem } .ro-h .fld.ro-name input{ min-width:0 } }
+@media (max-width:430px){ .ro-h .ro-chip{ grid-row:1; grid-column:1 / -1; justify-self:start; max-width:100%; white-space:normal; overflow-wrap:anywhere } .ro-h .ro-name{ grid-row:2; grid-column:1 / -1 } .ro-h .fld.ro-name input{ min-width:0 } .ro-h .ro-n{ grid-row:3 } .ro-h .icon-btn.ro-del{ grid-row:3 } }
 .cls-add{ display:flex; flex-direction:column; gap:12px; margin-top:14px } .cls-add.full p{ display:flex; align-items:center; gap:8px }
 .cls-add-b{ display:flex; align-items:center; justify-content:center; gap:10px; min-height:64px; width:100%; border:2px dashed #b9cfc3; border-radius:var(--r); background:var(--green-t); color:var(--green); font-size:1.15rem; font-weight:700; transition:background-color .15s, border-color .15s }
 .cls-add-b:hover{ background:#dcece3; border-color:var(--green) }
@@ -1880,7 +1880,7 @@ const ROSTER_MIN = 2, ROSTER_MAX = 16, NAME_MAX = 40, CNAME_MAX = 20;
 /* «دوري أبطال المفردات» ready to play, as the first version of the game was: the words of the unit, the three classes of
    the school with their students, 5 questions in the group stage, the second round (four players) and the class final,
    8 in the Grand Final — one click starts the draw */
-const READY = { id: 'vl-u1', name: 'دوري أبطال المفردات — الوحدة الأولى', rounds: { group: 5, second: 5, final: 5, grand: 8 }, second: 'four', timer: 1 };
+const READY = { id: 'vl-u1', name: DEF_NAME, rounds: { group: 5, second: 5, final: 5, grand: 8 }, second: 'four', timer: 1 };
 /* the games a competition can be — chosen first in «مسابقة جديدة» */
 const GAMES = {
   league: { ar: 'دوري الأبطال', icon: 'trophy', tint: 'gold', en: 'VOCABULARY CHAMPIONS LEAGUE', desc: 'مسابقة فردية: مجموعات في كل شعبة، ثم نهائي الصف، ثم نهائي كبير بين أبطال الشعب.', go: 'إنشاء المسابقة والقرعة' },
@@ -2525,7 +2525,7 @@ async function doFlush(ep) {
     if (IDX.nameDirty) { await fsReq('PATCH', fsPath(), fsFields({ name: ACC.name, email: ACC.email, updatedAt: Date.now() }), mask('name', 'email', 'updatedAt')); live(ep); IDX.nameDirty = false; saveIdx(); }
     if (IDX.setupDirty) { // the account's lists are read first: lists saved on another device since this copy was taken are kept
       const st0 = IDX.setup, prof = await fsGet(fsPath()); live(ep); const p = prof && fsObj(prof); let st = st0;
-      if (st0 && p && isStr(p.setup, 200000) && IDX.setupBase != null && p.setup !== IDX.setupBase && p.setup !== JSON.stringify(st0)) { try { const r = JSON.parse(p.setup); if (r && typeof r === 'object') st = mergeSetup(st0, r); } catch (e) { /* unreadable: this copy */ } }
+      if (st0 && p && isStr(p.setup, 200000) && IDX.setupBase != null && p.setup !== IDX.setupBase && p.setup !== JSON.stringify(st0)) { try { const r = JSON.parse(p.setup), b = IDX.setupBase ? JSON.parse(IDX.setupBase) : null; if (r && typeof r === 'object') st = mergeSetup(st0, r, b); } catch (e) { /* unreadable: this copy */ } }
       const raw = JSON.stringify(st || null);
       await fsReq('PATCH', fsPath(), fsFields({ setup: raw, email: ACC.email, updatedAt: Date.now() }), mask('setup', 'email', 'updatedAt')); live(ep);
       if (IDX.setup === st0) { IDX.setup = st; IDX.setupDirty = false; if (st !== st0) setTimeout(accountShown, 0); } IDX.setupBase = raw; saveIdx();
@@ -2597,7 +2597,7 @@ function bootstrap() {
       if (prof) {
         const p = fsObj(prof);
         if (!IDX.nameDirty) { const n = isStr(p.name, 200) ? cleanText(p.name, UNAME_MAX) : ''; if (n && n !== ACC.name) { ACC.name = n; saveSession(); } } // renamed on another device
-        if (!IDX.setupDirty && isStr(p.setup, 200000)) { try { const st = JSON.parse(p.setup); if (st && typeof st === 'object') { IDX.setup = st; IDX.setupBase = p.setup; } } catch (e) { /* keep this device's copy */ } }
+        if (!IDX.setupDirty && isStr(p.setup, 200000)) { try { const st = JSON.parse(p.setup); if (st && typeof st === 'object') { IDX.setup = st; IDX.setupBase = p.setup; } } catch (e) { /* keep this device's copy */ } } else if (!IDX.setupDirty && p.setup == null && IDX.setupBase == null) IDX.setupBase = ''; // the account has no class lists yet: a known start
         const pv = vocabOf(p); if (!IDX.vocabDirty && pv && isStr(p.vocab, 1100000)) { const vv = pv; IDX.vocab = vv; IDX.vocabBase = vv.map((x) => x.id); IDX.vocabAt = Date.now(); } // word lists added on another device
       } else { IDX.nameDirty = true; if (IDX.setup) IDX.setupDirty = true; if (IDX.vocab) IDX.vocabDirty = true; } // a new account: its profile is written with the first upload
       const b0 = Object.assign({}, IDX.base); // an upload of another tab while the list is read is recognised below
@@ -2898,10 +2898,13 @@ function mergeVocab(local, remote) {
   return out.map(cleanVocab).filter(Boolean).slice(0, VOCAB_KEEP); // never cut to 30: a list saved on the other device is kept
 }
 /* this device's class lists + lists saved on another device meanwhile (by name): nothing of either is lost */
-function mergeSetup(local, remote) {
+function mergeSetup(local, remote, base) {
   const mine = Array.isArray(local.classes) ? local.classes : [], names = new Set(mine.map((c) => cleanName(c && c.name)));
-  const more = (Array.isArray(remote.classes) ? remote.classes : []).filter((c) => c && isStr(c.name, 40) && cleanName(c.name) && !names.has(cleanName(c.name)) && isStr(c.text, 4000) && c.text.trim());
-  return Object.assign({}, local, { classes: mine.concat(more).slice(0, LISTS_MAX) });
+  const theirs = (Array.isArray(remote.classes) ? remote.classes : []).filter((c) => c && isStr(c.name, 40) && cleanName(c.name) && isStr(c.text, 4000)), was = new Map(((base && Array.isArray(base.classes)) ? base.classes : []).filter((c) => c && isStr(c.name, 40)).map((c) => [cleanName(c.name), c]));
+  const byName = new Map(theirs.map((c) => [cleanName(c.name), c]));
+  const kept = mine.map((c) => { const b = was.get(cleanName(c && c.name)), r = byName.get(cleanName(c && c.name)); return b && r && c && c.text === b.text && JSON.stringify(c.absent || []) === JSON.stringify(b.absent || []) ? Object.assign({}, c, { text: r.text, absent: Array.isArray(r.absent) ? r.absent.slice() : [] }) : c; }); // unchanged here, changed there: theirs
+  const more = theirs.filter((c) => !names.has(cleanName(c.name)) && c.text.trim());
+  return Object.assign({}, local, { classes: kept.concat(more).slice(0, LISTS_MAX) });
 }
 function saveSetupDefaults(s) {
   /* the classes of this competition first (n of them), then the lists set aside — up to LISTS_MAX, never dropped quietly
@@ -3015,7 +3018,7 @@ function normEntry(raw, unitId) {
   let s = typeof raw.s === 'string' ? raw.s.replace(/_{3,}/g, '___').replace(/\s+/g, ' ').trim() : '';
   if (s && s.split('___').length !== 2) s = '';
   const clean = (arr, re) => (Array.isArray(arr) ? uniq(arr.filter((x) => typeof x === 'string').map((x) => x.toLowerCase().trim()).filter((x) => x && x !== w && re.test(x))) : []);
-  return { k: unitId + ':' + w, u: unitId, w, ar, pos: POS_IDS.includes(raw.pos) ? raw.pos : '', lvl: [1, 2, 3].includes(+raw.lvl) ? +raw.lvl : 2, s, gd: clean(raw.gd, WORD_RE), m: clean(raw.m, WORD_RE) };
+  return { k: unitId + ':' + w, u: unitId, w, ar, ...(typeof raw.sf === 'string' && raw.sf ? { sf: raw.sf } : {}), pos: POS_IDS.includes(raw.pos) ? raw.pos : '', lvl: [1, 2, 3].includes(+raw.lvl) ? +raw.lvl : 2, s, gd: clean(raw.gd, WORD_RE), m: clean(raw.m, WORD_RE) };
 }
 /* the unit(s) embedded in this file — the ONLY source of every question, option and answer */
 function unitList() { return (Array.isArray(UNITS) ? UNITS : []).filter((u) => u && typeof u.id === 'string' && Array.isArray(u.words)); }
@@ -3042,27 +3045,32 @@ function autoLvl(w) { const L = letters(w).length + (/[ -]/.test(w) ? 3 : 0); re
 const wordRe = (w, flags) => new RegExp('(^|[^A-Za-z])(' + wordOf(w).replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/[ -]/g, '[ -]').replace(/'/g, "['’]") + ')(?![A-Za-z])', flags);
 /* how many times the word is in a sentence */
 const wordCount = (sent, w) => (String(sent || '').replace(BIDI_RE, '').match(wordRe(w, 'gi')) || []).length;
-function toGap(sent, w) {
-  const x = String(sent || '').replace(BIDI_RE, '').replace(/\s+/g, ' ').trim().slice(0, VS_MAX); if (!x) return '';
-  if (/_{3,}/.test(x)) { const g = x.replace(/_{3,}/g, '___'); return g.split('___').length === 2 ? g : ''; }
-  if (wordCount(x, w) !== 1) return ''; // twice: the other one would show the answer
+const toGap = (sent, w) => gapOf(sent, w).g;
+/* the sentence with its blank, and the word as the sentence wrote it (f: «Sea» in «Sea water is salty.») */
+function gapOf(sent, w) {
+  const x = String(sent || '').replace(BIDI_RE, '').replace(/\s+/g, ' ').trim().slice(0, VS_MAX); if (!x) return { g: '', f: '' };
+  if (/_{3,}/.test(x)) { const g = x.replace(/_{3,}/g, '___'); return { g: g.split('___').length === 2 && !wordCount(g, w) ? g : '', f: '' }; } // a blank already there: never with the word elsewhere in it
+  if (wordCount(x, w) !== 1) return { g: '', f: '' }; // twice: the other one would show the answer
   const mm = wordRe(w, 'i').exec(x);
-  if (!mm) return '';
+  if (!mm) return { g: '', f: '' };
   const at = mm.index + mm[1].length, g = x.slice(0, at) + '___' + x.slice(at + mm[2].length);
-  return g.split('___').length === 2 ? g : '';
+  return g.split('___').length === 2 ? { g, f: mm[2] } : { g: '', f: '' };
 }
 /* invisible direction marks and soft hyphens (copied from Word or chat apps) */
 const BIDI_RE = /[\u200B-\u200F\u202A-\u202E\u2066-\u2069\u00AD\uFEFF]/g;
 /* a word as the teacher typed it (Monday, don't), and its key for comparisons (monday, don't) */
 const wordOf = (w) => String(w || '').replace(BIDI_RE, '').replace(/[’‘`´]/g, "'").replace(/\s+/g, ' ').trim();
 const normW = (w) => wordOf(w).toLowerCase();
+const KEEP_CAP = new Set('monday tuesday wednesday thursday friday saturday sunday january february march april may june july august september october november december english arabic french oman muscat salalah islam ramadan eid quran allah i'.split(' '));
+/* «Apple» (typed on an iPad, or capitalised by Word) → «apple»; «Monday», «TV», «Oman» stay as written */
+function caseOf(w) { const x = wordOf(w), lo = x.toLowerCase(); return /^[A-Z][a-z]*(?:[ '-][a-z]+)*$/.test(x) && !KEEP_CAP.has(lo.split(/[ -]/)[0]) && lo.split(/[ -]/).every((t) => commonWords().has(t.replace(/'/g, ''))) ? lo : x; }
 /* one word of a teacher's list, cleaned (null: not a usable word) */
 function cleanWord(x) {
   if (!x || typeof x !== 'object') return null;
-  const w = wordOf(x.w); if (!WORD_RE.test(w) || letters(w).length < 2 || w.length > 40) return null;
+  const w = caseOf(x.w); if (!WORD_RE.test(w) || letters(w).length < 2 || w.length > 40) return null;
   const ar = cleanText(String(x.ar || ''), VAR_MAX); if (!ar || !/[\u0600-\u06FF]/.test(ar)) return null;
-  const s = toGap(x.s, w), pos = POS_IDS.includes(x.pos) ? x.pos : '';
-  return Object.assign({ w, ar }, s ? { s } : {}, pos ? { pos } : {});
+  const gp = gapOf(x.s, w), s = gp.g, pos = POS_IDS.includes(x.pos) ? x.pos : '', sf = gp.f && gp.f !== w ? gp.f : isStr(x.sf, 40) && s && x.sf !== w && normW(x.sf) === normW(w) ? x.sf : '';
+  return Object.assign({ w, ar }, s ? { s } : {}, sf ? { sf } : {}, pos ? { pos } : {});
 }
 function cleanVocab(v) {
   if (!v || typeof v !== 'object' || typeof v.id !== 'string' || !ID_RE.test(v.id) || !Array.isArray(v.words)) return null;
@@ -3138,7 +3146,7 @@ function eligible(type, e) {
     default: return false;
   }
 }
-function baseQ(type, e) { return { type, cat: TYPES[type].cat, w: e.w, ar: e.ar, s: e.s || '', pos: e.pg ? '' : e.pos || '', lvl: e.lvl || 2 }; }
+function baseQ(type, e) { return Object.assign({ type, cat: TYPES[type].cat, w: e.w, ar: e.ar, s: e.s || '', pos: e.pg ? '' : e.pos || '', lvl: e.lvl || 2 }, e.sf && e.s ? { sf: e.sf } : {}); }
 function finishChoice(q, correct, wrong) { const opts = shuffle([correct].concat(wrong)); q.opts = opts; q.ans = opts.indexOf(correct); return q; }
 /* pick n distractor entries from pools (in order), unique by keyOf, preferring `prefer`; `compat(x, chosen)` keeps the
    chosen distractors apart from each other too */
@@ -3192,11 +3200,11 @@ const applyEdit = (w, e) => w.slice(0, e.a) + e.r + w.slice(e.b);
    2 of the 4 options and "pick the most typical-looking spelling" no longer finds the answer. */
 /* the other standard spelling of a word (litre/liter, colour/color, organise/organize, travelled/traveled) */
 function spellVariant(x, w) {
-  const v = [w.replace(/re$/, 'er'), w.replace(/er$/, 're'), w.replace(/our/g, 'or'), w.replace(/or(?=\b|s\b)/g, 'our'), w.replace(/is(e|ed|es|ing|ation)$/, 'iz$1'), w.replace(/iz(e|ed|es|ing|ation)$/, 'is$1'), w.replace(/ll(ed|ing|er)$/, 'l$1'), w.replace(/([aeiou])l(ed|ing|er)$/, '$1ll$2'), w.replace(/ogue$/, 'og'), w.replace(/og$/, 'ogue')];
+  const v = [w.replace(/re$/, 'er'), w.replace(/er$/, 're'), w.replace(/our/g, 'or'), w.replace(/or(?=\b|s\b)/g, 'our'), w.replace(/is(e|ed|es|ing|ation)$/, 'iz$1'), w.replace(/iz(e|ed|es|ing|ation)$/, 'is$1'), w.replace(/ll(ed|ing|er)$/, 'l$1'), w.replace(/([aeiou])l(ed|ing|er)$/, '$1ll$2'), w.replace(/ogue$/, 'og'), w.replace(/og$/, 'ogue'), w.replace(/([aeiou])l$/, '$1ll'), w.replace(/ll$/, 'l'), w.replace(/lful$/, 'llful'), w.replace(/llful$/, 'lful'), w.replace(/ollen$/, 'olen'), w.replace(/olen$/, 'ollen'), w.replace(/lment$/, 'llment'), w.replace(/llment$/, 'lment')];
   return v.some((y) => y !== w && y === x);
 }
 function genSpellChoice(e) {
-  const q = baseQ('spell_choice', e), w = e.w, bad = (x) => x === w || !WORD_RE.test(x) || x.length < 2 || realWord(x, w) || spellVariant(x, w);
+  const q = baseQ('spell_choice', e), w = e.w, own = String(e.u || '').startsWith('v:'), bad = (x) => x === w || !WORD_RE.test(x) || x.length < 2 || realWord(x, w) || (own && spellVariant(x, w));
   const cur = e.m.filter((x) => !bad(x)), key = (d) => d.a + ':' + d.b + ':' + d.r, seen = new Set(), edits = [];
   const addEdits = (list, curated) => list.forEach((m) => { const d = editOf(w, m); if (d.a === d.b && !d.r) return; const k = key(d); if (seen.has(k)) return; seen.add(k); d.cur = curated; edits.push(d); });
   addEdits(shuffle(cur), true); addEdits(shuffle(misspellings(w)).slice(0, 40), false);
@@ -3935,7 +3943,7 @@ function ladderPlaces() {
 const ladderPodium = () => ladderPlaces().filter((x) => x.place < 3 && runScore(x.r) > 0);
 function ladderQuestion(run, step, avoid) {
   const plan = T.ladder.steps[step], pool = tPool(), used = new Set(T.used);
-  const asked = run.qs.map((x) => x.q.w).concat(avoid || []);
+  const asked = run.qs.map((x) => x.q.w).concat(Array.isArray(run.skip) ? run.skip : [], avoid || []);
   let q = null;
   const kinds = [plan.type].concat(shuffle(LADDER_TYPES.filter((x) => x !== plan.type))); // the step's kind; another kind if the list cannot make it
   for (const ex of [asked, avoid || []]) { // a word not asked in this climb first (in any kind); a repeat only when none is left, never the question replaced
@@ -4353,6 +4361,15 @@ VIEWS.home = () => {
 </section>`;
 };
 /* ---------- «جاهزة للعب»: the ready-made «دوري أبطال المفردات» on the dashboard ---------- */
+/* the account's competitions and lists read (again) before something is made from them: at most `ms` */
+function accountRead(ms) {
+  if (!ACC || navigator.onLine === false) return Promise.resolve();
+  return new Promise((res) => {
+    const t0 = Date.now(); let asked = false;
+    const tick = () => { if (!ACC || (CLOUD.listed && !CLOUD.listing && asked) || Date.now() - t0 > ms) { res(); return; } if (!CLOUD.listing && !asked) { asked = true; CLOUD.listed = false; refreshList(); } setTimeout(tick, 120); };
+    tick();
+  });
+}
 function readySetup() {
   const s = defaultSetup();
   return Object.assign(s, { game: 'league', name: READY.name, teachers: [teacherName()].filter(Boolean), vocab: BUILTIN(), grade: 10, spare: [], rounds: Object.assign({}, READY.rounds), second: READY.second, timer: READY.timer,
@@ -4418,14 +4435,25 @@ function accountSetup() {
 /* a new competition made from an older copy of the lists: its classes first, then every list of the (newer) account
    copy that it does not use — nothing saved on another device is lost */
 function withAccountLists(s) {
-  const p = IDX.setup, lists = p && Array.isArray(p.classes) ? p.classes : [], used = new Set(s.classes.map((c) => cleanName(c.name)));
-  const spare = lists.filter((c) => c && isStr(c.name, 40) && cleanName(c.name) && !used.has(cleanName(c.name)) && isStr(c.text, 4000) && c.text.trim())
-    .map((c) => ({ name: cleanName(c.name).slice(0, CNAME_MAX), color: CLASS_COLORS.includes(c.color) ? c.color : CLASS_COLORS[0], text: c.text, absent: Array.isArray(c.absent) ? c.absent.filter((x) => isStr(x, NAME_MAX)) : [] }));
+  const p = IDX.setup, lists = p && Array.isArray(p.classes) ? p.classes : [], own = (s.spare || []).filter((c) => String(c.text || '').trim()), used = new Set(s.classes.concat(own).map((c) => cleanName(c.name)));
+  const spare = own.concat(lists.filter((c) => c && isStr(c.name, 40) && cleanName(c.name) && !used.has(cleanName(c.name)) && isStr(c.text, 4000) && c.text.trim())
+    .map((c) => ({ name: cleanName(c.name).slice(0, CNAME_MAX), color: CLASS_COLORS.includes(c.color) ? c.color : CLASS_COLORS[0], text: c.text, absent: Array.isArray(c.absent) ? c.absent.filter((x) => isStr(x, NAME_MAX)) : [] })));
   return Object.assign({}, s, { spare, lists: false });
 }
+/* a class of this setup the teacher did not touch, whose list was changed on another device meanwhile: the newer list */
+function followAccount(s) {
+  let base = null; try { base = JSON.parse(S.setupBase || 'null'); } catch (e) { base = null; }
+  const was = new Map((base && Array.isArray(base.classes) ? base.classes : []).filter((c) => c && isStr(c.name, 40)).map((c) => [cleanName(c.name), c]));
+  const now = new Map((IDX.setup && Array.isArray(IDX.setup.classes) ? IDX.setup.classes : []).filter((c) => c && isStr(c.name, 40) && isStr(c.text, 4000)).map((c) => [cleanName(c.name), c]));
+  s.classes.forEach((c) => { const b = was.get(cleanName(c.name)), a = now.get(cleanName(c.name)); if (b && a && c.text === b.text && a.text !== b.text) { c.text = a.text; const names = new Set(rosterNames(a.text).names); c.absent = (Array.isArray(a.absent) ? a.absent : []).filter((x) => names.has(x)); } });
+  return s;
+}
 /* «مسابقة جديدة» left for the guide: its draft (classes, students typed) is waiting when the teacher comes back */
+/* the chosen list no longer exists (deleted here, in another tab or on another device): the unit of the file */
+function vocabGone(s) { if (s && s.vocab && s.vocab !== BUILTIN() && !vocabById(s.vocab)) { s.vocab = BUILTIN(); if (s.autoName) s.name = DEF_NAME; } return s; }
 function takeDraft() {
   const d = S.draft; S.draft = null; if (!d || !d.s || d.s.lists) return null;
+  if (setupJSON(d.s) === d.snap) return null; // nothing was changed in it: a fresh one (with the newest lists)
   S.setupSnap = d.snap; S.setupBase = d.base;
   if (d.base !== JSON.stringify(IDX.setup || null)) { // lists saved meanwhile come in as saved lists («أعد شعبة»): nothing of them is lost at «إنشاء»
     const have = new Set(d.s.classes.concat(d.s.spare || []).map((c) => cleanName(c.name)));
@@ -4584,7 +4612,7 @@ function gameCards(s) {
 function vocabPickHTML(s) {
   const B = BUILTIN(), cur = setupVocab(s) ? s.vocab : B, lists = vocabLists();
   const card = (id, name, n, sn, own) => { const ok = n >= VW_MIN, on = cur === id;
-    return `<button type="button" class="vc${on ? ' on' : ''}${ok ? '' : ' off'}" role="radio" aria-checked="${on}" data-act="setup-vocab" data-v="${esc(id)}"${ok ? '' : ' disabled'}><span class="vc-ic">${icon(own ? 'spell' : 'book')}</span><b dir="auto">${esc(name)}</b><small>${wordsAr(n)}${sn ? ` · ${num(sn)} بجملة مثال` : ''}</small><small class="vc-st">${ok ? (own ? 'قائمتك' : 'كلمات الوحدة') : `أضف ${moreWordsAr(VW_MIN - n)} لتصبح جاهزة`}</small>${on ? `<span class="gc-on">${icon('check')}</span>` : ''}</button>`; };
+    return `<button type="button" class="vc${on ? ' on' : ''}${ok ? '' : ' off'}" role="radio" aria-checked="${on}" data-act="setup-vocab" data-v="${esc(id)}"${ok ? '' : ' disabled'}><span class="vc-ic">${icon(own ? 'spell' : 'book')}</span><b><bdi dir="auto">${esc(name)}</bdi></b><small>${wordsAr(n)}${sn ? ` · ${num(sn)} بجملة مثال` : ''}</small><small class="vc-st">${ok ? (own ? 'قائمتك' : 'كلمات الوحدة') : `أضف ${moreWordsAr(VW_MIN - n)} لتصبح جاهزة`}</small>${on ? `<span class="gc-on">${icon('check')}</span>` : ''}</button>`; };
   const bi = allEntries();
   return `<div class="vcs" role="radiogroup" aria-label="قائمة المفردات">${card(B, BUILTIN_NAME(), bi.length, bi.filter((e) => e.s).length, false)}${lists.map((v) => card(v.id, v.name, v.words.length, v.words.filter((x) => x.s).length, true)).join('')}
 <button type="button" class="vc vc-add" data-act="vocab-new" data-ret="setup"><span class="vc-ic">${icon('plus')}</span><b>إضافة مفردات</b><small>قائمة جديدة: الكلمة، معناها، وجملة مثال — وتجهز كل الألعاب منها تلقائيًا</small></button></div>`;
@@ -4625,6 +4653,7 @@ ${opt('وسائل المساعدة', 'ladder', 'life', [{ v: true, ar: 'حذف �
 }
 VIEWS.setup = () => {
   if (!S.setup) S.setup = freshSetup('setup');
+  vocabGone(S.setup);
   S.vsig = vocabSig();
   const s = S.setup, G = GAMES[s.game];
   return `${topbar('مسابقة جديدة')}<section class="v-setup page">
@@ -4996,7 +5025,7 @@ function learnCard(q, miss) {
   const head = miss ? `<p class="learn-h">${icon('check')}${q.type === 'match5' ? 'التوصيل الصحيح' : 'الإجابة الصحيحة'}${q.type === 'gap_letters' ? ` <span dir="ltr" lang="en">(${esc(q.opts[q.ans])})</span>` : ''}</p>` : '';
   if (q.type === 'match5') return `<div class="learn m5l${miss ? ' miss' : ''}">${head}${q.items.map((it) => `<div class="lp"><span class="lw" dir="ltr" lang="en">${esc(it.w)}</span>${sayBtn(it.w, 'sm')}<span class="la">${esc(it.ar)}</span></div>`).join('')}</div>`;
   const parts = q.s ? q.s.split('___') : null;
-  return `<div class="learn${miss ? ' miss' : ''}">${head}<div class="learn-w"><span class="lw" dir="ltr" lang="en">${esc(q.w)}</span>${sayBtn(q.w, 'sm')}<span class="la">${esc(q.ar)}</span>${q.pos ? `<span class="pos">${POS_AR[q.pos]}</span>` : ''}</div>${parts ? `<p class="learn-s" dir="ltr" lang="en">${esc(parts[0])}<mark>${esc(q.w)}</mark>${esc(parts[1])}</p>` : ''}</div>`;
+  return `<div class="learn${miss ? ' miss' : ''}">${head}<div class="learn-w"><span class="lw" dir="ltr" lang="en">${esc(q.w)}</span>${sayBtn(q.w, 'sm')}<span class="la">${esc(q.ar)}</span>${q.pos ? `<span class="pos">${POS_AR[q.pos]}</span>` : ''}</div>${parts ? `<p class="learn-s" dir="ltr" lang="en">${esc(parts[0])}<mark>${esc(q.sf || q.w)}</mark>${esc(parts[1])}</p>` : ''}</div>`;
 }
 function resultOverlay(m, st) {
   const ok = !!st.ok, p = person(st.p), q = st.q, idx = m.seq.indexOf(st);
@@ -5404,7 +5433,7 @@ function ladLife(k) {
   const r = runOf(S.run), cur = ladCur(r); if (!cur || cur.ok !== null || r.life[k] || !T.ladder.life || LAD.paused) return;
   SFX.click(); r.life[k] = true;
   if (k === 'h') { cur.off = halfOpts(cur.q); noteEdit(); saveT(); cur.off.forEach((i) => { const b = $$('#opts .opt')[i]; if (b) { b.disabled = true; b.classList.add('off'); } }); const lb = $('.ll[data-k="h"]'); if (lb) { lb.disabled = true; lb.classList.add('used'); } announce('حُذفت إجابتان'); return; }
-  if (k === 'c') { let q; try { q = ladderQuestion(r, r.lvl, [cur.q.w]); } catch (e) { q = null; } if (!q || q.w === cur.q.w) { r.life.c = false; toast('لا يوجد سؤال بديل الآن — «تغيير السؤال» باقٍ', 'bad'); return; } r.qs[r.qs.length - 1] = { q, ok: null, g: null }; noteEdit(); saveT(); go('ladder', 'replace'); announce('سؤال جديد'); return; }
+  if (k === 'c') { let q; try { q = ladderQuestion(r, r.lvl, [cur.q.w]); } catch (e) { q = null; } if (!q || q.w === cur.q.w) { r.life.c = false; toast('لا يوجد سؤال بديل الآن — «تغيير السؤال» باقٍ', 'bad'); return; } r.skip = (Array.isArray(r.skip) ? r.skip : []).concat(cur.q.w).slice(-12); r.qs[r.qs.length - 1] = { q, ok: null, g: null }; noteEdit(); saveT(); go('ladder', 'replace'); announce('سؤال جديد'); return; }
   cur.fr = Date.now() + 30000; noteEdit(); saveT();
   const lb = $('.ll[data-k="f"]'); if (lb) { lb.disabled = true; lb.classList.add('used'); }
   ladFriend(30);
@@ -5430,15 +5459,20 @@ VIEWS.bank = () => {
   return `${topbar('المفردات')}<section class="v-bank page">
 <section class="panel vlists"><header class="vl-h"><div><h2>${icon('book')} قوائم المفردات</h2><p class="muted">كل مسابقة تختار قائمة واحدة عند «مسابقة جديدة»، وكل الألعاب وأنواع الأسئلة تُصنع منها تلقائيًا — من كلماتها فقط.</p></div><button class="btn btn-gold" data-act="vocab-new" id="btn-vocab-new">${icon('plus')}<span>إضافة مفردات</span></button></header>
 <div class="vls">${vocabCard(B, BUILTIN_NAME(), allEntries(), false, sel === B)}${lists.map((x) => vocabCard(x.id, x.name, x.words, true, sel === x.id)).join('')}</div></section>
-<div class="bank-bar"><div class="bank-t"><b dir="auto">${esc(name)}</b><span>${v ? 'قائمتك' : 'كلمات الوحدة'} · <span class="bank-count"><b id="bank-n">${es.length}</b> <span id="bank-u">${es.length >= 3 && es.length <= 10 ? 'كلمات' : 'كلمة'}</span></span></span></div><label class="search">${icon('search')}<input type="search" id="bank-q" data-in="bank-q" placeholder="ابحث بالإنجليزية أو بالعربية…" value="${esc(S.bankQ)}" aria-label="بحث في الكلمات" autocomplete="off"></label></div>
+<div class="bank-bar"><div class="bank-t"><b dir="auto">${esc(name)}</b><span>${v ? 'قائمتك' : 'كلمات الوحدة'} · <span class="bank-count"><b id="bank-n" hidden>${es.length}</b><span id="bank-u">${wordsAr(es.length)}</span></span></span></div><label class="search">${icon('search')}<input type="search" id="bank-q" data-in="bank-q" placeholder="ابحث بالإنجليزية أو بالعربية…" value="${esc(S.bankQ)}" aria-label="بحث في الكلمات" autocomplete="off"></label></div>
 <div class="tbl-wrap"><table class="words" id="bank-words"><thead><tr><th>الكلمة</th><th>المعنى</th><th>النوع</th><th class="lvc">المستوى</th><th class="ex">مثال</th><th><span class="sr-only">نطق</span></th></tr></thead><tbody>${es.map((e) => `<tr data-q="${esc(e.w + ' ' + normAr(e.ar))}"><td class="w">${en(e.w)}</td><td class="a">${esc(e.ar)}</td><td>${e.pg ? '—' : POS_AR[e.pos] || '—'}</td><td class="lvc">${lvlDots(e.lvl)}</td><td class="ex">${e.s ? `<span dir="ltr" lang="en">${esc(e.s)}</span>` : '<span class="muted">—</span>'}</td><td>${SPEECH_OK ? `<button class="icon-btn sm" data-act="say-word" data-w="${esc(e.w)}" aria-label="نطق ${esc(e.w)}">${icon('wave')}</button>` : ''}</td></tr>`).join('')}</tbody></table></div></section>`;
 };
 /* ---- the editor of one list: rows (English · Arabic · example sentence · word class), a paste box, live checks ---- */
 const vRow = () => ({ w: '', ar: '', s: '', pos: '' });
-function vocabDraft(v) { return vSnap({ id: v ? v.id : '', orig: v ? v.name : '', name: v ? v.name : '', rows: v ? v.words.map((x) => ({ w: x.w, ar: x.ar, s: x.s ? x.s.replace('___', x.w) : '', pos: x.pos || '' })).concat([vRow()]) : [vRow(), vRow(), vRow()] }); }
+function vocabDraft(v) { return vSnap({ id: v ? v.id : '', orig: v ? v.name : '', name: v ? v.name : '', rows: v ? v.words.map((x) => ({ w: x.w, ar: x.ar, s: x.s ? x.s.replace('___', x.sf || x.w) : '', pos: x.pos || '' })).concat([vRow()]) : [vRow(), vRow(), vRow()] }); }
 const vKey = (d) => JSON.stringify([d.name, d.rows.filter((r) => wordOf(r.w) || String(r.ar || '').trim() || String(r.s || '').trim()).map((r) => [r.w, r.ar, r.s, r.pos])]);
 function vSnap(d) { d.snap = vKey(d); return d; }
 const vDirty = (d) => !!d && vKey(d) !== d.snap; // typed or pasted since it was opened
+/* leaving words that were not saved: asked first */
+function vAskLeave(then) {
+  const d = S.vedit, nm = d && (cleanText(d.name, VNAME_MAX) || (d.id ? '' : 'القائمة الجديدة'));
+  openModal({ title: 'كلمات لم تُحفظ', body: `<p class="confirm-t">في ${nm ? `«${esc(nm)}»` : 'القائمة'} كلمات كتبتها أو لصقتها ولم تُحفظ بعد. الخروج دون حفظ يحذفها.</p>`, actions: [{ label: 'متابعة التعديل', cls: 'btn-ghost' }, { label: 'خروج دون حفظ', cls: 'btn-danger', fn: () => { setTimeout(then, 0); } }] });
+}
 /* the state of one row: '' empty · ok · warn (usable, a remark) · bad (not usable yet) — and its message */
 function vRowState(r, i, rows) {
   const w = wordOf(r.w), any = w || String(r.ar || '').trim() || String(r.s || '').trim();
@@ -5451,7 +5485,7 @@ function vRowState(r, i, rows) {
   if (!ar) return { st: 'bad', msg: 'اكتب المعنى بالعربية' };
   if (!/[؀-ۿ]/.test(ar)) return { st: 'bad', msg: 'المعنى بالعربية' };
   if (String(r.s || '').trim() && !toGap(r.s, w)) return { st: 'warn', msg: wordCount(r.s, w) > 1 ? 'الكلمة مكررة في الجملة — لن تُستخدم في «أكمل الجملة»' : 'الجملة لا تحتوي الكلمة — لن تُستخدم في «أكمل الجملة»' };
-  if (!PLAIN_RE.test(w)) return { st: 'ok', msg: 'فيها حرف كبير أو فاصلة علوية: تُسأل في المعنى والجملة والتوصيل، لا في الإملاء' };
+  if (!PLAIN_RE.test(caseOf(w))) return { st: 'ok', msg: 'فيها حرف كبير أو فاصلة علوية: تُسأل في المعنى والجملة والتوصيل، لا في الإملاء' };
   return { st: 'ok', msg: '' };
 }
 function vocabSummary(d) {
@@ -5463,9 +5497,9 @@ function vocabSummary(d) {
 function vRowHTML(r, i, rows) {
   const s = vRowState(r, i, rows);
   return `<div class="vr${s.st ? ' ' + s.st : ''}" data-i="${i}"><span class="vr-n" aria-hidden="true">${num(i + 1)}</span>
-<input class="vr-w" data-in="vw" data-i="${i}" data-f="w" value="${esc(r.w)}" dir="ltr" lang="en" autocomplete="off" spellcheck="false" placeholder="${i ? '' : 'blog'}" aria-label="الكلمة بالإنجليزية ${i + 1}">
+<input class="vr-w" data-in="vw" data-i="${i}" data-f="w" value="${esc(r.w)}" dir="ltr" lang="en" autocapitalize="none" autocorrect="off" autocomplete="off" spellcheck="false" placeholder="${i ? '' : 'blog'}" aria-label="الكلمة بالإنجليزية ${i + 1}">
 <input class="vr-a" data-in="vw" data-i="${i}" data-f="ar" value="${esc(r.ar)}" dir="rtl" autocomplete="off" placeholder="${i ? '' : 'مدونة'}" aria-label="المعنى بالعربية ${i + 1}">
-<div class="vr-2"><input class="vr-s" data-in="vw" data-i="${i}" data-f="s" value="${esc(r.s)}" dir="ltr" lang="en" autocomplete="off" placeholder="${i ? '(اختياري)' : 'She writes a weekly blog. (اختياري)'}" aria-label="جملة مثال ${i + 1} (اختياري)">
+<div class="vr-2"><input class="vr-s" data-in="vw" data-i="${i}" data-f="s" value="${esc(r.s)}" dir="ltr" lang="en" autocapitalize="sentences" autocomplete="off" placeholder="${i ? '(اختياري)' : 'She writes a weekly blog. (اختياري)'}" aria-label="جملة مثال ${i + 1} (اختياري)">
 <select class="vr-p" data-in="vw" data-i="${i}" data-f="pos" aria-label="نوع الكلمة ${i + 1}"><option value="">تلقائي</option>${POS_IDS.map((p) => `<option value="${p}"${r.pos === p ? ' selected' : ''}>${POS_AR[p]}</option>`).join('')}</select></div>
 <button type="button" class="icon-btn sm vr-del" data-act="v-del-row" data-i="${i}" aria-label="حذف السطر ${i + 1}" title="حذف">${icon('trash')}</button>
 <small class="vr-msg" id="vr-msg-${i}">${esc(s.msg)}</small></div>`;
@@ -5475,7 +5509,7 @@ VIEWS.vocab = () => {
   return `${topbar(d.id ? 'تعديل قائمة مفردات' : 'إضافة مفردات')}<section class="v-vocab page">
 <section class="panel"><h2>${icon('book')} اسم القائمة</h2><label class="fld"><span>مثال: الوحدة الثانية — يظهر عند اختيار المفردات للمسابقة</span><input type="text" id="v-name" data-in="v-name" value="${esc(d.name)}" maxlength="${VNAME_MAX}" dir="auto" placeholder="الوحدة الثانية" autocomplete="off"></label></section>
 <section class="panel vv-paste"><h2>${icon('copy')} لصق سريع <small>(اختياري)</small></h2><p class="muted">الصق كلماتك دفعة واحدة: كلمة في كل سطر — الكلمة الإنجليزية، ثم معناها بالعربية، ثم جملة مثال إن أردت، مفصولة بشرطة « - » أو بعلامة Tab (كما تُنسخ من جدول Word أو Excel).</p>
-<textarea id="v-paste" rows="5" dir="auto" spellcheck="false" placeholder="blog - مدونة - She writes a weekly blog about technology.&#10;podcast - بودكاست&#10;website - موقع إلكتروني - Visit our school website."></textarea>
+<textarea id="v-paste" rows="5" dir="auto" spellcheck="false" autocapitalize="none" autocorrect="off" placeholder="blog - مدونة - She writes a weekly blog about technology.&#10;podcast - بودكاست&#10;website - موقع إلكتروني - Visit our school website."></textarea>
 <div class="row"><button type="button" class="btn btn-ghost" data-act="v-paste">${icon('plus')}<span>أضف هذه الكلمات إلى القائمة</span></button></div></section>
 <section class="panel vv-list"><h2>${icon('list')} الكلمات <span class="cnt-b" id="vv-count">${num(d.rows.filter((r) => normW(r.w)).length)}</span></h2>
 <p class="muted">الجملة اختيارية: إذا كتبتها وفيها الكلمة، تُستخدم في «أكمل الجملة» (تُخفى الكلمة تلقائيًا). نوع الكلمة اختياري أيضًا («تلقائي»).</p>
@@ -5486,15 +5520,15 @@ VIEWS.vocab = () => {
 </section>`;
 };
 /* a line of the paste box: «english - arabic - sentence» (also Tab, «|», «=»; an Arabic-first line is turned around) */
-const PASTE_SEP = /\s*[|=:،؛]\s*|\s+[-–—]\s*|\s*[-–—]\s+|,(?=\s*[\u0600-\u06FF])\s*|(?<=[\u0600-\u06FF])\s*,\s*(?=[A-Za-z])/;
+const PASTE_SEP = /\s*[|=]\s*|\s+[-–—]\s*|\s*[-–—]\s+|(?<=[A-Za-z'])\s*[:،؛,]\s*(?=[\u0600-\u06FF])|(?<=[\u0600-\u06FF])\s*[:،؛,]\s*(?=[A-Za-z])/, PASTE_SEP2 = /\s*[|=]\s*|\s+[-–—]\s+/; // the 2nd separator (after the meaning): never a mark inside an Arabic meaning
 /* «word - meaning - sentence»: the first two separators only (a sentence keeps its own «:» and «,») */
-function splitLine(t) { const out = []; let rest = t; for (let k = 0; k < 2; k++) { const m = PASTE_SEP.exec(rest); if (!m) break; out.push(rest.slice(0, m.index).trim()); rest = rest.slice(m.index + m[0].length); } out.push(rest.trim()); return out.filter(Boolean); }
+function splitLine(t) { const out = []; let rest = t; for (let k = 0; k < 2; k++) { const m = (k ? PASTE_SEP2 : PASTE_SEP).exec(rest); if (!m) break; out.push(rest.slice(0, m.index).trim()); rest = rest.slice(m.index + m[0].length); } out.push(rest.trim()); return out.filter(Boolean); }
 function parseVocabLines(text, bad) {
   const out = [];
   String(text || '').replace(BIDI_RE, '').split(/\r?\n/).forEach((line) => {
     let t = line.trim(); if (!t) return;
     let parts;
-    if (/\t/.test(t)) { parts = t.split('\t').map((x) => x.trim()).filter(Boolean); while (parts.length > 2 && /^[\d٠-٩]+[.)]?$/.test(parts[0])) parts.shift(); } // Excel/Word table: a serial column «م» left out
+    if (/\t/.test(t)) { parts = t.split('\t').map((x) => x.trim()).filter(Boolean); while (parts.length > 1 && /^(?:[•·●▪◦*\-o\uF0B7\uF0A7]|[a-z][.)]|\(?[\d٠-٩]{1,3}[.)\-:]?)$/i.test(parts[0])) parts.shift(); if (parts.length === 1) parts = splitLine(parts[0]); } // Excel/Word: a serial column «م», a bullet or «a.» left out
     else { t = t.replace(/^\s*(?:\(?[\d٠-٩]{1,3}[.)\-:]|[•·●▪◦*])\s*/, '').trim(); parts = splitLine(t); } // «1.» «2)» «•» list markers left out
     if (parts.length >= 2 && /^[\d٠-٩]+[.)]?$/.test(parts[0])) parts.shift();
     if (parts.length < 2) { const m = /^([A-Za-z][A-Za-z '\-]*?)\s+([؀-ۿ].*)$/.exec(t) || /^([؀-ۿ][^A-Za-z]*?)\s+([A-Za-z].*)$/.exec(t); if (m) parts = [m[1].trim(), m[2].trim()]; }
@@ -5542,7 +5576,7 @@ function vocabChoose(s, id) {
 function bankFilter() {
   const q = S.bankQ.trim().toLowerCase(), nq = normAr(q); let n = 0;
   $$('#bank-words tbody tr').forEach((tr) => { const hit = !q || tr.dataset.q.includes(q) || (nq && tr.dataset.q.includes(nq)); tr.hidden = !hit; if (hit) n++; });
-  const bn = $('#bank-n'); if (bn) bn.textContent = n; const bu = $('#bank-u'); if (bu) bu.textContent = n >= 3 && n <= 10 ? 'كلمات' : 'كلمة';
+  const bn = $('#bank-n'); if (bn) bn.textContent = n; const bu = $('#bank-u'); if (bu) bu.innerHTML = n ? wordsAr(n) : 'لا نتائج';
 }
 AFTER.bank = () => { if (S.bankQ) bankFilter(); };
 
@@ -5856,7 +5890,7 @@ function revealMarks(q, ok, given) {
     $$('#opts .opt').forEach((b, i) => { b.disabled = true; if (i === q.ans) b.classList.add('is-correct'); else if (i === given) b.classList.add('is-wrong'); });
     const o = $('#opts'); if (o) o.classList.add('done');
   }
-  if (q.type === 'gap_sentence') { const bl = $('#blank'); if (bl) { bl.textContent = q.w; bl.classList.add(ok ? 'ok' : 'fix'); } }
+  if (q.type === 'gap_sentence') { const bl = $('#blank'); if (bl) { bl.textContent = q.sf || q.w; bl.classList.add(ok ? 'ok' : 'fix'); } }
   if (q.type === 'gap_letters') $$('.lb.miss').forEach((el) => { el.textContent = q.w[q.hid[+el.dataset.h]]; el.classList.add(ok ? 'ok' : 'fix'); });
   if (q.type === 'spell_build') {
     const built = typeof given === 'string' ? given : '';
@@ -6234,6 +6268,7 @@ function go(view, how) {
   if (view !== 'match') S.resumePaused = false;
   if (view === 'ladder' && (how === 'pop' || how === 'init' || how === 'switch')) S.ladPaused = true; else if (view !== 'ladder') S.ladPaused = false;
   if (S.matchId === 'demo' && view !== 'match' && view !== 'result') { S.matchId = null; S.demo = null; } // the quick try is left
+  if (S.view === 'vocab' && view !== 'vocab' && vDirty(S.vedit)) setTimeout(() => toast(`لم تُحفظ الكلمات بعد — تجدها كما تركتها في «${S.vedit && S.vedit.id ? 'تعديل' : 'إضافة مفردات'}»`), 0);
   if (view === 'match' && (how === 'pop' || how === 'init' || how === 'switch' || S.resumePaused)) {
     const m = curMatch(); S.resumePaused = true; if (T && m && !m.demo && T.cur !== m.id) { T.cur = m.id; saveT(); }
   }
@@ -6379,12 +6414,14 @@ const ACT = {
   /* «المفردات» */
   'vocab-view': (el) => { SFX.click(); S.vlist = el.dataset.v; S.bankQ = ''; const y = window.scrollY; go('bank', 'replace'); window.scrollTo(0, y); },
   'vocab-new': (el) => {
-    if (vocabLists().length >= VOCAB_MAX && !(S.vedit && !S.vedit.id)) { toast(`في حسابك ${VOCAB_MAX} قائمة — احذف قائمة لا تحتاجها من «المفردات» قبل إضافة قائمة جديدة`, 'bad'); return; }
-    SFX.click(); if (S.view === 'setup' && S.setup && !S.setup.lists) S.draft = { s: S.setup, snap: S.setupSnap, base: S.setupBase }; // the setup waits (also after the phone's Back)
+    const nL = vocabLists().length;
+    if (nL >= VOCAB_MAX && !(S.vedit && !S.vedit.id && vDirty(S.vedit))) { toast(`في حسابك ${nL} قائمة، والحد ${VOCAB_MAX} — احذف ${nL - VOCAB_MAX + 1 === 1 ? 'قائمة واحدة لا تحتاجها' : `${nL - VOCAB_MAX + 1} قوائم لا تحتاجها`} من «المفردات» قبل إضافة قائمة جديدة`, 'bad'); return; }
+    if (S.vedit && S.vedit.id && vDirty(S.vedit) && !el.dataset.sure) { vAskLeave(() => { S.vedit = null; ACT['vocab-new'](Object.assign(el, { dataset: Object.assign({}, el.dataset, { sure: '1' }) })); }); return; }
+    SFX.click(); if (S.view === 'setup' && S.setup && !S.setup.lists && setupEdited()) S.draft = { s: S.setup, snap: S.setupSnap, base: S.setupBase }; // a changed setup waits (also after the phone's Back)
     const keep = S.vedit && !S.vedit.id && vDirty(S.vedit); if (!keep) S.vedit = vocabDraft(null); S.vret = el.dataset.ret || '';
     go('vocab'); if (keep) toast('عدنا إلى قائمتك التي لم تُحفظ بعد'); else { const f = $('#v-name'); if (f) f.focus(); }
   },
-  'vocab-edit': (el) => { const v = vocabById(el.dataset.v); if (!v) return; SFX.click(); const keep = S.vedit && S.vedit.id === v.id && vDirty(S.vedit); if (!keep) S.vedit = vocabDraft(v); S.vret = ''; go('vocab'); if (keep) toast('عدنا إلى تعديلاتك التي لم تُحفظ بعد'); },
+  'vocab-edit': (el) => { const v = vocabById(el.dataset.v); if (!v) return; if (S.vedit && S.vedit.id !== v.id && vDirty(S.vedit)) { vAskLeave(() => { S.vedit = null; ACT['vocab-edit'](el); }); return; } SFX.click(); const keep = S.vedit && S.vedit.id === v.id && vDirty(S.vedit); if (!keep) S.vedit = vocabDraft(v); S.vret = ''; go('vocab'); if (keep) toast('عدنا إلى تعديلاتك التي لم تُحفظ بعد'); },
   'vocab-del': (el) => { const v = vocabById(el.dataset.v); if (!v) return; confirmModal(`حذف قائمة «${esc(v.name)}» (${wordsAr(v.words.length)}) من حسابك؟ المسابقات التي أُنشئت منها تبقى كما هي بكلماتها.`, 'حذف القائمة', () => { saveVocab(vocabLists().filter((x) => x.id !== v.id)); if (S.vlist === v.id) S.vlist = ''; toast(`حُذفت «${v.name}»`, 'good'); go('bank', 'replace'); }); },
   'v-add-row': () => { const d = S.vedit; if (!d) return; if (d.rows.length >= VW_MAX) { toast(`الحد الأعلى ${VW_MAX} كلمة في القائمة`, 'bad'); return; } SFX.click(); d.rows.push(vRow()); $('#vv-rows').insertAdjacentHTML('beforeend', vRowHTML(d.rows[d.rows.length - 1], d.rows.length - 1, d.rows)); const f = $(`#vv-rows .vr[data-i="${d.rows.length - 1}"] .vr-w`); if (f) f.focus(); },
   'v-del-row': (el) => { const d = S.vedit, i = +el.dataset.i; if (!d || !d.rows[i]) return; SFX.click(); d.rows.splice(i, 1); if (!d.rows.length) d.rows.push(vRow()); const y = window.scrollY; go('vocab', 'replace'); window.scrollTo(0, y); },
@@ -6402,11 +6439,11 @@ const ACT = {
     toast(parts.join(' — ') + (n ? ' — راجعها ثم احفظ' : ''), n && !bad.length && !full ? 'good' : n ? '' : 'bad');
   },
   'v-save': () => vocabSave(),
-  'v-cancel': () => { const ret = S.vret, out = () => { S.vedit = null; S.vret = ''; SFX.click(); navUp(ret === 'setup' && S.setup ? 'setup' : 'bank'); }; if (vDirty(S.vedit)) confirmModal('إلغاء القائمة؟ الكلمات التي كتبتها أو لصقتها ولم تُحفظ تُحذف.', 'إلغاء دون حفظ', out); else out(); },
+  'v-cancel': () => { const ret = S.vret, out = () => { S.vedit = null; S.vret = ''; SFX.click(); navUp(ret === 'setup' && S.setup ? 'setup' : 'bank'); }; if (vDirty(S.vedit)) vAskLeave(out); else out(); },
   'setup-grade': (el) => {
     const s = S.setup, g = +el.dataset.g; if (!s || !GRADES.includes(g) || g === gradeOf(s)) return;
     const old = gradeOf(s), re = new RegExp('^' + old + '/(\\S+)$'), ofG = (c) => new RegExp('^' + g + '/\\S+$').test(cleanName(c.name)), full = (c) => !!String(c.text || '').trim();
-    const saved = s.lists ? [] : (s.spare || []).filter((c) => ofG(c) && full(c)), taken = new Set(s.classes.concat(s.spare || []).map((c) => cleanName(c.name)));
+    const saved = s.lists ? [] : (s.spare || []).filter((c) => ofG(c) && full(c)).sort((a, b) => cleanName(a.name).localeCompare(cleanName(b.name), 'en', { numeric: true })), taken = new Set(s.classes.concat(s.spare || []).map((c) => cleanName(c.name)));
     if (saved.length) { // this teacher's lists of that grade come back; the classes shown now are set aside (with their students)
       const out = s.classes.filter(full);
       s.spare = (s.spare || []).filter((c) => !saved.includes(c)).concat(out); s.classes = saved.slice(0, CLASS_MAX); s.spare = s.spare.concat(saved.slice(CLASS_MAX));
@@ -6435,11 +6472,21 @@ const ACT = {
   'pw-toggle': (el) => { const i = $('#au-pass'); if (!i) return; const show = i.type === 'password'; i.type = show ? 'text' : 'password'; el.setAttribute('aria-pressed', String(show)); el.setAttribute('aria-label', show ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور'); i.focus(); },
   'open-comp': (el) => { SFX.click(); openComp(el.dataset.id); },
   /* «ابدأ المسابقة» of the ready «دوري أبطال المفردات»: the competition is made and the draw of the three classes begins */
-  'ready-go': () => {
-    const live = IDX.comps.find((c) => c.preset === READY.id && c.status !== 'done'); if (live) { openComp(live.id); return; }
-    SFX.click(); audioInit();
-    if (!IDX.setup || !Array.isArray(IDX.setup.classes) || !IDX.setup.classes.some((c) => c && String(c.text || '').trim())) saveSetupDefaults(Object.assign(readySetup(), { name: DEF_NAME })); // empty class lists: the school's three classes become the saved lists
-    newCompetition(readySetup(), false, READY.id);
+  'ready-go': (el) => {
+    if (el.disabled) return; const acc = ACC; SFX.click(); audioInit();
+    el.disabled = true; el.classList.add('is-busy');
+    accountRead(5000).then(() => {
+      el.disabled = false; el.classList.remove('is-busy');
+      if (ACC !== acc || S.view !== 'home') return;
+      const live = IDX.comps.find((c) => c.preset === READY.id && c.status !== 'done'); if (live) { openComp(live.id); return; } // started on another device: that one
+      const start = () => {
+        const read = CLOUD.listed && !IDX.setupDirty; // the account's class lists are known: empty ones get the school's three classes
+        if (read && (!IDX.setup || !Array.isArray(IDX.setup.classes) || !IDX.setup.classes.some((c) => c && String(c.text || '').trim()))) saveSetupDefaults(readySetup());
+        newCompetition(readySetup(), false, READY.id);
+      };
+      if (CLOUD.listed) start();
+      else confirmModal('تعذّر الاتصال بحسابك الآن. إن كنت بدأت «دوري أبطال المفردات» على جهاز آخر فستجدها في «مسابقاتي» عند عودة الاتصال. ابدأ مسابقة جديدة هنا على أي حال؟', 'ابدأ هنا', start, 'btn-gold');
+    });
   },
   'retry-list': () => { SFX.click(); refreshList(); },
   'del-comp': (el) => {
@@ -6522,13 +6569,14 @@ const ACT = {
     SFX.click(); const y = window.scrollY; const r = $('#rules'); if (r) r.innerHTML = gameOptsHTML(s); s.classes.forEach((_, i) => refreshSetupBits(i)); window.scrollTo(0, y);
   },
   create: () => {
-    const s = S.setup, { err } = setupErrors(s), box = $('#setup-err');
+    const s = vocabGone(S.setup), { err } = setupErrors(s), box = $('#setup-err');
     if (err.length) { if (box) box.textContent = err.join(' '); toast(err[0].length > 90 ? 'تعذّر إنشاء المسابقة — السبب مكتوب أسفل الصفحة' : err[0], 'bad'); return; }
     if (box) box.textContent = '';
     const btn = $('[data-act="create"]'), acc = ACC; if (btn) { btn.disabled = true; btn.classList.add('is-busy'); }
     accountSetup().then(() => {
       if (btn) { btn.disabled = false; btn.classList.remove('is-busy'); }
       if (ACC !== acc || S.view !== 'setup' || S.setup !== s) return;
+      if (setupStale()) followAccount(s); const cs = setupErrors(s).err; if (cs.length) { const box2 = $('#setup-err'); if (box2) box2.textContent = cs.join(' '); go('setup', 'replace'); return; }
       saveSetupDefaults(setupStale() ? withAccountLists(s) : s); S.draft = null; if (s.game === 'league') newCompetition(s); else newGame(s);
     });
   },
