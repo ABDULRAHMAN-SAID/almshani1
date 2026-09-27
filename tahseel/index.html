@@ -6777,7 +6777,7 @@ window.addEventListener('storage', (e) => {
     const keep = { dirty: IDX.dirty.slice(), comps: IDX.comps.slice() }; loadIdx();
     keep.dirty.forEach((id) => { if (!IDX.dirty.includes(id) && sGet(ck(id)) != null) IDX.dirty.push(id); });
     keep.comps.forEach((c) => { if (!IDX.comps.some((x) => x.id === c.id) && !IDX.del.includes(c.id) && sGet(ck(c.id)) != null) IDX.comps.push(c); });
-    if (S.view === 'home' && !MODAL.open) go('home', 'replace'); paintSave(); return;
+    if (S.view === 'home' && !MODAL.open) go('home', 'replace'); else accountShown(); paintSave(); return; // lists changed in another tab: the pages showing them follow
   }
   if (T && e.key === ck(T.id) && e.newValue === null && !STORE.conflict) { // deleted (or replaced by the account's newer version) in another tab
     const id = T.id; delete MEM[e.key]; UNSAVED.delete(e.key);
