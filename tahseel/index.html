@@ -6476,7 +6476,7 @@ const ACT = {
   'ready-go': (el) => {
     if (el.disabled) return; const acc = ACC; SFX.click(); audioInit();
     el.disabled = true; el.classList.add('is-busy');
-    accountRead(5000).then(() => {
+    accountRead(9000).then(() => { // a slow classroom network: up to 9 s (a spinner on the button)
       el.disabled = false; el.classList.remove('is-busy');
       if (ACC !== acc || S.view !== 'home') return;
       const live = IDX.comps.find((c) => c.preset === READY.id && c.status !== 'done'); if (live) { openComp(live.id); return; } // started on another device: that one
