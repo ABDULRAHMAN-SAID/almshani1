@@ -733,7 +733,7 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .slot.ok{ border-color:var(--good); background:#e3f4ea; border-style:solid }
 .slot.bad{ border-color:var(--bad); background:#fdeceb; border-style:solid }
 .slots.nope{ box-shadow:0 0 0 3px rgba(212,69,63,.45) }
-.tile{ width:clamp(40px,min(4.2vw,7.4vh),84px); height:clamp(50px,min(5.4vw,9.4vh),104px); border-radius:12px; border:1px solid #d3dcd6; background:var(--paper); color:var(--ink); box-shadow:0 1px 2px rgba(18,50,38,.06), 0 3px 8px rgba(18,50,38,.06); font-size:clamp(24px,min(2.8vw,5vh),56px); font-weight:700; padding:0; transition:opacity .2s, background-color .15s, border-color .15s }
+.tile{ width:clamp(40px,min(4.2vw,7.4vh),84px); height:clamp(50px,min(5.4vw,9.4vh),104px); border-radius:12px; border:1px solid #d3dcd6; background:var(--paper); color:var(--ink); box-shadow:none; font-size:clamp(24px,min(2.8vw,5vh),56px); font-weight:700; padding:0; transition:opacity .2s, background-color .15s, border-color .15s }
 .tile:hover:not([disabled]){ background:var(--green-t); border-color:var(--green) }
 .tile:active:not([disabled]){ background:#d5e9dd }
 .tile.used{ opacity:.16; box-shadow:none }
@@ -745,7 +745,7 @@ html.in-match, html.in-match body{ overflow:hidden; height:100% }
 .blank.fix{ color:var(--gold-ink); border-color:var(--gold); animation:none }
 /* gap_letters */
 .letters{ display:flex; justify-content:center; flex-wrap:wrap; gap:clamp(8px,1.2vh,12px) clamp(18px,2.2vw,36px); padding-top:clamp(4px,1.2vh,16px) }
-.lb{ width:clamp(42px,min(4.8vw,8.4vh),96px); height:clamp(54px,min(6.2vw,10.8vh),120px); display:grid; place-items:center; font-size:clamp(28px,min(3.6vw,6.3vh),72px); font-weight:700; border-radius:12px; background:var(--paper); color:var(--ink); border:1px solid #d3dcd6; box-shadow:0 1px 2px rgba(18,50,38,.06), 0 3px 8px rgba(18,50,38,.05) }
+.lb{ width:clamp(42px,min(4.8vw,8.4vh),96px); height:clamp(54px,min(6.2vw,10.8vh),120px); display:grid; place-items:center; font-size:clamp(28px,min(3.6vw,6.3vh),72px); font-weight:700; border-radius:12px; background:var(--paper); color:var(--ink); border:1px solid #d3dcd6; box-shadow:none}
 .lb.miss{ border:2.5px dashed var(--gold); color:var(--gold-ink); background:var(--gold-t); box-shadow:none }
 .lb.miss.ok{ border-style:solid; border-color:var(--good); color:#157a45; background:#e3f4ea }
 .lb.miss.fix{ border-style:solid }
@@ -1340,7 +1340,7 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 .ladder-rules{ display:flex; gap:10px; align-items:flex-start; padding:14px 16px; border-radius:var(--r-s); background:var(--gold-t); color:var(--ink); line-height:1.7; margin:0 0 14px }
 .ladder-rules .ic{ flex:none; color:var(--gold-ink); margin-top:4px }
 /* dashboard card: the game */
-.cmp-game{ display:inline-flex; align-items:center; gap:5px; font-size:14px; font-weight:700; padding:3px 10px; border-radius:99px; background:var(--gold-t); color:var(--gold-ink) }
+.cmp-game{ display:inline-flex; align-items:center; gap:5px; font-size:15px; font-weight:700; padding:3px 10px; border-radius:99px; background:var(--gold-t); color:var(--gold-ink) }
 .cmp-game.t-green{ background:var(--green-t); color:var(--green) }
 .cmp-game .ic{ width:15px; height:15px }
 /* the game screen */
@@ -1377,12 +1377,12 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 .sq-card h3{ margin:0; font-size:1.25rem; color:var(--ink); flex:1; min-width:0; overflow-wrap:anywhere }
 .sq-n{ font-size:15px; color:var(--silver) }
 .sq-pts{ display:inline-flex; align-items:baseline; gap:4px; font-family:var(--f-num); font-size:1.9rem; line-height:1; color:var(--tc) }
-.sq-pts small{ font-family:var(--f-ui); font-size:14px; color:var(--silver) }
+.sq-pts small{ font-family:var(--f-ui); font-size:15px; color:var(--silver) }
 .sq-mem{ list-style:none; margin:0; padding:0; display:grid; gap:6px }
 .sq-mem li{ display:flex; align-items:center; gap:8px; min-width:0; font-size:16px }
 .sq-mem li .av{ width:30px; height:30px; font-size:12px }
 .sq-mem li .nm{ flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
-.sq-mem li small{ flex:none; font-size:14px; color:var(--muted) }
+.sq-mem li small{ flex:none; font-size:15px; color:var(--muted) }
 /* race */
 .rc-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px }
 .rc-card{ --cc:var(--green); display:flex; flex-direction:column; gap:12px; background:var(--paper); border:1px solid var(--line); border-top:6px solid var(--cc); border-radius:var(--r); box-shadow:var(--shadow); padding:14px 16px 16px; min-width:0 }
@@ -1402,7 +1402,7 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 /* ladder hub */
 .lad-live{ --tc:var(--green); display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:14px 18px; border-radius:var(--r-l); background:var(--paper); border:2px solid var(--tc); box-shadow:var(--shadow) }
 .lad-live p{ flex:1; min-width:160px; margin:0; display:flex; flex-direction:column; gap:2px }
-.lad-live small{ font-size:14px; font-weight:700; color:var(--warn) }
+.lad-live small{ font-size:15px; font-weight:700; color:var(--warn) }
 .lad-live b{ font-size:1.2rem }
 .lad-live span{ color:var(--silver); font-size:15px }
 .lad-lead{ margin:-6px 0 0; font-size:16px }
@@ -1417,7 +1417,7 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 .lp-s:not([disabled]):hover{ border-color:var(--green); background:var(--green-t) }
 .lp-s[disabled]{ cursor:default; opacity:1; background:#f3f5f3; color:var(--silver) }
 .lp-s.played{ border-color:#dfe7e2 }
-.lp-lv{ flex:none; padding:2px 8px; border-radius:99px; background:var(--gold-t); color:var(--gold-ink); font-family:var(--f-num); font-size:14px; font-weight:700 }
+.lp-lv{ flex:none; padding:2px 8px; border-radius:99px; background:var(--gold-t); color:var(--gold-ink); font-family:var(--f-num); font-size:15px; font-weight:700 }
 .lad-board h3{ display:flex; align-items:center; gap:8px; margin:0 0 10px; color:var(--green) }
 .lad-board td.fate small{ display:inline; margin:0 }
 /* the ladder screen */
