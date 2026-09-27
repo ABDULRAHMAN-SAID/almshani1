@@ -5333,7 +5333,7 @@ function vRowState(r, i, rows) {
 function vocabSummary(d) {
   const sts = d.rows.map((r, i) => vRowState(r, i, d.rows)), ok = sts.filter((x) => x.st === 'ok' || x.st === 'warn').length, bad = sts.filter((x) => x.st === 'bad').length;
   const sn = d.rows.filter((r, i) => (sts[i].st === 'ok') && String(r.s || '').trim()).length;
-  const ready = ok >= 20 ? `${icon('check')} جاهزة لكل الألعاب` : ok >= VW_MIN ? `${icon('check')} جاهزة — مع قائمة قصيرة اختر أسئلة أقل في المباريات الكبيرة` : `أضف ${moreWordsAr(VW_MIN - ok)} لتصبح جاهزة (${num(VW_MIN)} على الأقل)`;
+  const ready = ok >= 20 ? `${icon('check')} جاهزة لكل الألعاب` : ok >= VW_MIN ? `${icon('check')} جاهزة لكل الألعاب — مع قائمة قصيرة قد تتكرر بعض الكلمات في المباراة الطويلة` : `أضف ${moreWordsAr(VW_MIN - ok)} لتصبح جاهزة (${num(VW_MIN)} على الأقل)`;
   return `<span class="vs-n">${ok === 1 ? 'كلمة واحدة صالحة' : ok === 2 ? 'كلمتان صالحتان' : ok === 0 ? 'لا كلمات صالحة بعد' : `<b>${num(ok)}</b> ${ok >= 3 && ok <= 10 ? 'كلمات صالحة' : 'كلمة صالحة'}`}${sn ? ` · ${num(sn)} بجملة مثال` : ''}${bad ? ` · <span class="bad">${num(bad)} تحتاج تصحيحًا</span>` : ''}</span><span class="vs-r ${ok >= VW_MIN ? 'ok' : 'no'}">${ready}</span>`;
 }
 function vRowHTML(r, i, rows) {
