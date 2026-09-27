@@ -5531,6 +5531,7 @@ function parseVocabLines(text, bad) {
     if (/\t/.test(t)) { parts = t.split('\t').map((x) => x.trim()).filter(Boolean); while (parts.length > 1 && /^(?:[•·●▪◦*\-o\uF0B7\uF0A7]|[a-z][.)]|\(?[\d٠-٩]{1,3}[.)\-:]?)$/i.test(parts[0])) parts.shift(); if (parts.length === 1) parts = splitLine(parts[0]); } // Excel/Word: a serial column «م», a bullet or «a.» left out
     else { t = t.replace(/^\s*(?:\(?[\d٠-٩]{1,3}[.)\-:]|[•·●▪◦*])\s*/, '').trim(); parts = splitLine(t); } // «1.» «2)» «•» list markers left out
     if (parts.length >= 2 && /^[\d٠-٩]+[.)]?$/.test(parts[0])) parts.shift();
+    if (!/[A-Za-z]/.test(parts.join(' ')) || (/^(?:word|words|english|vocabulary|vocab|term)$/i.test(parts[0]) && !/[؀-ۿ]/.test(parts[1] || ''))) return; // a table's header row («م الكلمة المعنى», «Word Meaning»): left out
     if (parts.length < 2) { const m = /^([A-Za-z][A-Za-z '\-]*?)\s+([؀-ۿ].*)$/.exec(t) || /^([؀-ۿ][^A-Za-z]*?)\s+([A-Za-z].*)$/.exec(t); if (m) parts = [m[1].trim(), m[2].trim()]; }
     if (parts.length < 2) { if (bad) bad.push(line.trim()); return; }
     if (/[؀-ۿ]/.test(parts[0]) && !/[؀-ۿ]/.test(parts[1])) parts = [parts[1], parts[0]].concat(parts.slice(2));
