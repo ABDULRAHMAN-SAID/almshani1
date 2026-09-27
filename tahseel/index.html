@@ -230,6 +230,24 @@ bdi{ unicode-bidi:isolate }
 .dash-sec h2{ position:relative; display:flex; align-items:center; gap:10px; font-family:var(--f-disp); font-weight:700; font-size:1.5rem; margin-bottom:18px; padding-bottom:10px; color:var(--green) }
 .dash-sec h2::after{ content:''; position:absolute; bottom:0; inset-inline-start:0; width:44px; height:3px; border-radius:3px; background:var(--gold) }
 .dash-sec h2 small{ display:inline-grid; place-items:center; min-width:32px; height:28px; padding:0 8px; border-radius:99px; background:var(--gold-t); color:var(--gold-ink); font-family:var(--f-ui); font-size:15px; font-weight:700 }
+.rd-card{ display:grid; gap:16px; padding:clamp(18px,2.6vw,28px); border-radius:var(--r-l); background:var(--paper); border:1px solid #efdcaa; box-shadow:var(--shadow); border-inline-start:6px solid var(--gold) }
+.rd-top{ display:flex; align-items:center; gap:14px } .rd-ic{ flex:none; display:grid; place-items:center; width:56px; height:56px; border-radius:16px; background:var(--gold-t); color:var(--gold-ink) } .rd-ic .ic{ width:30px; height:30px }
+.rd-t{ display:flex; flex-direction:column; gap:2px; min-width:0 } .rd-t p{ color:var(--silver); font-size:15px }
+.dash-sec.rd h2{ margin:0; padding:0; font-size:clamp(1.5rem,2.4vw,2rem) } .dash-sec.rd h2::after{ display:none }
+.rd-tag{ align-self:flex-start; display:inline-flex; align-items:center; gap:6px; padding:2px 10px; border-radius:99px; background:#e6f5ec; color:var(--good); font-size:15px; font-weight:700 } .rd-tag .ic{ width:15px; height:15px }
+.rd-cls{ display:flex; flex-wrap:wrap; gap:10px; list-style:none; margin:0; padding:0 }
+.rd-cls li{ display:flex; align-items:center; gap:10px; padding-block:6px; padding-inline:6px 14px; border-radius:14px; border:1px solid var(--line); background:#fff }
+.rd-cls li b{ display:inline-grid; place-items:center; min-width:58px; height:40px; padding:0 10px; border-radius:10px; background:var(--cc); color:#fff; font-family:var(--f-num); font-size:1.35rem }
+.rd-cls li span{ font-size:15px; color:var(--ink) }
+.rd-path{ display:flex; flex-wrap:wrap; gap:8px; list-style:none; margin:0; padding:0; counter-reset:rp }
+.rd-path li{ counter-increment:rp; display:flex; align-items:center; gap:8px; padding:6px 12px; border-radius:12px; background:var(--green-t); font-size:15px }
+.rd-path li::before{ content:counter(rp); display:grid; place-items:center; width:24px; height:24px; border-radius:50%; background:var(--green); color:#fff; font-family:var(--f-num); font-weight:700; font-size:15px }
+.rd-path li b{ color:var(--green) } .rd-path li small{ font-size:15px; color:var(--silver) }
+.rd-more summary{ display:inline-flex; align-items:center; gap:8px; cursor:pointer; color:var(--green); font-weight:700; font-size:15px; min-height:44px } .rd-more summary .ic{ width:18px; height:18px }
+.rd-names{ display:grid; grid-template-columns:repeat(auto-fit, minmax(min(100%,220px),1fr)); gap:12px; margin-top:6px }
+.rd-nm{ padding:10px 14px; border-radius:14px; border:1px solid var(--line); border-top:4px solid var(--cc); background:#fff } .rd-nm b{ color:var(--cc); font-family:var(--f-num); font-size:1.2rem }
+.rd-nm ol{ margin:6px 0 0; padding-inline-start:28px; font-size:15px; line-height:1.9; text-align:left }
+.rd-act{ display:flex; flex-wrap:wrap; align-items:center; gap:12px } .rd-note{ color:var(--silver); font-size:15px }
 .cmp-list{ display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%,330px),1fr)); gap:16px }
 .cmp{ position:relative; border-radius:18px; background:var(--paper); border:1px solid var(--line); box-shadow:var(--shadow); transition:border-color .2s, box-shadow .2s }
 .cmp:hover{ border-color:#c9d8cf; box-shadow:var(--shadow-lg) }
@@ -1342,6 +1360,7 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 .ro-h{ grid-template-columns:auto minmax(0,1fr) } .ro-h .icon-btn.ro-del{ grid-row:2; grid-column:2; justify-self:end; height:38px; align-self:center } .ro-h .ro-n{ grid-row:2; grid-column:1 }
 .ro-h .ro-chip{ max-width:11rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap } .ro-h .ro-chip.long{ font-family:var(--f-ui); font-size:1.2rem; font-weight:700 }
 .ro-h .fld.ro-name input{ min-width:7rem }
+@media (max-width:430px){ .ro-h .ro-chip{ max-width:7rem } .ro-h .fld.ro-name input{ min-width:0 } }
 .cls-add{ display:flex; flex-direction:column; gap:12px; margin-top:14px } .cls-add.full p{ display:flex; align-items:center; gap:8px }
 .cls-add-b{ display:flex; align-items:center; justify-content:center; gap:10px; min-height:64px; width:100%; border:2px dashed #b9cfc3; border-radius:var(--r); background:var(--green-t); color:var(--green); font-size:1.15rem; font-weight:700; transition:background-color .15s, border-color .15s }
 .cls-add-b:hover{ background:#dcece3; border-color:var(--green) }
@@ -1679,7 +1698,7 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 .vr-n{ font-family:var(--f-num); color:var(--muted); text-align:center }
 .vr-head{ font-size:15px; font-weight:600; color:var(--silver); padding-top:0; padding-bottom:0 }
 .vr-msg{ grid-column:2 / -1; font-size:15px; min-height:0 } .vr-msg:empty{ display:none }
-.vr.ok{ background:#f6fbf8 } .vr.bad{ background:#fdf1f0; border-color:#f3c5c1 } .vr.bad .vr-msg{ color:#a3342e } .vr.warn{ background:#fdf8ea; border-color:#efdcaa } .vr.warn .vr-msg{ color:var(--gold-ink) }
+.vc > b{ padding-inline-end:30px } .vr.ok{ background:#f6fbf8 } .vr.ok .vr-msg{ color:var(--silver) } .vr.bad{ background:#fdf1f0; border-color:#f3c5c1 } .vr.bad .vr-msg{ color:#a3342e } .vr.warn{ background:#fdf8ea; border-color:#efdcaa } .vr.warn .vr-msg{ color:var(--gold-ink) }
 .vv-add{ margin-top:12px; min-height:52px }
 .vv-foot{ flex-wrap:wrap }
 .vv-sum{ flex:1 1 320px; display:flex; flex-direction:column; gap:2px; margin:0; font-size:15px }
@@ -1858,6 +1877,10 @@ const DEF_ROSTERS = {
   '10/3': ['Alkhattab Salim Al Maashani', 'Eyad Shaaban Basioni', 'Hamza Hamed Al Awaid', 'Saif Jamal Mohammed', 'Ghanim Antar Bait Saad', 'Mohammed Ali Said Al Mashikhi', 'Malik Mohammed Al Yafae', 'Hashim Said Al Maashani'],
 };
 const ROSTER_MIN = 2, ROSTER_MAX = 16, NAME_MAX = 40, CNAME_MAX = 20;
+/* «دوري أبطال المفردات» ready to play, as the first version of the game was: the words of the unit, the three classes of
+   the school with their students, 5 questions in the group stage, the second round (four players) and the class final,
+   8 in the Grand Final — one click starts the draw */
+const READY = { id: 'vl-u1', name: 'دوري أبطال المفردات — الوحدة الأولى', rounds: { group: 5, second: 5, final: 5, grand: 8 }, second: 'four', timer: 1 };
 /* the games a competition can be — chosen first in «مسابقة جديدة» */
 const GAMES = {
   league: { ar: 'دوري الأبطال', icon: 'trophy', tint: 'gold', en: 'VOCABULARY CHAMPIONS LEAGUE', desc: 'مسابقة فردية: مجموعات في كل شعبة، ثم نهائي الصف، ثم نهائي كبير بين أبطال الشعب.', go: 'إنشاء المسابقة والقرعة' },
@@ -2209,6 +2232,7 @@ function repairT(t) {
   const s = t.settings;
   STAGE_IDS.forEach((k) => { if (!STAGES[k].opts.includes(s.rounds[k])) s.rounds[k] = STAGES[k].def; });
   if (!SECOND_MODES.some((x) => x.v === s.second)) s.second = 'four';
+  if (t.preset != null && !(isStr(t.preset, 20) && /^[a-z0-9-]+$/.test(t.preset))) delete t.preset;
   delete s.replay; delete s.units; delete s.types; // the questions always vary over all 7 types, from the unit's words only
   if (!TIMER_OPTS.some((o) => o.v === s.timer)) s.timer = 1;
   t.name = compName(t.name || DEF_NAME) || DEF_NAME;
@@ -2258,7 +2282,7 @@ const FB_DOCS = `https://firestore.googleapis.com/v1/projects/${FB.projectId}/da
 const FB_ROOT = 'tahseel';                 // tahseel/{uid} = the teacher's profile; tahseel/{uid}/comps/{id} = a competition
 const SK = 'tahseel.session.v1';           // the signed-in teacher on this device (refresh token only)
 let ACC = null;                            // { uid, email, name, idToken, refreshToken, exp }
-const IDX = { comps: [], dirty: [], del: [], delBase: {}, last: '', place: null, setup: null, setupDirty: false, vocab: null, vocabDirty: false, vocabBase: [], vocabAt: 0, vocabDel: [], nameDirty: false, savedAt: 0, base: {}, bwork: {}, cplace: {} };
+const IDX = { comps: [], dirty: [], del: [], delBase: {}, last: '', place: null, setup: null, setupDirty: false, setupBase: null, vocab: null, vocabDirty: false, vocabBase: [], vocabAt: 0, vocabDel: [], nameDirty: false, savedAt: 0, base: {}, bwork: {}, cplace: {} };
 /* IDX.base[id] = the account's version (rev) this device's copy continues from, IDX.bwork[id] = the answers in that version:
    an upload over a version written by another device in the meantime is refused, so two devices never erase each other */
 const CLOUD = { state: 'idle', lastOk: 0, timer: 0, busy: null, retry: 0, again: false, listed: false, listing: false, listTimer: 0, listTry: 0, epoch: 0, chain: Promise.resolve(), authWarned: false, reopening: false, bootAsk: false }; /* listed: the account's list of competitions has been read in this visit */
@@ -2355,20 +2379,25 @@ const checkReset = (oobCode) => fbPost(`${FB_AUTH}resetPassword?key=${FB.apiKey}
 const doReset = (oobCode, newPassword) => fbPost(`${FB_AUTH}resetPassword?key=${FB.apiKey}`, { oobCode, newPassword });
 /* a valid ID token (refreshed a minute before it expires); a refused refresh token ends the session */
 const DEAD_RT = ['TOKEN_EXPIRED', 'INVALID_REFRESH_TOKEN', 'USER_DISABLED', 'USER_NOT_FOUND', 'INVALID_GRANT_TYPE', 'MISSING_REFRESH_TOKEN', 'PROJECT_NUMBER_MISMATCH'];
+/* the refresh sent was refused or overtaken, but a newer one (another tab's sign-in) is here: tried once more with it */
+async function idTokenAgain(acc) { acc.refreshing = null; if (ACC !== acc || acc.retried) throw Object.assign(new Error('SESSION_ENDED'), { auth: true }); acc.retried = true; try { return await idToken(); } finally { acc.retried = false; } }
 async function idToken() {
   const acc = ACC;
   if (!acc) throw Object.assign(new Error('NO_SESSION'), { auth: true });
   if (acc.idToken && Date.now() < acc.exp - 60000) return acc.idToken;
   if (!acc.refreshing) {
     acc.refreshing = (async () => {
+      const sent = acc.refreshToken;
       try {
-        const b = await fbPost(FB_TOKEN + FB.apiKey, 'grant_type=refresh_token&refresh_token=' + encodeURIComponent(acc.refreshToken), { form: true });
+        const b = await fbPost(FB_TOKEN + FB.apiKey, 'grant_type=refresh_token&refresh_token=' + encodeURIComponent(sent), { form: true });
+        if (acc.refreshToken !== sent) { acc.idToken = ''; acc.exp = 0; return idTokenAgain(acc); } // another tab's newer sign-in arrived meanwhile: that one is used
         acc.idToken = b.id_token; acc.refreshToken = b.refresh_token || acc.refreshToken; acc.exp = Date.now() + (+b.expires_in || 3600) * 1000;
         if (ACC === acc) saveSession();
         return acc.idToken;
       } catch (e) {
         if (e.net) throw e;
         const code = String(e.message || '').split(/[ :]/)[0];
+        if ([400, 401, 403].includes(e.status) && DEAD_RT.includes(code) && acc.refreshToken !== sent) return idTokenAgain(acc); // refused, but another tab's newer sign-in is here
         if ([400, 401, 403].includes(e.status) && DEAD_RT.includes(code)) throw Object.assign(new Error('SESSION_ENDED'), { auth: true });
         throw Object.assign(new Error(e.message || 'TOKEN_REFRESH_FAILED'), { status: e.status }); // a busy service: tried again later
       } finally { acc.refreshing = null; }
@@ -2418,7 +2447,7 @@ async function fsGet(path, mask) {
 }
 
 /* ---------- this device's copy: the list of competitions, pending uploads, the last place, the class defaults ---------- */
-const SUM_KEYS = ['name', 'status', 'progress', 'classes', 'champion', 'createdAt', 'updatedAt', 'rev', 'game'];
+const SUM_KEYS = ['name', 'status', 'progress', 'classes', 'champion', 'createdAt', 'updatedAt', 'rev', 'game', 'preset'];
 function validSum(c) { return c && typeof c === 'object' && isStr(c.id, 40) && ID_RE.test(c.id) && isStr(c.name, 200) && isNum(c.rev); }
 function loadIdx() {
   const r = jGet(ik()), v = r.ok && r.val && typeof r.val === 'object' ? r.val : {};
@@ -2427,23 +2456,23 @@ function loadIdx() {
   IDX.dirty = ids(v.dirty); IDX.del = ids(v.del);
   IDX.last = typeof v.last === 'string' && ID_RE.test(v.last) ? v.last : '';
   IDX.place = validPlace(v.place); IDX.cplace = {}; if (v.cplace && typeof v.cplace === 'object') Object.keys(v.cplace).forEach((k) => { const q = validPlace(v.cplace[k]); if (ID_RE.test(k) && q && q.cid === k && COMP_VIEWS.includes(q.v)) IDX.cplace[k] = q; });
-  IDX.setup = v.setup && typeof v.setup === 'object' ? v.setup : null; IDX.setupDirty = v.setupDirty === true; IDX.nameDirty = v.nameDirty === true;
+  IDX.setup = v.setup && typeof v.setup === 'object' ? v.setup : null; IDX.setupDirty = v.setupDirty === true; IDX.setupBase = typeof v.setupBase === 'string' ? v.setupBase : null; IDX.nameDirty = v.nameDirty === true;
   IDX.vocab = Array.isArray(v.vocab) ? v.vocab : null; IDX.vocabDirty = v.vocabDirty === true; IDX.vocabBase = ids(v.vocabBase); IDX.vocabDel = ids(v.vocabDel); IDX.vocabAt = isNum(v.vocabAt) ? v.vocabAt : 0;
   IDX.savedAt = isNum(v.savedAt) ? v.savedAt : 0;
   IDX.base = {}; if (v.base && typeof v.base === 'object') Object.keys(v.base).forEach((k) => { if (ID_RE.test(k) && isInt(v.base[k], 0, 1e9)) IDX.base[k] = v.base[k]; });
   IDX.bwork = {}; if (v.bwork && typeof v.bwork === 'object') Object.keys(v.bwork).forEach((k) => { if (ID_RE.test(k) && isInt(v.bwork[k], 0, 1e9)) IDX.bwork[k] = v.bwork[k]; });
   IDX.delBase = {}; if (v.delBase && typeof v.delBase === 'object') Object.keys(v.delBase).forEach((k) => { if (ID_RE.test(k) && isInt(v.delBase[k], -1, 1e9)) IDX.delBase[k] = v.delBase[k]; });
 }
-function saveIdx() { if (ACC) sSet(ik(), JSON.stringify({ v: 1, comps: IDX.comps, dirty: IDX.dirty, del: IDX.del, delBase: IDX.delBase, last: IDX.last, place: IDX.place, cplace: IDX.cplace, setup: IDX.setup, setupDirty: IDX.setupDirty, vocab: IDX.vocab, vocabDirty: IDX.vocabDirty, vocabBase: IDX.vocabBase, vocabAt: IDX.vocabAt, vocabDel: IDX.vocabDel, nameDirty: IDX.nameDirty, savedAt: IDX.savedAt, base: IDX.base, bwork: IDX.bwork })); }
+function saveIdx() { if (ACC) sSet(ik(), JSON.stringify({ v: 1, comps: IDX.comps, dirty: IDX.dirty, del: IDX.del, delBase: IDX.delBase, last: IDX.last, place: IDX.place, cplace: IDX.cplace, setup: IDX.setup, setupDirty: IDX.setupDirty, setupBase: IDX.setupBase, vocab: IDX.vocab, vocabDirty: IDX.vocabDirty, vocabBase: IDX.vocabBase, vocabAt: IDX.vocabAt, vocabDel: IDX.vocabDel, nameDirty: IDX.nameDirty, savedAt: IDX.savedAt, base: IDX.base, bwork: IDX.bwork })); }
 /* how far a competition has come: matches played out of the matches its path will need */
 function compSummary(t) {
   const gs = gameSummary(t);
-  if (gs) return Object.assign({ id: t.id, name: compName(t.name || DEF_NAME), game: gameOf(t), classes: t.classes.map((c) => c.name).join(' · '), createdAt: t.createdAt || Date.now(), updatedAt: t.updatedAt || Date.now(), rev: t.rev || 0 }, gs);
+  if (gs) return Object.assign({ id: t.id, preset: t.preset || '', name: compName(t.name || DEF_NAME), game: gameOf(t), classes: t.classes.map((c) => c.name).join(' · '), createdAt: t.createdAt || Date.now(), updatedAt: t.updatedAt || Date.now(), rev: t.rev || 0 }, gs);
   const G = grandFlow(), done = t.matches.filter((m) => m.status === 'done').length;
   const est = t.classes.reduce((a, c) => { const n = c.students.filter((s) => !s.absent).length; return a + (n > 3 ? 2 + (t.settings.second === 'pairs' ? 2 : 1) + 1 : 1); }, 1);
   const status = !t.drawOk ? 'draw' : G.podium ? 'done' : 'live';
   return {
-    id: t.id, name: compName(t.name || DEF_NAME), status, progress: status === 'done' ? 100 : Math.min(97, Math.round((done / Math.max(est, done + 1)) * 100)),
+    id: t.id, preset: t.preset || '', name: compName(t.name || DEF_NAME), status, progress: status === 'done' ? 100 : Math.min(97, Math.round((done / Math.max(est, done + 1)) * 100)),
     game: 'league', classes: t.classes.map((c) => c.name).join(' · '), champion: G.podium ? pName(G.podium[0]) : '', createdAt: t.createdAt || Date.now(), updatedAt: t.updatedAt || Date.now(), rev: t.rev || 0,
   };
 }
@@ -2494,10 +2523,18 @@ async function doFlush(ep) {
     for (const id of IDX.dirty.slice()) await pushOne(id, ep);
     const mask = (...f) => '?' + f.map((x) => 'updateMask.fieldPaths=' + x).join('&');
     if (IDX.nameDirty) { await fsReq('PATCH', fsPath(), fsFields({ name: ACC.name, email: ACC.email, updatedAt: Date.now() }), mask('name', 'email', 'updatedAt')); live(ep); IDX.nameDirty = false; saveIdx(); }
-    if (IDX.setupDirty) { const st = IDX.setup; await fsReq('PATCH', fsPath(), fsFields({ setup: JSON.stringify(st || null), email: ACC.email, updatedAt: Date.now() }), mask('setup', 'email', 'updatedAt')); live(ep); if (IDX.setup === st) IDX.setupDirty = false; saveIdx(); }
+    if (IDX.setupDirty) { // the account's lists are read first: lists saved on another device since this copy was taken are kept
+      const st0 = IDX.setup, prof = await fsGet(fsPath()); live(ep); const p = prof && fsObj(prof); let st = st0;
+      if (st0 && p && isStr(p.setup, 200000) && IDX.setupBase != null && p.setup !== IDX.setupBase && p.setup !== JSON.stringify(st0)) { try { const r = JSON.parse(p.setup); if (r && typeof r === 'object') st = mergeSetup(st0, r); } catch (e) { /* unreadable: this copy */ } }
+      const raw = JSON.stringify(st || null);
+      await fsReq('PATCH', fsPath(), fsFields({ setup: raw, email: ACC.email, updatedAt: Date.now() }), mask('setup', 'email', 'updatedAt')); live(ep);
+      if (IDX.setup === st0) { IDX.setup = st; IDX.setupDirty = false; if (st !== st0) setTimeout(accountShown, 0); } IDX.setupBase = raw; saveIdx();
+    }
     if (IDX.vocabDirty) { // the account's lists are read first: a list saved on another device meanwhile is kept, never overwritten
       const vv = IDX.vocab, prof = await fsGet(fsPath()); live(ep);
-      const merged = mergeVocab(vv || [], prof ? vocabOf(fsObj(prof)) : []);
+      const remote = prof ? vocabOf(fsObj(prof)) : [];
+      if (remote === null) throw Object.assign(new Error('VOCAB_UNREADABLE'), {}); // never written over an account copy that cannot be read
+      const merged = mergeVocab(vv || [], remote);
       await fsReq('PATCH', fsPath(), fsFields({ vocab: JSON.stringify(merged), email: ACC.email, updatedAt: Date.now() }), mask('vocab', 'email', 'updatedAt')); live(ep);
       if (IDX.vocab === vv) { const more = JSON.stringify(merged) !== JSON.stringify(vv || []); IDX.vocab = merged; IDX.vocabDirty = false; IDX.vocabDel = []; IDX.vocabBase = merged.map((x) => x.id); IDX.vocabAt = Date.now(); if (more) setTimeout(accountShown, 0); }
       saveIdx();
@@ -2549,7 +2586,7 @@ async function pushOne(id, ep) {
 }
 window.addEventListener('online', () => { if (!ACC || CLOUD.state === 'auth') return; if (!CLOUD.listed) refreshList(); else if (pending()) queueSync(200); });
 /* leaving with changes not uploaded yet: the browser warns (they stay on this device and upload on the next visit) */
-window.addEventListener('beforeunload', (e) => { if (ACC && pending() && CLOUD.state !== 'ok') { e.preventDefault(); e.returnValue = ''; } });
+window.addEventListener('beforeunload', (e) => { if ((ACC && pending() && CLOUD.state !== 'ok') || (S.view === 'vocab' && vDirty(S.vedit))) { e.preventDefault(); e.returnValue = ''; } }); // an upload still waiting, or an unsaved word list
 
 /* ---------- after signing in: the account's competitions, merged with this device's copy ---------- */
 function bootstrap() {
@@ -2560,8 +2597,8 @@ function bootstrap() {
       if (prof) {
         const p = fsObj(prof);
         if (!IDX.nameDirty) { const n = isStr(p.name, 200) ? cleanText(p.name, UNAME_MAX) : ''; if (n && n !== ACC.name) { ACC.name = n; saveSession(); } } // renamed on another device
-        if (!IDX.setupDirty && isStr(p.setup, 200000)) { try { const st = JSON.parse(p.setup); if (st && typeof st === 'object') IDX.setup = st; } catch (e) { /* keep this device's copy */ } }
-        if (!IDX.vocabDirty && isStr(p.vocab, 900000)) { const vv = vocabOf(p); IDX.vocab = vv; IDX.vocabBase = vv.map((x) => x.id); IDX.vocabAt = Date.now(); } // word lists added on another device
+        if (!IDX.setupDirty && isStr(p.setup, 200000)) { try { const st = JSON.parse(p.setup); if (st && typeof st === 'object') { IDX.setup = st; IDX.setupBase = p.setup; } } catch (e) { /* keep this device's copy */ } }
+        const pv = vocabOf(p); if (!IDX.vocabDirty && pv && isStr(p.vocab, 1100000)) { const vv = pv; IDX.vocab = vv; IDX.vocabBase = vv.map((x) => x.id); IDX.vocabAt = Date.now(); } // word lists added on another device
       } else { IDX.nameDirty = true; if (IDX.setup) IDX.setupDirty = true; if (IDX.vocab) IDX.vocabDirty = true; } // a new account: its profile is written with the first upload
       const b0 = Object.assign({}, IDX.base); // an upload of another tab while the list is read is recognised below
       const q = '?pageSize=300&' + HEAD_KEYS.map((k) => 'mask.fieldPaths=' + k).join('&');
@@ -2845,12 +2882,12 @@ function saveT(force) {
 }
 /* the teacher's class lists and question counts: the defaults of every new competition (kept in the account) */
 function saveVocab(lists) {
-  const clean = lists.map(cleanVocab).filter(Boolean).slice(0, VOCAB_MAX), gone = vocabLists().filter((x) => !clean.some((y) => y.id === x.id)).map((x) => x.id);
+  const clean = lists.map(cleanVocab).filter(Boolean).slice(0, VOCAB_KEEP), gone = vocabLists().filter((x) => !clean.some((y) => y.id === x.id)).map((x) => x.id);
   IDX.vocabDel = uniq((IDX.vocabDel || []).concat(gone)).slice(-200); // deleted here: never brought back from the account's older copy
   IDX.vocab = clean; IDX.vocabDirty = true; saveIdx(); queueSync();
 }
 /* the lists of the account's profile (field «vocab») */
-function vocabOf(p) { try { const x = isStr(p && p.vocab, 900000) ? JSON.parse(p.vocab) : []; return Array.isArray(x) ? x.map(cleanVocab).filter(Boolean).slice(0, VOCAB_MAX) : []; } catch (e) { return []; } }
+function vocabOf(p) { const raw = p && p.vocab; if (raw == null || raw === '') return []; if (typeof raw !== 'string' || raw.length > 1100000) return null; try { const x = JSON.parse(raw); return Array.isArray(x) ? x.map(cleanVocab).filter(Boolean).slice(0, VOCAB_KEEP) : null; } catch (e) { return null; } } // null: there, but unreadable — never taken as «no lists»
 /* this device's lists + the account's: a list on both → the newer copy; only in the account → added on another device
    (unless deleted here); only here → new here (unless it was in the account before and is gone: deleted on another device,
    and not edited here since) */
@@ -2858,15 +2895,22 @@ function mergeVocab(local, remote) {
   const base = new Set(IDX.vocabBase || []), del = new Set(IDX.vocabDel || []), out = [], seen = new Set();
   local.forEach((l) => { seen.add(l.id); const r = remote.find((x) => x.id === l.id); if (r) out.push((r.at || 0) > (l.at || 0) ? r : l); else if (!base.has(l.id) || (l.at || 0) > (IDX.vocabAt || 0)) out.push(l); });
   remote.forEach((r) => { if (!seen.has(r.id) && !del.has(r.id)) out.push(r); });
-  return out.map(cleanVocab).filter(Boolean).slice(0, VOCAB_MAX);
+  return out.map(cleanVocab).filter(Boolean).slice(0, VOCAB_KEEP); // never cut to 30: a list saved on the other device is kept
+}
+/* this device's class lists + lists saved on another device meanwhile (by name): nothing of either is lost */
+function mergeSetup(local, remote) {
+  const mine = Array.isArray(local.classes) ? local.classes : [], names = new Set(mine.map((c) => cleanName(c && c.name)));
+  const more = (Array.isArray(remote.classes) ? remote.classes : []).filter((c) => c && isStr(c.name, 40) && cleanName(c.name) && !names.has(cleanName(c.name)) && isStr(c.text, 4000) && c.text.trim());
+  return Object.assign({}, local, { classes: mine.concat(more).slice(0, LISTS_MAX) });
 }
 function saveSetupDefaults(s) {
   /* the classes of this competition first (n of them), then the lists set aside — up to LISTS_MAX, never dropped quietly
      («إضافة شعبة» refuses a new list beyond it). On «الشعب والطلاب» every list is shown: the ones in use stay in use. */
-  const aside = (s.spare || []).filter((x) => String(x.text || '').trim() && !s.classes.some((c) => cleanName(c.name) === cleanName(x.name)));
+  const usedN = new Set(s.classes.map((c) => cleanName(c.name)));
+  const aside = (s.spare || []).filter((x) => String(x.text || '').trim()).map((x) => { if (!usedN.has(cleanName(x.name))) { usedN.add(cleanName(x.name)); return x; } const nm = uniqName(x.name, usedN); usedN.add(nm); return Object.assign({}, x, { name: nm }); }); // a list with the name of a class in use is kept under another name
   const inUse = s.lists ? s.classes.filter((c) => c.use !== false) : s.classes, rest = (s.lists ? s.classes.filter((c) => c.use === false) : []).concat(aside);
   const lists = inUse.concat(rest).slice(0, LISTS_MAX), n = Math.max(1, Math.min(inUse.length, CLASS_MAX, lists.length));
-  const st = { v: SCHEMA, vocab: s.vocab || BUILTIN(), grade: gradeOf(s), game: s.game, team: Object.assign({}, s.team), race: Object.assign({}, s.race), ladder: Object.assign({}, s.ladder), name: s.name, teachers: cleanTeachers(s.teachers), classes: lists.map((c) => ({ name: c.name, color: c.color, text: c.text, absent: c.absent.slice() })), n, rounds: Object.assign({}, s.rounds), second: s.second, timer: s.timer };
+  const st = { v: SCHEMA, vocab: s.vocab || BUILTIN(), grade: gradeOf(s), game: s.game, team: Object.assign({}, s.team), race: Object.assign({}, s.race), ladder: Object.assign({}, s.ladder), name: s.name, autoName: !!s.autoName, teachers: cleanTeachers(s.teachers), classes: lists.map((c) => ({ name: c.name, color: c.color, text: c.text, absent: c.absent.slice() })), n, rounds: Object.assign({}, s.rounds), second: s.second, timer: s.timer };
   if (JSON.stringify(st) === JSON.stringify(IDX.setup)) return; // unchanged: nothing is written over lists saved on another device
   IDX.setup = st; IDX.setupDirty = true; saveIdx(); queueSync();
 }
@@ -2876,7 +2920,7 @@ function signOut() {
   cleanupView(); clearTimeout(CLOUD.timer); clearTimeout(CLOUD.listTimer); closeModal(true); busyOff();
   CLOUD.epoch++; CLOUD.chain = Promise.resolve();
   const stored = restoreSession(); if (!stored || !ACC || (stored.uid === ACC.uid && stored.refreshToken === ACC.refreshToken)) sDel(SK); // never the newer session of another tab
-  ACC = null; T = null; Object.assign(IDX, { comps: [], dirty: [], del: [], delBase: {}, last: '', place: null, setup: null, setupDirty: false, vocab: null, vocabDirty: false, vocabBase: [], vocabAt: 0, vocabDel: [], nameDirty: false, savedAt: 0, base: {}, bwork: {}, cplace: {} });
+  ACC = null; T = null; Object.assign(IDX, { comps: [], dirty: [], del: [], delBase: {}, last: '', place: null, setup: null, setupDirty: false, setupBase: null, vocab: null, vocabDirty: false, vocabBase: [], vocabAt: 0, vocabDel: [], nameDirty: false, savedAt: 0, base: {}, bwork: {}, cplace: {} });
   Object.assign(CLOUD, { state: 'idle', lastOk: 0, busy: null, retry: 0, again: false, listed: false, listing: false, listTry: 0, authWarned: false, reopening: false, bootAsk: false });
   Object.assign(STORE, { conflict: false, failing: false, warned: false });
   Object.assign(S, { tab: '', matchId: null, setup: null, draft: null, vedit: null, vlist: '', drawAnim: false, swapSel: null, cert: '', demo: null, resumePaused: false, introErr: '', toss: null, sdAck: '', run: null, auth: { mode: 'in' } });
@@ -2961,10 +3005,11 @@ function speak(text) {
 /* ============================ 8. BANK / POOL ============================ */
 const ENTRY_CACHE = new Map();
 let BANK_WORDS = null;
-const WORD_RE = /^[a-z]+(?:[ -][a-z]+)*$/;
+const WORD_RE = /^[a-z]+(?:(?:[ -]|')[a-z]+)*$/i; // letters, with a space, «-» or an apostrophe between them (don't, o'clock, e-mail)
+const PLAIN_RE = /^[a-z]+(?:[ -][a-z]+)*$/; // small letters only: the words spelling questions can use
 function normEntry(raw, unitId) {
   if (!raw || typeof raw.w !== 'string' || typeof raw.ar !== 'string') return null;
-  const w = raw.w.toLowerCase().replace(/\s+/g, ' ').trim();
+  const w = String(unitId).startsWith('v:') ? wordOf(raw.w) : raw.w.toLowerCase().replace(/\s+/g, ' ').trim(); // a teacher's word keeps its capitals
   if (!WORD_RE.test(w) || w.length < 2) return null;
   const ar = raw.ar.trim(); if (!ar) return null;
   let s = typeof raw.s === 'string' ? raw.s.replace(/_{3,}/g, '___').replace(/\s+/g, ' ').trim() : '';
@@ -2990,23 +3035,31 @@ const BUILTIN_NAME = () => `${(unitList()[0] || {}).ar || 'الوحدة الأو
 /* Arabic counting: «كلمة واحدة · كلمتان · 3 كلمات · 11 كلمة»; plain digits (toasts are text) or num() markup */
 const wordsAr = (n, html) => (n === 1 ? 'كلمة واحدة' : n === 2 ? 'كلمتان' : `${html === false ? n : num(n)} ${n >= 3 && n <= 10 ? 'كلمات' : 'كلمة'}`);
 const moreWordsAr = (n, html) => (n === 1 ? 'كلمة واحدة أخرى' : n === 2 ? 'كلمتين أخريين' : `${html === false ? n : num(n)} ${n >= 3 && n <= 10 ? 'كلمات' : 'كلمة'} أخرى`);
-const VOCAB_MAX = 30, VW_MAX = 300, VW_MIN = 8, VNAME_MAX = 40, VAR_MAX = 80, VS_MAX = 240;
+const VOCAB_MAX = 30, VOCAB_KEEP = 80, VOCAB_BYTES = 600000, VW_MAX = 300, VW_MIN = 8, VNAME_MAX = 40, VAR_MAX = 80, VS_MAX = 240; // 30 lists can be made; lists merged from two devices are all kept (up to 80); the saved lists stay well under the account's 1 MB
 /* the level of a teacher's word (the questions go from easy to hard): short words 1, long words and phrases 3 */
 function autoLvl(w) { const L = letters(w).length + (/[ -]/.test(w) ? 3 : 0); return L <= 5 ? 1 : L <= 8 ? 2 : 3; }
 /* an example sentence → the sentence with a blank where the word is («I write a blog.» → «I write a ___.»); '' when the word is not in it */
+const wordRe = (w, flags) => new RegExp('(^|[^A-Za-z])(' + wordOf(w).replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/[ -]/g, '[ -]').replace(/'/g, "['’]") + ')(?![A-Za-z])', flags);
+/* how many times the word is in a sentence */
+const wordCount = (sent, w) => (String(sent || '').replace(BIDI_RE, '').match(wordRe(w, 'gi')) || []).length;
 function toGap(sent, w) {
-  const x = String(sent || '').replace(/\s+/g, ' ').trim().slice(0, VS_MAX); if (!x) return '';
+  const x = String(sent || '').replace(BIDI_RE, '').replace(/\s+/g, ' ').trim().slice(0, VS_MAX); if (!x) return '';
   if (/_{3,}/.test(x)) { const g = x.replace(/_{3,}/g, '___'); return g.split('___').length === 2 ? g : ''; }
-  const re = new RegExp('(^|[^A-Za-z])(' + w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/[ -]/g, '[ -]') + ')(?![A-Za-z])', 'i'), mm = re.exec(x);
+  if (wordCount(x, w) !== 1) return ''; // twice: the other one would show the answer
+  const mm = wordRe(w, 'i').exec(x);
   if (!mm) return '';
   const at = mm.index + mm[1].length, g = x.slice(0, at) + '___' + x.slice(at + mm[2].length);
   return g.split('___').length === 2 ? g : '';
 }
-const normW = (w) => String(w || '').toLowerCase().replace(/[’']/g, '').replace(/\s+/g, ' ').trim();
+/* invisible direction marks and soft hyphens (copied from Word or chat apps) */
+const BIDI_RE = /[\u200B-\u200F\u202A-\u202E\u2066-\u2069\u00AD\uFEFF]/g;
+/* a word as the teacher typed it (Monday, don't), and its key for comparisons (monday, don't) */
+const wordOf = (w) => String(w || '').replace(BIDI_RE, '').replace(/[’‘`´]/g, "'").replace(/\s+/g, ' ').trim();
+const normW = (w) => wordOf(w).toLowerCase();
 /* one word of a teacher's list, cleaned (null: not a usable word) */
 function cleanWord(x) {
   if (!x || typeof x !== 'object') return null;
-  const w = normW(x.w); if (!WORD_RE.test(w) || w.length < 2 || w.length > 40) return null;
+  const w = wordOf(x.w); if (!WORD_RE.test(w) || letters(w).length < 2 || w.length > 40) return null;
   const ar = cleanText(String(x.ar || ''), VAR_MAX); if (!ar || !/[\u0600-\u06FF]/.test(ar)) return null;
   const s = toGap(x.s, w), pos = POS_IDS.includes(x.pos) ? x.pos : '';
   return Object.assign({ w, ar }, s ? { s } : {}, pos ? { pos } : {});
@@ -3014,11 +3067,11 @@ function cleanWord(x) {
 function cleanVocab(v) {
   if (!v || typeof v !== 'object' || typeof v.id !== 'string' || !ID_RE.test(v.id) || !Array.isArray(v.words)) return null;
   const seen = new Set(), words = [];
-  for (const x of v.words.slice(0, VW_MAX * 2)) { const c = cleanWord(x); if (c && !seen.has(c.w)) { seen.add(c.w); words.push(c); if (words.length >= VW_MAX) break; } }
+  for (const x of v.words.slice(0, VW_MAX * 2)) { const c = cleanWord(x); if (c && !seen.has(normW(c.w))) { seen.add(normW(c.w)); words.push(c); if (words.length >= VW_MAX) break; } }
   return { id: v.id, name: cleanText(String(v.name || ''), VNAME_MAX) || 'مفرداتي', at: isNum(v.at) ? v.at : 0, words };
 }
 /* the lists saved in the teacher's account */
-function vocabLists() { return (Array.isArray(IDX.vocab) ? IDX.vocab : []).map(cleanVocab).filter(Boolean).slice(0, VOCAB_MAX); }
+function vocabLists() { return (Array.isArray(IDX.vocab) ? IDX.vocab : []).map(cleanVocab).filter(Boolean).slice(0, VOCAB_KEEP); }
 const vocabById = (id) => vocabLists().find((v) => v.id === id) || null;
 /* a list → question entries (cached per list object) */
 const VCACHE = new WeakMap();
@@ -3026,7 +3079,7 @@ function listEntries(v) {
   if (!v || !Array.isArray(v.words)) return [];
   let r = VCACHE.get(v); if (r) return r;
   const seen = new Set(); r = [];
-  for (const x of v.words) { const e = normEntry(Object.assign({}, x, { lvl: autoLvl(normW(x.w)) }), 'v:' + v.id); if (e && !seen.has(e.w)) { if (!e.pos) e.pos = guessPos(e.w); seen.add(e.w); r.push(e); } }
+  for (const x of v.words) { const e = normEntry(Object.assign({}, x, { lvl: autoLvl(normW(x.w)) }), 'v:' + v.id); if (e && !seen.has(normW(e.w))) { if (!e.pos) { e.pos = guessPos(normW(e.w)); e.pg = 1; } seen.add(normW(e.w)); r.push(e); } } // pg: a guessed word class (used to pick options, never shown)
   VCACHE.set(v, r); return r;
 }
 /* the words of a new competition's setup, and of the open competition (the unit of this file when none was chosen) */
@@ -3063,8 +3116,8 @@ function realWord(x, w) {
 }
 const SYN_OF = new Map();
 NEAR_SYN.forEach((g) => g.forEach((w) => { if (!SYN_OF.has(w)) SYN_OF.set(w, new Set()); g.forEach((x) => { if (x !== w) SYN_OF.get(w).add(x); }); }));
-const AR_STOP = new Set(['علي', 'الي', 'من', 'في', 'عن', 'مع', 'او']);
-const arTokens = (s) => normAr(s).split(/[\s/;-]+/).map((t) => t.replace(/^(?:وال|بال|لل|ال)/, '')).filter((t) => t.length >= 3 && !AR_STOP.has(t));
+const AR_STOP = new Set(['علي', 'الي', 'من', 'في', 'عن', 'مع', 'او', 'فعل', 'اسم', 'صفه', 'حرف', 'ظرف', 'يوم', 'شهر', 'فصل']); // also word classes and category words teachers add («يركض (فعل)», «يوم الأحد»)
+const arTokens = (s) => normAr(String(s || '').replace(/\([^)]*\)/g, ' ')).split(/[\s/;-]+/).map((t) => t.replace(/^(?:وال|بال|لل|ال)/, '')).filter((t) => t.length >= 3 && !AR_STOP.has(t));
 /* two entries that could both be defended as the answer (near-synonyms, or Arabic meanings sharing a word: قمر / قمر صناعي) */
 function nearSame(e, x) {
   if (e.w === x.w) return true;
@@ -3078,14 +3131,14 @@ function eligible(type, e) {
   const L = letters(e.w).length;
   switch (type) {
     case 'mean_en_ar': case 'mean_ar_en': case 'match5': return !!e.ar;
-    case 'spell_choice': return L >= 3;
-    case 'spell_build': return L >= 3 && L <= 14 && new Set(letters(e.w)).size >= 2;
+    case 'spell_choice': return L >= 3 && PLAIN_RE.test(e.w);
+    case 'spell_build': return L >= 3 && L <= 14 && new Set(letters(e.w)).size >= 2 && PLAIN_RE.test(e.w);
     case 'gap_sentence': return !!e.s;
-    case 'gap_letters': return L >= 4;
+    case 'gap_letters': return L >= 4 && PLAIN_RE.test(e.w);
     default: return false;
   }
 }
-function baseQ(type, e) { return { type, cat: TYPES[type].cat, w: e.w, ar: e.ar, s: e.s || '', pos: e.pos || '', lvl: e.lvl || 2 }; }
+function baseQ(type, e) { return { type, cat: TYPES[type].cat, w: e.w, ar: e.ar, s: e.s || '', pos: e.pg ? '' : e.pos || '', lvl: e.lvl || 2 }; }
 function finishChoice(q, correct, wrong) { const opts = shuffle([correct].concat(wrong)); q.opts = opts; q.ans = opts.indexOf(correct); return q; }
 /* pick n distractor entries from pools (in order), unique by keyOf, preferring `prefer`; `compat(x, chosen)` keeps the
    chosen distractors apart from each other too */
@@ -3104,8 +3157,13 @@ function genMeaning(type, e, pools) {
   const ok = (x) => x.w !== e.w && normAr(x.ar) !== eAr && !confusable(e, x);
   const samePos = (x) => !!(e.pos && x.pos === e.pos);
   const apart = (x, chosen) => chosen.every((c) => !confusable(c, x) && normAr(c.ar) !== normAr(x.ar)); // no two confusable meanings among the options
-  if (type === 'mean_en_ar') return finishChoice(q, e.ar, collect(pools, 3, ok, (x) => normAr(x.ar), samePos, [eAr], apart).map((x) => x.ar));
-  return finishChoice(q, e.w, collect(pools, 3, ok, (x) => x.w, samePos, [e.w], apart).map((x) => x.w));
+  const loose = (x) => x.w !== e.w && normAr(x.ar) !== eAr, distinct = (x, chosen) => chosen.every((c) => normAr(c.ar) !== normAr(x.ar));
+  const pick3 = (keyOf, seed) => { let d = collect(pools, 3, ok, keyOf, samePos, seed, apart); // a short or uniform list: looser passes, never a question with one answer
+    if (d.length < 3) d = d.concat(collect(pools, 3 - d.length, (x) => ok(x) && !d.includes(x), keyOf, samePos, seed.concat(d.map(keyOf)), (x, c) => distinct(x, d.concat(c))));
+    if (d.length < 3) d = d.concat(collect(pools, 3 - d.length, (x) => loose(x) && !d.includes(x), keyOf, samePos, seed.concat(d.map(keyOf)), (x, c) => distinct(x, d.concat(c))));
+    return d; };
+  if (type === 'mean_en_ar') return finishChoice(q, e.ar, pick3((x) => normAr(x.ar), [eAr]).map((x) => x.ar));
+  return finishChoice(q, e.w, pick3((x) => normW(x.w), [normW(e.w)]).map((x) => x.w));
 }
 /* fallback misspellings: swap adjacent inner letters, double/undouble consonant, vowel swaps, drop silent-ish letters */
 function misspellings(w) {
@@ -3132,8 +3190,13 @@ function editOf(w, m) {
 const applyEdit = (w, e) => w.slice(0, e.a) + e.r + w.slice(e.b);
 /* spell_choice: a 2x2 design {w, w+e1, w+e2, w+e1+e2} from two separate edits, so every error spot is right in exactly
    2 of the 4 options and "pick the most typical-looking spelling" no longer finds the answer. */
+/* the other standard spelling of a word (litre/liter, colour/color, organise/organize, travelled/traveled) */
+function spellVariant(x, w) {
+  const v = [w.replace(/re$/, 'er'), w.replace(/er$/, 're'), w.replace(/our/g, 'or'), w.replace(/or(?=\b|s\b)/g, 'our'), w.replace(/is(e|ed|es|ing|ation)$/, 'iz$1'), w.replace(/iz(e|ed|es|ing|ation)$/, 'is$1'), w.replace(/ll(ed|ing|er)$/, 'l$1'), w.replace(/([aeiou])l(ed|ing|er)$/, '$1ll$2'), w.replace(/ogue$/, 'og'), w.replace(/og$/, 'ogue')];
+  return v.some((y) => y !== w && y === x);
+}
 function genSpellChoice(e) {
-  const q = baseQ('spell_choice', e), w = e.w, bad = (x) => x === w || !WORD_RE.test(x) || x.length < 2 || realWord(x, w);
+  const q = baseQ('spell_choice', e), w = e.w, bad = (x) => x === w || !WORD_RE.test(x) || x.length < 2 || realWord(x, w) || spellVariant(x, w);
   const cur = e.m.filter((x) => !bad(x)), key = (d) => d.a + ':' + d.b + ':' + d.r, seen = new Set(), edits = [];
   const addEdits = (list, curated) => list.forEach((m) => { const d = editOf(w, m); if (d.a === d.b && !d.r) return; const k = key(d); if (seen.has(k)) return; seen.add(k); d.cur = curated; edits.push(d); });
   addEdits(shuffle(cur), true); addEdits(shuffle(misspellings(w)).slice(0, 40), false);
@@ -3284,7 +3347,8 @@ function genMatch5(list) {
   while (items.length > 2 && perm.every((v, i) => v === i) && g++ < 20) perm = shuffle(idx);
   return { type: 'match5', cat: 'match', items, right: perm, ans: items.map((_, i) => perm.indexOf(i)), w: items.map((x) => x.w).join(' · '), ar: '', s: '', lvl: items[0] ? items[0].lvl : 2 };
 }
-function genQuestion(type, e, pools) {
+function genQuestion(type, e, pools) { const q = genQuestion0(type, e, pools); return q && validQ(q) ? q : null; }
+function genQuestion0(type, e, pools) {
   switch (type) {
     case 'mean_en_ar': case 'mean_ar_en': return genMeaning(type, e, pools);
     case 'spell_choice': return genSpellChoice(e);
@@ -3426,7 +3490,7 @@ function buildRounds(plan, R, pool, used, types, n) {
   const pools = pool.length && String(pool[0].u).startsWith('v:') ? [pool] : [pool, allEntries()], P = makePicker(pool, used), rounds = new Array(R); // a teacher's list: its own words only
   const make = (t, lvl) => {
     if (t === 'match5') { const g = P.five(lvl, n); return g ? g.map((x) => genMatch5(x)) : null; }
-    const g = P.group(t, lvl, n); return g ? g.map((e) => genQuestion(t, e, pools)) : null;
+    const g = P.group(t, lvl, n); if (!g) return null; const qs = g.map((e) => genQuestion(t, e, pools)); return qs.every(Boolean) ? qs : null;
   };
   const room = (t) => pool.filter((e) => eligible(t, e)).length / (t === 'match5' ? 5 * n : n);
   const order = Array.from({ length: R }, (_, r) => r).sort((x, y) => room(plan[x] || allowed[0]) - room(plan[y] || allowed[0]) || x - y);
@@ -3776,7 +3840,7 @@ function addSdRound(m, need) {
   let qs = null;
   for (const ex of [asked, []]) {
     const P = makePicker(pool, used, ex);
-    for (const t of types) { const g = P.group(t, 2, n); if (g) { qs = g.map((e) => genQuestion(t, e, pools)); break; } }
+    for (const t of types) { const g = P.group(t, 2, n); if (g) { const x = g.map((e) => genQuestion(t, e, pools)); if (x.every(Boolean)) { qs = x; break; } } }
     if (qs) break;
   }
   if (!qs) throw new Error('POOL_TOO_SMALL');
@@ -3873,8 +3937,9 @@ function ladderQuestion(run, step, avoid) {
   const plan = T.ladder.steps[step], pool = tPool(), used = new Set(T.used);
   const asked = run.qs.map((x) => x.q.w).concat(avoid || []);
   let q = null;
-  for (const t of [plan.type].concat(shuffle(LADDER_TYPES.filter((x) => x !== plan.type)))) { // the step's kind; another kind if the list cannot make it
-    for (const ex of [asked, []]) { const P = makePicker(pool, used, ex); const g = P.group(t, plan.lvl, 1); if (g) { q = genQuestion(t, g[0], [pool]); break; } }
+  const kinds = [plan.type].concat(shuffle(LADDER_TYPES.filter((x) => x !== plan.type))); // the step's kind; another kind if the list cannot make it
+  for (const ex of [asked, avoid || []]) { // a word not asked in this climb first (in any kind); a repeat only when none is left, never the question replaced
+    for (const t of kinds) { const P = makePicker(pool, used, ex); const g = P.group(t, plan.lvl, 1); if (g) { q = genQuestion(t, g[0], [pool]); if (q) break; } }
     if (q) break;
   }
   if (!q) throw new Error('POOL_TOO_SMALL');
@@ -4200,9 +4265,9 @@ async function doAuth() {
     try {
       if (!a.npSet) {
         try { await doReset(a.oob, pass); } catch (e) { if (!(a.npLost && /OOB_CODE/.test(e.message || ''))) throw e; } // an earlier try lost its reply: the sign-in tells whether it was set
-        a.npSet = pass; // set: a retry after a network error only signs in (the code is used now)
+        a.npSet = pass; resetCode(''); try { window.sessionStorage.setItem(RK + '.set', a.npEmail); } catch (e2) { /* private mode */ } // set: a retry (or a reload) only signs in
       }
-      await signIn(a.npEmail, a.npSet); resetCode(''); await afterLogin(false); toast('تم تعيين كلمة المرور الجديدة', 'good');
+      await signIn(a.npEmail, a.npSet); resetCode(''); try { window.sessionStorage.removeItem(RK + '.set'); } catch (e2) { /* private mode */ } await afterLogin(false); toast('تم تعيين كلمة المرور الجديدة', 'good');
     } catch (e) {
       if (btn) { btn.disabled = false; btn.classList.remove('is-busy'); }
       if (e.net && !a.npSet) a.npLost = true;
@@ -4270,12 +4335,13 @@ VIEWS.home = () => {
       ${lead ? `<button class="btn btn-ghost btn-lg" data-act="open-comp" data-id="${esc(lead.id)}" id="btn-home">${icon('play')}<span>متابعة: <bdi dir="auto">${esc(lead.name)}</bdi></span></button>` : ''}
     </div>
   </div>
+  ${readyCard()}
   <section class="dash-sec" aria-labelledby="my-h">
     <h2 id="my-h">مسابقاتي ${list.length ? `<small>${num(list.length)}</small>` : ''}</h2>
     ${off ? `<div class="dash-off" role="status">${icon('cloudOff')}<p><b>تعذّر الاتصال بحسابك الآن</b><span>تظهر كل مسابقاتك فور عودة الاتصال — ${list.length ? 'وما على هذا الجهاز يعمل عاديًا.' : 'تُعاد المحاولة تلقائيًا.'}</span></p><button class="btn btn-ghost" data-act="retry-list" id="btn-retry">${icon('reset')}<span>إعادة المحاولة</span></button></div>` : ''}
     ${list.length ? `<div class="cmp-list">${list.map(compCard).join('')}</div>`
       : off ? '' : loading ? `<div class="dash-empty dash-load" role="status"><span class="spin" aria-hidden="true"></span><p><b>جارٍ تحميل مسابقاتك من حسابك…</b></p></div>`
-      : `<div class="dash-empty">${icon('trophy')}<p><b>لا توجد مسابقات بعد</b><span>ابدأ أول مسابقة: تختار اللعبة، ثم الشعب والطلاب، وكل شيء يُحفظ في حسابك.</span></p><button class="btn btn-gold" data-act="new-t">${icon('plus')}<span>مسابقة جديدة</span></button><button class="link-btn home-restore" data-act="backup">لديك نسخة احتياطية؟ استعِدها</button></div>`}
+      : `<div class="dash-empty">${icon('trophy')}<p><b>لا توجد مسابقات بعد</b><span>ابدأ «دوري أبطال المفردات» الجاهزة أعلاه، أو مسابقة جديدة: تختار اللعبة، ثم الشعب والطلاب — وكل شيء يُحفظ في حسابك.</span></p><button class="btn btn-gold" data-act="new-t">${icon('plus')}<span>مسابقة جديدة</span></button><button class="link-btn home-restore" data-act="backup">لديك نسخة احتياطية؟ استعِدها</button></div>`}
   </section>
   <nav class="dash-quick" aria-label="أدوات">
     <button class="qk" data-act="go" data-to="classes">${icon('users')}<b>الشعب والطلاب</b><small>قوائم شعبك وأسماء الطلاب</small></button>
@@ -4286,6 +4352,26 @@ VIEWS.home = () => {
   <p class="dash-foot">${SCHOOL} · ${APP}</p>
 </section>`;
 };
+/* ---------- «جاهزة للعب»: the ready-made «دوري أبطال المفردات» on the dashboard ---------- */
+function readySetup() {
+  const s = defaultSetup();
+  return Object.assign(s, { game: 'league', name: READY.name, teachers: [teacherName()].filter(Boolean), vocab: BUILTIN(), grade: 10, spare: [], rounds: Object.assign({}, READY.rounds), second: READY.second, timer: READY.timer,
+    classes: DEF_CLASSES.map((c) => ({ name: c.name, color: c.color, text: DEF_ROSTERS[c.name].join('\n'), absent: [] })) });
+}
+function readyCard() {
+  const mine = IDX.comps.filter((c) => c.preset === READY.id), live = mine.find((c) => c.status !== 'done'), n = DEF_CLASSES.reduce((a, c) => a + DEF_ROSTERS[c.name].length, 0);
+  const cls = DEF_CLASSES.map((c) => `<li style="--cc:${c.color}"><b dir="ltr">${esc(c.name)}</b><span>${studentsAr(DEF_ROSTERS[c.name].length)}</span></li>`).join('');
+  const names = DEF_CLASSES.map((c) => `<div class="rd-nm" style="--cc:${c.color}"><b dir="ltr">${esc(c.name)}</b><ol dir="ltr">${DEF_ROSTERS[c.name].map((x) => `<li>${esc(x)}</li>`).join('')}</ol></div>`).join('');
+  const path = [['group', 'دور المجموعات'], ['second', 'الدور الثاني'], ['final', 'نهائي الصف'], ['grand', 'النهائي الكبير']].map(([k, ar]) => `<li><b>${ar}</b><small>${num(READY.rounds[k])} أسئلة</small></li>`).join('');
+  return `<section class="dash-sec rd" aria-labelledby="rd-h"><div class="rd-card">
+  <div class="rd-top"><span class="rd-ic">${icon('trophy')}</span><div class="rd-t"><span class="rd-tag">${icon('check')} ${live ? 'جارية — تُحفظ في حسابك' : 'جاهزة للعب'}</span><h2 id="rd-h">دوري أبطال المفردات</h2><p>${esc(BUILTIN_NAME())} · ${wordsAr(allEntries().length)} · ${studentsAr(n)} في ${num(DEF_CLASSES.length)} شعب</p></div></div>
+  <ul class="rd-cls" aria-label="الشعب">${cls}</ul>
+  <ol class="rd-path" aria-label="مراحل المسابقة">${path}</ol>
+  <details class="rd-more"><summary>${icon('users')}<span>أسماء الطلاب</span></summary><div class="rd-names">${names}</div></details>
+  <div class="rd-act">${live ? `<button class="btn btn-gold btn-xl" data-act="open-comp" data-id="${esc(live.id)}" id="btn-ready">${icon('play')}<span>افتح المسابقة<small>${live.status === 'draw' ? 'القرعة' : `التقدّم ${num(live.progress || 0)}٪`}</small></span></button>`
+    : `<button class="btn btn-gold btn-xl" data-act="ready-go" id="btn-ready">${icon('shuffle')}<span>ابدأ المسابقة<small>قرعة الشعب الثلاث ثم المباريات</small></span></button>${mine.length ? '<small class="rd-note">انتهت مسابقة سابقة بهذه الأسماء — تجدها في «مسابقاتي».</small>' : ''}`}</div>
+</div></section>`;
+}
 /* ---------- the class lists of the account (the defaults of every new competition) ---------- */
 VIEWS.classes = () => {
   if (!S.setup) S.setup = freshSetup('classes');
@@ -4305,10 +4391,10 @@ function newGame(s, sbx) {
   STORE.conflict = false; saveT(true); Object.assign(S, { tab: '', swapSel: null, sdAck: '', run: null });
   go('game');
 }
-function newCompetition(s, sbx) {
+function newCompetition(s, sbx, preset) {
   s = s || defaultSetup();
   T = createCompetition({ vocab: setupVocab(s), grade: gradeOf(s), name: s.name, teachers: s.teachers && s.teachers.length ? s.teachers : [teacherName()], classes: s.classes.map((c) => ({ name: c.name, color: c.color, names: rosterNames(c.text).names, absent: c.absent })), rounds: s.rounds, second: s.second, timer: s.timer });
-  if (sbx) T.sandbox = true;
+  if (sbx) T.sandbox = true; if (preset) T.preset = preset;
   drawAll();
   STORE.conflict = false; saveT(true); S.tab = ''; S.swapSel = null; S.drawAnim = true; S.sdAck = '';
   go('draw');
@@ -4326,7 +4412,7 @@ function rosterNames(text) {
    offline, or with a change of this device still waiting to go up, this device's copy stands */
 function accountSetup() {
   const acc = ACC; if (!acc || navigator.onLine === false || IDX.setupDirty) return Promise.resolve();
-  const read = fsGet(fsPath()).then((prof) => { const p = prof && fsObj(prof); if (p && isStr(p.setup, 200000) && ACC === acc && !IDX.setupDirty) { const st = JSON.parse(p.setup); if (st && typeof st === 'object' && JSON.stringify(st) !== JSON.stringify(IDX.setup)) { IDX.setup = st; saveIdx(); } } }).catch(() => { /* offline: this copy is saved, and goes up later */ });
+  const read = fsGet(fsPath()).then((prof) => { const p = prof && fsObj(prof); if (p && isStr(p.setup, 200000) && ACC === acc && !IDX.setupDirty) { const st = JSON.parse(p.setup); if (st && typeof st === 'object' && JSON.stringify(st) !== JSON.stringify(IDX.setup)) { IDX.setup = st; IDX.setupBase = p.setup; saveIdx(); } } }).catch(() => { /* offline: this copy is saved, and goes up later */ });
   return Promise.race([read, new Promise((r) => setTimeout(r, 3000))]); // a slow network never holds the teacher more than 3 s
 }
 /* a new competition made from an older copy of the lists: its classes first, then every list of the (newer) account
@@ -4338,7 +4424,16 @@ function withAccountLists(s) {
   return Object.assign({}, s, { spare, lists: false });
 }
 /* «مسابقة جديدة» left for the guide: its draft (classes, students typed) is waiting when the teacher comes back */
-function takeDraft() { const d = S.draft; S.draft = null; if (!d || !d.s || d.s.lists) return null; S.setupSnap = d.snap; S.setupBase = d.base; toast('عدنا إلى مسابقتك الجديدة كما تركتها'); return d.s; }
+function takeDraft() {
+  const d = S.draft; S.draft = null; if (!d || !d.s || d.s.lists) return null;
+  S.setupSnap = d.snap; S.setupBase = d.base;
+  if (d.base !== JSON.stringify(IDX.setup || null)) { // lists saved meanwhile come in as saved lists («أعد شعبة»): nothing of them is lost at «إنشاء»
+    const have = new Set(d.s.classes.concat(d.s.spare || []).map((c) => cleanName(c.name)));
+    d.s.spare = (d.s.spare || []).concat(withAccountLists(d.s).spare.filter((c) => !have.has(cleanName(c.name))));
+    S.setupBase = JSON.stringify(IDX.setup || null);
+  }
+  toast('عدنا إلى مسابقتك الجديدة كما تركتها'); return d.s;
+}
 /* a fresh draft of «مسابقة جديدة» (kind 'setup') or of «الشعب والطلاب» ('classes'): it remembers the account copy it was
    built from and its own first state, so a newer copy from another device can replace it while it is untouched */
 const setupJSON = (s) => JSON.stringify(s, (k, v) => (k === 'open' ? undefined : v)); // without the cards opened on screen
@@ -4359,7 +4454,7 @@ function accountShown() {
   go(v, 'replace'); window.scrollTo(0, y);
 }
 const vocabSig = () => JSON.stringify(IDX.vocab || null);
-function listsSetup() { const s = defaultSetup(); s.classes.forEach((c) => { c.use = true; }); s.classes = s.classes.concat(s.spare.filter((x) => String(x.text || '').trim() && !s.classes.some((c) => cleanName(c.name) === cleanName(x.name))).map((c) => Object.assign(c, { use: false }))).slice(0, LISTS_MAX); s.spare = []; s.lists = true; return s; }
+function listsSetup() { const s = defaultSetup(); s.classes.forEach((c) => { c.use = true; }); const nm = new Set(s.classes.map((c) => cleanName(c.name))); s.classes = s.classes.concat(s.spare.filter((x) => String(x.text || '').trim()).map((c) => { const n2 = uniqName(c.name, nm); nm.add(n2); return Object.assign(c, { name: n2, use: false }); })).slice(0, LISTS_MAX); s.spare = []; s.lists = true; return s; }
 function defaultSetup() {
   const s = { game: 'league', name: DEF_NAME, teachers: [teacherName()].filter(Boolean), classes: DEF_CLASSES.map((c) => ({ name: c.name, color: c.color, text: '', absent: [] })), rounds: {}, second: 'four', timer: 1,
     team: { src: 'classes', count: 2, R: 5 }, race: { R: 3 }, ladder: { life: true }, spare: [], vocab: BUILTIN(), grade: 10 };
@@ -4382,11 +4477,14 @@ function defaultSetup() {
     if (p.race && RACE_OPTS.includes(p.race.R)) s.race.R = p.race.R;
     if (p.ladder && typeof p.ladder === 'object') s.ladder.life = p.ladder.life !== false;
     if (typeof p.vocab === 'string' && (p.vocab === BUILTIN() || vocabById(p.vocab))) s.vocab = p.vocab;
+    s.autoName = p.autoName === true || compName(s.name) === compName(DEF_NAME);
+    if (s.autoName) s.name = setupVocab(s) ? setupVocab(s).name : DEF_NAME; // a name set by the list follows it (renamed, or deleted → the unit)
     if (GRADES.includes(p.grade)) s.grade = p.grade;
-  }
+  } else s.autoName = true;
   return s;
 }
 /* the name a new class gets: the next number after the last class («10/3» → «10/4»), else «الشعبة 4» */
+function uniqName(base, taken) { const b = cleanName(base); if (b && !taken.has(b)) return b; for (let k = 2; k < 99; k++) { const x = `${(b || 'الشعبة').slice(0, CNAME_MAX - 5)} (${k})`; if (!taken.has(x)) return x; } return uid().slice(0, 6); }
 function defClassName(i, list, grade) {
   if (DEF_CLASSES[i] && !list) return DEF_CLASSES[i].name;
   if (list && GRADES.includes(grade) && !list.some((c) => /^\d+\/\S+$/.test(cleanName(c.name)))) { const taken = new Set(list.map((c) => cleanName(c.name))); for (let k = i + 1; k < i + 40; k++) if (!taken.has(`${grade}/${k}`)) return `${grade}/${k}`; } // «7/1»
@@ -4465,7 +4563,7 @@ function budgetRows(s) {
 function wordsHTML() {
   const B = budgetRows(S.setup), block = B.rows.find((r) => r.n && r.b && !canMake(r.b, B.pool, r.n)), short = !block && B.rows.some((r) => r.n && r.b && !r.b.ok);
   const vn = setupVocab(S.setup) ? setupVocab(S.setup).name : BUILTIN_NAME();
-  return `<p class="budget note">${icon('book')}<span>كل الأسئلة من <b>«<bdi dir="auto">${esc(vn)}</bdi>» فقط</b> (${num(B.pool.length)} كلمة وعبارة)، وتتنوّع تلقائيًا بين المعنى والإملاء والإكمال والتوصيل. ${short ? '' : 'لا تتكرر كلمة داخل المباراة الواحدة.'}</span></p>
+  return `<p class="budget note">${icon('book')}<span>كل الأسئلة من <b>«<bdi dir="auto">${esc(vn)}</bdi>» فقط</b> (${wordsAr(B.pool.length)})، وتتنوّع تلقائيًا بين المعنى والإملاء والإكمال والتوصيل. ${short ? '' : 'لا تتكرر كلمة داخل المباراة الواحدة.'}</span></p>
 ${block ? `<p class="budget bad">${icon('x')}<span>القائمة لا تكفي لمباراة ${STAGES[block.k].ar} (${num(block.n)} طلاب في الجولة الواحدة) — أضف كلمات أو اختر قائمة أخرى.</span></p>` : short ? `<p class="budget warn">${icon('book')}<span>القائمة قصيرة لهذا العدد من الأسئلة: قد تتكرر بعض الكلمات داخل المباراة الواحدة (لا تتكرر في الجولة الواحدة). لأسئلة بلا تكرار أضف كلمات أو قلّل الأسئلة.</span></p>` : ''}`;
 }
 function rulesHTML() {
@@ -4495,7 +4593,7 @@ function gradeHTML(s) {
   const g = gradeOf(s);
   return `<div class="grade-pick"><span class="field-l" id="gr-l">الصف</span><div class="seg" role="radiogroup" aria-labelledby="gr-l">${GRADES.map((x) => `<button type="button" class="seg-b${x === g ? ' on' : ''}" role="radio" aria-checked="${x === g}" data-act="setup-grade" data-g="${x}" aria-label="${gradeAr(x)}">${x}</button>`).join('')}</div><small class="muted">${gradeAr(g)} — يظهر على الشهادات، وتُسمّى به الشعب الجديدة (${g}/1، ${g}/2 …)</small></div>`;
 }
-const spareLists = (s) => (s.spare || []).map((x, k) => ({ x, k })).filter(({ x }) => String(x.text || '').trim() && !s.classes.some((c) => cleanName(c.name) === cleanName(x.name)));
+const spareLists = (s) => (s.spare || []).map((x, k) => ({ x, k })).filter(({ x }) => String(x.text || '').trim());
 function classAddHTML(s) {
   const n = s.classes.length, max = s.lists ? LISTS_MAX : CLASS_MAX, saved = spareLists(s);
   if (n >= max) return `<div class="cls-add full"><p class="muted">${icon('check')} ${s.lists ? `${num(max)} قائمة — الحد الأعلى في حسابك.` : `${num(max)} شعب — الحد الأعلى في المسابقة.`}</p></div>`;
@@ -4557,7 +4655,7 @@ function setupErrors(s) {
   }
   if (s.game === 'race') {
     const big = Math.max(...present), P = setupPool(s), b = matchBudget(feasibleTypes(TYPE_IDS, P), P, s.race.R, Math.max(2, big));
-    if (!canMake(b, P, Math.max(2, big))) err.push(`سباق الصف يحتاج كلمة مختلفة لكل طالب في الجولة: في الشعبة ${studentsAr(big)} حاضرون، والقائمة تكفي ${studentsAr(roundCap(P))} — أضف ${moreWordsAr(Math.max(2, big) - roundCap(P))}، أو اختر لعبة أخرى.`);
+    if (!canMake(b, P, Math.max(2, big))) err.push(`سباق الصف يحتاج كلمة مختلفة لكل طالب في الجولة: في الشعبة ${studentsAr(big, false)} حاضرون، والقائمة تكفي ${studentsAr(roundCap(P), false)} — أضف ${moreWordsAr(Math.max(2, big) - roundCap(P), false)}، أو اختر لعبة أخرى.`);
     return { err, B: null };
   }
   if (s.game === 'ladder') return { err, B: null };
@@ -5134,10 +5232,10 @@ ${list.length > 6 ? `<label class="cert-sel">${icon('medal')}<span>الشهاد�
 /* ---------- The other games: one screen per game («تحدي الفرق» · «سباق الصف» · «من سيربح المفردات») ---------- */
 const teamsAr = (n) => (n === 2 ? 'فريقان' : n <= 10 ? `${num(n)} فرق` : `${num(n)} فريقًا`);
 const clsCount = (n) => (n === 1 ? 'شعبة واحدة' : n === 2 ? 'شعبتان' : `${num(n)} شعب`);
-const studentsAr = (n) => (n === 1 ? 'طالب واحد' : n === 2 ? 'طالبان' : `${num(n)} ${n >= 3 && n <= 10 ? 'طلاب' : 'طالبًا'}`);
+const studentsAr = (n, html) => (n === 1 ? 'طالب واحد' : n === 2 ? 'طالبان' : `${html === false ? n : num(n)} ${n >= 3 && n <= 10 ? 'طلاب' : 'طالبًا'}`);
 function gameHead(g, sum, line) {
   const nS = T.classes.reduce((n, c) => n + presentOf(c).length, 0);
-  return `<header class="gm-head"><span class="gc-ic t-${GAMES[g].tint}">${icon(GAMES[g].icon)}</span><div class="gm-t"><small>${esc(GAMES[g].ar)}</small><h2><bdi dir="auto">${esc(T.name)}</bdi></h2><p class="gm-meta"><span>${icon('users')} ${studentsAr(nS)} · ${clsCount(T.classes.length)} · ${gradeAr(gradeOf(T))}</span><span>${icon('book')} <bdi dir="auto">${esc(vocabName(T))}</bdi> (${num(tPool().length)} كلمة)</span>${line ? `<span>${line}</span>` : ''}</p></div>
+  return `<header class="gm-head"><span class="gc-ic t-${GAMES[g].tint}">${icon(GAMES[g].icon)}</span><div class="gm-t"><small>${esc(GAMES[g].ar)}</small><h2><bdi dir="auto">${esc(T.name)}</bdi></h2><p class="gm-meta"><span>${icon('users')} ${studentsAr(nS)} · ${clsCount(T.classes.length)} · ${gradeAr(gradeOf(T))}</span><span>${icon('book')} <bdi dir="auto">${esc(vocabName(T))}</bdi> (${wordsAr(tPool().length)})</span>${line ? `<span>${line}</span>` : ''}</p></div>
 <div class="gm-prog"><span class="cmp-bar" role="img" aria-label="التقدم ${sum.progress}٪"><i style="width:${Math.max(3, sum.progress)}%"></i></span><small>${sum.status === 'done' ? `${icon('check')} انتهت` : `التقدم ${num(sum.progress)}٪`}</small></div></header>`;
 }
 /* the podium row of a finished game: the three first, the ceremony and the certificates */
@@ -5306,7 +5404,7 @@ function ladLife(k) {
   const r = runOf(S.run), cur = ladCur(r); if (!cur || cur.ok !== null || r.life[k] || !T.ladder.life || LAD.paused) return;
   SFX.click(); r.life[k] = true;
   if (k === 'h') { cur.off = halfOpts(cur.q); noteEdit(); saveT(); cur.off.forEach((i) => { const b = $$('#opts .opt')[i]; if (b) { b.disabled = true; b.classList.add('off'); } }); const lb = $('.ll[data-k="h"]'); if (lb) { lb.disabled = true; lb.classList.add('used'); } announce('حُذفت إجابتان'); return; }
-  if (k === 'c') { let q; try { q = ladderQuestion(r, r.lvl, [cur.q.w]); } catch (e) { r.life.c = false; toast('لا يوجد سؤال بديل الآن', 'bad'); return; } r.qs[r.qs.length - 1] = { q, ok: null, g: null }; noteEdit(); saveT(); go('ladder', 'replace'); announce('سؤال جديد'); return; }
+  if (k === 'c') { let q; try { q = ladderQuestion(r, r.lvl, [cur.q.w]); } catch (e) { q = null; } if (!q || q.w === cur.q.w) { r.life.c = false; toast('لا يوجد سؤال بديل الآن — «تغيير السؤال» باقٍ', 'bad'); return; } r.qs[r.qs.length - 1] = { q, ok: null, g: null }; noteEdit(); saveT(); go('ladder', 'replace'); announce('سؤال جديد'); return; }
   cur.fr = Date.now() + 30000; noteEdit(); saveT();
   const lb = $('.ll[data-k="f"]'); if (lb) { lb.disabled = true; lb.classList.add('used'); }
   ladFriend(30);
@@ -5332,23 +5430,28 @@ VIEWS.bank = () => {
   return `${topbar('المفردات')}<section class="v-bank page">
 <section class="panel vlists"><header class="vl-h"><div><h2>${icon('book')} قوائم المفردات</h2><p class="muted">كل مسابقة تختار قائمة واحدة عند «مسابقة جديدة»، وكل الألعاب وأنواع الأسئلة تُصنع منها تلقائيًا — من كلماتها فقط.</p></div><button class="btn btn-gold" data-act="vocab-new" id="btn-vocab-new">${icon('plus')}<span>إضافة مفردات</span></button></header>
 <div class="vls">${vocabCard(B, BUILTIN_NAME(), allEntries(), false, sel === B)}${lists.map((x) => vocabCard(x.id, x.name, x.words, true, sel === x.id)).join('')}</div></section>
-<div class="bank-bar"><div class="bank-t"><b dir="auto">${esc(name)}</b><span>${v ? 'قائمتك' : 'كلمات الوحدة'} · <span class="bank-count"><b id="bank-n">${es.length}</b> كلمة وعبارة</span></span></div><label class="search">${icon('search')}<input type="search" id="bank-q" data-in="bank-q" placeholder="ابحث بالإنجليزية أو بالعربية…" value="${esc(S.bankQ)}" aria-label="بحث في الكلمات" autocomplete="off"></label></div>
-<div class="tbl-wrap"><table class="words" id="bank-words"><thead><tr><th>الكلمة</th><th>المعنى</th><th>النوع</th><th class="lvc">المستوى</th><th class="ex">مثال</th><th><span class="sr-only">نطق</span></th></tr></thead><tbody>${es.map((e) => `<tr data-q="${esc(e.w + ' ' + normAr(e.ar))}"><td class="w">${en(e.w)}</td><td class="a">${esc(e.ar)}</td><td>${POS_AR[e.pos] || '—'}</td><td class="lvc">${lvlDots(e.lvl)}</td><td class="ex">${e.s ? `<span dir="ltr" lang="en">${esc(e.s)}</span>` : '<span class="muted">—</span>'}</td><td>${SPEECH_OK ? `<button class="icon-btn sm" data-act="say-word" data-w="${esc(e.w)}" aria-label="نطق ${esc(e.w)}">${icon('wave')}</button>` : ''}</td></tr>`).join('')}</tbody></table></div></section>`;
+<div class="bank-bar"><div class="bank-t"><b dir="auto">${esc(name)}</b><span>${v ? 'قائمتك' : 'كلمات الوحدة'} · <span class="bank-count"><b id="bank-n">${es.length}</b> <span id="bank-u">${es.length >= 3 && es.length <= 10 ? 'كلمات' : 'كلمة'}</span></span></span></div><label class="search">${icon('search')}<input type="search" id="bank-q" data-in="bank-q" placeholder="ابحث بالإنجليزية أو بالعربية…" value="${esc(S.bankQ)}" aria-label="بحث في الكلمات" autocomplete="off"></label></div>
+<div class="tbl-wrap"><table class="words" id="bank-words"><thead><tr><th>الكلمة</th><th>المعنى</th><th>النوع</th><th class="lvc">المستوى</th><th class="ex">مثال</th><th><span class="sr-only">نطق</span></th></tr></thead><tbody>${es.map((e) => `<tr data-q="${esc(e.w + ' ' + normAr(e.ar))}"><td class="w">${en(e.w)}</td><td class="a">${esc(e.ar)}</td><td>${e.pg ? '—' : POS_AR[e.pos] || '—'}</td><td class="lvc">${lvlDots(e.lvl)}</td><td class="ex">${e.s ? `<span dir="ltr" lang="en">${esc(e.s)}</span>` : '<span class="muted">—</span>'}</td><td>${SPEECH_OK ? `<button class="icon-btn sm" data-act="say-word" data-w="${esc(e.w)}" aria-label="نطق ${esc(e.w)}">${icon('wave')}</button>` : ''}</td></tr>`).join('')}</tbody></table></div></section>`;
 };
 /* ---- the editor of one list: rows (English · Arabic · example sentence · word class), a paste box, live checks ---- */
 const vRow = () => ({ w: '', ar: '', s: '', pos: '' });
-function vocabDraft(v) { return { id: v ? v.id : '', name: v ? v.name : '', rows: v ? v.words.map((x) => ({ w: x.w, ar: x.ar, s: x.s ? x.s.replace('___', x.w) : '', pos: x.pos || '' })).concat([vRow()]) : [vRow(), vRow(), vRow()] }; }
+function vocabDraft(v) { return vSnap({ id: v ? v.id : '', orig: v ? v.name : '', name: v ? v.name : '', rows: v ? v.words.map((x) => ({ w: x.w, ar: x.ar, s: x.s ? x.s.replace('___', x.w) : '', pos: x.pos || '' })).concat([vRow()]) : [vRow(), vRow(), vRow()] }); }
+const vKey = (d) => JSON.stringify([d.name, d.rows.filter((r) => wordOf(r.w) || String(r.ar || '').trim() || String(r.s || '').trim()).map((r) => [r.w, r.ar, r.s, r.pos])]);
+function vSnap(d) { d.snap = vKey(d); return d; }
+const vDirty = (d) => !!d && vKey(d) !== d.snap; // typed or pasted since it was opened
 /* the state of one row: '' empty · ok · warn (usable, a remark) · bad (not usable yet) — and its message */
 function vRowState(r, i, rows) {
-  const w = normW(r.w), any = w || String(r.ar || '').trim() || String(r.s || '').trim();
+  const w = wordOf(r.w), any = w || String(r.ar || '').trim() || String(r.s || '').trim();
   if (!any) return { st: '', msg: '' };
   if (!w) return { st: 'bad', msg: 'اكتب الكلمة بالإنجليزية' };
-  if (!WORD_RE.test(w) || w.length > 40) return { st: 'bad', msg: 'الكلمة بحروف إنجليزية فقط (ويمكن مسافة أو -)' };
-  if (rows.some((x, j) => j < i && normW(x.w) === w)) return { st: 'bad', msg: 'مكررة — موجودة في سطر سابق' };
+  if (!WORD_RE.test(w) || w.length > 40) return { st: 'bad', msg: 'الكلمة بحروف إنجليزية فقط (ويمكن مسافة أو - أو \' بين الحروف)' };
+  if (letters(w).length < 2) return { st: 'bad', msg: 'الكلمة من حرفين على الأقل' };
+  if (rows.some((x, j) => j < i && normW(x.w) === normW(w))) return { st: 'bad', msg: 'مكررة — موجودة في سطر سابق' };
   const ar = String(r.ar || '').trim();
   if (!ar) return { st: 'bad', msg: 'اكتب المعنى بالعربية' };
   if (!/[؀-ۿ]/.test(ar)) return { st: 'bad', msg: 'المعنى بالعربية' };
-  if (String(r.s || '').trim() && !toGap(r.s, w)) return { st: 'warn', msg: 'الجملة لا تحتوي الكلمة — لن تُستخدم في «أكمل الجملة»' };
+  if (String(r.s || '').trim() && !toGap(r.s, w)) return { st: 'warn', msg: wordCount(r.s, w) > 1 ? 'الكلمة مكررة في الجملة — لن تُستخدم في «أكمل الجملة»' : 'الجملة لا تحتوي الكلمة — لن تُستخدم في «أكمل الجملة»' };
+  if (!PLAIN_RE.test(w)) return { st: 'ok', msg: 'فيها حرف كبير أو فاصلة علوية: تُسأل في المعنى والجملة والتوصيل، لا في الإملاء' };
   return { st: 'ok', msg: '' };
 }
 function vocabSummary(d) {
@@ -5383,13 +5486,19 @@ VIEWS.vocab = () => {
 </section>`;
 };
 /* a line of the paste box: «english - arabic - sentence» (also Tab, «|», «=»; an Arabic-first line is turned around) */
-function parseVocabLines(text) {
+const PASTE_SEP = /\s*[|=:،؛]\s*|\s+[-–—]\s*|\s*[-–—]\s+|,(?=\s*[\u0600-\u06FF])\s*|(?<=[\u0600-\u06FF])\s*,\s*(?=[A-Za-z])/;
+/* «word - meaning - sentence»: the first two separators only (a sentence keeps its own «:» and «,») */
+function splitLine(t) { const out = []; let rest = t; for (let k = 0; k < 2; k++) { const m = PASTE_SEP.exec(rest); if (!m) break; out.push(rest.slice(0, m.index).trim()); rest = rest.slice(m.index + m[0].length); } out.push(rest.trim()); return out.filter(Boolean); }
+function parseVocabLines(text, bad) {
   const out = [];
-  String(text || '').split(/\r?\n/).forEach((line) => {
-    const t = line.trim(); if (!t) return;
-    let parts = t.split(/\t|\s[-–—=|:]\s|\s*[|=]\s*/).map((x) => x.trim()).filter(Boolean);
+  String(text || '').replace(BIDI_RE, '').split(/\r?\n/).forEach((line) => {
+    let t = line.trim(); if (!t) return;
+    let parts;
+    if (/\t/.test(t)) { parts = t.split('\t').map((x) => x.trim()).filter(Boolean); while (parts.length > 2 && /^[\d٠-٩]+[.)]?$/.test(parts[0])) parts.shift(); } // Excel/Word table: a serial column «م» left out
+    else { t = t.replace(/^\s*(?:\(?[\d٠-٩]{1,3}[.)\-:]|[•·●▪◦*])\s*/, '').trim(); parts = splitLine(t); } // «1.» «2)» «•» list markers left out
+    if (parts.length >= 2 && /^[\d٠-٩]+[.)]?$/.test(parts[0])) parts.shift();
     if (parts.length < 2) { const m = /^([A-Za-z][A-Za-z '\-]*?)\s+([؀-ۿ].*)$/.exec(t) || /^([؀-ۿ][^A-Za-z]*?)\s+([A-Za-z].*)$/.exec(t); if (m) parts = [m[1].trim(), m[2].trim()]; }
-    if (parts.length < 2) return;
+    if (parts.length < 2) { if (bad) bad.push(line.trim()); return; }
     if (/[؀-ۿ]/.test(parts[0]) && !/[؀-ۿ]/.test(parts[1])) parts = [parts[1], parts[0]].concat(parts.slice(2));
     out.push({ w: parts[0], ar: parts[1], s: parts.slice(2).join(' - '), pos: '' });
   });
@@ -5412,25 +5521,28 @@ function vocabSave() {
   const name = cleanText(d.name, VNAME_MAX);
   if (!name) { toast('اكتب اسم القائمة', 'bad'); const f = $('#v-name'); if (f) f.focus(); return; }
   const lists = vocabLists();
-  if (lists.some((x) => x.id !== d.id && x.name === name) || name === ((unitList()[0] || {}).ar || '')) { toast('يوجد قائمة بهذا الاسم — اختر اسمًا آخر', 'bad'); return; }
-  if (!d.id && lists.length >= VOCAB_MAX) { toast(`الحد الأعلى ${VOCAB_MAX} قائمة — احذف قائمة لا تحتاجها`, 'bad'); return; }
-  const v = { id: d.id || uid(), name, at: Date.now(), words };
-  saveVocab(d.id ? lists.map((x) => (x.id === d.id ? v : x)) : lists.concat([v]));
+  const here = d.id && lists.some((x) => x.id === d.id); // an edited list deleted meanwhile (another device or tab) is saved again
+  if ((name !== d.orig && lists.some((x) => x.id !== d.id && x.name === name)) || name === ((unitList()[0] || {}).ar || '')) { toast('توجد قائمة بهذا الاسم — اختر اسمًا آخر', 'bad'); return; }
+  if (!here && lists.length >= VOCAB_MAX) { toast(`الحد الأعلى ${VOCAB_MAX} قائمة — احذف قائمة لا تحتاجها`, 'bad'); return; }
+  const v = { id: d.id || uid(), name, at: Date.now(), words }, next = here ? lists.map((x) => (x.id === d.id ? v : x)) : lists.concat([v]);
+  if (new TextEncoder().encode(JSON.stringify(next)).length > VOCAB_BYTES) { toast('قوائمك كبيرة جدًا للحفظ في الحساب — احذف قائمة لا تحتاجها أو اختصر جمل المثال', 'bad'); return; }
+  if (!here && d.id) IDX.vocabDel = (IDX.vocabDel || []).filter((x) => x !== d.id);
+  saveVocab(next);
   SFX.click();
   const ret = S.vret; S.vedit = null; S.vret = ''; S.vlist = v.id;
-  toast(`حُفظت «${name}» في حسابك — ${wordsAr(words.length, false)}${words.length >= VW_MIN ? '، وهي جاهزة للألعاب' : ` (أضف ${moreWordsAr(VW_MIN - words.length, false)} لتصبح جاهزة)`}`, words.length >= VW_MIN ? 'good' : '');
+  toast(`${d.id && !here ? 'حُذفت هذه القائمة من جهاز آخر، ثم ' : ''}حُفظت «${name}» في حسابك — ${wordsAr(words.length, false)}${words.length >= VW_MIN ? '، وهي جاهزة للألعاب' : ` (أضف ${moreWordsAr(VW_MIN - words.length, false)} لتصبح جاهزة)`}`, words.length >= VW_MIN ? 'good' : '');
   if (ret === 'setup' && S.setup) { if (words.length >= VW_MIN) vocabChoose(S.setup, v.id); navUp('setup'); } else navUp('bank');
 }
 /* choosing a list in the setup: a competition name still set to the previous list's name follows the new one */
 function vocabChoose(s, id) {
   const prevName = setupVocab(s) ? setupVocab(s).name : DEF_NAME, v = id === BUILTIN() ? null : vocabById(id);
   s.vocab = v ? v.id : BUILTIN();
-  if (!compName(s.name) || compName(s.name) === compName(prevName) || compName(s.name) === compName(DEF_NAME)) s.name = v ? v.name : DEF_NAME;
+  if (s.autoName || !compName(s.name) || compName(s.name) === compName(prevName) || compName(s.name) === compName(DEF_NAME)) { s.name = v ? v.name : DEF_NAME; s.autoName = true; }
 }
 function bankFilter() {
   const q = S.bankQ.trim().toLowerCase(), nq = normAr(q); let n = 0;
   $$('#bank-words tbody tr').forEach((tr) => { const hit = !q || tr.dataset.q.includes(q) || (nq && tr.dataset.q.includes(nq)); tr.hidden = !hit; if (hit) n++; });
-  const bn = $('#bank-n'); if (bn) bn.textContent = n;
+  const bn = $('#bank-n'); if (bn) bn.textContent = n; const bu = $('#bank-u'); if (bu) bu.textContent = n >= 3 && n <= 10 ? 'كلمات' : 'كلمة';
 }
 AFTER.bank = () => { if (S.bankQ) bankFilter(); };
 
@@ -6266,27 +6378,44 @@ const ACT = {
   rename: () => { SFX.click(); askName(false); },
   /* «المفردات» */
   'vocab-view': (el) => { SFX.click(); S.vlist = el.dataset.v; S.bankQ = ''; const y = window.scrollY; go('bank', 'replace'); window.scrollTo(0, y); },
-  'vocab-new': (el) => { SFX.click(); S.vedit = vocabDraft(null); S.vret = el.dataset.ret || ''; go('vocab'); const f = $('#v-name'); if (f) f.focus(); },
-  'vocab-edit': (el) => { const v = vocabById(el.dataset.v); if (!v) return; SFX.click(); S.vedit = vocabDraft(v); S.vret = ''; go('vocab'); },
+  'vocab-new': (el) => {
+    if (vocabLists().length >= VOCAB_MAX && !(S.vedit && !S.vedit.id)) { toast(`في حسابك ${VOCAB_MAX} قائمة — احذف قائمة لا تحتاجها من «المفردات» قبل إضافة قائمة جديدة`, 'bad'); return; }
+    SFX.click(); if (S.view === 'setup' && S.setup && !S.setup.lists) S.draft = { s: S.setup, snap: S.setupSnap, base: S.setupBase }; // the setup waits (also after the phone's Back)
+    const keep = S.vedit && !S.vedit.id && vDirty(S.vedit); if (!keep) S.vedit = vocabDraft(null); S.vret = el.dataset.ret || '';
+    go('vocab'); if (keep) toast('عدنا إلى قائمتك التي لم تُحفظ بعد'); else { const f = $('#v-name'); if (f) f.focus(); }
+  },
+  'vocab-edit': (el) => { const v = vocabById(el.dataset.v); if (!v) return; SFX.click(); const keep = S.vedit && S.vedit.id === v.id && vDirty(S.vedit); if (!keep) S.vedit = vocabDraft(v); S.vret = ''; go('vocab'); if (keep) toast('عدنا إلى تعديلاتك التي لم تُحفظ بعد'); },
   'vocab-del': (el) => { const v = vocabById(el.dataset.v); if (!v) return; confirmModal(`حذف قائمة «${esc(v.name)}» (${wordsAr(v.words.length)}) من حسابك؟ المسابقات التي أُنشئت منها تبقى كما هي بكلماتها.`, 'حذف القائمة', () => { saveVocab(vocabLists().filter((x) => x.id !== v.id)); if (S.vlist === v.id) S.vlist = ''; toast(`حُذفت «${v.name}»`, 'good'); go('bank', 'replace'); }); },
-  'v-add-row': () => { const d = S.vedit; if (!d || d.rows.length >= VW_MAX) return; SFX.click(); d.rows.push(vRow()); $('#vv-rows').insertAdjacentHTML('beforeend', vRowHTML(d.rows[d.rows.length - 1], d.rows.length - 1, d.rows)); const f = $(`#vv-rows .vr[data-i="${d.rows.length - 1}"] .vr-w`); if (f) f.focus(); },
+  'v-add-row': () => { const d = S.vedit; if (!d) return; if (d.rows.length >= VW_MAX) { toast(`الحد الأعلى ${VW_MAX} كلمة في القائمة`, 'bad'); return; } SFX.click(); d.rows.push(vRow()); $('#vv-rows').insertAdjacentHTML('beforeend', vRowHTML(d.rows[d.rows.length - 1], d.rows.length - 1, d.rows)); const f = $(`#vv-rows .vr[data-i="${d.rows.length - 1}"] .vr-w`); if (f) f.focus(); },
   'v-del-row': (el) => { const d = S.vedit, i = +el.dataset.i; if (!d || !d.rows[i]) return; SFX.click(); d.rows.splice(i, 1); if (!d.rows.length) d.rows.push(vRow()); const y = window.scrollY; go('vocab', 'replace'); window.scrollTo(0, y); },
   'v-paste': () => {
     const d = S.vedit, ta = $('#v-paste'); if (!d || !ta) return;
-    const add = parseVocabLines(ta.value); if (!add.length) { toast('لم أجد كلمات — اكتب في كل سطر: الكلمة - المعنى', 'bad'); return; }
-    const have = new Set(d.rows.map((r) => normW(r.w)).filter(Boolean)); let n = 0, dup = 0;
+    const bad = [], add = parseVocabLines(ta.value, bad); if (!add.length) { toast('لم أجد كلمات — اكتب في كل سطر: الكلمة - المعنى', 'bad'); return; }
+    const have = new Set(d.rows.map((r) => normW(r.w)).filter(Boolean)); let n = 0, dup = 0, full = 0;
     d.rows = d.rows.filter((r) => normW(r.w) || String(r.ar || '').trim() || String(r.s || '').trim());
-    add.forEach((r) => { const w = normW(r.w); if (have.has(w)) { dup++; return; } if (d.rows.length >= VW_MAX) return; have.add(w); d.rows.push(r); n++; });
-    d.rows.push(vRow()); SFX.click(); go('vocab', 'replace');
-    const l = $('.vv-list'); if (l) l.scrollIntoView({ block: 'start' });
-    toast(n ? `أُضيفت ${wordsAr(n, false)}${dup ? ` (وتُركت ${dup} مكررة)` : ''} — راجعها ثم احفظ` : 'كل هذه الكلمات موجودة في القائمة من قبل', n ? 'good' : '');
+    add.forEach((r) => { const w = normW(r.w); if (have.has(w)) { dup++; return; } if (d.rows.length >= VW_MAX) { full++; return; } have.add(w); d.rows.push(r); n++; });
+    if (d.rows.length < VW_MAX) d.rows.push(vRow()); SFX.click(); go('vocab', 'replace');
+    const ta2 = $('#v-paste'); if (ta2 && bad.length) ta2.value = bad.join('\n'); // the lines not understood stay, to be fixed
+    const l = $(bad.length ? '.vv-paste' : '.vv-list'); if (l) l.scrollIntoView({ block: 'start' });
+    const dupAr = dup === 1 ? 'كلمة مكررة' : dup === 2 ? 'كلمتان مكررتان' : `${dup} ${dup <= 10 ? 'كلمات مكررة' : 'كلمة مكررة'}`;
+    const parts = [n ? `أُضيفت ${wordsAr(n, false)}` : 'لم تُضف كلمات جديدة', dup ? `تُركت ${dupAr}` : '', full ? `لم تُضف ${wordsAr(full, false)}: الحد الأعلى ${VW_MAX} كلمة في القائمة` : '', bad.length ? `${bad.length === 1 ? 'سطر واحد لم أفهمه بقي' : bad.length === 2 ? 'سطران لم أفهمهما بقيا' : `${bad.length} أسطر لم أفهمها بقيت`} في مربع اللصق` : ''].filter(Boolean);
+    toast(parts.join(' — ') + (n ? ' — راجعها ثم احفظ' : ''), n && !bad.length && !full ? 'good' : n ? '' : 'bad');
   },
   'v-save': () => vocabSave(),
-  'v-cancel': () => { const ret = S.vret; S.vedit = null; S.vret = ''; SFX.click(); navUp(ret === 'setup' && S.setup ? 'setup' : 'bank'); },
+  'v-cancel': () => { const ret = S.vret, out = () => { S.vedit = null; S.vret = ''; SFX.click(); navUp(ret === 'setup' && S.setup ? 'setup' : 'bank'); }; if (vDirty(S.vedit)) confirmModal('إلغاء القائمة؟ الكلمات التي كتبتها أو لصقتها ولم تُحفظ تُحذف.', 'إلغاء دون حفظ', out); else out(); },
   'setup-grade': (el) => {
     const s = S.setup, g = +el.dataset.g; if (!s || !GRADES.includes(g) || g === gradeOf(s)) return;
-    const old = gradeOf(s), re = new RegExp('^' + old + '/(\\S+)$');
-    s.classes.concat(s.spare || []).forEach((c) => { const m = re.exec(cleanName(c.name)); if (m && !s.classes.some((x) => cleanName(x.name) === `${g}/${m[1]}`)) c.name = `${g}/${m[1]}`; }); // «10/1» → «7/1»
+    const old = gradeOf(s), re = new RegExp('^' + old + '/(\\S+)$'), ofG = (c) => new RegExp('^' + g + '/\\S+$').test(cleanName(c.name)), full = (c) => !!String(c.text || '').trim();
+    const saved = s.lists ? [] : (s.spare || []).filter((c) => ofG(c) && full(c)), taken = new Set(s.classes.concat(s.spare || []).map((c) => cleanName(c.name)));
+    if (saved.length) { // this teacher's lists of that grade come back; the classes shown now are set aside (with their students)
+      const out = s.classes.filter(full);
+      s.spare = (s.spare || []).filter((c) => !saved.includes(c)).concat(out); s.classes = saved.slice(0, CLASS_MAX); s.spare = s.spare.concat(saved.slice(CLASS_MAX));
+      const used = new Set(); s.classes.forEach((c, i) => { if (!CLASS_COLORS.includes(c.color) || used.has(c.color)) c.color = CLASS_COLORS.find((x) => !used.has(x)) || CLASS_COLORS[i % CLASS_MAX]; used.add(c.color); });
+      if (s.open) s.open = {};
+      toast(`${gradeAr(g)}: أُعيدت قوائمك المحفوظة — ${s.classes.map((c) => c.name).join('، ')}`, 'good');
+    } else if (!s.lists || s.classes.every((c) => re.test(cleanName(c.name)))) { // «10/1» → «7/1», never onto a name a list already has
+      s.classes.forEach((c) => { const m = re.exec(cleanName(c.name)), to = m ? `${g}/${m[1]}` : ''; if (m && !taken.has(to)) { taken.delete(cleanName(c.name)); c.name = to; taken.add(to); } });
+    }
     s.grade = g; SFX.click(); const y = window.scrollY; go(S.view, 'replace'); window.scrollTo(0, y);
   },
   'setup-vocab': (el) => { const s = S.setup; if (!s) return; vocabChoose(s, el.dataset.v); SFX.click(); const y = window.scrollY; go('setup', 'replace'); window.scrollTo(0, y); },
@@ -6305,6 +6434,13 @@ const ACT = {
   'auth-mode': (el) => { const a = S.auth || (S.auth = {}); a.email = (($('#au-email') || {}).value || a.email || a.npEmail || '').trim(); if (a.mode === 'newpw' && el.dataset.m !== 'newpw') resetCode(''); a.mode = el.dataset.m; SFX.click(); go('login', 'replace'); const f = $(a.mode === 'up' ? '#au-name' : '#au-email'); if (f) f.focus(); },
   'pw-toggle': (el) => { const i = $('#au-pass'); if (!i) return; const show = i.type === 'password'; i.type = show ? 'text' : 'password'; el.setAttribute('aria-pressed', String(show)); el.setAttribute('aria-label', show ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور'); i.focus(); },
   'open-comp': (el) => { SFX.click(); openComp(el.dataset.id); },
+  /* «ابدأ المسابقة» of the ready «دوري أبطال المفردات»: the competition is made and the draw of the three classes begins */
+  'ready-go': () => {
+    const live = IDX.comps.find((c) => c.preset === READY.id && c.status !== 'done'); if (live) { openComp(live.id); return; }
+    SFX.click(); audioInit();
+    if (!IDX.setup || !Array.isArray(IDX.setup.classes) || !IDX.setup.classes.some((c) => c && String(c.text || '').trim())) saveSetupDefaults(Object.assign(readySetup(), { name: DEF_NAME })); // empty class lists: the school's three classes become the saved lists
+    newCompetition(readySetup(), false, READY.id);
+  },
   'retry-list': () => { SFX.click(); refreshList(); },
   'del-comp': (el) => {
     const c = IDX.comps.find((x) => x.id === el.dataset.id); if (!c) return;
@@ -6373,7 +6509,7 @@ const ACT = {
     const lists = S.view === 'classes', has = !!String(c.text || '').trim(), n = rosterNames(c.text).names.length;
     const apply = () => {
       s.classes.splice(i, 1); if (s.open) s.open = {};
-      if (has && !lists) { if (!cleanName(c.name)) c.name = defClassName(s.classes.length, s.classes.concat(s.spare || []), gradeOf(s)); s.spare = [c].concat((s.spare || []).filter((x) => cleanName(x.name) !== cleanName(c.name))); } // kept in the account: «إضافة شعبة» brings it back
+      if (has && !lists) { const others = (s.spare || []).filter((x) => x !== c), taken = new Set(s.classes.concat(others).map((x) => cleanName(x.name))); if (!cleanName(c.name)) c.name = defClassName(s.classes.length, s.classes.concat(others), gradeOf(s)); else if (taken.has(cleanName(c.name))) c.name = uniqName(c.name, taken); s.spare = [c].concat(others); } // kept in the account: «إضافة شعبة» brings it back
       SFX.click(); const y = window.scrollY; go(S.view, 'replace'); window.scrollTo(0, y);
       toast(lists ? `حُذفت الشعبة «${c.name}» — اضغط «حفظ في حسابي» لتثبيت الحذف` : has ? `حُذفت الشعبة «${c.name}» من هذه المسابقة — قائمتها باقية في حسابك وتعود من «إضافة شعبة»` : `حُذفت الشعبة «${c.name}»`, 'good');
     };
@@ -6497,7 +6633,7 @@ const ACT = {
   'bk-restore': () => restoreFrom(($('#bk-in') || {}).value),
 };
 const INP = {
-  'comp-name': (el) => { S.setup.name = el.value; },
+  'comp-name': (el) => { S.setup.name = el.value; S.setup.autoName = false; },
   'v-name': (el) => { if (S.vedit) S.vedit.name = el.value; },
   vw: (el) => {
     const d = S.vedit, i = +el.dataset.i, f = el.dataset.f; if (!d || !d.rows[i] || !['w', 'ar', 's', 'pos'].includes(f)) return;
@@ -6587,7 +6723,7 @@ document.addEventListener('keydown', (e) => {
 /* another tab (same file opened twice) saved: follow it when idle; never let a stale copy overwrite it mid-match */
 window.addEventListener('storage', (e) => {
   if (!ACC) return;
-  if (e.key === SK) { delete MEM[SK]; UNSAVED.delete(SK); const r = e.newValue === null ? null : restoreSession(); if (!r || r.uid !== ACC.uid) { signOut(); } else if (r.refreshToken !== ACC.refreshToken) { ACC.refreshToken = r.refreshToken; ACC.idToken = ''; ACC.exp = 0; } return; } // signed out / another account in another tab / a newer sign-in of the same account (a new password)
+  if (e.key === SK) { delete MEM[SK]; UNSAVED.delete(SK); const r = e.newValue === null ? null : restoreSession(); if (!r || r.uid !== ACC.uid) { signOut(); } else if (r.refreshToken !== ACC.refreshToken) { ACC.refreshToken = r.refreshToken; ACC.idToken = ''; ACC.exp = 0; if (CLOUD.state === 'auth') { CLOUD.state = 'idle'; CLOUD.authWarned = false; paintSave(); if (pending()) queueSync(200); if (!CLOUD.listed) listLater(); } } return; } // signed out / another account in another tab / a newer sign-in of the same account (a new password)
   if (e.key === ik()) {
     const keep = { dirty: IDX.dirty.slice(), comps: IDX.comps.slice() }; loadIdx();
     keep.dirty.forEach((id) => { if (!IDX.dirty.includes(id) && sGet(ck(id)) != null) IDX.dirty.push(id); });
@@ -6632,6 +6768,8 @@ async function init() {
   const qs = (() => { try { return new URLSearchParams(window.location.search); } catch (e) { return null; } })(), oob = qs && qs.get('mode') === 'resetPassword' ? qs.get('oobCode') || '' : '';
   if (qs && qs.get('mode')) { try { window.history.replaceState(window.history.state, '', window.location.pathname + window.location.hash); } catch (e) { /* the address keeps it */ } }
   const isReset = !!qs && qs.get('mode') === 'resetPassword', code = isReset ? (/^[A-Za-z0-9_-]{10,400}$/.test(oob) ? oob : '') : savedResetCode();
+  const setMail = (() => { try { return window.sessionStorage.getItem(RK + '.set') || ''; } catch (e) { return ''; } })();
+  if (!isReset && setMail && !restoreSession()) { try { window.sessionStorage.removeItem(RK + '.set'); } catch (e) { /* private mode */ } S.auth = { mode: 'in', email: setMail, note: 'حُفظت كلمة المرور الجديدة — ادخل بها.' }; go('login', 'init'); histInit(); return; } // the password was set before the reload
   if (code) { resetCode(code); S.auth = { mode: 'newpw', oob: code }; go('login', 'init'); histInit(); return; } // «كلمة مرور جديدة» from the email (or its reload)
   if (isReset) { resetCode(''); S.auth = { mode: 'newpw', oob: '', npErr: AUTH_ERR.INVALID_OOB_CODE }; go('login', 'init'); histInit(); return; } // a link cut short by the mail program
   ACC = restoreSession();
