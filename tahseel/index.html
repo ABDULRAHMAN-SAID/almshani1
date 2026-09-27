@@ -141,7 +141,7 @@ bdi{ unicode-bidi:isolate }
 .um-s.bad{ color:#8f5a06 }
 .um-s .nw{ white-space:nowrap }
 .um-dot{ display:none; position:absolute; bottom:1px; inset-inline-end:1px; width:14px; height:14px; border-radius:50%; background:var(--good); box-shadow:0 0 0 2px #fff }
-.um-dot.bad{ background:var(--warn) }
+.um-dot.bad{ background:var(--warn) } .um-dot.sbx{ background:var(--gold) } .um-s.sbx, .um-s.sbx .ic{ color:var(--gold-ink) }
 .um-pop{ position:absolute; top:calc(100% + 8px); inset-inline-start:0; z-index:40; width:min(380px, calc(100vw - 32px)); padding:12px; border-radius:18px; background:var(--paper); border:1px solid var(--line); box-shadow:var(--shadow-lg); display:flex; flex-direction:column; gap:4px; text-align:start; animation:fadeUp .15s ease both }
 .um-h{ display:flex; align-items:center; gap:12px; padding:4px 6px 12px; margin-bottom:4px; border-bottom:1px solid var(--line) }
 .um-h > span:not(.av){ display:flex; flex-direction:column; gap:2px; min-width:0 }
@@ -1342,7 +1342,7 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 .ro-h{ grid-template-columns:auto minmax(0,1fr) } .ro-h .icon-btn.ro-del{ grid-row:2; grid-column:2; justify-self:end; height:38px; align-self:center } .ro-h .ro-n{ grid-row:2; grid-column:1 }
 .ro-h .ro-chip{ max-width:11rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap } .ro-h .ro-chip.long{ font-family:var(--f-ui); font-size:1.2rem; font-weight:700 }
 .ro-h .fld.ro-name input{ min-width:7rem }
-.cls-add{ display:flex; flex-direction:column; gap:12px; margin-top:14px }
+.cls-add{ display:flex; flex-direction:column; gap:12px; margin-top:14px } .cls-add.full p{ display:flex; align-items:center; gap:8px }
 .cls-add-b{ display:flex; align-items:center; justify-content:center; gap:10px; min-height:64px; width:100%; border:2px dashed #b9cfc3; border-radius:var(--r); background:var(--green-t); color:var(--green); font-size:1.15rem; font-weight:700; transition:background-color .15s, border-color .15s }
 .cls-add-b:hover{ background:#dcece3; border-color:var(--green) }
 .cls-add-b .ic{ width:24px; height:24px }
@@ -1351,7 +1351,7 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 .chip-btn{ display:inline-flex; align-items:center; gap:6px; min-height:40px; padding:4px 14px 4px 10px; border-radius:99px; border:1.5px solid color-mix(in srgb, var(--cc) 40%, #fff); background:color-mix(in srgb, var(--cc) 8%, #fff); color:var(--ink); font-weight:600; font-size:15px }
 .chip-btn:hover{ border-color:var(--cc) }
 .chip-btn .ic{ width:16px; height:16px; color:var(--cc) }
-.chip-btn small{ color:var(--silver); font-weight:400 }
+.chip-btn small{ color:var(--silver); font-weight:400; font-size:15px }
 .cnt-b{ display:inline-block; padding:2px 10px; border-radius:99px; background:var(--green-t); color:var(--green); font-size:15px; font-weight:700 }
 .ro-colors{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px }
 .ro-colors .sw{ width:30px; height:30px; border-radius:50%; border:3px solid #fff; background:var(--sw); box-shadow:0 0 0 1px var(--line); padding:0 }
@@ -1541,11 +1541,11 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 .lg-h:has(> .ic){ display:flex; align-items:center; gap:10px } .lg-h .ic{ width:24px; height:24px; color:var(--gold); flex:none }
 .lg-steps{ margin:4px 0 6px; padding:0; list-style:none; counter-reset:st; display:grid; gap:10px }
 .lg-steps li{ counter-increment:st; position:relative; padding:10px 14px 10px 12px; padding-inline-start:46px; border-radius:12px; background:var(--green-t); line-height:1.7; font-size:16px }
-.lg-steps li::before{ content:counter(st); position:absolute; inset-inline-start:12px; top:10px; width:24px; height:24px; border-radius:50%; background:var(--green); color:#fff; display:grid; place-items:center; font-weight:700; font-size:14px; font-family:var(--f-num) }
+.lg-steps li::before{ content:counter(st); position:absolute; inset-inline-start:12px; top:10px; width:24px; height:24px; border-radius:50%; background:var(--green); color:#fff; display:grid; place-items:center; font-weight:700; font-size:15px; font-family:var(--f-num) }
 .lg-alert.bad{ background:#fdecea; color:#a3342e; border-color:#f3c5c1 }
 .lg-wait{ display:flex; align-items:center; gap:10px }
 .lg-wait .spin{ width:20px; height:20px }
-.lg-link[disabled]{ opacity:.55; cursor:default }
+.lg-link[disabled]{ opacity:1; color:var(--silver); cursor:default } .lg-card .fld small{ font-size:15px }
 /* ======== «دليل الألعاب» ======== */
 .v-guide{ display:flex; flex-direction:column; gap:22px; padding-bottom:48px }
 .gd-hero{ position:relative; overflow:hidden; padding:30px 30px 26px; border-radius:var(--r-l); background:radial-gradient(120% 140% at 100% 0%, #e3f1e9 0%, #f4f8f4 45%, #fbf6e8 100%); border:1px solid #d9e7de; box-shadow:var(--shadow) }
@@ -1561,7 +1561,7 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 .gd-card b{ font-size:1.15rem; color:var(--green) }
 .gd-card small{ font-size:15px; line-height:1.6; color:var(--silver); flex:1 }
 .gd-go{ display:inline-flex; align-items:center; gap:6px; font-weight:700; font-size:15px; color:var(--green) }
-.gd-go .ic{ width:16px; height:16px; transform:scaleX(-1) }
+.gd-go .ic{ width:16px; height:16px }
 .gd-nav{ position:sticky; top:0; z-index:5; display:flex; gap:8px; flex-wrap:wrap; padding:10px 12px; border-radius:var(--r); background:rgba(255,255,255,.96); border:1px solid var(--line); box-shadow:var(--shadow) }
 .gd-chip{ min-height:40px; padding:6px 14px; border-radius:99px; border:1px solid var(--line); background:var(--paper); color:var(--ink); font-weight:600; font-size:15px }
 .gd-chip:hover{ border-color:var(--green); color:var(--green); background:var(--green-t) }
@@ -1601,8 +1601,9 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 .gd-stage > div > b{ display:block; font-size:1.05rem; color:var(--green); margin-bottom:4px }
 .gd-stage p{ margin:0 0 6px }
 .gd-stage .gd-res{ margin:6px 0 0; padding:6px 10px; font-size:15px }
-.gd-sn{ display:grid; place-items:center; width:30px; height:30px; border-radius:50%; background:var(--gold); color:#fff; font-weight:700; font-family:var(--f-num) }
-.gd-line{ display:flex; flex-wrap:wrap; align-items:center; gap:2px } .gd-line small{ color:var(--silver); margin-inline-end:6px }
+.gd-sn{ display:grid; place-items:center; width:30px; height:30px; border-radius:50%; background:var(--gold-ink); color:#fff; font-weight:700; font-family:var(--f-num) }
+.gd-line{ display:flex; flex-wrap:wrap; align-items:center; gap:2px } .gd-line small{ color:var(--silver); margin-inline-end:6px; font-size:15px } .gd-tbl th small{ font-size:15px } .gd-nw{ white-space:nowrap }
+@media (max-width:640px){ .gd-tbl .gd-ty, .gd-tbl .gd-ty-h{ display:none } }
 .gd-tbl{ width:100%; border-collapse:collapse; background:#fff; border-radius:12px; overflow:hidden; font-size:16px }
 .gd-tbl th, .gd-tbl td{ padding:8px 12px; border-bottom:1px solid var(--line); text-align:start; vertical-align:middle }
 .gd-tbl th{ background:#f3f6f3; font-weight:600; color:var(--silver); font-size:15px }
@@ -1628,8 +1629,12 @@ kbd{ font-family:var(--f-num); font-size:1rem; padding:1px 8px; border-radius:7p
 .st-guide{ display:flex; flex-wrap:wrap; align-items:center; gap:6px 10px; margin:14px 0 0; padding:10px 14px; border-radius:12px; background:var(--gold-t); color:var(--gold-ink); font-size:15px }
 .st-guide .ic{ width:18px; height:18px } .st-guide .link{ font-weight:700; color:var(--green) }
 /* the example bar (sample competitions from the guide) */
-.sbx-bar{ display:flex; flex-wrap:wrap; align-items:center; gap:8px 14px; margin:10px 0 0; padding:10px 14px; border-radius:12px; background:var(--gold-t); border:1px solid #efdcaa; color:var(--ink); font-size:15px }
-.sbx-bar > .ic{ width:18px; height:18px; color:var(--gold-ink) } .sbx-bar > span{ flex:1 1 260px } .sbx-bar b{ color:var(--gold-ink) }
+.sbx-bar{ display:flex; flex-wrap:wrap; align-items:center; gap:4px 12px; margin:6px 0 0; padding:4px 10px; border-radius:12px; background:var(--gold-t); border:1px solid #efdcaa; color:var(--ink); font-size:15px }
+.sbx-bar > .ic{ width:18px; height:18px; color:var(--gold-ink) } .sbx-bar > span{ flex:1 1 120px } .sbx-bar b{ color:var(--gold-ink) } .sbx-bar .btn{ min-height:36px; padding-block:4px }
+.tb-sbx{ display:inline-flex; align-items:center; gap:6px; padding:3px 4px 3px 10px; border-radius:999px; background:var(--gold-t); border:1px solid #efdcaa; font-size:15px; color:var(--ink) }
+.tb-sbx > .ic{ width:16px; height:16px; color:var(--gold-ink) } .tb-sbx b{ color:var(--gold-ink) } .tb-sbx .btn{ min-height:34px; padding:2px 10px; border-radius:999px }
+@media (max-width:760px){ .sbx-bar > span .sbx-more{ display:none } .tb-sbx{ display:none } }
+@media (min-width:761px){ .sbx-bar{ display:none } }
 @media (max-width:1100px){ .gd-cards{ grid-template-columns:repeat(2,minmax(0,1fr)) } .gd-flow{ grid-template-columns:repeat(2,minmax(0,1fr)) } .gd-start{ grid-template-columns:repeat(2,minmax(0,1fr)) } }
 @media (max-width:640px){
   .gd-hero{ padding:22px 16px 18px } .gd-sec{ padding:18px 14px }
@@ -2688,7 +2693,7 @@ function compNotice(id, forked, gone) {
 function sessionEnded() {
   if (!ACC) return;
   CLOUD.state = 'auth'; clearTimeout(CLOUD.timer); clearTimeout(CLOUD.listTimer); paintSave();
-  if (S.view === 'match' || (S.view === 'ladder' && T && gameOf(T) === 'ladder' && liveRun())) { if (!CLOUD.authWarned) { CLOUD.authWarned = true; toast(S.view === 'ladder' ? 'انتهت جلسة الدخول — أكمل محاولة الطالب؛ تقدّمك محفوظ على هذا الجهاز، وسجّل الدخول بعدها ليُرفع إلى حسابك' : 'انتهت جلسة الدخول — أكمل المباراة؛ تقدّمك محفوظ على هذا الجهاز، وسجّل الدخول بعدها ليُرفع إلى حسابك', 'bad'); } return; }
+  if (S.view === 'match' || (S.view === 'ladder' && T && gameOf(T) === 'ladder' && liveRun())) { if (!CLOUD.authWarned) { CLOUD.authWarned = true; toast(T && T.sandbox ? 'انتهت جلسة الدخول — سجّل الدخول بعد المثال' : S.view === 'ladder' ? 'انتهت جلسة الدخول — أكمل محاولة الطالب؛ تقدّمك محفوظ على هذا الجهاز، وسجّل الدخول بعدها ليُرفع إلى حسابك' : 'انتهت جلسة الدخول — أكمل المباراة؛ تقدّمك محفوظ على هذا الجهاز، وسجّل الدخول بعدها ليُرفع إلى حسابك', 'bad'); } return; }
   relogin();
 }
 function relogin() {
@@ -4020,9 +4025,9 @@ function soundBtn() { return `<button class="icon-btn" data-act="mute" aria-labe
 function noteSaved() { IDX.savedAt = Date.now(); saveIdx(); paintSave(); }
 function saveStatus() {
   if (!ACC) return { ok: true, short: '', long: '' };
-  if (T && T.sandbox && COMP_VIEWS.includes(S.view)) return { ok: true, short: 'مثال · لا يُحفظ', long: 'مثال للتجربة — لا يُحفظ منه شيء' };
   const n = pending();
   if (CLOUD.state === 'auth') return { ok: false, short: 'سجّل الدخول', long: 'انتهت جلسة الدخول — سجّل الدخول مرة أخرى ليُرفع التقدم إلى حسابك' };
+  if (T && T.sandbox && COMP_VIEWS.includes(S.view)) return { ok: true, sbx: true, short: 'مثال · لا يُحفظ', long: 'مثال للتجربة — لا يُحفظ منه شيء' };
   if (n && CLOUD.state === 'offline') return { ok: false, warn: true, short: 'بلا اتصال', long: 'بلا اتصال بالإنترنت — التقدم محفوظ مؤقتًا ويُرفع إلى حسابك تلقائيًا' };
   if (n && CLOUD.state === 'error') return { ok: false, warn: true, short: 'إعادة المحاولة', long: 'تعذّر الحفظ في الحساب مؤقتًا — تُعاد المحاولة تلقائيًا' };
   if (n) return { ok: true, busy: true, short: 'جارٍ الحفظ…', long: 'جارٍ الحفظ في حسابك…' };
@@ -4031,11 +4036,11 @@ function saveStatus() {
   return t ? { ok: true, short: `محفوظ · ${t}`, long: `محفوظ في حسابك · آخر حفظ ${t}` } : { ok: true, short: 'محفوظ', long: 'كل شيء محفوظ في حسابك' };
 }
 /* «✓ محفوظ في حسابك · آخر حفظ 10:42» — each part stays whole when the line wraps */
-const saveLine = (st, long) => `${icon(st.ok ? (st.busy ? 'reset' : 'check') : 'x')}<span dir="auto">${(long ? st.long : st.short).split(' · ').map((x) => `<span class="nw">${esc(x)}</span>`).join(' · ')}</span>`;
+const saveLine = (st, long) => `${icon(st.sbx ? 'sparkle' : st.ok ? (st.busy ? 'reset' : 'check') : 'x')}<span dir="auto">${(long ? st.long : st.short).split(' · ').map((x) => `<span class="nw">${esc(x)}</span>`).join(' · ')}</span>`;
 function paintSave() {
   const st = saveStatus();
-  $$('.um-s').forEach((el) => { el.classList.toggle('bad', !st.ok); el.classList.toggle('busy', !!st.busy); el.innerHTML = saveLine(st, el.dataset.l === '1'); });
-  $$('.um-dot').forEach((el) => { el.classList.toggle('bad', !st.ok); el.classList.toggle('busy', !!st.busy); });
+  $$('.um-s').forEach((el) => { el.classList.toggle('bad', !st.ok); el.classList.toggle('busy', !!st.busy); el.classList.toggle('sbx', !!st.sbx); el.innerHTML = saveLine(st, el.dataset.l === '1'); });
+  $$('.um-dot').forEach((el) => { el.classList.toggle('bad', !st.ok); el.classList.toggle('busy', !!st.busy); el.classList.toggle('sbx', !!st.sbx); });
   $$('.um-btn').forEach((el) => el.setAttribute('title', `${teacherName()} — ${st.long}`));
   const ts = $('#tools-save'); if (ts) { ts.hidden = toolSaveOff(); ts.title = st.long; ts.classList.toggle('bad', !st.ok); ts.innerHTML = toolSaveHTML(); fitToolSave(); }
 }
@@ -4091,8 +4096,9 @@ function confirmLogout() {
 const PARENT_AR = { home: 'لوحة المعلم', hub: 'مركز المسابقة', ceremony: 'حفل التتويج' };
 function backBtn() { const to = parentOf(S.view); return `<button class="btn btn-ghost btn-sm tb-back" data-act="back" id="btn-back" aria-label="رجوع إلى ${PARENT_AR[to] || 'الصفحة السابقة'}" title="رجوع إلى ${PARENT_AR[to] || 'الصفحة السابقة'}">${icon('back')}<span>رجوع</span></button>`; }
 function topbar(title, actions) {
-  const sbx = T && T.sandbox && COMP_VIEWS.includes(S.view) ? `<div class="sbx-bar" role="note">${icon('sparkle')}<span><b>مثال للتجربة</b> — بطلاب تجريبيين، ولا يُحفظ منه شيء ولا يظهر في «مسابقاتي».</span><button class="btn btn-sm btn-ghost" data-act="sbx-end">${icon('back')}<span>إنهاء المثال والعودة إلى الدليل</span></button></div>` : '';
-  return `<div class="tb-wrap">${sbx}<header class="topbar">${backBtn()}<button class="brand" data-act="home" aria-label="لوحة المعلم — ${APP}">${sealMini()}<span class="brand-t"><b>${APP}</b><small>${SCHOOL}</small></span></button>${userMenu()}<h1 class="tb-title">${title || ''}</h1><nav class="tb-act" aria-label="إجراءات">${actions || ''}${soundBtn()}</nav></header></div>`;
+  const sbx = T && T.sandbox && COMP_VIEWS.includes(S.view) ? `<div class="sbx-bar" role="note">${icon('sparkle')}<span><b>مثال</b> · لا يُحفظ<span class="sbx-more"> منه شيء ولا يظهر في «مسابقاتي»</span></span><button class="btn btn-sm btn-ghost" data-act="sbx-end">${icon('back')}<span>إنهاء المثال</span></button></div>` : '';
+  const chip = sbx ? `<span class="tb-sbx" role="note">${icon('sparkle')}<b>مثال</b><span>لا يُحفظ</span><button class="btn btn-sm btn-ghost" data-act="sbx-end">${icon('back')}<span>إنهاء المثال</span></button></span>` : '';
+  return `<div class="tb-wrap">${sbx}<header class="topbar">${backBtn()}<button class="brand" data-act="home" aria-label="لوحة المعلم — ${APP}">${sealMini()}<span class="brand-t"><b>${APP}</b><small>${SCHOOL}</small></span></button>${userMenu()}<h1 class="tb-title">${title || ''}</h1><nav class="tb-act" aria-label="إجراءات">${chip}${actions || ''}${soundBtn()}</nav></header></div>`;
 }
 const lvlDots = (l) => `<span class="lv" aria-label="المستوى ${l}" title="المستوى ${l}">${[1, 2, 3].map((i) => `<i class="${i <= l ? 'on' : ''}"></i>`).join('')}</span>`;
 const sayBtn = (w, cls) => (SPEECH_OK ? `<button class="say${cls ? ' ' + cls : ''}" data-act="say-word" data-w="${esc(w)}" aria-label="استمع إلى نطق الكلمة" title="نطق">${icon('wave')}</button>` : '');
@@ -4316,6 +4322,21 @@ function rosterNames(text) {
   return { names, dup, over };
 }
 /* «الشعب والطلاب»: every list saved in the account (also those a game with fewer classes kept aside) */
+/* the account's class lists, read again right before they are written (another device may have saved newer ones);
+   offline, or with a change of this device still waiting to go up, this device's copy stands */
+function accountSetup() {
+  const acc = ACC; if (!acc || navigator.onLine === false || IDX.setupDirty) return Promise.resolve();
+  const read = fsGet(fsPath()).then((prof) => { const p = prof && fsObj(prof); if (p && isStr(p.setup, 200000) && ACC === acc && !IDX.setupDirty) { const st = JSON.parse(p.setup); if (st && typeof st === 'object' && JSON.stringify(st) !== JSON.stringify(IDX.setup)) { IDX.setup = st; saveIdx(); } } }).catch(() => { /* offline: this copy is saved, and goes up later */ });
+  return Promise.race([read, new Promise((r) => setTimeout(r, 3000))]); // a slow network never holds the teacher more than 3 s
+}
+/* a new competition made from an older copy of the lists: its classes first, then every list of the (newer) account
+   copy that it does not use — nothing saved on another device is lost */
+function withAccountLists(s) {
+  const p = IDX.setup, lists = p && Array.isArray(p.classes) ? p.classes : [], used = new Set(s.classes.map((c) => cleanName(c.name)));
+  const spare = lists.filter((c) => c && isStr(c.name, 40) && cleanName(c.name) && !used.has(cleanName(c.name)) && isStr(c.text, 4000) && c.text.trim())
+    .map((c) => ({ name: cleanName(c.name).slice(0, CNAME_MAX), color: CLASS_COLORS.includes(c.color) ? c.color : CLASS_COLORS[0], text: c.text, absent: Array.isArray(c.absent) ? c.absent.filter((x) => isStr(x, NAME_MAX)) : [] }));
+  return Object.assign({}, s, { spare, lists: false });
+}
 /* «مسابقة جديدة» left for the guide: its draft (classes, students typed) is waiting when the teacher comes back */
 function takeDraft() { const d = S.draft; S.draft = null; if (!d || !d.s || d.s.lists) return null; S.setupSnap = d.snap; S.setupBase = d.base; toast('عدنا إلى مسابقتك الجديدة كما تركتها'); return d.s; }
 /* a fresh draft of «مسابقة جديدة» (kind 'setup') or of «الشعب والطلاب» ('classes'): it remembers the account copy it was
@@ -4410,7 +4431,7 @@ function editTeachers() {
     actions: [{ label: 'إلغاء' }, { label: 'حفظ', cls: 'btn-gold', icon: 'check', fn: () => {
       const L = cleanTeachers(S.tchEdit);
       if (!L.length) { const e = $('#tch-err'); if (e) e.textContent = 'أضف اسم معلم واحد على الأقل.'; return false; }
-      T.teachers = L; noteEdit(); saveT(); S.tchEdit = null; toast('حُفظت أسماء المعلمين', 'good');
+      T.teachers = L; noteEdit(); saveT(); S.tchEdit = null; toast(T.sandbox ? 'غُيّرت أسماء المعلمين في المثال' : 'حُفظت أسماء المعلمين', 'good');
       setTimeout(() => { if (S.view === 'cert' && !MODAL.open) go('cert', 'replace'); }, 0);
       return true;
     } }],
@@ -4668,7 +4689,7 @@ VIEWS.hub = () => {
   const F = G.flows.find((f) => f.c.id === S.tab);
   const done = T.matches.filter((m) => m.status === 'done').length;
   const banner = G.podium ? `<div class="champ-banner">${icon('trophy')}${avatar(G.podium[0], 'lg')}<div><small>بطل دوري أبطال المفردات — الجائزة الكبرى</small><b>${nm(G.podium[0])} <span class="muted" dir="auto">${esc(person(G.podium[0]).cls)}</span></b></div><button class="btn btn-gold" data-act="go" data-to="ceremony">${icon('trophy')}<span>حفل التتويج</span></button></div>` : '';
-  const acts = `<button class="btn btn-ghost btn-sm" data-act="draw-open">${icon('shuffle')}<span>نتيجة القرعة</span></button><button class="btn btn-danger btn-sm" data-act="reset-t">${icon('reset')}<span>إعادة ضبط</span></button>`;
+  const acts = `<button class="btn btn-ghost btn-sm" data-act="draw-open">${icon('shuffle')}<span>نتيجة القرعة</span></button>${T.sandbox ? '' : `<button class="btn btn-danger btn-sm" data-act="reset-t">${icon('reset')}<span>إعادة ضبط</span></button>`}`;
   return `${topbar('مركز المسابقة', acts)}<section class="v-hub page">
 ${banner}${roadHTML(G, `<div class="hub-head"><h3 class="hub-name"><bdi>${esc(T.name)}</bdi></h3><div class="hub-meta"><span>${icon('users')} ${studentsAr(T.classes.reduce((n, c) => n + c.students.length, 0))} · ${clsCount(T.classes.length)} · ${gradeAr(gradeOf(T))}</span><span>${icon('book')} <bdi dir="auto">${esc(vocabName(T))}</bdi></span><span class="hm-done">${icon('check')} مباريات منتهية: ${num(done)}</span></div></div>`)}
 <div class="tabs" role="tablist" aria-label="أقسام المسابقة">${tabs.map((t) => `<button class="tab${S.tab === t.id ? ' on' : ''}" role="tab" id="tab-${t.id}" aria-selected="${S.tab === t.id}" data-act="tab" data-tab="${t.id}" style="--cc:${t.color}">${t.id === 'gf' ? icon('trophy') : '<i class="tab-sw"></i>'}<span${t.id === 'gf' ? '' : ' dir="auto"'}>${esc(t.label)}</span>${t.dot ? `<i class="tab-dot ${t.dot}" aria-hidden="true"></i>` : ''}</button>`).join('')}</div>
@@ -4917,8 +4938,8 @@ function sdWonHTML(m, winners, cut) {
   <div class="ovl-actions"><button class="btn btn-gold btn-xl" data-act="sd-ok" id="btn-next">${icon('next')}<span>متابعة</span><kbd>Enter</kbd></button></div></div>`;
 }
 function pauseHTML(resumed, fromBack) {
-  const demo = S.matchId === 'demo'; // the quick try is never saved and ends on the home
-  const why = resumed ? (demo ? 'تابع التجربة من السؤال نفسه.' : 'تم حفظ التقدم تلقائيًا — تابع من السؤال نفسه.') : !fromBack ? 'المؤقت متوقف والسؤال مخفي عن الطلاب.' : demo ? 'زر الرجوع لا يغادر التجربة. تابع، أو أنهِ التجربة.' : `زر الرجوع لا يغادر المباراة: التقدم محفوظ تلقائيًا. تابع، أو اخرج إلى ${compHomeAr()}.`;
+  const demo = S.matchId === 'demo', sbx = !!(T && T.sandbox); // the quick try and the examples are never saved
+  const why = resumed ? (demo || sbx ? 'تابع من السؤال نفسه.' : 'تم حفظ التقدم تلقائيًا — تابع من السؤال نفسه.') : !fromBack ? 'المؤقت متوقف والسؤال مخفي عن الطلاب.' : demo ? 'زر الرجوع لا يغادر التجربة. تابع، أو أنهِ التجربة.' : sbx ? `زر الرجوع لا يغادر المباراة. تابع، أو اخرج إلى ${compHomeAr()} (مثال — لا يُحفظ).` : `زر الرجوع لا يغادر المباراة: التقدم محفوظ تلقائيًا. تابع، أو اخرج إلى ${compHomeAr()}.`;
   return `<div class="ovl-card pz" role="dialog" aria-modal="true" aria-labelledby="pz-t"><h2 id="pz-t" class="disp">${resumed ? 'استئناف المباراة' : 'متوقف مؤقتًا'}</h2><p class="muted">${why}</p><div class="ovl-actions"><button class="btn btn-ghost" data-act="exit-match">${icon('home')}<span>${demo ? 'إنهاء التجربة' : esc(compHomeAr())}</span></button><button class="btn btn-gold btn-xl" data-act="resume" id="btn-next">${icon('play')}<span>استئناف</span></button></div></div>`;
 }
 VIEWS.match = () => {
@@ -5171,7 +5192,7 @@ function ladderBody() {
 VIEWS.game = () => {
   if (!T || isLeague()) return T ? VIEWS.hub() : VIEWS.home();
   const g = gameOf(T), sum = gameSummary(T);
-  const acts = `<button class="btn btn-danger btn-sm" data-act="reset-t">${icon('reset')}<span>حذف المسابقة</span></button>`;
+  const acts = T.sandbox ? '' : `<button class="btn btn-danger btn-sm" data-act="reset-t">${icon('reset')}<span>حذف المسابقة</span></button>`;
   const line = g === 'teams' ? `${icon('users')} ${num(T.squads.length)} فرق` : '';
   const body = g === 'teams' ? teamsBody() : g === 'race' ? raceBody() : ladderBody();
   return `${topbar(GAMES[g].ar, acts)}<section class="v-game page g-${g}">${gameHead(g, sum, line)}${body}</section>`;
@@ -5224,7 +5245,7 @@ AFTER.ladder = () => {
   const r = runOf(S.run), cur = ladCur(r); LAD.armAt = performance.now() + dur(ARM_MS); LAD.friend = 0; LAD.paused = false;
   if (!cur) { S.ladPaused = false; if (r && r.end === 'won') { SFX.fanfare(); const w = person(r.s); startConfetti(['#f2c14e', '#ffe08a', w.color, '#ffffff']); } return; }
   (cur.off || []).forEach((i) => { const b = $$('#opts .opt')[i]; if (b) { b.disabled = true; b.classList.add('off'); } });
-  if (cur.ok !== null) { S.ladPaused = false; revealMarks(cur.q, cur.ok, cur.g); if (cur.ok) { const b = $('#btn-next'); if (b) b.focus({ preventScroll: true }); } return; }
+  if (cur.ok !== null) { S.ladPaused = false; revealMarks(cur.q, cur.ok, cur.g); if (cur.ok) { const b = $('#btn-next'); if (b) { b.focus({ preventScroll: true }); const fb = $('.lad-fb'); if (fb) fb.scrollIntoView({ block: 'nearest' }); } } return; }
   const secs = qSeconds(cur.q, T.settings.timer);
   if (secs) timerStart(secs, () => ladAnswer(-1, true));
   const left = isInt(cur.frLeft, 1, 30) ? cur.frLeft : isNum(cur.fr) ? Math.ceil((cur.fr - Date.now()) / 1000) : 0; // «استشارة زميل» still running when the screen was drawn again
@@ -5397,7 +5418,7 @@ function vocabSave() {
   saveVocab(d.id ? lists.map((x) => (x.id === d.id ? v : x)) : lists.concat([v]));
   SFX.click();
   const ret = S.vret; S.vedit = null; S.vret = ''; S.vlist = v.id;
-  toast(`حُفظت «${name}» في حسابك — ${wordsAr(words.length, false)}${words.length >= VW_MIN ? '، وكل الألعاب جاهزة منها' : ` (أضف ${moreWordsAr(VW_MIN - words.length, false)} لتصبح جاهزة)`}`, words.length >= VW_MIN ? 'good' : '');
+  toast(`حُفظت «${name}» في حسابك — ${wordsAr(words.length, false)}${words.length >= VW_MIN ? '، وهي جاهزة للألعاب' : ` (أضف ${moreWordsAr(VW_MIN - words.length, false)} لتصبح جاهزة)`}`, words.length >= VW_MIN ? 'good' : '');
   if (ret === 'setup' && S.setup) { if (words.length >= VW_MIN) vocabChoose(S.setup, v.id); navUp('setup'); } else navUp('bank');
 }
 /* choosing a list in the setup: a competition name still set to the previous list's name follows the new one */
@@ -5437,7 +5458,7 @@ function gdLeagueEx() {
   const st = (n, t, body) => `<li class="gd-stage"><span class="gd-sn">${num(n)}</span><div><b>${t}</b>${body}</div></li>`;
   return `<ol class="gd-flow">
 ${st(1, 'القرعة', `<p>الشعبة ${gdName('10/1', r)} فيها 6 طلاب ← تُسحب الأسماء إلى مجموعتين:</p><p class="gd-line"><small>المجموعة (أ)</small>${gdName('أحمد', r)}${gdName('خالد', r)}${gdName('سالم', r)}</p><p class="gd-line"><small>المجموعة (ب)</small>${gdName('يوسف', r)}${gdName('حمد', r)}${gdName('سعيد', r)}</p>`)}
-${st(2, 'دور المجموعات', `<p>مباراة المجموعة (أ)، 3 أسئلة لكل طالب: أحمد <b>3</b> · خالد <b>2</b> · سالم <b>2</b></p><p>خالد وسالم متعادلان على المركز الثاني (مركز التأهل) ← <b>سؤال حاسم</b>: خالد ${gdCheck(true)} سالم ${gdCheck(false)}</p><p class="gd-res">يتأهل <b>أحمد وخالد</b> (ومن المجموعة (ب): يوسف وحمد)</p>`)}
+${st(2, 'دور المجموعات', `<p>مباراة المجموعة (أ)، 3 أسئلة لكل طالب: أحمد <b>3</b> · خالد <b>2</b> · سالم <b>2</b></p><p>خالد وسالم متعادلان على المركز الثاني (مركز التأهل) ← <b>سؤال حاسم</b>: <span class="gd-nw">خالد ${gdCheck(true)}</span> <span class="gd-nw">سالم ${gdCheck(false)}</span></p><p class="gd-res">يتأهل <b>أحمد وخالد</b> (ومن المجموعة (ب): يوسف وحمد)</p>`)}
 ${st(3, 'الدور الثاني', `<p>مباراة رباعية: أحمد · خالد · يوسف · حمد</p><p class="gd-res">يصعد صاحبا أعلى النقاط: <b>يوسف وأحمد</b></p>`)}
 ${st(4, 'نهائي الصف', `<p>يوسف <b>3</b> × أحمد <b>2</b></p><p class="gd-res">${icon('crown')} <b>يوسف بطل الشعبة 10/1</b> — ومثله بطل كل شعبة</p>`)}
 ${st(5, 'النهائي الكبير', `<p>أبطال الشعب: ${gdName('يوسف · 10/1', r)}${gdName('ماجد · 10/2', b)} — 6 أسئلة لكل طالب</p><p class="gd-res">${icon('trophy')} الأول ينال <b>الجائزة الكبرى</b>، ثم حفل التتويج والشهادات</p>`)}
@@ -5447,8 +5468,8 @@ function gdTeamsEx() {
   const A = ['أحمد', 'خالد', 'سالم', 'يوسف', 'حمد'], B = ['ماجد', 'ناصر', 'فيصل', 'عادل', 'بدر'];
   const a = [1, 0, 1, 1, 0], b = [1, 1, 0, 1, 1], ty = ['ما معنى الكلمة؟', 'اختر الكتابة الصحيحة', 'أكمل الجملة', 'رتّب الحروف', 'صِل الكلمات'];
   const row = (i) => `<tr><td class="gd-r">${num(i + 1)}</td><td class="gd-ty">${ty[i]}</td><td>${gdName(A[i], CLASS_COLORS[0])}${gdCheck(a[i])}</td><td>${gdName(B[i], CLASS_COLORS[1])}${gdCheck(b[i])}</td></tr>`;
-  return `<div class="tbl-wrap"><table class="gd-tbl"><thead><tr><th>الجولة</th><th>نوع السؤال (نفسه للفريقين)</th><th>${gdName('فريق 10/1', CLASS_COLORS[0])}</th><th>${gdName('فريق 10/2', CLASS_COLORS[1])}</th></tr></thead>
-<tbody>${A.map((_, i) => row(i)).join('')}</tbody><tfoot><tr><td colspan="2">المجموع</td><td><b>${ptsAr(3)}</b></td><td><b>${ptsAr(4)}</b> ${icon('trophy')}</td></tr></tfoot></table></div>
+  return `<div class="tbl-wrap"><table class="gd-tbl"><thead><tr><th>الجولة</th><th class="gd-ty-h">نوع السؤال (نفسه للفريقين)</th><th>${gdName('فريق 10/1', CLASS_COLORS[0])}</th><th>${gdName('فريق 10/2', CLASS_COLORS[1])}</th></tr></thead>
+<tbody>${A.map((_, i) => row(i)).join('')}</tbody><tfoot><tr><td class="gd-sum">المجموع</td><td class="gd-ty"></td><td><b>${ptsAr(3)}</b></td><td><b>${ptsAr(4)}</b> ${icon('trophy')}</td></tr></tfoot></table></div>
 <p class="gd-res">فاز <b>فريق 10/2</b>، وينال كل طالب فيه شهادة «المركز الأول في تحدي الفرق». كل طالب يجيب مرة بدوره، واسمه يظهر على الشاشة قبل السؤال.</p>`;
 }
 function gdLadderEx() {
@@ -5536,8 +5557,8 @@ ${GAME_IDS.map(gdGame).join('')}
 <li>من «المفردات» أو من خطوة المفردات في «مسابقة جديدة»: اكتب اسم القائمة (مثل «الوحدة الثانية»)، ثم كل كلمة: <b>الكلمة الإنجليزية + معناها بالعربية</b>.</li>
 <li>أو الصقها دفعة واحدة من Word أو Excel: كلمة في كل سطر (الكلمة - المعنى - جملة مثال).</li>
 <li>الجملة اختيارية: إذا كتبتها وفيها الكلمة تُستخدم في «أكمل الجملة» (من جملتَي مثال فأكثر). بدون جمل تعمل كل الألعاب بالأنواع الأخرى. ونوع الكلمة اختياري.</li>
-<li>من ${num(VW_MIN)} كلمات فأكثر تصبح <b>كل الألعاب جاهزة منها تلقائيًا</b>: المعنى بالاتجاهين، الإملاء، رتّب الحروف، أكمل الحروف، وأكمل الجملة، و«صِل الكلمات» من 10 كلمات — والمستوى يتدرج من الكلمات القصيرة إلى الطويلة.</li>
-<li>مع قائمة قصيرة قد تتكرر الكلمة داخل المباراة الواحدة (ولا تتكرر في الجولة الواحدة)؛ ومن 20 كلمة تقريبًا لا تتكرر غالبًا. و«سباق الصف» يحتاج كلمة مختلفة لكل طالب حاضر في الجولة: شعبة من 16 طالبًا تحتاج 16 كلمة على الأقل.</li>
+<li>من ${num(VW_MIN)} كلمات فأكثر تصبح القائمة <b>جاهزة للألعاب تلقائيًا</b>: المعنى بالاتجاهين، الإملاء، رتّب الحروف، أكمل الحروف، و«أكمل الجملة» إذا كان فيها جملتا مثال؛ و«صِل الكلمات» يظهر مع القوائم الأطول (نحو 20 كلمة فأكثر). والمستوى يتدرج من الكلمات القصيرة إلى الطويلة.</li>
+<li>في كل جولة يحتاج كل متسابق كلمة مختلفة: «سباق الصف» كلمة لكل طالب حاضر (شعبة من 16 طالبًا تحتاج 16 كلمة)، و«النهائي الكبير» و«تحدي الفرق» كلمة لكل شعبة أو فريق. ومع قائمة قصيرة قد تتكرر الكلمة داخل المباراة الواحدة، ولا تتكرر في الجولة الواحدة.</li>
 <li>قوائمك محفوظة في حسابك، وكل مسابقة تحتفظ بنسخة من كلماتها — تعديل القائمة لاحقًا لا يغيّر مسابقة قائمة.</li></ul></div></div>
 <div class="row gd-quick"><button class="btn btn-gold" data-act="vocab-new">${icon('plus')}<span>إضافة مفردات</span></button><button class="btn btn-ghost" data-act="go" data-to="bank">${icon('book')}<span>قوائم المفردات</span></button></div></section>
 <section class="gd-sec" id="g-types" aria-labelledby="gh-types"><h2 id="gh-types">${icon('list')} أنواع الأسئلة السبعة</h2><p class="muted">كل الأسئلة من قائمة المفردات التي تختارها للمسابقة فقط، وتتنوع تلقائيًا من السهل إلى الصعب. الأمثلة من كلمات الوحدة الأولى:</p>
@@ -6189,11 +6210,11 @@ function toggleFS() {
   } catch (e) { toast('ملء الشاشة غير متاح هنا', 'bad'); }
 }
 function downloadText(text, name) { try { const blob = new Blob([text], { type: 'application/json' }), a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); } catch (e) { toast('تعذّر التنزيل', 'bad'); } }
-function backupJSON() { return JSON.stringify({ app: 'vcl', v: SCHEMA, savedAt: Date.now(), contest: T }); }
+function backupJSON() { return JSON.stringify({ app: 'vcl', v: SCHEMA, savedAt: Date.now(), contest: T && !T.sandbox ? T : null }); } // an example is never backed up
 function openBackup() {
   openModal({
     title: `${icon('save')} نسخة احتياطية إضافية`, wide: true,
-    body: `<div class="bk"><p class="bk-note">${icon('check')}<span>كل مسابقاتك محفوظة تلقائيًا في <b>حسابك</b>. هذه النسخة إضافية فقط (ملف أو رمز تحتفظ به).</span></p>${T ? '' : '<p class="muted small">افتح مسابقة من لوحة المعلم لحفظ نسخة منها، أو استعد نسخة سابقة.</p>'}<section${T ? '' : ' hidden'}><h4>حفظ نسخة</h4><p class="muted small">انسخ «رمز النسخة» واحفظه (في ملاحظة أو رسالة)، أو نزّل ملفًا — لاستعادة المسابقة على جهاز آخر.</p><div class="row"><button class="btn btn-primary" data-act="bk-copy">${icon('copy')}<span>نسخ رمز النسخة</span></button>${IN_FRAME ? '' : `<button class="btn btn-ghost" data-act="bk-download">${icon('download')}<span>تنزيل ملف .json</span></button>`}</div><textarea id="bk-out" class="mono" rows="4" readonly hidden aria-label="رمز النسخة"></textarea></section>
+    body: `<div class="bk"><p class="bk-note">${icon('check')}<span>كل مسابقاتك محفوظة تلقائيًا في <b>حسابك</b>. هذه النسخة إضافية فقط (ملف أو رمز تحتفظ به).</span></p>${T && !T.sandbox ? '' : `<p class="muted small">${T ? 'هذا مثال للتجربة ولا تُحفظ منه نسخة.' : 'افتح مسابقة من لوحة المعلم لحفظ نسخة منها'}، أو استعد نسخة سابقة.</p>`}<section${T && !T.sandbox ? '' : ' hidden'}><h4>حفظ نسخة</h4><p class="muted small">انسخ «رمز النسخة» واحفظه (في ملاحظة أو رسالة)، أو نزّل ملفًا — لاستعادة المسابقة على جهاز آخر.</p><div class="row"><button class="btn btn-primary" data-act="bk-copy">${icon('copy')}<span>نسخ رمز النسخة</span></button>${IN_FRAME ? '' : `<button class="btn btn-ghost" data-act="bk-download">${icon('download')}<span>تنزيل ملف .json</span></button>`}</div><textarea id="bk-out" class="mono" rows="4" readonly hidden aria-label="رمز النسخة"></textarea></section>
 <section><h4>استعادة نسخة</h4><p class="muted small">الصق رمز النسخة هنا ثم اضغط «استعادة». تُضاف المسابقة إلى حسابك.</p><textarea id="bk-in" class="mono" rows="4" dir="ltr" placeholder='{"app":"vcl", ...}' aria-label="الصق رمز النسخة"></textarea><div class="row"><button class="btn btn-gold" data-act="bk-restore">${icon('upload')}<span>استعادة</span></button><label class="btn btn-ghost file-btn">${icon('upload')}<span>رفع ملف .json</span><input type="file" accept="application/json,.json,.txt" data-in="bk-file" class="sr-only"></label></div></section></div>`,
     actions: [{ label: 'إغلاق' }],
   });
@@ -6208,6 +6229,7 @@ function restoreFrom(text) {
   const t = wrapped ? data.contest || data.tournament || null : data;
   if (isOldData(t)) { toast('هذه نسخة من نظام سابق للمسابقة ولا تعمل في هذه النسخة — ابدأ مسابقة جديدة', 'bad'); return; }
   if (!t || !validT(t)) { toast('الرمز لا يحتوي مسابقة صالحة', 'bad'); return; }
+  delete t.sandbox; // a restored competition is a real one
   const done = t.matches.filter((m) => m.seq && m.step >= m.seq.length).length;
   const g = GAMES[t.game] ? t.game : 'league', climbed = g === 'ladder' && t.ladder && Array.isArray(t.ladder.runs) ? new Set(t.ladder.runs.filter((r) => r && r.status === 'done').map((r) => r.s)).size : 0;
   const what = `${esc(GAMES[g].ar)} «${esc(compName(t.name || DEF_NAME))}» — الشعب ${t.classes.map((x) => bd(x.name)).join('، ')} — ${g === 'ladder' ? `${num(climbed)} ${climbed === 1 ? 'طالب لعب' : 'طلاب لعبوا'}` : `${num(done)} مباراة منتهية`}${typeof t.createdAt === 'number' ? ` · أُنشئت ${esc(fmtDate(t.createdAt))}` : ''}`;
@@ -6312,8 +6334,7 @@ const ACT = {
     if (new Set(names).size !== names.length) { toast('أسماء الشعب يجب أن تكون مختلفة', 'bad'); return; }
     const save = () => { saveSetupDefaults(s); S.draft = null; SFX.click(); toast('حُفظت الشعب والطلاب في حسابك', 'good'); navUp('home'); };
     const btn = $('#btn-save-classes'), acc = ACC; if (btn) { btn.disabled = true; btn.classList.add('is-busy'); }
-    const check = acc && navigator.onLine !== false && !IDX.setupDirty ? fsGet(fsPath()).then((prof) => { const p = prof && fsObj(prof); if (p && isStr(p.setup, 200000) && ACC === acc && !IDX.setupDirty) { const st = JSON.parse(p.setup); if (st && typeof st === 'object' && JSON.stringify(st) !== JSON.stringify(IDX.setup)) { IDX.setup = st; saveIdx(); } } }).catch(() => { /* offline: this copy is saved, and goes up later */ }) : Promise.resolve();
-    check.then(() => {
+    accountSetup().then(() => {
       if (btn) { btn.disabled = false; btn.classList.remove('is-busy'); }
       if (ACC !== acc || S.view !== 'classes' || S.setup !== s) return;
       if (!setupStale()) { save(); return; }
@@ -6368,7 +6389,12 @@ const ACT = {
     const s = S.setup, { err } = setupErrors(s), box = $('#setup-err');
     if (err.length) { if (box) box.textContent = err.join(' '); toast(err[0].length > 90 ? 'تعذّر إنشاء المسابقة — السبب مكتوب أسفل الصفحة' : err[0], 'bad'); return; }
     if (box) box.textContent = '';
-    saveSetupDefaults(s); S.draft = null; if (s.game === 'league') newCompetition(s); else newGame(s);
+    const btn = $('[data-act="create"]'), acc = ACC; if (btn) { btn.disabled = true; btn.classList.add('is-busy'); }
+    accountSetup().then(() => {
+      if (btn) { btn.disabled = false; btn.classList.remove('is-busy'); }
+      if (ACC !== acc || S.view !== 'setup' || S.setup !== s) return;
+      saveSetupDefaults(setupStale() ? withAccountLists(s) : s); S.draft = null; if (s.game === 'league') newCompetition(s); else newGame(s);
+    });
   },
   /* hub */
   tab: (el) => { S.tab = el.dataset.tab; SFX.click(); const y = window.scrollY; go('hub'); window.scrollTo(0, y); const t = $(`#tab-${S.tab}`); if (t) t.focus({ preventScroll: true }); },
@@ -6382,7 +6408,8 @@ const ACT = {
   'toss-now': (el) => { const m = matchById(el.dataset.id); if (!m) return; const r = resolve(m); if (r.pending && r.pending.kind === 'toss') { const c = classById(m.cls); openToss(r.pending.key, r.pending.block, `تعادل على صدارة ${GROUP_AR[m.slot] || 'المجموعة'}${c ? ` (الشعبة ${cn(c.name)})` : ''}: القرعة تحدد الأول والثاني.`); } },
   'open-match': (el) => { const m = matchById(el.dataset.id); if (m) { SFX.click(); openMatch(m); } },
   backup: () => { closeUserMenu(); if (Q && !Q.answered && !Q.paused) pauseGame(); openBackup(); },
-  'reset-t': () => { if (!T) return; const id = T.id; confirmModal('سيتم حذف هذه المسابقة وجميع نتائجها من حسابك نهائيًا. هل أنت متأكد؟', 'حذف المسابقة', () => { deleteComp(id); toast('تم حذف المسابقة'); goHome(); }); },
+  'reset-t': () => { if (!T) return; if (T.sandbox) { ACT['sbx-end'](); return; } // an example is only ended, never deleted from the account
+ const id = T.id; confirmModal('سيتم حذف هذه المسابقة وجميع نتائجها من حسابك نهائيًا. هل أنت متأكد؟', 'حذف المسابقة', () => { deleteComp(id); toast('تم حذف المسابقة'); goHome(); }); },
   /* the other games */
   'team-go': () => { if (!T || gameOf(T) !== 'teams') return; SFX.click(); try { openMatch(teamMatch()); } catch (e) { toast('بنك الكلمات لا يكفي لهذا التحدي', 'bad'); } },
   'team-shuffle': () => { if (!T || gameOf(T) !== 'teams' || teamStarted()) return; SFX.click(); const m = T.matches.findIndex((x) => x.id === 'team'); if (m >= 0) T.matches.splice(m, 1); T.squads = makeSquads(T, 'mix', T.squads.length); noteEdit(); saveT(); go('game', 'replace'); toast('وُزّع الطلاب على الفرق من جديد', 'good'); },
@@ -6560,7 +6587,7 @@ document.addEventListener('keydown', (e) => {
 /* another tab (same file opened twice) saved: follow it when idle; never let a stale copy overwrite it mid-match */
 window.addEventListener('storage', (e) => {
   if (!ACC) return;
-  if (e.key === SK) { const r = restoreSession(); if (!r || r.uid !== ACC.uid) { signOut(); } else if (r.refreshToken !== ACC.refreshToken) { ACC.refreshToken = r.refreshToken; ACC.idToken = ''; ACC.exp = 0; } return; } // signed out / another account in another tab / a newer sign-in of the same account (a new password)
+  if (e.key === SK) { delete MEM[SK]; UNSAVED.delete(SK); const r = e.newValue === null ? null : restoreSession(); if (!r || r.uid !== ACC.uid) { signOut(); } else if (r.refreshToken !== ACC.refreshToken) { ACC.refreshToken = r.refreshToken; ACC.idToken = ''; ACC.exp = 0; } return; } // signed out / another account in another tab / a newer sign-in of the same account (a new password)
   if (e.key === ik()) {
     const keep = { dirty: IDX.dirty.slice(), comps: IDX.comps.slice() }; loadIdx();
     keep.dirty.forEach((id) => { if (!IDX.dirty.includes(id) && sGet(ck(id)) != null) IDX.dirty.push(id); });
