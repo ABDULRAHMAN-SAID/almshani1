@@ -4630,7 +4630,7 @@ ${list.length > 6 ? `<label class="cert-sel">${icon('medal')}<span>الشهاد�
   <div class="cert-frame" aria-hidden="true"></div><i class="cc c1"></i><i class="cc c2"></i><i class="cc c3"></i><i class="cc c4"></i>
   <div class="cert-wm" aria-hidden="true">${sealSVG('cw')}</div>
   <div class="cert-in">
-    <div class="cert-top"><div class="cert-side"><b>${SCHOOL}</b><span>الصف العاشر</span></div><div class="cert-seal">${sealSVG('ce')}</div><div class="cert-side"><b>اللغة الإنجليزية</b><span>${TITLE}</span></div></div>
+    <div class="cert-top"><div class="cert-side"><b>${SCHOOL}</b><span>الصف العاشر</span></div><div class="cert-seal">${sealSVG('ce')}</div><div class="cert-side"><b>اللغة الإنجليزية</b><span>${isLeague() ? TITLE : esc(GAMES[gameOf(T)].ar)}</span></div></div>
     <p class="cert-kicker" dir="ltr" lang="en">CERTIFICATE OF HONOUR · ${GAMES[gameOf(T)].en}</p>
     <h2 class="cert-title">شهادة تكريم</h2>
     <p class="cert-head">${head} <span class="cert-comp">(<bdi>${comp}</bdi>)</span></p>
